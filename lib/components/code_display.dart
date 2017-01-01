@@ -9,7 +9,7 @@ import 'package:toly_ui/app/utils/toast.dart';
 import 'package:tolyui/tolyui.dart';
 import 'package:tolyui_feedback/toly_tooltip/toly_tooltip.dart';
 
-import '../incubator/components/data/collapse.dart';
+import '../incubator/components/data/collapse/collapse.dart';
 
 class CodeDisplay extends StatelessWidget {
   final Widget display;
@@ -35,7 +35,7 @@ class CodeDisplay extends StatelessWidget {
               child: display,
             ),
             const Divider(),
-            TolyCollapse(
+            TolyCollapse1(
               actionBuilder: (action) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8.0),

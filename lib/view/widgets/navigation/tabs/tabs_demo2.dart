@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:toly_ui/app/theme/theme.dart';
 import 'package:tolyui/tolyui.dart';
 
-class TabsDemo1 extends StatefulWidget {
-  const TabsDemo1({super.key});
+class TabsDemo2 extends StatefulWidget {
+  const TabsDemo2({super.key});
 
   @override
-  State<TabsDemo1> createState() => _TabsDemo1State();
+  State<TabsDemo2> createState() => _TabsDemo2State();
 }
 
-class _TabsDemo1State extends State<TabsDemo1> with TickerProviderStateMixin {
-
+class _TabsDemo2State extends State<TabsDemo2> with TickerProviderStateMixin {
   List<MenuMeta> items = const [
     MenuMeta(label: 'Tab1', router: 'tab1'),
-    MenuMeta(label: 'Tab2', router: 'tab2'),
+    MenuMeta(label: 'Tab2', router: ''),
     MenuMeta(label: 'Tab3', router: 'tab3'),
     MenuMeta(label: 'Tab4', router: 'tab4'),
   ];
@@ -28,8 +26,13 @@ class _TabsDemo1State extends State<TabsDemo1> with TickerProviderStateMixin {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TolyTabs(
-          dividerHeight: px1,
-            tabs: items, activeId: activeId, onSelect: _onSelect
+          showDivider: false,
+          tabs: items,
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicatorPadding: EdgeInsets.symmetric(horizontal: 8),
+          activeId: activeId,
+          onSelect: _onSelect,
+          labelPadding: const EdgeInsets.only(left: 16, right: 16, bottom: 8),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
@@ -44,5 +47,3 @@ class _TabsDemo1State extends State<TabsDemo1> with TickerProviderStateMixin {
     setState(() {});
   }
 }
-
-

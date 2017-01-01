@@ -7,3 +7,4 @@ export 'src/rail_menu_tree/rail_menu_tree.dart';
 
 export 'src/drop_menu/drop_menu.dart';
 export 'src/breadcrumb/toly_breadcrumb.dart';
+export 'src/tabs/tabs.dart';

@@ -1,14 +1,7 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-// import 'package:toly_menu/toly_menu.dart';
-import 'package:toly_menu_manager/toly_menu_manager.dart';
-import 'package:toly_ui/view/home_page/home_nav_bar.dart';
-import 'package:tolyui/tolyui.dart';
-import 'package:tolyui_rx_layout/tolyui_rx_layout.dart';
 
-import '../../navigation/menu/menu_repository_impl.dart';
-import '../../navigation/menu/widget_menus.dart';
+import 'package:flutter/material.dart';
+import 'package:tolyui/tolyui.dart';
+
 import 'widget_rail_menu/widget_rai_menu.dart';
 
 class WidgetNavigationScope extends StatelessWidget {

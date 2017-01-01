@@ -12,9 +12,10 @@ Map<String, dynamic> get dataMenus => {
           // 'icon': Icons.text_fields,
         },
         {
-          'path': '/Collapse',
+          'path': '/collapse',
           'label': 'Collapse',
           'subtitle': '折叠面板',
+          'tag':'新'
           // 'icon': Icons.text_fields,
         },
         {

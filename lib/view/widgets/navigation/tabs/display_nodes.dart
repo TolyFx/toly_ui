@@ -1,29 +1,54 @@
 Map<String,dynamic> get displayNodes => {
   'TabsDemo1': {
     'title': '基础用法',
-    'desc': '通过 TolyBreadcrumb 展示面包屑，可容纳 MenuMeta 列表展示条目，默认通过 "/" 分隔。\n'
-        'onSelect 回调中处理点击条目事件，可用于路由跳转。不设置 router 的条目，将无法响应点击事件，呈灰色展示。'
-    ,
-    'code': """class BreadcrumbDemo1 extends StatelessWidget {
-  const BreadcrumbDemo1({super.key});
+    'desc': '通过 TolyTabs 展示标签页，可容纳 MenuMeta 列表展示条目，onSelect 回调中处理点击条目事件，可用于路由跳转或者状态切换。',
+    'code': r"""class TabsDemo1 extends StatefulWidget {
+  const TabsDemo1({super.key});
+
+  @override
+  State<TabsDemo1> createState() => _TabsDemo1State();
+}
+
+class _TabsDemo1State extends State<TabsDemo1> with TickerProviderStateMixin {
+
+  List<MenuMeta> items = const [
+    MenuMeta(label: 'Tab1', router: 'tab1'),
+    MenuMeta(label: 'Tab2', router: 'tab2'),
+    MenuMeta(label: 'Tab3', router: 'tab3'),
+    MenuMeta(label: 'Tab4', router: 'tab4'),
+  ];
+
+  String activeId = 'tab1';
+
+  MenuMeta get activeMenu => items.singleWhere((e) => e.id == activeId);
 
   @override
   Widget build(BuildContext context) {
-    return TolyBreadcrumb(
-      onSelect: context.go,
-      items: [
-        BreadcrumbItem(label: 'Home',to: '/home'),
-        BreadcrumbItem(label: 'Widget'),
-        BreadcrumbItem(label: 'Navigation'),
-        BreadcrumbItem(label: 'Breadcrumb'),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TolyTabs(tabs: items, activeId: activeId, onSelect: _onSelect),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text('Content of ${activeMenu.label}'),
+        )
       ],
     );
   }
+
+  void _onSelect(MenuMeta meta) {
+    activeId = meta.id;
+    setState(() {});
+  }
 }"""
   },
-  'BreadcrumbDemo2': {
-    'title': '自定义分隔符',
-    'desc': '可以通过 separator 参数自定义分隔符组件；MenuMeta 中的 Icon 可以设置菜单项的图标。',
+  'TabsDemo2': {
+    'title': '禁用项与分割线等配置项',
+    'desc': '将 MenuMeta 中的 router 为空字符串时，可禁用对应菜单项;\n'
+        'showDivider 置为 false 可隐藏下划线;\n'
+        'labelPadding 设置标签四边距；indicatorPadding 设置指示器的四边距。\n'
+        'indicatorSize 设置称 tab 时，指示器和菜单项宽度一致。'
+        '',
     'code': """class BaseUseDemo extends StatelessWidget {
   const BaseUseDemo({super.key});
 
@@ -43,9 +68,9 @@ Map<String,dynamic> get displayNodes => {
   }
 }"""
   },
-  'BreadcrumbDemo3': {
-    'title': '自定义样式',
-    'desc': '通过 cellStyle 属性，可以设置 BreadcrumbCellStyle 样式配色。如下紫色样式：',
+  'TabsDemo3': {
+    'title': '图标与居中',
+    'desc': 'MenuMeta 设置 icon 属性时，展示对应图标。通过 alignment: TabAlignment.center 可以将页签居中',
     'code': """class LinkDemo3 extends StatelessWidget {
   const LinkDemo3({super.key});
 
@@ -67,118 +92,205 @@ Map<String,dynamic> get displayNodes => {
   }
 }"""
   },
-  'BreadcrumbDemo4': {
-    'title': '自定义菜单项',
-    'desc': '通过 cellBuilder 属性，可以自定义构建菜单项组件。结合 TolyDropMenu 可以实现面包屑 + 弹出菜单的效果：',
-    'code': """class BreadcrumbDemo4 extends StatelessWidget {
-  const BreadcrumbDemo4({super.key});
+  'TabsDemo4': {
+    'title': '首尾组件',
+    'desc': '通过 leading和tail 属性，可以设置左右的首尾组件：',
+    'code': r"""class TabsDemo4 extends StatefulWidget {
+  const TabsDemo4({super.key});
+
+  @override
+  State<TabsDemo4> createState() => _TabsDemo4State();
+}
+
+class _TabsDemo4State extends State<TabsDemo4> with TickerProviderStateMixin {
+
+  List<MenuMeta> items = const [
+    MenuMeta(label: 'Tab1', router: 'tab1',icon: Icons.anchor),
+    MenuMeta(label: 'Tab2', router: 'tab2',icon: Icons.ramp_right),
+    MenuMeta(label: 'Tab3', router: 'tab3',icon: Icons.cable),
+    MenuMeta(label: 'Tab4', router: 'tab4',icon: Icons.account_box_rounded),
+  ];
+
+  String activeId = 'tab1';
+
+  MenuMeta get activeMenu => items.singleWhere((e) => e.id == activeId);
 
   @override
   Widget build(BuildContext context) {
-    return TolyBreadcrumb(
-      onSelect: context.go,
-      cellBuilder: (menu, display) => DIYBreadcrumbCell(
-        display: display,
-        menu: menu,
-        cellStyle: const BreadcrumbCellStyle(
-          disableCellColor: Color(0xff8c8c8c),
-          enableCellColor: Color(0xff303133),
-          hoverCellColor: Colors.blue,
+    EdgeInsets padding = const EdgeInsets.only(left: 16, right: 16, bottom: 12,top: 12);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TolyTabs(
+            leading: _buildLeading(),
+            tail: _buildTail(),
+            alignment: TabAlignment.center,
+            labelPadding: padding,
+            tabs: items, activeId: activeId, onSelect: _onSelect,
         ),
-      ),
-      items: const [
-        MenuMeta(label: 'Home', router: '/', icon: Icons.add_home_work_rounded),
-        MenuMeta(label: 'Widget', router: '/widgets', icon: Icons.widgets),
-        MenuMeta(label: 'Navigation'),
-        MenuMeta(label: 'Breadcrumb'),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text('Content of ${activeMenu.label}'),
+        )
       ],
     );
   }
+
+  Widget _buildLeading()=>const Wrap(
+    spacing: 6,
+    crossAxisAlignment: WrapCrossAlignment.center,
+    children: [
+      FlutterLogo(),
+      Text('Flutter&TolyUI')
+    ],
+  );
+  
+  Widget _buildTail()=>const Wrap(
+      spacing: 8,
+      children:[
+        Icon(Icons.add),
+        Icon(Icons.travel_explore_rounded),
+        Icon(Icons.more_horiz_outlined),
+      ]);
+  
+  void _onSelect(MenuMeta meta) {
+    activeId = meta.id;
+    setState(() {});
+  }
+}"""
+  },
+  'TabsDemo5': {
+    'title': '自定义页签组件',
+    'desc': '通过 cellBuilder 可以自定义构建页签样式：',
+    'code': r"""class TabsDemo4 extends StatefulWidget {
+  const TabsDemo4({super.key});
+
+  @override
+  State<TabsDemo4> createState() => _TabsDemo4State();
 }
 
-class DIYBreadcrumbCell extends StatelessWidget {
-  final BreadcrumbMeta display;
-  final BreadcrumbCellStyle? cellStyle;
-  final MenuMeta menu;
+class _TabsDemo4State extends State<TabsDemo4> with TickerProviderStateMixin {
 
-  const DIYBreadcrumbCell({
-    super.key,
-    required this.display,
-    required this.menu,
-    this.cellStyle,
-  });
+  List<MenuMeta> items = const [
+    MenuMeta(label: 'Tab1', router: 'tab1',icon: Icons.anchor),
+    MenuMeta(label: 'Tab2', router: 'tab2',icon: Icons.ramp_right),
+    MenuMeta(label: 'Tab3', router: 'tab3',icon: Icons.cable),
+    MenuMeta(label: 'Tab4', router: 'tab4',icon: Icons.account_box_rounded),
+  ];
+
+  String activeId = 'tab1';
+
+  MenuMeta get activeMenu => items.singleWhere((e) => e.id == activeId);
 
   @override
   Widget build(BuildContext context) {
-    BreadcrumbCellStyle effectStyle = cellStyle ??
-        (Theme.of(context).brightness == Brightness.dark
-            ? BreadcrumbCellStyle.dark()
-            : BreadcrumbCellStyle.light());
-
-    bool hasTarget = (menu.router.isNotEmpty);
-    Color? color;
-    if (hasTarget) {
-      color = display.hovered
-          ? effectStyle.hoverCellColor
-          : effectStyle.enableCellColor;
-    } else {
-      color = effectStyle.disableCellColor;
-    }
-    if (display.isLast) {
-      color = effectStyle.lastCellColor;
-    }
-
-    TextStyle style = TextStyle(
-        fontSize: display.fountSize,
-        fontWeight: hasTarget ? FontWeight.bold : null,
-        color: color);
-    Widget child = Text(menu.label, style: style);
-    if (menu.icon != null) {
-      child = Wrap(
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: [
-          Icon(menu.icon!, size: 16, color: color),
-          const SizedBox(width: 4),
-          child
-        ],
-      );
-    }
-
-    if (menu.router == '/') {
-      child = TolyDropMenu(
-        hoverConfig: HoverConfig(enterPop: true),
-        decorationConfig:
-            DecorationConfig(isBubble: false, backgroundColor: Colors.white),
-        onSelect: (menu) => context.go(menu.router),
-        menuItems: [
-          ActionMenu(const MenuMeta(router: '/guide', label: '使用指南')),
-          ActionMenu(const MenuMeta(router: '/widgets', label: '组件总览')),
-          ActionMenu(const MenuMeta(router: '/ecological', label: '生态环境')),
-          ActionMenu(const MenuMeta(router: '/sponsor', label: '赞助项目')),
-        ],
-        child: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            child,
-            Icon(Icons.expand_more, size: 16, color: color),
-          ],
+    EdgeInsets padding = const EdgeInsets.only(left: 16, right: 16, bottom: 12,top: 12);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TolyTabs(
+            leading: _buildLeading(),
+            tail: _buildTail(),
+            alignment: TabAlignment.center,
+            labelPadding: padding,
+            tabs: items, activeId: activeId, onSelect: _onSelect,
         ),
-      );
-    }
-    if (effectStyle.hoverBackgroundStyle != null) {
-      child = Container(
-        padding: effectStyle.hoverBackgroundStyle!.padding,
-        decoration: BoxDecoration(
-            color: display.hovered
-                ? effectStyle.hoverBackgroundStyle!.backgroundColor
-                : null,
-            borderRadius: effectStyle.hoverBackgroundStyle!.radius),
-        child: child,
-      );
-    }
-    return child;
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text('Content of ${activeMenu.label}'),
+        )
+      ],
+    );
   }
+
+  Widget _buildLeading()=>const Wrap(
+    spacing: 6,
+    crossAxisAlignment: WrapCrossAlignment.center,
+    children: [
+      FlutterLogo(),
+      Text('Flutter&TolyUI')
+    ],
+  );
+  
+  Widget _buildTail()=>const Wrap(
+      spacing: 8,
+      children:[
+        Icon(Icons.add),
+        Icon(Icons.travel_explore_rounded),
+        Icon(Icons.more_horiz_outlined),
+      ]);
+  
+  void _onSelect(MenuMeta meta) {
+    activeId = meta.id;
+    setState(() {});
+  }
+}"""
+  },
+  'TabsDemo6': {
+    'title': '页签的添加和移除',
+    'desc': '通过 leading和tail 属性，可以设置左右的首尾组件：',
+    'code': r"""class TabsDemo4 extends StatefulWidget {
+  const TabsDemo4({super.key});
+
+  @override
+  State<TabsDemo4> createState() => _TabsDemo4State();
 }
-"""
+
+class _TabsDemo4State extends State<TabsDemo4> with TickerProviderStateMixin {
+
+  List<MenuMeta> items = const [
+    MenuMeta(label: 'Tab1', router: 'tab1',icon: Icons.anchor),
+    MenuMeta(label: 'Tab2', router: 'tab2',icon: Icons.ramp_right),
+    MenuMeta(label: 'Tab3', router: 'tab3',icon: Icons.cable),
+    MenuMeta(label: 'Tab4', router: 'tab4',icon: Icons.account_box_rounded),
+  ];
+
+  String activeId = 'tab1';
+
+  MenuMeta get activeMenu => items.singleWhere((e) => e.id == activeId);
+
+  @override
+  Widget build(BuildContext context) {
+    EdgeInsets padding = const EdgeInsets.only(left: 16, right: 16, bottom: 12,top: 12);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TolyTabs(
+            leading: _buildLeading(),
+            tail: _buildTail(),
+            alignment: TabAlignment.center,
+            labelPadding: padding,
+            tabs: items, activeId: activeId, onSelect: _onSelect,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text('Content of ${activeMenu.label}'),
+        )
+      ],
+    );
+  }
+
+  Widget _buildLeading()=>const Wrap(
+    spacing: 6,
+    crossAxisAlignment: WrapCrossAlignment.center,
+    children: [
+      FlutterLogo(),
+      Text('Flutter&TolyUI')
+    ],
+  );
+  
+  Widget _buildTail()=>const Wrap(
+      spacing: 8,
+      children:[
+        Icon(Icons.add),
+        Icon(Icons.travel_explore_rounded),
+        Icon(Icons.more_horiz_outlined),
+      ]);
+  
+  void _onSelect(MenuMeta meta) {
+    activeId = meta.id;
+    setState(() {});
+  }
+}"""
   },
 };

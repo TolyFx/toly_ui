@@ -3,7 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:tolyui/tolyui.dart';
 
 class CooperationPanel extends StatelessWidget {
-  const CooperationPanel({super.key});
+  final EdgeInsetsGeometry padding;
+  const CooperationPanel({super.key,  this.padding=const EdgeInsets.only(bottom: 46.0, top: 72)});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class CooperationPanel extends StatelessWidget {
         pressed: Color(0xffecf5ff));
     return Center(
         child: Padding(
-      padding: const EdgeInsets.only(bottom: 46.0, top: 72),
+      padding: padding,
       child: Column(
         children: [
           const Text(
@@ -119,7 +120,7 @@ class CooperationPanel extends StatelessWidget {
           TolyTooltip(
             richMessage: TextSpan(children: [
               TextSpan(
-                text: '请通过此邮箱联系我们 ',
+                text: '请通过此邮箱联系我们\n ',
               ),
               TextSpan(
                 style: TextStyle(color: Colors.blue),

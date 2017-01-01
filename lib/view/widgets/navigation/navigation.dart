@@ -18,3 +18,8 @@ export 'breadcrumb/breadcrumb_demo3.dart';
 export 'breadcrumb/breadcrumb_demo4.dart';
 
 export 'tabs/tabs_demo1.dart';
+export 'tabs/tabs_demo2.dart';
+export 'tabs/tabs_demo3.dart';
+export 'tabs/tabs_demo4.dart';
+export 'tabs/tabs_demo5.dart';
+export 'tabs/tabs_demo6.dart';
