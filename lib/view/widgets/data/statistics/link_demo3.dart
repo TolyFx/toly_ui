@@ -8,7 +8,7 @@ class LinkDemo3 extends StatelessWidget {
   Widget build(BuildContext context) {
     String href = 'https://github.com/TolyFx/toly_ui';
     return Wrap(
-      spacing: 10,
+      spacing: 30,
       children: [
         TolyLink(href: href, onTap: jump, text: 'None', lineType: LineType.none),
         TolyLink(href: href, onTap: jump, text: 'Active', lineType: LineType.active,),

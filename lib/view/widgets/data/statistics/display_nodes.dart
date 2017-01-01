@@ -3,33 +3,34 @@
 /// 说明: 
 
 Map<String,dynamic> get displayNodes => {
-  'StatisticsDemo1': {
+  'StatisticsDemo': {
     'title': '基础用法1',
     'desc': '统计组件的基本用法',
-    'code': """class LinkDemo1 extends StatelessWidget {
-  const LinkDemo1({super.key});
+    'code': """
+class StatisticsDemo extends StatelessWidget {
+  const StatisticsDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
     const TextStyle style1 = TextStyle(color: Color(0xff419fff));
-    const TextStyle style2 = TextStyle(color: Color(0xff72c749), fontWeight: FontWeight.bold);
-    String href = 'https://github.com/TolyFx/toly_ui';
-    return Wrap(
-      spacing: 10,
+
+    return const Wrap(
+      spacing: 30,
       children: [
-        TolyLink(href: href, onTap: jump, text: 'TolyUI'),
-        TolyLink(href: href, onTap: jump, text: 'TolyUI', style: style1),
-        TolyLink(href: href, onTap: jump, text: 'TolyUI', style: style2),
+        TolyStatistics(title: "学生人数",value: 2564,enableAnimation: true,enableSeparator: true,),
+        TolyStatistics(title: "用户反馈数",value: 255,suffix: Padding(
+          padding: EdgeInsets.only(left: 5),
+          child: Icon( Icons.account_circle_rounded,size: 15,color: Colors.grey,),
+        ),enableAnimation: true,),
+        TolyStatistics(title: "参保比例",value: 20,suffix: Text("/100"),valueStyle: style1,),
+
       ],
     );
   }
-  
-  void jump(String url){
-    //TODO 点击跳转操作
-  }
-}"""
+}
+"""
   },
-  'LinkDemo2': {
+  'CountdownDemo': {
     'title': '禁用状态',
     'desc': '文字链接不可用状态。',
     'code': """class BaseUseDemo extends StatelessWidget {

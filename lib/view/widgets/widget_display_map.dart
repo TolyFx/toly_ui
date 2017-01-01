@@ -60,7 +60,8 @@ Widget widgetDisplayMap(String key) {
     'BreadcrumbDemo2' => const BreadcrumbDemo2(),
     'BreadcrumbDemo3' => const BreadcrumbDemo3(),
     'BreadcrumbDemo4' => const BreadcrumbDemo4(),
-    "StatisticsDemo1" => const StatisticsDemo1(),
+    "StatisticsDemo" => const StatisticsDemo(),
+    'CountdownDemo' => const CountdownDemo(),
     'TabsDemo1' => const TabsDemo1(),
     _ => const SizedBox()
   };
