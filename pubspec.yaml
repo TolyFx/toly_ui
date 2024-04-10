@@ -52,6 +52,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: TolyIcon
+      fonts:
+        - asset: assets/iconfont/toly_icon.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -59,9 +63,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -88,3 +91,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+toly:
+  icon:
+    src_zip: 'assets/hide/download.zip' # 下载的压缩包资源
+    assets_dir: 'assets/iconfont'  # ttf文件解压的文件夹
+    dist_file: 'lib/app/res/toly_icon.dart' # 生成的代码文件地址
