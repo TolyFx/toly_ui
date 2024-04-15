@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'cupertino_back_gesture_detector.dart';
@@ -16,7 +17,7 @@ class SlidePageTransitionsBuilder extends PageTransitionsBuilder {
       Animation<double> secondaryAnimation,
       Widget child,
       ) {
-    if (Platform.isIOS) {
+    if (kIsWeb||Platform.isIOS) {
       child = CupertinoBackGestureDetector(
           enabledCallback: () => isPopGestureEnabled<T>(route!),
           onStartPopGesture: () => startPopGesture<T>(route!),
