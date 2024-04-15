@@ -1,0 +1,3 @@
+dependency_overrides:
+  toly_menu:
+    path: ../toly_menu
