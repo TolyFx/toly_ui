@@ -9,6 +9,9 @@ import '../../main.dart';
 import '../../view/ecological/ecological_page.dart';
 import '../../view/guide/guide_page.dart';
 import '../../view/sponsor/sponsor_page.dart';
+import '../../view/widgets/basic/button/button_display_page.dart';
+import '../../view/widgets/basic/layout/layout_display_page.dart';
+import '../../view/widgets/basic/link/link_display_page.dart';
 import '../../view/widgets/widgets_page.dart';
 import '../view/app_navigation_scope.dart';
 import 'desk_router.dart';
@@ -54,6 +57,34 @@ import 'desk_router.dart';
               builder: (BuildContext context, GoRouterState state) {
                 return WidgetsPage();
               },
+              routes: [
+                GoRoute(
+                  path: 'basic',
+                  builder: (BuildContext context, GoRouterState state) {
+                    return EcologicalPage();
+                  },
+                  routes: [
+                    GoRoute(
+                      path: 'button',
+                      builder: (BuildContext context, GoRouterState state) {
+                        return ButtonDisplayPage();
+                      },
+                    ),
+                    GoRoute(
+                      path: 'layout',
+                      builder: (BuildContext context, GoRouterState state) {
+                        return LayoutDisPlayPage();
+                      },
+                    ),
+                    GoRoute(
+                      path: 'link',
+                      builder: (BuildContext context, GoRouterState state) {
+                        return LinkDisplayPage();
+                      },
+                    ),
+                  ]
+                ),
+              ]
             ),
           ]),
 

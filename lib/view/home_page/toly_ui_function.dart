@@ -16,7 +16,7 @@ class TolyUIFunction extends StatelessWidget {
             '组件库特性',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Color(0xff606266)),),
         ),
         WrapGridLayout(
-          maxWidth: 320,
+          maxWidth: 300,
           height: 240,
           spacing: 24,
           runSpacing: 12,

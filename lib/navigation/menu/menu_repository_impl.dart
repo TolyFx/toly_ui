@@ -24,7 +24,8 @@ class WidgetMenuRepositoryImpl implements MenuRepository{
 
   @override
   ActiveState loadActiveState() {
-    return ActiveState(['/calc'],'/calc/date');
+    // return ActiveState(['/calc'],'/calc/date');
+    return ActiveState(['/widgets/basic'],'/widgets/basic/link');
   }
 }
 

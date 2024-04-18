@@ -1,5 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tolyui/tolyui.dart';
+
+import '../../app/logic/actions/navigation.dart';
 
 class LinkPanel extends StatelessWidget {
   const LinkPanel({super.key});
@@ -31,10 +33,10 @@ class LinkPanel extends StatelessWidget {
                     children: [
                       Text('链接',style:style,),
                       const SizedBox(height: 2,),
-                      Text('Github'),
-                      Text('pub'),
-                      Text('更新日志'),
-                      Text('常见问题'),
+                      TolyLink(href: kGithubUrl, text: 'Github', onTap: jumpUrl),
+                      TolyLink(href: kGithubUrl,text :'pub', onTap: jumpUrl),
+                      TolyLink(href: kGithubUrl,text :'更新日志', onTap: jumpUrl),
+                      TolyLink(href: kGithubUrl,text :'常见问题', onTap: jumpUrl),
                     ],
                   ),
                   Wrap(
@@ -42,12 +44,12 @@ class LinkPanel extends StatelessWidget {
                     direction: Axis.vertical,
                     crossAxisAlignment: WrapCrossAlignment.start,
                     children: [
+
                       Text('讨论区',style:style,),
                       const SizedBox(height: 2,),
-                      Text('建议反馈'),
-                      Text('QQ 群聊'),
-                      Text('参与贡献'),
-
+                      TolyLink(href: kGithubUrl, text: '建议反馈', onTap: jumpUrl),
+                      TolyLink(href: kGithubUrl, text: 'QQ 群聊', onTap: jumpUrl),
+                      TolyLink(href: kGithubUrl, text: '参与贡献', onTap: jumpUrl),
                     ],
                   ),
                   Wrap(
@@ -55,10 +57,12 @@ class LinkPanel extends StatelessWidget {
                     direction: Axis.vertical,
                     crossAxisAlignment: WrapCrossAlignment.start,
                     children: [
-                      Text('友情链接',style:style,),
+                      Text('资源链接',style:style,),
                       const SizedBox(height: 2,),
 
-                      Text('掘金社区'),
+                      TolyLink(href: kGithubUrl, text: '掘金社区', onTap: jumpUrl,lineType: LineType.always,),
+                      TolyLink(href: kGithubUrl, text: '哔哩哔哩', onTap: jumpUrl,lineType: LineType.always,),
+
 
                     ],
                   ),
@@ -69,8 +73,8 @@ class LinkPanel extends StatelessWidget {
                     children: [
                       Text('联系我',style:style,),
                       const SizedBox(height: 2,),
-                      Text('邮箱'),
-                      Text('微信'),
+                      TolyLink(href: kGithubUrl, text: '邮箱', onTap: jumpUrl,lineType: LineType.none),
+                      TolyLink(href: kGithubUrl, text: '微信', onTap: jumpUrl),
 
                     ],
                   ),

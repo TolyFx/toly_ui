@@ -1,7 +1,8 @@
 name: tolyui
-description: "A new Flutter package project."
+description: "A responsive ui library for Flutter"
 version: 0.0.1
-homepage:
+homepage: https://github.com/TolyFx/toly_ui
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui
 
 environment:
   sdk: '>=3.3.3 <4.0.0'

@@ -10,8 +10,10 @@ class TolyUIDesc extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness==Brightness.dark;
+    Color lineColor = isDark? Color(0xff193761):Color(0xfff2f2f2);
     return DecoratedBox(
-      decoration: const HomeTopBgDecoration(),
+      decoration:  HomeTopBgDecoration(lineColor),
       child: Padding(
         padding: EdgeInsets.symmetric(vertical: 100.0),
         child: Column(
@@ -109,25 +111,33 @@ class TolyUIDesc extends StatelessWidget {
 }
 
 class HomeTopBgDecoration extends Decoration {
-  const HomeTopBgDecoration();
+  final Color lineColor;
+  const HomeTopBgDecoration(this.lineColor);
 
   @override
   BoxPainter createBoxPainter([VoidCallback? onChanged]) {
-    return HomeTopBoxPainter();
+    return HomeTopBoxPainter(lineColor);
   }
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is HomeTopBgDecoration && runtimeType == other.runtimeType;
+      other is HomeTopBgDecoration &&
+          runtimeType == other.runtimeType &&
+          lineColor == other.lineColor;
 
   @override
-  int get hashCode => 0;
+  int get hashCode => lineColor.hashCode;
 }
 
 class HomeTopBoxPainter extends BoxPainter {
+  final Color lineColor;
+
+  HomeTopBoxPainter(this.lineColor);
+
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
+    print(configuration);
     canvas.save();
     canvas.translate(0, offset.dy);
     Size? size = configuration.size;
@@ -137,9 +147,8 @@ class HomeTopBoxPainter extends BoxPainter {
       ..shader = ui.Gradient.linear(
           Offset(0, 0),
           Offset(0, size.height),
-          [Color(0xfff2f2f2), Color(0xfff2f2f2), Color(0x00f2f2f2)],
-          [0, 0.618, 1])
-      ..color = Color(0xfff2f2f2);
+          [lineColor, lineColor, lineColor.withOpacity(0)],
+          [0, 0.618, 1]);
     Path path = Path();
     double step = 15;
     for (double i = step; i < size.width; i += step) {

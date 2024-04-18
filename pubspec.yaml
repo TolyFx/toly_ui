@@ -31,6 +31,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  url_launcher: ^6.2.5 # url 跳转
+  # 状态管理
+  flutter_bloc: ^8.1.5
+  equatable: ^2.0.5
+
   # fx 架构
   app_boot_starter: ^1.0.0
   platform_adapter: ^0.0.1
@@ -46,11 +51,12 @@ dependencies:
 #  toly_menu_manager: ^0.0.1
   toly_menu_manager:
     path: modules/toly_menu_manager
-
-
+  toggle_rotate: 1.0.1
+  flutter_highlight: ^0.7.0
   go_router: ^13.2.3
   # svg 展示
   flutter_svg: ^2.0.10+1
+  oktoast: ^3.4.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -76,15 +82,17 @@ flutter:
     - family: TolyIcon
       fonts:
         - asset: assets/iconfont/toly_icon.ttf
-
+    - family: Inconsolata #字体名
+      fonts:
+        - asset: assets/fonts/Inconsolata.ttf
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/data/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

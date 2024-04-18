@@ -1,6 +1,6 @@
 
 Map<String, dynamic> get basicMenus => {
-  'path': '/text',
+  'path': '/widgets/basic',
   // 'icon': FxIcon.icon_paint,
   'label': 'Basic 基础组件',
   'children': [
@@ -21,6 +21,11 @@ Map<String, dynamic> get basicMenus => {
     },   {
       'path': '/layout',
       'label': 'Layout 布局',
+      // 'icon': Icons.text_fields,
+    },
+    {
+      'path': '/link',
+      'label': 'Link 链接',
       // 'icon': Icons.text_fields,
     },
   ]

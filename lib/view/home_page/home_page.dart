@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:toly_ui/view/home_page/cooperation_panel.dart';
-import 'dart:ui' as ui;
 
 import 'home_footer.dart';
 import 'link_panel.dart';
