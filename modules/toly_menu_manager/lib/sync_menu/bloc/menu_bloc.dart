@@ -10,6 +10,8 @@ class MenuBloc extends Cubit<MenuState> {
     required this.repository,
   }) : super(MenuState(expandMenus: [], activeMenu: '', items: []));
 
+
+
   void loadMenu(){
     MenuNode root =  repository.loadMenuTree();
     var activeState =  repository.loadActiveState();
@@ -20,6 +22,10 @@ class MenuBloc extends Cubit<MenuState> {
     ));
   }
 
+  void reassemble(){
+    MenuNode root =  repository.loadMenuTree();
+    emit(state.copyWith(items: root.children));
+  }
   void changeMenu(MenuNode menu) {
     MenuState oldSate = state;
     MenuState newState;

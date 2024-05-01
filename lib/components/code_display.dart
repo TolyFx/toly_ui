@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:toggle_rotate/toggle_rotate.dart';
 import 'package:toly_ui/app/theme/code_theme.dart';
@@ -17,9 +17,7 @@ class CodeDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 48.0),
-      child: Container(
+    return  Container(
         width: double.maxFinite,
         decoration: BoxDecoration(
             border: Border.all(
@@ -34,27 +32,27 @@ class CodeDisplay extends StatelessWidget {
               const EdgeInsets.symmetric(vertical: 24.0, horizontal: 24),
               child: display,
             ),
-            Divider(),
+            const Divider(),
             TolyCollapse(
               actionBuilder: (action) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8.0),
                   child: Row(
                     children: [
-                      Spacer(),
+                      const Spacer(),
                       GestureDetector(
                           onTap: () async{
                             await Clipboard.setData(ClipboardData(text: code));
                             Toast.success(context, '代码复制成功!');
                           },
-                          child: Tooltip(
+                          child: const Tooltip(
                               message: '复制代码',
-                              child: const Icon(Icons.copy_rounded, size: 20,color: Color(0xff828282),))),
+                              child: Icon(Icons.copy_rounded, size: 20,color: Color(0xff828282),))),
                       const SizedBox(width: 16,),
                       MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: ToggleRotate(
-                          child: Icon(Icons.code, size: 22,color: Color(0xff828282)),
+                          child: const Icon(Icons.code, size: 22,color: Color(0xff828282)),
                           onEnd: (bool isExpanded) {
                             // 动画结束时间
                             // print("---expanded---:$isExpanded-------");
@@ -69,8 +67,8 @@ class CodeDisplay extends StatelessWidget {
               },
               content: Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                color: Color(0xfff5f7fa),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                color: const Color(0xfff5f7fa),
                 child: HighlightView(
                   // The original code to be highlighted
                   code,
@@ -87,10 +85,10 @@ class CodeDisplay extends StatelessWidget {
                   // theme: kimbieLightTheme    ,
 
                   // Specify padding
-                  padding: EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(12),
 
                   // Specify text style
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                     fontFamily: 'Inconsolata',
                     fontSize: 14,
                   ),
@@ -99,7 +97,7 @@ class CodeDisplay extends StatelessWidget {
             ),
           ],
         ),
-      ),
+
     );
   }
 }

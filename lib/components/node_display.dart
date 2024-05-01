@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tolyui/tolyui.dart';
 
 import 'code_display.dart';
 
@@ -13,7 +14,7 @@ class Node {
     required this.code,
   });
 
-  factory Node.fromMap(dynamic map){
+  factory Node.fromMap(dynamic map) {
     return Node(title: map['title'], desc: map['desc'], code: map['code']);
   }
 }
@@ -26,19 +27,29 @@ class NodeDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TitleShow(
-          title: node.title,
-          desc: node.desc,
-        ),
-        CodeDisplay(
-          display: display,
-          code: node.code,
-        ),
-      ],
-    );
+
+    return  Padding$(
+        padding: (re)=>switch (re) {
+      Rx.xs => const EdgeInsets.symmetric(horizontal: 18.0),
+      Rx.sm => const EdgeInsets.symmetric(horizontal: 24.0),
+      Rx.md => const EdgeInsets.symmetric(horizontal: 32.0),
+      Rx.lg => const EdgeInsets.symmetric(horizontal: 48.0),
+      Rx.xl => const EdgeInsets.symmetric(horizontal: 64.0),
+    },
+    child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TitleShow(
+                title: node.title,
+                desc: node.desc,
+              ),
+              CodeDisplay(
+                display: display,
+                code: node.code,
+              ),
+            ],
+
+    ));
   }
 }
 
@@ -51,20 +62,20 @@ class TitleShow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24.0, horizontal: 48),
+      padding: const EdgeInsets.symmetric(vertical: 24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(
             height: 8,
           ),
           Text(
             desc,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
         ],
       ),

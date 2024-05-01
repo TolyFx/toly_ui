@@ -11,26 +11,26 @@ class TolyUIDesc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness==Brightness.dark;
-    Color lineColor = isDark? Color(0xff193761):Color(0xfff2f2f2);
+    Color lineColor = isDark? const Color(0xff193761):const Color(0xfff2f2f2);
     return DecoratedBox(
       decoration:  HomeTopBgDecoration(lineColor),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 100.0),
+        padding: const EdgeInsets.symmetric(vertical: 100.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(
+            const Text(
               'TolyUI Design',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 38),
             ),
-            SizedBox(
+            const SizedBox(
               height: 4,
             ),
-            Text(
-              'Flutter 全平台应用开发组件库',
+            const Text(
+              'Flutter 全平台响应式开发组件库',
               style: TextStyle(fontSize: 20, color: Color(0xff515a6e)),
             ),
-            SizedBox(
+            const SizedBox(
               height: 18,
             ),
             Padding(
@@ -57,10 +57,10 @@ class TolyUIDesc extends StatelessWidget {
                             splashFactory: NoSplash.splashFactory,
                             surfaceTintColor: Colors.transparent
                         ),
-                        icon: RotatedBox(
+                        icon: const RotatedBox(
                             quarterTurns: 2, child: Icon(Icons.transit_enterexit,size: 20,)),
                         onPressed: () {},
-                        label: Text('开始使用')),
+                        label: const Text('开始使用')),
                   ),
                   Wrap(
                     spacing: 6,
@@ -81,12 +81,12 @@ class TolyUIDesc extends StatelessWidget {
                                 splashFactory: NoSplash.splashFactory,
                                 surfaceTintColor: Colors.transparent
                             ),
-                            icon:Icon(TolyIcon.iconGithub,size: 18,),
+                            icon:const Icon(TolyIcon.iconGithub,size: 18,),
                             onPressed: () {},
-                            label: Text('Star')),
+                            label: const Text('Star')),
                       ),
                       Wrapper(
-                        padding: EdgeInsets.symmetric(horizontal: 12,vertical: 4),
+                        padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 4),
                         color: Theme.of(context).primaryColor,
                         strokeWidth: px1*2,
                         spineType: SpineType.left,
@@ -94,7 +94,7 @@ class TolyUIDesc extends StatelessWidget {
                         angle: 60,
                         offset: 10,
                         // fromEnd: false,
-                        child: Text("1004",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+                        child: const Text("1004",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
                       )
 
                     ],
@@ -145,7 +145,7 @@ class HomeTopBoxPainter extends BoxPainter {
     Paint girdPaint = Paint()
       ..style = PaintingStyle.stroke
       ..shader = ui.Gradient.linear(
-          Offset(0, 0),
+          const Offset(0, 0),
           Offset(0, size.height),
           [lineColor, lineColor, lineColor.withOpacity(0)],
           [0, 0.618, 1]);

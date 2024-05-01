@@ -27,14 +27,14 @@ class _SponsorWallState extends State<SponsorWall> {
       width: 240,
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.0),
             child: Text(
               '赞助墙',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
-          Text(
+          const Text(
             '赞助时，可以写下称谓和寄语\n赞助信息将展示在赞助墙上:',
             // textAlign: TextAlign.center,
             style: TextStyle(fontSize: 12, color: Colors.grey),
@@ -109,15 +109,15 @@ class SponsorItem extends StatelessWidget {
           Text('${sponsorRecord.name} '),
           Text('￥${sponsorRecord.money}',
               style:
-                  TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-          Spacer(),
+                  const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+          const Spacer(),
           Text(sponsorRecord.date,
-              style: TextStyle(color: Colors.grey, fontSize: 12)),
+              style: const TextStyle(color: Colors.grey, fontSize: 12)),
         ],
       ),
       subtitle: Text(
         sponsorRecord.info,
-        style: TextStyle(color: Colors.grey),
+        style: const TextStyle(color: Colors.grey),
       ),
     );
   }

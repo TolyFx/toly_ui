@@ -7,7 +7,7 @@ enum ExpandType {
   width,
 }
 
-class WrapGridLayout extends StatelessWidget {
+class Wrap$ extends StatelessWidget {
   final double maxWidth;
   final double height;
   final double spacing;
@@ -16,7 +16,7 @@ class WrapGridLayout extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final List<Widget> children;
 
-  const WrapGridLayout({
+  const Wrap$({
     super.key,
     required this.maxWidth,
     required this.height,
@@ -34,7 +34,7 @@ class WrapGridLayout extends StatelessWidget {
         padding: padding ?? EdgeInsets.symmetric(horizontal: spacing),
         child: LayoutBuilder(
           builder: (ctx, cts) {
-            int count = (cts.maxWidth - spacing) ~/ maxWidth;
+            int count = (cts.maxWidth + spacing) ~/ maxWidth;
             double effectSpacing = spacing;
             count = min(count, children.length);
             double width = (cts.maxWidth / count) - spacing * (count - 1);
@@ -50,7 +50,7 @@ class WrapGridLayout extends StatelessWidget {
               spacing: effectSpacing,
               children: children
                   .map((e) => SizedBox(
-                        width: min(width, maxWidth),
+                        width: width,
                         height: height,
                         child: e,
                       ))

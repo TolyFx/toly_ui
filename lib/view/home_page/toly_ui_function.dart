@@ -8,18 +8,18 @@ class TolyUIFunction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         Padding(
           padding: EdgeInsets.only(bottom: 36.0),
           child: Text(
-            '组件库特性',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Color(0xff606266)),),
+            '功能特性',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Color(0xff606266)),),
         ),
-        WrapGridLayout(
+        Wrap$(
           maxWidth: 300,
           height: 240,
           spacing: 24,
-          runSpacing: 12,
+          runSpacing: 24,
           children: [
             ShowPanel(
               color: Colors.blue,
@@ -70,9 +70,9 @@ class ShowPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          border: Border.all(color: Color(0xffdcdfe6)),
+          border: Border.all(color: const Color(0xffdcdfe6)),
           borderRadius: BorderRadius.circular(8)),
-      padding: EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -86,7 +86,7 @@ class ShowPanel extends StatelessWidget {
           ),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Color(0xff303133)),
@@ -96,7 +96,7 @@ class ShowPanel extends StatelessWidget {
           ),
           Text(
             info,
-            style: TextStyle(fontSize: 14, color: Color(0xff99a9bf)),
+            style: const TextStyle(fontSize: 14, color: Color(0xff99a9bf)),
           ),
         ],
       ),

@@ -12,7 +12,7 @@ class SponsorPanel extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        endDrawer: !showWall?null:Material(child: SponsorWall()),
+        endDrawer: !showWall?null:const Material(child: SponsorWall()),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -23,25 +23,25 @@ class SponsorPanel extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text('赞助项目',style: TextStyle(fontSize: 32),),
-                        Spacer(),
+                        const Text('赞助项目',style: TextStyle(fontSize: 32),),
+                        const Spacer(),
                         if(showWall)
                          Builder(
                            builder: (ctx) {
                              return TextButton(onPressed: (){
                                Scaffold.of(ctx).openEndDrawer();
-                             }, child: Text('赞助墙',style: TextStyle(fontSize: 18)),);
+                             }, child: const Text('赞助墙',style: TextStyle(fontSize: 18)),);
                            }
                          )
                       ],
                     ),
                     const SizedBox(height: 8,),
-                    Text(
+                    const Text(
                       '如果项目对您有所帮助, 可以通过赞赏支持我的创作',
                       style: TextStyle(
                           fontSize: 14, color: Color(0xff606266),fontWeight: FontWeight.normal),
                     ),
-                    Text(
+                    const Text(
                       '商务合作，请通过 1981462002@qq.com 联系我。',
                       style: TextStyle(
                           fontSize: 14, color: Color(0xff606266),fontWeight: FontWeight.normal),
@@ -49,7 +49,7 @@ class SponsorPanel extends StatelessWidget {
                   ],
                 ),
               ),
-              TabBar(
+              const TabBar(
 
                 tabs: [
                   Tab(
@@ -77,8 +77,8 @@ class SponsorPanel extends StatelessWidget {
                   ),
                 ),
               ),
-              Divider(),
-              SizedBox(height: 54,)
+              const Divider(),
+              const SizedBox(height: 54,)
             ],
           )),
     );

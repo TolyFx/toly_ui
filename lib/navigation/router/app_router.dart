@@ -1,20 +1,22 @@
-import 'package:app_boot_starter/app_boot_starter.dart';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toly_ui/navigation/view/empty404/widget404.dart';
 import 'package:toly_ui/view/home_page/home_page.dart';
+import 'package:toly_ui/view/widgets/basic/text/text_display_page.dart';
 import 'package:toly_ui/view/widgets/widget_navigation_scope.dart';
 
-import '../../main.dart';
 import '../../view/ecological/ecological_page.dart';
 import '../../view/guide/guide_page.dart';
 import '../../view/sponsor/sponsor_page.dart';
 import '../../view/widgets/basic/button/button_display_page.dart';
+import '../../view/widgets/basic/icon/icon_display_page.dart';
 import '../../view/widgets/basic/layout/layout_display_page.dart';
 import '../../view/widgets/basic/link/link_display_page.dart';
 import '../../view/widgets/widgets_page.dart';
 import '../view/app_navigation_scope.dart';
-import 'desk_router.dart';
+import 'widgets_route.dart';
 
  RouteBase get appRoutes => GoRoute(
   path: '/',
@@ -45,48 +47,7 @@ import 'desk_router.dart';
               return SponsorPage();
             },
           ),
-          ShellRoute(
-              builder: (BuildContext context, GoRouterState state, Widget child) {
-                return WidgetNavigationScope(
-                  child: child,
-                );
-              },
-              routes: [
-            GoRoute(
-              path: 'widgets',
-              builder: (BuildContext context, GoRouterState state) {
-                return WidgetsPage();
-              },
-              routes: [
-                GoRoute(
-                  path: 'basic',
-                  builder: (BuildContext context, GoRouterState state) {
-                    return EcologicalPage();
-                  },
-                  routes: [
-                    GoRoute(
-                      path: 'button',
-                      builder: (BuildContext context, GoRouterState state) {
-                        return ButtonDisplayPage();
-                      },
-                    ),
-                    GoRoute(
-                      path: 'layout',
-                      builder: (BuildContext context, GoRouterState state) {
-                        return LayoutDisPlayPage();
-                      },
-                    ),
-                    GoRoute(
-                      path: 'link',
-                      builder: (BuildContext context, GoRouterState state) {
-                        return LinkDisplayPage();
-                      },
-                    ),
-                  ]
-                ),
-              ]
-            ),
-          ]),
+          widgetsRoute,
 
           GoRoute(
             path: 'ecological',
@@ -103,16 +64,12 @@ import 'desk_router.dart';
     //     );
     //   },
     // ),
-    // GoRoute(
-    //   path: 'start_error',
-    //   builder: (BuildContext context, GoRouterState state) {
-    //     return AppStartFixListener<AppState>(
-    //       child: ErrorPage(
-    //         error: state.extra.toString(),
-    //       ),
-    //     );
-    //   },
-    // ),
+    GoRoute(
+      path: '404',
+      builder: (BuildContext context, GoRouterState state) {
+        return Widget404();
+      },
+    ),
     // deskNavRoute
   ],
 );

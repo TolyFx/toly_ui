@@ -27,6 +27,7 @@ extension BlocActionContext on BuildContext {
   MenuNode? get activeMenuNode => read<MenuBloc>().state.activeMenuNode;
 
   void loadMenu() => read<MenuBloc>().loadMenu();
+  void reassembleMenu() => read<MenuBloc>().reassemble();
 
 
   void addHistory(String title, String path) => read<MenuHistoryBloc>().addHistory(title, path);

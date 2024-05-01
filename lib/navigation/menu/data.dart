@@ -1,5 +1,5 @@
 Map<String, dynamic> get dataMenus => {
-      'path': '/Data',
+      'path': '/widgets/Data',
       // 'icon': FxIcon.icon_paint,
       'label': 'Data 数据展示',
       'children': [

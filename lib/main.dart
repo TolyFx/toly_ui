@@ -1,15 +1,13 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:toly_ui/app/res/toly_icon.dart';
 
 import 'app/logic/app_state/app_logic.dart';
 import 'app/logic/app_state/app_state.dart';
 import 'app/theme/theme.dart';
 import 'app/view/app_scope.dart';
 import 'navigation/router/app_router.dart';
-import 'view/home_page/home_nav_bar.dart';
 
 void main() {
   runApp( AppScope(child: MyApp()));
@@ -22,7 +20,9 @@ class MyApp extends StatelessWidget {
     initialLocation: '/home',
     routes: <RouteBase>[appRoutes],
     onException: (BuildContext ctx, GoRouterState state, GoRouter router) {
-      router.go('/404', extra: state.uri.toString());
+      String parent = state.uri.pathSegments.first;
+      print("onException::${state.uri}==============");
+      router.go('/$parent/404', extra: state.uri.toString());
     },
   );
 

@@ -1,22 +1,22 @@
-import 'dart:io';
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toly_menu/toly_menu.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../navigation/router/transition/fade_page_transitions_builder.dart';
 import '../../navigation/router/transition/slide_transition/slide_page_transition_builder.dart';
-import '../../view/widgets/basic/layout/layout_display_page.dart';
 
 double px1 = 1 / PlatformDispatcher.instance.views.first.devicePixelRatio;
 
-Re _elementParserStrategy(double width) {
-  if (width < 768) return Re.xs;
-  if (width >= 768 && width < 992) return Re.sm;
-  if (width >= 992 && width < 1200) return Re.md;
-  if (width >= 1200 && width < 1920) return Re.lg;
-  return Re.xl;
+Rx _elementParserStrategy(double width) {
+  if (width < 768) return Rx.xs;
+  if (width >= 768 && width < 992) return Rx.sm;
+  if (width >= 992 && width < 1200) return Rx.md;
+  if (width >= 1200 && width < 1920) return Rx.lg;
+  return Rx.xl;
 }
 
 ThemeData get darkTheme {
@@ -31,6 +31,23 @@ ThemeData get darkTheme {
   return ThemeData(
     fontFamily: '黑体',
     scaffoldBackgroundColor: scaffoldBackgroundColor,
+    extensions: [
+      // LinkTheme(
+      //   style: const TextStyle(fontSize: 14, color: Color(0xff606266)),
+      //   hoverColor: const Color(0xff0061a4),
+      //   // lineType:LineType.always,
+      //   // hoverColor: Colors.redAccent,
+      // ),
+      TolyMenuTheme(
+          backgroundColor: const Color(0xff001529),
+          expandBackgroundColor:const Color(0xff0C2135),
+          unselectedLabelTextStyle: TextStyle(color: Colors.white),
+          selectedItemBackground: Color(0x22e6f7ff),
+          selectedLabelTextStyle: const TextStyle(color: Colors.blue,fontWeight: FontWeight.bold)
+      )
+
+      // ReParserStrategyTheme(parserStrategy: _elementParserStrategy),
+    ],
     pageTransitionsTheme: const PageTransitionsTheme(builders: {
       TargetPlatform.android: SlidePageTransitionsBuilder(),
       TargetPlatform.iOS: SlidePageTransitionsBuilder(),
@@ -38,26 +55,27 @@ ThemeData get darkTheme {
       TargetPlatform.windows: FadePageTransitionsBuilder(),
       TargetPlatform.linux: FadePageTransitionsBuilder(),
     }),
-    tabBarTheme: TabBarTheme(
-      dividerColor:  Colors.transparent,
+    tabBarTheme: const TabBarTheme(
+      dividerColor: Colors.transparent,
     ),
     // fontFamily: state.fontFamily,
-    useMaterial3:true,
+    useMaterial3: true,
     brightness: Brightness.dark,
     primaryColor: const Color(0xff4699FB),
-    listTileTheme: ListTileThemeData(
+    listTileTheme: const ListTileThemeData(
       tileColor: Color(0xff181818),
       textColor: Color(0xffD6D6D6),
     ),
-    appBarTheme:  AppBarTheme(
+    appBarTheme: AppBarTheme(
         systemOverlayStyle: overlayStyle,
         elevation: 0,
         centerTitle: false,
-        backgroundColor: Color(0xff181818),
-
-        iconTheme: IconThemeData(color:  Color(0xffCCCCCC)),
-
-        titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,color: Color(0xffCCCCCC))),
+        backgroundColor: const Color(0xff181818),
+        iconTheme: const IconThemeData(color: Color(0xffCCCCCC)),
+        titleTextStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Color(0xffCCCCCC))),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
         foregroundColor: Colors.white, backgroundColor: Color(0xff4699FB)),
     dividerTheme: DividerThemeData(
@@ -70,28 +88,41 @@ ThemeData get darkTheme {
         selectedItemColor: Color(0xff4699FB)),
   );
 }
+
 ThemeData get lightTheme {
   return ThemeData(
     dividerColor: Colors.transparent,
     // useMaterial3: false,
     fontFamily: '黑体',
+    iconButtonTheme: const IconButtonThemeData(
+        style: ButtonStyle(
+          splashFactory: NoSplash.splashFactory,
+      overlayColor: MaterialStatePropertyAll(Colors.transparent),
+    )),
     extensions: [
       LinkTheme(
-        style: TextStyle(fontSize: 14,color:Color(0xff606266) ),
-        hoverColor: Color(0xff0061a4),
+        style: const TextStyle(fontSize: 14, color: Color(0xff606266)),
+        hoverColor: const Color(0xff0061a4),
         // lineType:LineType.always,
         // hoverColor: Colors.redAccent,
       ),
+      TolyMenuTheme(
+        backgroundColor: Colors.white,
+        expandBackgroundColor: Colors.white,
+          selectedItemBackground: Color(0xffe6f7ff),
+        unselectedLabelTextStyle: TextStyle(color: Color(0xff2d3a53)),
+        selectedLabelTextStyle: const TextStyle(color: Colors.blue,fontWeight: FontWeight.bold)
+      )
 
-      ReParserStrategyTheme(parserStrategy: _elementParserStrategy)],
+      // ReParserStrategyTheme(parserStrategy: _elementParserStrategy),
+    ],
+
     bottomSheetTheme: BottomSheetThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     ),
-    expansionTileTheme: ExpansionTileThemeData(
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: Colors.transparent)
-      )
-    ),
+    expansionTileTheme: const ExpansionTileThemeData(
+        shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.transparent))),
     datePickerTheme: DatePickerThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         backgroundColor: const Color(0xfff4f8fb),
@@ -110,7 +141,7 @@ ThemeData get lightTheme {
     //   overlayColor: MaterialStatePropertyAll(Colors.transparent)
     // ),
     //
-    elevatedButtonTheme: ElevatedButtonThemeData(
+    elevatedButtonTheme: const ElevatedButtonThemeData(
       style: ButtonStyle(elevation: MaterialStatePropertyAll(0)
           // overlayColor: MaterialStatePropertyAll<Color>(Colors.transparent),
           ),
@@ -120,11 +151,11 @@ ThemeData get lightTheme {
     //         overlayColor: MaterialStatePropertyAll<Color>(Colors.transparent)
     //     )
     // ),
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
         // backgroundColor: Color(0xfff4f8fb),
         scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
-        titleTextStyle: const TextStyle(
+        titleTextStyle: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
           color: Colors.black,
@@ -134,17 +165,17 @@ ThemeData get lightTheme {
     listTileTheme: const ListTileThemeData(
       tileColor: Colors.white,
     ),
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: const Color(0xfff2f2f2),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: Color(0xfff2f2f2),
     ),
-    chipTheme: ChipThemeData(
+    chipTheme: const ChipThemeData(
         side: BorderSide.none,
         backgroundColor: Color(0xfff3f4f6),
         labelStyle: TextStyle(fontSize: 12, color: Colors.grey),
         labelPadding: EdgeInsets.symmetric(horizontal: 12),
         padding: EdgeInsets.zero),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: const Color(0xfff2f2f2),
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: Color(0xfff2f2f2),
     ),
 
     pageTransitionsTheme: const PageTransitionsTheme(builders: {

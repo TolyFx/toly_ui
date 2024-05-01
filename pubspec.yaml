@@ -46,6 +46,8 @@ dependencies:
     path: modules/toly_menu
   tolyui:
     path: modules/tolyui
+  tolyui_rx_layout:
+    path: modules/tolyui_rx_layout
   wrapper:
     path: modules/wrapper
 #  toly_menu_manager: ^0.0.1

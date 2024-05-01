@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'link_theme.dart';
 
-
-
 class TolyLink extends StatefulWidget {
   final String text;
   final ValueChanged<String>? onTap;
@@ -30,21 +28,21 @@ class _TolyLinkState extends State<TolyLink> {
   bool _isHover = false;
 
   TextDecoration get decoration {
-    LineType underLine = widget.lineType ??
+    LineType lineType = widget.lineType ??
         Theme.of(context).extension<LinkTheme>()?.lineType ??
         LineType.active;
-    if (underLine == LineType.none||disable) return TextDecoration.none;
-    if (underLine == LineType.always) return TextDecoration.underline;
+    if (lineType == LineType.none || disable) return TextDecoration.none;
+    if (lineType == LineType.always) return TextDecoration.underline;
     return _isHover ? TextDecoration.underline : TextDecoration.none;
   }
 
-  bool get disable =>widget.onTap==null;
+  bool get disable => widget.onTap == null;
 
   Color? get textColor {
-    return (_isHover&&!disable)
-      ? widget.hoverColor ??
-          Theme.of(context).extension<LinkTheme>()?.hoverColor
-      : null;
+    return (_isHover && !disable)
+        ? widget.hoverColor ??
+            Theme.of(context).extension<LinkTheme>()?.hoverColor
+        : null;
   }
 
   @override
@@ -53,34 +51,35 @@ class _TolyLinkState extends State<TolyLink> {
         Theme.of(context).extension<LinkTheme>()?.style ??
         const TextStyle();
 
-    if(disable){
-      style = style.copyWith(
-        color: style.color?.withOpacity(0.6)
-      );
+    if (disable) {
+      style = style.copyWith(color: style.color?.withOpacity(0.6));
     }
 
     return MouseRegion(
-      cursor: disable?SystemMouseCursors.forbidden:  SystemMouseCursors.click,
-      onExit: (_) {
-        setState(() {
-          _isHover = false;
-        });
-      },
-      onEnter: (_) {
-        setState(() {
-          _isHover = true;
-        });
-      },
+      cursor: disable ? SystemMouseCursors.forbidden : SystemMouseCursors.click,
+      onExit: _onExit,
+      onEnter: _onEnter,
       child: GestureDetector(
         onTap: () => widget.onTap?.call(widget.href),
         child: Text(widget.text,
             style: style.copyWith(
-                decoration: decoration,
-                color: textColor,
-                decorationColor: textColor)
-            // TextStyle(),
-            ),
+              decoration: decoration,
+              color: textColor,
+              decorationColor: textColor,
+            )),
       ),
     );
+  }
+
+  void _onExit(_) {
+    setState(() {
+      _isHover = false;
+    });
+  }
+
+  void _onEnter(_) {
+    setState(() {
+      _isHover = true;
+    });
   }
 }

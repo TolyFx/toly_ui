@@ -13,13 +13,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SliverGridDelegate gridDelegate =
-        const SliverGridDelegateWithMaxCrossAxisExtent(
-      maxCrossAxisExtent: 320,
-      mainAxisSpacing: 10,
-      mainAxisExtent: 240,
-      crossAxisSpacing: 10,
-    );
     return Scaffold(
       body: Align(
         alignment: Alignment.topCenter,
@@ -27,7 +20,7 @@ class HomePage extends StatelessWidget {
           children: [
             Expanded(
               child: ListView(
-                children: [
+                children: const [
                   TolyUIDesc(),
                   TolyUIFunction(),
                   CooperationPanel(),

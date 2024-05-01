@@ -10,12 +10,12 @@ Map<String, dynamic> get basicMenus => {
       // 'icon': Icons.text_fields,
     },
     {
-      'path': '/transform',
+      'path': '/icon',
       'label': 'Icon 图标',
       // 'icon': Icons.text_fields,
     },
     {
-      'path': '/parser',
+      'path': '/text',
       'label': 'Text 文本',
       // 'icon': Icons.text_fields,
     },   {

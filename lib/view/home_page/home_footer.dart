@@ -12,10 +12,10 @@ class HomeFooter extends StatelessWidget {
       children: [
         // const SizedBox(height: 36,),
 
-        Divider(),
+        const Divider(),
         Container(
           // height: 56,
-          padding: EdgeInsets.symmetric(vertical: 12,horizontal: 24),
+          padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 24),
           alignment: Alignment.center,
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -23,20 +23,20 @@ class HomeFooter extends StatelessWidget {
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Text('Made by  '),
-                  TolyLink(href: kFxGithubUrl, text: 'Fx', onTap: jumpUrl,style: TextStyle(
+                  const Text('Made by  '),
+                  TolyLink(href: kFxGithubUrl, text: 'Fx', onTap: jumpUrl,style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.blue
                   ),),
-                  Text(' & '),
-                  TolyLink(href: kGithubUrl, text: 'TolyUI', onTap: jumpUrl,style: TextStyle(
+                  const Text(' & '),
+                  TolyLink(href: kGithubUrl, text: 'TolyUI', onTap: jumpUrl,style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.blue
                   ),),
                 ],
               ),
               const SizedBox(height: 2,),
-              Wrap(
+              const Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 alignment: WrapAlignment.center,
                 children: [
@@ -53,9 +53,9 @@ class HomeFooter extends StatelessWidget {
 
                   TolyLink(href: kBeiAnUrl, text: '皖ICP备18001618号-2', onTap: jumpUrl,),
                   Container(
-                      margin: EdgeInsets.symmetric(horizontal: 8),
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
                       height: 14,
-                      child: VerticalDivider()),
+                      child: const VerticalDivider()),
                   TolyLink(href: kWanBeiAnUrl, text: '皖公网安备 34010202600392号', onTap: jumpUrl,),
 
 

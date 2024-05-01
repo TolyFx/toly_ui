@@ -148,7 +148,7 @@ class WrapperPainter extends CustomPainter {
     ..color = color
     ..style =
     strokeWidth == null ? PaintingStyle.fill : PaintingStyle.stroke
-    ..strokeWidth = strokeWidth == null ? 1 : strokeWidth;
+    ..strokeWidth = strokeWidth ?? 1;
 
   @override
   void paint(Canvas canvas, Size size) {

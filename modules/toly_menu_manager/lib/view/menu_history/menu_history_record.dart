@@ -41,9 +41,6 @@ class MenuRecordTab extends StatelessWidget {
     }
 
     const BorderSide side = BorderSide(color: Color(0xffE8E8E8), width: 1);
-    Color themeColor = Theme
-        .of(context)
-        .primaryColor;
     return Container(
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(

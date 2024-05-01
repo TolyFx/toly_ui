@@ -17,7 +17,7 @@ class MenuHistoryBloc extends Cubit<MenuHistoryState> {
         activeHistory = history.first.menuPath;
       }
       emit(MenuHistoryState(history: history, activeHistory: activeHistory));
-    } catch (e, trace) {
+    } catch (e) {
       print(e);
       // emit(MenuLoadFailed(e, trace));
     }

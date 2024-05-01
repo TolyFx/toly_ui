@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toly_ui/app/logic/actions/navigation.dart';
 import 'package:toly_ui/app/theme/theme.dart';
 
 import '../../app/logic/app_state/app_logic.dart';
-import '../../app/logic/app_state/app_state.dart';
 import '../../app/res/toly_icon.dart';
 import '../../incubator/components/toly_tab_bar.dart';
 
@@ -19,14 +16,14 @@ class HomeNavBar extends StatelessWidget implements PreferredSizeWidget {
     return LayoutBuilder(
       builder: (ctx, cts) => AppBar(
         actions: [
-          AppNavTabs(),
+          const AppNavMenus(),
           const SizedBox(
             width: 12,
           ),
-          AppThemeSwitch(),
+          const AppThemeSwitch(),
           if (cts.maxWidth > 400)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Icon(Icons.translate),
             ),
           if (cts.maxWidth > 400)
@@ -95,9 +92,9 @@ class AppThemeSwitch extends StatelessWidget {
           value: isDark,
           overlayColor: MaterialStateProperty.all(Colors.transparent),
           trackOutlineWidth: MaterialStateProperty.all(px1),
-          inactiveTrackColor: Color(0xfff2f2f2),
-          activeColor: Color(0xff2c2c2c),
-          trackOutlineColor: MaterialStateProperty.all(Color(0xffdcdfe6)),
+          inactiveTrackColor: const Color(0xfff2f2f2),
+          activeColor: const Color(0xff2c2c2c),
+          trackOutlineColor: MaterialStateProperty.all(const Color(0xffdcdfe6)),
           // thumbIcon: MaterialStateProperty.all(const Icon(
           //   Icons.light_mode,
           //   color: Color(0xff606266),
@@ -114,14 +111,14 @@ class AppThemeSwitch extends StatelessWidget {
 }
 
 
-class AppNavTabs extends StatefulWidget {
-  const AppNavTabs({super.key});
+class AppNavMenus extends StatefulWidget {
+  const AppNavMenus({super.key});
 
   @override
-  State<AppNavTabs> createState() => _AppNavTabsState();
+  State<AppNavMenus> createState() => _AppNavMenusState();
 }
 
-class _AppNavTabsState extends State<AppNavTabs>
+class _AppNavMenusState extends State<AppNavMenus>
     with RouterChangeListenerMixin {
   int _activeIndex = -1;
 
@@ -139,6 +136,10 @@ class _AppNavTabsState extends State<AppNavTabs>
         // setState(() {
         //   _activeIndex = value;
         // });
+        if(value==1){
+          context.go('/widgets/basic/layout');
+          return;
+        }
         if (value >= 0) {
           context.go(routers[value]);
         }
@@ -150,8 +151,8 @@ class _AppNavTabsState extends State<AppNavTabs>
 
   @override
   void onChangeRoute(String path) {
-    print("====onChangeRoute==${path}==========");
-    _activeIndex = routers.indexOf("/$path");
+    String first = Uri.parse(path).pathSegments.first;
+    _activeIndex = routers.indexOf("/$first");
     setState(() {});
   }
 }

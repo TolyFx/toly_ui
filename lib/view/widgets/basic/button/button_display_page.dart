@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/components/node_display.dart';
+import 'package:toly_ui/view/widgets/widget_display_map.dart';
+
+import 'display_nodes.dart';
 
 class ButtonDisplayPage extends StatelessWidget {
   const ButtonDisplayPage({super.key});
@@ -125,63 +129,17 @@ class ButtonDisplayPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> keys = displayNodes.keys.toList();
+    dynamic data = displayNodes.values.toList();
     return Scaffold(
-      body: Column(
-        children: [
-          const Text("hello"),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Wrap(
-              spacing: 12,
-              children: [
-                TolyButton(
-                  type: ButtonType.primary,
-                  onPressed: () {},
-                  child: Text("Primary"),
-                ),
-                TolyButton(
-                  type: ButtonType.default$,
-                  onPressed: () {},
-                  child: Text("Default"),
-                ),
-                ElevatedButton(onPressed: () {}, child: Text("Dash")),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text("Danger"),
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: Color(0xffff7875),
-                    foregroundColor: Colors.white,
-                    surfaceTintColor: Colors.transparent,
-                    splashFactory: NoSplash.splashFactory,
-                    elevation: 0,
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    enableFeedback: false,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4)),
-                  ),
-                ),
-                TolyButton(
-                  type: ButtonType.link,
-                  onPressed: () {},
-                  child: Text("Link"),
-                ),
-                // FilledButton.tonal(
-                //   onPressed: () {},
-                //   child: Text("Link"),
-                //   // style: OutlinedButton.styleFrom(
-                //   //     backgroundColor: Colors.transparent,
-                //   //     foregroundColor: Colors.black.withOpacity(0.65),
-                //   //     surfaceTintColor: Colors.transparent,
-                //   //     splashFactory: NoSplash.splashFactory,
-                //   //     elevation: 0,
-                //   //     enableFeedback: false,
-                //   //     shape: RoundedRectangleBorder(
-                //   //         borderRadius: BorderRadius.circular(4)))
-                // ),
-              ],
-            ),
-          ),
-        ],
+      body: ListView.builder(
+        itemBuilder: (_, index) {
+          return NodeDisplay(
+            display: widgetDisplayMap(keys[index]),
+            node: Node.fromMap(data[index]),
+          );
+        },
+        itemCount: displayNodes.length,
       ),
     );
   }
@@ -193,7 +151,7 @@ enum ButtonType {
   link,
 }
 
-enum ColorType{
+enum ColorType {
   backGround,
 }
 
@@ -203,13 +161,12 @@ class TolyButton extends StatelessWidget {
   final Set<(ColorType, Color)>? palette;
   final Widget child;
 
-  const TolyButton({
-    super.key,
-    required this.type,
-    required this.onPressed,
-    required this.child,
-    this.palette
-  });
+  const TolyButton(
+      {super.key,
+      required this.type,
+      required this.onPressed,
+      required this.child,
+      this.palette});
 
   ButtonStyle get outlineStyle {
     Color getColor(Set<MaterialState> states) {

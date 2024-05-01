@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
-// import 'package:iroute/app/res/fx_icon.dart';
 
 Map<String, dynamic> get formMenus => {
-  'path': '/form',
+  'path': '/widgets/form',
   // 'icon': FxIcon.icon_paint,
   'label': 'Form 表单组件',
   'children': [
@@ -18,10 +16,10 @@ Map<String, dynamic> get formMenus => {
       'path': '/DatePicker',
       'label': 'DatePicker 日期选择器',
     },
-    // {
-    //   'path': '/parser',
-    //   'label': '文字解析器',
-    //   'icon': Icons.text_fields,
-    // },
+    {
+      'path': '/input',
+      'label': 'Input 输入框',
+      // 'icon': Icons.text_fields,
+    },
   ]
 };

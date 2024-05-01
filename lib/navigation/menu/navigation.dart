@@ -1,6 +1,6 @@
 
 Map<String, dynamic> get navigationMenus => {
-  'path': '/Navigation',
+  'path': '/widgets/Navigation',
   // 'icon': FxIcon.icon_paint,
   'label': 'Navigation 导航',
   'children': [
