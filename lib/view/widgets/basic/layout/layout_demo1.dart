@@ -23,8 +23,8 @@ class LayoutDemo1 extends StatelessWidget {
         const SizedBox(height: 12),
         Row$(
           cells: [
-            Cell(span: (_) => 8, child: const Box(color: Color(0xffd3dce6))),
-            Cell(span: (_) => 8, child: const Box(color: Color(0xffe5e9f2))),
+            Cell(span: 8.rx, child: const Box(color: Color(0xffd3dce6))),
+            Cell(span: 8.rx, child: const Box(color: Color(0xffe5e9f2))),
             Cell(span: (_) => 8, child: const Box(color: Color(0xffd3dce6))),
           ],
         ),

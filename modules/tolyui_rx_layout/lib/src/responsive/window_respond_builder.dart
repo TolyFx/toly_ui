@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'rx.dart';
 
-typedef ReParserStrategy = Rx Function(double width);
+typedef RxParserStrategy = Rx Function(double width);
 
-typedef ReWidgetBuilder = Widget Function(BuildContext context, Rx type);
+typedef RxWidgetBuilder = Widget Function(BuildContext context, Rx type);
+
 
 class WindowRespondBuilder extends StatelessWidget {
-  final ReWidgetBuilder builder;
-  final ReParserStrategy? parserStrategy;
+  final RxWidgetBuilder builder;
+  final RxParserStrategy? parserStrategy;
 
   const WindowRespondBuilder({
     super.key,
@@ -16,18 +17,13 @@ class WindowRespondBuilder extends StatelessWidget {
     this.parserStrategy,
   });
 
-  static Rx _defaultParserStrategy(double width) {
-    if (width < 576) return Rx.xs;
-    if (width >= 576 && width < 768) return Rx.sm;
-    if (width >= 768 && width < 992) return Rx.md;
-    if (width >= 992 && width < 1200) return Rx.lg;
-    return Rx.xl;
-  }
+
 
   @override
   Widget build(BuildContext context) {
     Size windowSize = MediaQuery.sizeOf(context);
-    ReParserStrategy? strategy = parserStrategy ?? _defaultParserStrategy;
+    RxParserStrategy? themeRx = Theme.of(context).extension<ReParserStrategyTheme>()?.parserStrategy;
+    RxParserStrategy? strategy = parserStrategy ?? themeRx??defaultParserStrategy;
     return builder(context, strategy(windowSize.width));
   }
 }
@@ -36,11 +32,11 @@ class WindowRespondBuilder extends StatelessWidget {
 class ReParserStrategyTheme extends ThemeExtension<ReParserStrategyTheme> {
   const ReParserStrategyTheme({required this.parserStrategy});
 
-  final ReParserStrategy parserStrategy;
+  final RxParserStrategy parserStrategy;
 
   @override
   ReParserStrategyTheme copyWith({
-    ReParserStrategy? parserStrategy,
+    RxParserStrategy? parserStrategy,
   }) {
     return ReParserStrategyTheme(
       parserStrategy: parserStrategy ?? this.parserStrategy,
