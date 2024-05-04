@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
+import '../../utils/box.dart';
+
 class LayoutDemo6 extends StatelessWidget {
   const LayoutDemo6({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-        color: const Color(0xffd3dce6),
-        child: SizedBox(
-          width: 300,
-          height: 150,
-          child: Padding$(
-              child: Container(
-                  color: Colors.orange.withOpacity(0.6),
-                  alignment: Alignment.center,
-                  child: const Text("边距根据屏幕尺寸变化")),
-              padding: (re) => switch (re) {
-                    Rx.xs => const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                    Rx.sm => const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    Rx.md => const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-                    Rx.lg => const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-                    Rx.xl => const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
-                  }),
-        ));
+    const Color color1 = Color(0xffd3dce6);
+    const Color color2 = Color(0xffe5e9f2);
+    return Column(
+        children: RxAlign.values
+        .map((e) => Row$(
+        align: e,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6).rx,
+        cells: [
+          Cell(span: 6.rx, child: const Box(color: color1,height: 20,)),
+          Cell(span: 4.rx, child: const Box(color: color2, height: 42)),
+          Cell(span: 8.rx, child: const Box(color: color1, height: 52)),
+          Cell(span: 6.rx, child: const Box(color: color2)),
+        ]))
+    .toList());
   }
 }
+
+

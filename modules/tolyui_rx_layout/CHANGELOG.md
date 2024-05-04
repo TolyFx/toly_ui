@@ -7,5 +7,12 @@
 * Support Cell: [offset]、[push] 、[pull]
 * Support Row$: [verticalGutter]、[alignment]、[runAlignment]、[crossAxisAlignment]
 
+## 1.0.0
+
+* fix Row$ cell size error
+* change alignment to [RxJustify] And [RxAlign]
+* release 1.0.0, which can use in project
+
+
 
 

@@ -137,7 +137,7 @@ class HomeTopBoxPainter extends BoxPainter {
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    print(configuration);
+    // print(configuration);
     canvas.save();
     canvas.translate(0, offset.dy);
     Size? size = configuration.size;

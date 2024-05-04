@@ -8,28 +8,35 @@ class LayoutDemo2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Cell> cells = [
-      Cell(span: (_) => 6, child: const Box(color: Color(0xffd3dce6))),
-      Cell(span: (_) => 6, child: const Box(color: Color(0xffe5e9f2))),
-      Cell(span: (_) => 6, child: const Box(color: Color(0xffd3dce6))),
-      Cell(span: (_) => 6, child: const Box(color: Color(0xffe5e9f2))),
-    ];
     return Column(
       children: [
         Row$(
-          gutter: (_) => 20,
-          cells: cells,
+          gutter: 20.rx,
+          cells: [
+            Cell(span: 16.rx, child: const Box(color: Color(0xff99a9bf))),
+            Cell(span: 8.rx, child: const Box(color: Color(0xff99a9bf))),
+          ],
+        ),
+        const SizedBox(
+          height: 12,
+        ),
+        Row$(
+          gutter: 20.rx,
+          cells: [
+            Cell(span: 8.rx, child: const Box(color: Color(0xffd3dce6))),
+            Cell(span: 8.rx, child: const Box(color: Color(0xffe5e9f2))),
+            Cell(span: 4.rx, child: const Box(color: Color(0xffe5e9f2))),
+            Cell(span: 4.rx, child: const Box(color: Color(0xffe5e9f2))),
+          ],
         ),
         const SizedBox(height: 12),
         Row$(
-          gutter: (re) => switch (re) {
-            Rx.xs => 10.0,
-            Rx.sm => 20.0,
-            Rx.md => 30.0,
-            Rx.lg => 40.0,
-            Rx.xl => 50.0,
-          },
-          cells: cells,
+          gutter: 20.rx,
+          cells: [
+            Cell(span: 4.rx, child: const Box(color: Color(0xffd3dce6))),
+            Cell(span: 16.rx, child: const Box(color: Color(0xffe5e9f2))),
+            Cell(span: 4.rx, child: const Box(color: Color(0xffd3dce6))),
+          ],
         ),
       ],
     );

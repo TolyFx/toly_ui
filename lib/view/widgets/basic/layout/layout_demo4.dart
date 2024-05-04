@@ -8,46 +8,21 @@ class LayoutDemo4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const Color color1 = Color(0xffd3dce6);
+    const Color color2 = Color(0xffe5e9f2);
     return Row$(
-      gutter: (_) => 20,
-      cells: [
-        Cell(
-            span: (re) => switch (re) {
-                  Rx.xs => 8,
-                  Rx.sm => 6,
-                  Rx.md => 4,
-                  Rx.lg => 3,
-                  Rx.xl => 1,
-                },
-            child: const Box(color: Color(0xffd3dce6))),
-        Cell(
-            span: (re) => switch (re) {
-                  Rx.xs => 4,
-                  Rx.sm => 6,
-                  Rx.md => 8,
-                  Rx.lg => 9,
-                  Rx.xl => 11,
-                },
-            child: const Box(color: Color(0xffe5e9f2))),
-        Cell(
-            span: (re) => switch (re) {
-                  Rx.xs => 12,
-                  Rx.sm => 6,
-                  Rx.md => 8,
-                  Rx.lg => 9,
-                  Rx.xl => 11,
-                },
-            child: const Box(color: Color(0xffd3dce6))),
-        Cell(
-            span: (re) => switch (re) {
-                  Rx.xs => 0,
-                  Rx.sm => 6,
-                  Rx.md => 4,
-                  Rx.lg => 3,
-                  Rx.xl => 1,
-                },
-            child: const Box(color: Color(0xffd3dce6))),
-      ],
-    );
+        gutter: 16.0.rx,
+        verticalGutter: 12.0.rx,
+        padding: const EdgeInsets.symmetric(horizontal: 40).rx,
+        cells: [
+          Cell(span: 6.rx, child: const Box(color: color1, text: 'Toly')),
+          Cell(span: 5.rx, child: const Box(color: color2, text: 'UI')),
+          Cell(span: 7.rx, child: const Box(color: color1, text: 'Responsive')),
+          Cell(span: 6.rx, child: const Box(color: color2, text: 'Layout')),
+          Cell(span: 11.rx, child: const Box(color: color2, text: '11')),
+          Cell(span: 4.rx, child: const Box(color: color2, text: '4')),
+          Cell(span: 3.rx, child: const Box(color: color2, text: '3')),
+          Cell(span: 6.rx, child: const Box(color: color2, text: '6')),
+        ]);
   }
 }

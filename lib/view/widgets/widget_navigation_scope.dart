@@ -12,42 +12,50 @@ class WidgetNavigationScope extends StatelessWidget {
 
   const WidgetNavigationScope({super.key, required this.child});
 
+  Widget? _buildDrawer(Rx r){
+    if(r.index > 1) return null;
+    return Material(
+      child: _buildMenuBar(),
+    );
+  }
+
+  PreferredSizeWidget? _buildAppBar(Rx r){
+    if(r.index > 1) return null;
+    return AppBar(
+      toolbarHeight: 56,
+      leading: Builder(
+        builder: (BuildContext context) {
+          return IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildMenuBar(){
+    return  SizedBox(
+      width: 240,
+      child: MenuRouterScope(
+        repository: WidgetMenuRepositoryImpl(),
+        child: const AppNavMenu(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WindowRespondBuilder(
-      builder: (_,re)=>Scaffold(
-        drawer: re.index>1?null: Material(
-          child: SizedBox(
-            width: 240,
-            child: MenuRouterScope(
-              repository: WidgetMenuRepositoryImpl(),
-              child: AppNavMenu(),
-            ),
-          ),
-        ),
-        appBar: re.index>1?null:      AppBar(
-          toolbarHeight: 56,
-          leading: Builder(
-            builder: (BuildContext context) { return IconButton(
-              icon: Icon(Icons.menu), onPressed: () {
-                Scaffold.of(context).openDrawer();
-            },
-            ); },
-
-          ),
-        ),
+      builder: (_, r) => Scaffold(
+        drawer: _buildDrawer(r),
+        appBar: _buildAppBar(r),
         body: Row(
           children: [
-            if(re.index>1)
-            SizedBox(
-              width: 240,
-              child: MenuRouterScope(
-                repository: WidgetMenuRepositoryImpl(),
-                child: AppNavMenu(),
-              ),
-            ),
-
-            VerticalDivider(),
+            if (r.index > 1) _buildMenuBar(),
+            if (r.index > 1) const VerticalDivider(),
             Expanded(child: child),
           ],
         ),
@@ -68,7 +76,7 @@ class _AppNavMenuState extends State<AppNavMenu> {
   Widget build(BuildContext context) {
     return MenuChangeListener(
       onRouterChanged: (BuildContext ctx, String? path) {
-        if(path!=null){
+        if (path != null) {
           context.go(path);
         }
       },

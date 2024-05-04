@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
+import '../../utils/box.dart';
+
 class LayoutDemo5 extends StatelessWidget {
   const LayoutDemo5({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-        color: const Color(0xffd3dce6),
-        child: SizedBox$(
-            child: const Center(child: Text("宽高根据屏幕尺寸变化的盒子")),
-            width: (re) => switch (re) {
-                  Rx.xs => 200,
-                  Rx.sm => 200,
-                  Rx.md => 300,
-                  Rx.lg => 400,
-                  Rx.xl => 500,
-                },
-            height: (re) => switch (re) { _ => 40.0 * (re.index + 1) }));
+    const Color color1 = Color(0xffd3dce6);
+    const Color color2 = Color(0xffe5e9f2);
+    return Column(
+      children: RxJustify.values
+          .map((e) =>
+          Row$(
+              justify: e,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4).rx,
+              cells: [
+                Cell(span: 4.rx, child: const Box(color: color1)),
+                Cell(span: 2.rx, child: const Box(color: color2)),
+                Cell(span: 6.rx, child: const Box(color: color1)),
+                Cell(span: 6.rx, child: const Box(color: color2)),
+              ]))
+          .toList(),
+    );
   }
 }

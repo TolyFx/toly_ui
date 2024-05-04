@@ -10,14 +10,14 @@ class LayoutDemo1 extends StatelessWidget {
       children: [
         Row$(
           cells: [
-            Cell(span: (_) => 24, child: const Box(color: Color(0xff99a9bf)))
+            Cell(span: 24.rx, child: const Box(color: Color(0xff99a9bf)))
           ],
         ),
         const SizedBox(height: 12),
         Row$(
           cells: [
-            Cell(span: (_) => 12, child: const Box(color: Color(0xffd3dce6))),
-            Cell(span: (_) => 12, child: const Box(color: Color(0xffe5e9f2))),
+            Cell(span: 12.rx, child: const Box(color: Color(0xffd3dce6))),
+            Cell(span: 12.rx, child: const Box(color: Color(0xffe5e9f2))),
           ],
         ),
         const SizedBox(height: 12),
@@ -25,16 +25,16 @@ class LayoutDemo1 extends StatelessWidget {
           cells: [
             Cell(span: 8.rx, child: const Box(color: Color(0xffd3dce6))),
             Cell(span: 8.rx, child: const Box(color: Color(0xffe5e9f2))),
-            Cell(span: (_) => 8, child: const Box(color: Color(0xffd3dce6))),
+            Cell(span: 8.rx, child: const Box(color: Color(0xffd3dce6))),
           ],
         ),
         const SizedBox(height: 12),
         Row$(
           cells: [
-            Cell(span: (_) => 6, child: const Box(color: Color(0xffd3dce6))),
-            Cell(span: (_) => 6, child: const Box(color: Color(0xffe5e9f2))),
-            Cell(span: (_) => 6, child: const Box(color: Color(0xffd3dce6))),
-            Cell(span: (_) => 6, child: const Box(color: Color(0xffe5e9f2))),
+            Cell(span: 6.rx, child: const Box(color: Color(0xffd3dce6))),
+            Cell(span: 6.rx, child: const Box(color: Color(0xffe5e9f2))),
+            Cell(span: 6.rx, child: const Box(color: Color(0xffd3dce6))),
+            Cell(span: 6.rx, child: const Box(color: Color(0xffe5e9f2))),
           ],
         ),
       ],

@@ -1,7 +1,7 @@
 # toly_ui
 the ui library for flutter create by toly
 
-展示网站: https://toly1994328.gitee.io/toly_ui_web
+展示网站: http://toly1994.com/ui
 
 | 1                             | 2                             | 3                             |
 |-------------------------------|-------------------------------|-------------------------------|
