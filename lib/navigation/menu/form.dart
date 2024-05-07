@@ -20,6 +20,10 @@ Map<String, dynamic> get formMenus => {
       'path': '/input',
       'label': 'Input 输入框',
       // 'icon': Icons.text_fields,
+    },  {
+      'path': '/transfer',
+      'label': 'Transfer 穿梭框',
+      // 'icon': Icons.text_fields,
     },
   ]
 };

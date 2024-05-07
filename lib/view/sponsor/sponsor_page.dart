@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tolyui/basic/basic.dart';
 
+import 'contact_me.dart';
 import 'sponsor_panel.dart';
 import 'sponsor_wall.dart';
 
@@ -8,23 +10,23 @@ class SponsorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return LayoutBuilder(
-      builder: (ctx, cts) =>  Row(
-        children: [
-          Expanded(
-            child: SponsorPanel(
-              showWall: cts.maxWidth<500,
-            ),
-          ),
-          VerticalDivider(),
-          if(cts.maxWidth>500)
-          SponsorWall()
-        ],
+    return Material(
+      color: Colors.white,
+      child: WindowRespondBuilder(
+        builder: (BuildContext context, Rx type) {
+          bool small = type.index > 1;
+          return Row(
+            children: [
+              if (small) const ContactMe(),
+              if (small) const VerticalDivider(),
+              Expanded(child: SponsorPanel(small: !small)),
+              if (small) const VerticalDivider(),
+              if (small) const SponsorWall()
+            ],
+          );
+        },
       ),
     );
   }
 }
-//          Text('TolyUI 为开源的免费项目:\n'
-//               'https://github.com/TolyFx/toly_ui\n'
-//               '。'),
+

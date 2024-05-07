@@ -4,6 +4,7 @@ import 'package:toly_ui/view/widgets/widget_navigation_scope.dart';
 
 import '../../view/ecological/ecological_page.dart';
 import '../../view/widgets/basic/button/button_display_page.dart';
+import '../../view/widgets/feedback/tooltip/tooltip_display_page.dart';
 import '../../view/widgets/basic/icon/icon_display_page.dart';
 import '../../view/widgets/basic/layout/layout_display_page.dart';
 import '../../view/widgets/basic/link/link_display_page.dart';
@@ -115,6 +116,26 @@ RouteBase get widgetsRoute => ShellRoute(
                     path: 'text',
                     builder: (BuildContext context, GoRouterState state) {
                       return TextDisplayPage();
+                    },
+                  ),
+                ]
+            ),
+            GoRoute(
+                path: 'feedback',
+                builder: (BuildContext context, GoRouterState state) {
+                  return EcologicalPage();
+                },
+                routes: [
+                  GoRoute(
+                    path: 'popover',
+                    builder: (BuildContext context, GoRouterState state) {
+                      return InputDisplayPage();
+                    },
+                  ),
+                  GoRoute(
+                    path: 'tooltip',
+                    builder: (BuildContext context, GoRouterState state) {
+                      return TooltipDisplayPage();
                     },
                   ),
                 ]

@@ -27,6 +27,9 @@ Widget widgetDisplayMap(String key) {
     'InputDemo1' => const InputDemo1(),
     'InputDemo2' => const InputDemo2(),
     'InputDemo3' => const InputDemo3(),
+    'TooltipDemo1' => const TooltipDemo1(),
+    'TooltipDemo2' => const TooltipDemo2(),
+    'TooltipDemo3' => const TooltipDemo3(),
     _ => const SizedBox()
   };
 }

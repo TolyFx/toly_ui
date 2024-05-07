@@ -1,18 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:toly_ui/view/sponsor/contact_me.dart';
 import 'package:toly_ui/view/sponsor/sponsor_wall.dart';
 
 class SponsorPanel extends StatelessWidget {
-  final bool showWall;
-  const SponsorPanel({super.key,  this.showWall=true});
+  final bool small;
+  const SponsorPanel({super.key,  this.small=true});
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        endDrawer: !showWall?null:const Material(child: SponsorWall()),
+        endDrawer: small?const Material(child: SponsorWall()):null,
+          drawer: small?const Material(child: ContactMe()):null ,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -25,12 +27,19 @@ class SponsorPanel extends StatelessWidget {
                       children: [
                         const Text('赞助项目',style: TextStyle(fontSize: 32),),
                         const Spacer(),
-                        if(showWall)
+                        if(small)
                          Builder(
                            builder: (ctx) {
-                             return TextButton(onPressed: (){
-                               Scaffold.of(ctx).openEndDrawer();
-                             }, child: const Text('赞助墙',style: TextStyle(fontSize: 18)),);
+                             return Wrap(
+                               children: [
+                                 TextButton(onPressed: (){
+                                   Scaffold.of(ctx).openDrawer();
+                                 }, child: const Text('联系我',style: TextStyle(fontSize: 16)),),
+                                 TextButton(onPressed: (){
+                                   Scaffold.of(ctx).openEndDrawer();
+                                 }, child: const Text('赞助墙',style: TextStyle(fontSize: 16)),),
+                               ],
+                             );
                            }
                          )
                       ],
@@ -65,9 +74,12 @@ class SponsorPanel extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  padding: const EdgeInsets.symmetric(vertical: 12.0,horizontal: 12),
                   child: TabBarView(
                     children: [
+                      // SizedBox(),
+                      // SizedBox(),
+                      // SizedBox(),
                       Image.asset(
                         'assets/images/coffee_zfb.webp',
                       ),

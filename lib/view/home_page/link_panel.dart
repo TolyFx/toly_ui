@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../app/logic/actions/navigation.dart';
@@ -60,8 +61,8 @@ class LinkPanel extends StatelessWidget {
                       Text('资源链接',style:style,),
                       const SizedBox(height: 2,),
 
-                      TolyLink(href: kGithubUrl, text: '掘金社区', onTap: jumpUrl,lineType: LineType.always,),
-                      TolyLink(href: kGithubUrl, text: '哔哩哔哩', onTap: jumpUrl,lineType: LineType.always,),
+                      TolyLink(href: kJuejinUrl, text: '掘金社区', onTap: jumpUrl,lineType: LineType.always,),
+                      TolyLink(href: kBlibliUrl, text: '哔哩哔哩', onTap: jumpUrl,lineType: LineType.always,),
 
 
                     ],
@@ -73,8 +74,8 @@ class LinkPanel extends StatelessWidget {
                     children: [
                       Text('联系我',style:style,),
                       const SizedBox(height: 2,),
-                      TolyLink(href: kGithubUrl, text: '邮箱', onTap: jumpUrl,lineType: LineType.none),
-                      TolyLink(href: kGithubUrl, text: '微信', onTap: jumpUrl),
+                      TolyLink(href: '/sponsor', text: '邮箱', onTap: context.go),
+                      TolyLink(href: '/sponsor', text: '微信', onTap: context.go),
 
                     ],
                   ),

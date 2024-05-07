@@ -6,6 +6,7 @@ import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:toggle_rotate/toggle_rotate.dart';
 import 'package:toly_ui/app/theme/code_theme.dart';
 import 'package:toly_ui/app/utils/toast.dart';
+import 'package:tolyui_feedback/toly_tooltip/toly_tooltip.dart';
 
 import '../incubator/components/data/collapse.dart';
 
@@ -45,19 +46,26 @@ class CodeDisplay extends StatelessWidget {
                             await Clipboard.setData(ClipboardData(text: code));
                             Toast.success(context, '代码复制成功!');
                           },
-                          child: const Tooltip(
+                          child: const TolyTooltip(
                               message: '复制代码',
+                              gap: 20,
+                              padding: EdgeInsets.symmetric(horizontal: 12,vertical: 8),
                               child: Icon(Icons.copy_rounded, size: 20,color: Color(0xff828282),))),
                       const SizedBox(width: 16,),
                       MouseRegion(
                         cursor: SystemMouseCursors.click,
-                        child: ToggleRotate(
-                          child: const Icon(Icons.code, size: 22,color: Color(0xff828282)),
-                          onEnd: (bool isExpanded) {
-                            // 动画结束时间
-                            // print("---expanded---:$isExpanded-------");
-                          },
-                          onTap: action, //点击事件
+                        child: TolyTooltip(
+                          message: '查看代码',
+                          gap: 20,
+                          padding: EdgeInsets.symmetric(horizontal: 12,vertical: 8),
+                          child: ToggleRotate(
+                            child: const Icon(Icons.code, size: 22,color: Color(0xff828282)),
+                            onEnd: (bool isExpanded) {
+                              // 动画结束时间
+                              // print("---expanded---:$isExpanded-------");
+                            },
+                            onTap: action, //点击事件
+                          ),
                         ),
                       ),
                       // GestureDetector(onTap: action, child: Icon(Icons.code))

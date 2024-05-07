@@ -200,7 +200,7 @@ Map<String, dynamic> get displayNodes => {
   'LayoutDemo6': {
     'title': r'Row$：竖直对齐',
     'desc':
-    r'在竖直方向上，单元格有三种对齐方式，通过 align 参数配置。它具有六种元素，下图自上而下依次是 top、bottom、middle：',
+    r'在竖直方向上，单元格有三种对齐方式，通过 align 参数配置。下图自上而下依次是 top、bottom、middle：',
     'code': r"""class LayoutDemo6 extends StatelessWidget {
   const LayoutDemo6({super.key});
 
@@ -258,7 +258,7 @@ Map<String, dynamic> get displayNodes => {
   'LayoutDemo8': {
     'title': 'Cell: 列平移',
     'desc':
-    r'push 和 push 仅对对单元格进行平移，并不占据栅格空间。push 向右移动指定格数；pull 向左移动指定格数。',
+    r'pull 和 push 仅对对单元格进行平移，并不占据栅格空间。push 向右移动指定格数；pull 向左移动指定格数。',
     'code': r"""class LayoutDemo8 extends StatelessWidget {
   const LayoutDemo8({super.key});
 

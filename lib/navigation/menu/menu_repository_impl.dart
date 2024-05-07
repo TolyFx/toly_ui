@@ -3,6 +3,7 @@ import 'package:toly_menu/toly_menu.dart';
 import 'package:toly_menu_manager/toly_menu_manager.dart';
 
 import 'data.dart';
+import 'feedback.dart';
 import 'form.dart';
 import 'dashboard.dart';
 import 'basic.dart';
@@ -18,6 +19,7 @@ class WidgetMenuRepositoryImpl implements MenuRepository{
         formMenus,
         navigationMenus,
         dataMenus,
+        feedbackMenus,
       ]
     });
   }

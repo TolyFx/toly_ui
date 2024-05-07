@@ -12,7 +12,10 @@ void jumpUrl(String url) async {
   }
 }
 
-String kGithubUrl = 'https://github.com/TolyFx/toly_ui';
-String kFxGithubUrl = 'https://github.com/TolyFx/fx';
-String kBeiAnUrl = 'https://beian.miit.gov.cn';
-String kWanBeiAnUrl = 'http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=34010202600392';
+const String kGithubUrl = 'https://github.com/TolyFx/toly_ui';
+const String kJuejinUrl = 'https://juejin.cn/user/149189281194766';
+const String kBlibliUrl = 'https://space.bilibili.com/390457600';
+const String kRxLayoutUrl = '/widgets/basic/layout';
+const String kFxGithubUrl = 'https://github.com/TolyFx/fx';
+const String kBeiAnUrl = 'https://beian.miit.gov.cn';
+const String kWanBeiAnUrl = 'http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=34010202600392';

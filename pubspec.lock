@@ -386,13 +386,20 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  tolyui_feedback:
+    dependency: "direct main"
+    description:
+      path: "modules/tolyui_feedback"
+      relative: true
+    source: path
+    version: "0.0.1"
   tolyui_rx_layout:
     dependency: "direct main"
     description:
       path: "modules/tolyui_rx_layout"
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.2.0"
   typed_data:
     dependency: transitive
     description:
