@@ -191,7 +191,7 @@ class TolyTooltip extends StatefulWidget {
     this.triggerMode,
     this.enableFeedback,
     this.onTriggered,
-    this.placement = TooltipPlacement.bottom,
+    this.placement = Placement.bottom,
     this.child,
   })  : assert((message == null) != (richMessage == null),
             'Either `message` or `richMessage` must be specified'),
@@ -207,7 +207,7 @@ class TolyTooltip extends StatefulWidget {
   /// Only one of [message] and [richMessage] may be non-null.
   final String? message;
 
-  final TooltipPlacement placement;
+  final Placement placement;
 
   /// The rich text to display in the tooltip.
   ///
@@ -412,7 +412,6 @@ class TolyTooltip extends StatefulWidget {
 class TolyTooltipState extends State<TolyTooltip>
     with SingleTickerProviderStateMixin {
   static const double _defaultVerticalOffset = 24.0;
-  static const bool _defaultPreferBelow = true;
   static const EdgeInsetsGeometry _defaultMargin = EdgeInsets.zero;
   static const Duration _fadeInDuration = Duration(milliseconds: 150);
   static const Duration _fadeOutDuration = Duration(milliseconds: 75);
@@ -941,7 +940,7 @@ class _TooltipOverlay extends StatefulWidget {
   });
 
   final InlineSpan richMessage;
-  final TooltipPlacement placement;
+  final Placement placement;
   final double maxHeight;
   final double? maxWidth;
   final EdgeInsetsGeometry? padding;
@@ -965,24 +964,22 @@ class DecorationConfig {
   final Color backgroundColor;
   final Color? textColor;
   final bool isBubble;
+  final Radius radius;
+  final List<BoxShadow>? shadows;
 
-  // Color get color {
-  //   if (backgroundColor != null) return backgroundColor!;
-  //   return (brightness == Brightness.dark)
-  //       ? const Color(0xff303133)
-  //       : Colors.white;
-  // }
 
   const DecorationConfig({
     this.style = PaintingStyle.fill,
     this.backgroundColor= const Color(0xff303133),
     this.textColor,
+    this.shadows,
+    this.radius = const Radius.circular(4),
     this.isBubble = true,
   });
 }
 
 class _TooltipOverlayState extends State<_TooltipOverlay> {
-  late TooltipPlacement effectPlacement = widget.placement;
+  late Placement effectPlacement = widget.placement;
   double shiftX = 0;
 
   Decoration get effectDecoration {
@@ -990,6 +987,7 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
     if (config.isBubble) {
       return BubbleDecoration(
         shiftX: shiftX,
+        radius: config.radius,
         boxSize: widget.boxSize,
         placement: effectPlacement,
         color: config.backgroundColor,
@@ -998,7 +996,7 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
     }
     return BoxDecoration(
       color: config.backgroundColor,
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: BorderRadius.all(config.radius),
       border: config.style==PaintingStyle.stroke?Border.all(
         color: Color(0xffe4e7ed)
       ):null
@@ -1051,7 +1049,7 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
     return Positioned.fill(
       bottom: 0.0,
       child: CustomSingleChildLayout(
-        delegate: TolyTooltipPositionDelegate(
+        delegate: PopoverPositionDelegate(
           onPlacementShift: _onPlacementShift,
           target: widget.target,
           placement: widget.placement,

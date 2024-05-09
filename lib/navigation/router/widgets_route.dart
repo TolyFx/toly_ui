@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toly_ui/view/widgets/feedback/popover/popover_display_page.dart';
 import 'package:toly_ui/view/widgets/widget_navigation_scope.dart';
 
 import '../../view/ecological/ecological_page.dart';
@@ -129,7 +130,7 @@ RouteBase get widgetsRoute => ShellRoute(
                   GoRoute(
                     path: 'popover',
                     builder: (BuildContext context, GoRouterState state) {
-                      return InputDisplayPage();
+                      return PopoverDisplayPage();
                     },
                   ),
                   GoRoute(

@@ -30,6 +30,10 @@ Widget widgetDisplayMap(String key) {
     'TooltipDemo1' => const TooltipDemo1(),
     'TooltipDemo2' => const TooltipDemo2(),
     'TooltipDemo3' => const TooltipDemo3(),
+    'PopoverDemo1' => const PopoverDemo1(),
+    'PopoverDemo2' => const PopoverDemo2(),
+    'PopoverDemo3' => const PopoverDemo3(),
+    'PopoverDemo4' => const PopoverDemo4(),
     _ => const SizedBox()
   };
 }

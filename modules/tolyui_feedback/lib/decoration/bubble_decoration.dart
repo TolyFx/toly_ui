@@ -1,6 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:tolyui_feedback/toly_tooltip/tooltip_placement.dart';
 
@@ -8,15 +6,19 @@ class BubbleDecoration extends Decoration {
   final Color? color;
   final Size boxSize;
   final double shiftX;
-  final TooltipPlacement placement;
+  final Placement placement;
+  final List<BoxShadow>? shadows;
+  final Radius radius;
   final PaintingStyle style;
 
   const BubbleDecoration({
     this.color,
     required this.boxSize,
     required this.placement,
+    this.shadows,
     required this.shiftX,
     required this.style,
+    required this.radius,
   });
 
   @override
@@ -36,29 +38,41 @@ class BubbleBoxPainter extends BoxPainter {
     if (size == null) return;
     Paint paint = Paint()
       ..color = decoration.color ?? Colors.black;
-    Path path = _drawTop(
-        offset.translate(-decoration.shiftX, 0), size.width, size.height);
-    path = Path.combine(
-        PathOperation.union,
-        path,
-        Path()
-          ..addRRect(
-              RRect.fromRectAndRadius(offset & size, Radius.circular(4))));
-    canvas.drawPath(
-        path,
-        Paint()
-          ..style
-          ..color = decoration.color ?? Colors.black);
+    Path path = buildPath(offset.translate(-decoration.shiftX, 0), size.width, size.height);
+    path = Path.combine(PathOperation.union, path, Path()..addRRect(RRect.fromRectAndRadius(offset & size, decoration.radius)));
+    canvas.drawPath(path, Paint()..style..color = decoration.color ?? Colors.black);
     if(decoration.style==PaintingStyle.stroke){
       canvas.drawPath(
           path,
           paint..style = PaintingStyle.stroke..color=const Color(0xffe4e7ed));
     }
-
+    if(decoration.shadows!=null&& decoration.shadows!.isNotEmpty){
+      drawShadows(canvas,path,decoration.shadows!);
+    }
     // canvas.drawRect(offset&size, Paint());
   }
 
-  Path _drawTop(Offset offset, double width, double height) {
+  void drawShadows(Canvas canvas, Path path, List<BoxShadow> shadows) {
+    for (final BoxShadow shadow in shadows) {
+      final Paint shadowPainter = shadow.toPaint();
+      if (shadow.spreadRadius == 0) {
+        canvas.drawPath(path.shift(shadow.offset), shadowPainter);
+      } else {
+        Rect zone = path.getBounds();
+        double xScale = (zone.width + shadow.spreadRadius) / zone.width;
+        double yScale = (zone.height + shadow.spreadRadius) / zone.height;
+        Matrix4 m4 = Matrix4.identity();
+        m4.translate(zone.width / 2, zone.height / 2);
+        m4.scale(xScale, yScale);
+        m4.translate(-zone.width / 2, -zone.height / 2);
+        canvas.drawPath(path.shift(shadow.offset).transform(m4.storage), shadowPainter);
+      }
+    }
+    Paint whitePaint = Paint()..color = decoration.color?? Colors.black;
+    canvas.drawPath(path, whitePaint);
+  }
+
+  Path buildPath(Offset offset, double width, double height) {
     var angleRad = pi / 180 * 70;
     double spineHeight = 8;
     var spineMoveX = spineHeight * tan(angleRad / 2);
@@ -75,62 +89,62 @@ class BubbleBoxPainter extends BoxPainter {
         spineMoveX;
 
     Offset translation = switch (decoration.placement) {
-      TooltipPlacement.top => Offset(xb, 0),
-      TooltipPlacement.topStart => Offset(xbs, 0),
-      TooltipPlacement.topEnd => Offset(xbe, 0),
-      TooltipPlacement.bottom => Offset(xb, 0),
-      TooltipPlacement.bottomStart => Offset(xbs, 0),
-      TooltipPlacement.bottomEnd => Offset(xbe, 0),
-      TooltipPlacement.left => Offset(
+      Placement.top => Offset(xb, 0),
+      Placement.topStart => Offset(xbs, 0),
+      Placement.topEnd => Offset(xbe, 0),
+      Placement.bottom => Offset(xb, 0),
+      Placement.bottomStart => Offset(xbs, 0),
+      Placement.bottomEnd => Offset(xbe, 0),
+      Placement.left => Offset(
           0,
           (height - decoration.boxSize.height) / 2 +
               decoration.boxSize.height / 2 -
               spineMoveX),
-      TooltipPlacement.leftStart =>
+      Placement.leftStart =>
         Offset(0, decoration.boxSize.height / 2 - spineMoveX),
-      TooltipPlacement.leftEnd =>
+      Placement.leftEnd =>
         Offset(0, height - decoration.boxSize.height / 2 - spineMoveX),
-      TooltipPlacement.right => Offset(
+      Placement.right => Offset(
           0,
           (height - decoration.boxSize.height) / 2 +
               decoration.boxSize.height / 2 -
               spineMoveX),
-      TooltipPlacement.rightStart =>
+      Placement.rightStart =>
         Offset(0, decoration.boxSize.height / 2 - spineMoveX),
-      TooltipPlacement.rightEnd =>
+      Placement.rightEnd =>
         Offset(0, height - decoration.boxSize.height / 2 - spineMoveX),
     };
 
     var spineMoveY = spineHeight;
     if (spineHeight != 0) {
-      if (decoration.placement == TooltipPlacement.bottom ||
-          decoration.placement == TooltipPlacement.bottomStart ||
-          decoration.placement == TooltipPlacement.bottomEnd) {
+      if (decoration.placement == Placement.bottom ||
+          decoration.placement == Placement.bottomStart ||
+          decoration.placement == Placement.bottomEnd) {
         return Path()
           ..moveTo(offset.dx + translation.dx, offset.dy + translation.dy)
           ..relativeLineTo(spineMoveX, -spineMoveY)
           ..relativeLineTo(spineMoveX, spineMoveY);
       }
-      if (decoration.placement == TooltipPlacement.top ||
-          decoration.placement == TooltipPlacement.topStart ||
-          decoration.placement == TooltipPlacement.topEnd) {
+      if (decoration.placement == Placement.top ||
+          decoration.placement == Placement.topStart ||
+          decoration.placement == Placement.topEnd) {
         return Path()
           ..moveTo(
               offset.dx + translation.dx, offset.dy + translation.dy + height)
           ..relativeLineTo(spineMoveX, spineMoveY)
           ..relativeLineTo(spineMoveX, -spineMoveY);
       }
-      if (decoration.placement == TooltipPlacement.rightStart ||
-          decoration.placement == TooltipPlacement.right ||
-          decoration.placement == TooltipPlacement.rightEnd) {
+      if (decoration.placement == Placement.rightStart ||
+          decoration.placement == Placement.right ||
+          decoration.placement == Placement.rightEnd) {
         return Path()
           ..moveTo(offset.dx + translation.dx, offset.dy + translation.dy)
           ..relativeLineTo(-spineMoveY, spineMoveX)
           ..relativeLineTo(spineMoveY, spineMoveX);
       }
-      if (decoration.placement == TooltipPlacement.leftStart ||
-          decoration.placement == TooltipPlacement.left ||
-          decoration.placement == TooltipPlacement.leftEnd) {
+      if (decoration.placement == Placement.leftStart ||
+          decoration.placement == Placement.left ||
+          decoration.placement == Placement.leftEnd) {
         return Path()
           ..moveTo(
               offset.dx + translation.dx + width, offset.dy + translation.dy)

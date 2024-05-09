@@ -16,27 +16,27 @@ class TooltipDemo1 extends StatelessWidget {
           Row(
             children: [
               // Spacer(),
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.topStart)),
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.top)),
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.topEnd)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.topStart)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.top)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.topEnd)),
               // Spacer(),
             ],
           ),
           const SizedBox(height: 10,),
           Row(
             children: [
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.leftStart)),
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.left)),
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.leftEnd)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.leftStart)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.left)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.leftEnd)),
             ],
           ),
           const SizedBox(height: 10,),
 
           Row(
             children: [
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.rightStart)),
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.right)),
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.rightEnd)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.rightStart)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.right)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.rightEnd)),
             ],
           ),
           const SizedBox(height: 10,),
@@ -44,9 +44,9 @@ class TooltipDemo1 extends StatelessWidget {
 
           Row(
             children: [
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.bottomStart)),
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.bottom)),
-              Expanded(child: buildTolyTooltipDisplay(TooltipPlacement.bottomEnd)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.bottomStart)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.bottom)),
+              Expanded(child: buildTolyTooltipDisplay(Placement.bottomEnd)),
             ],
           ),
         ],
@@ -54,11 +54,12 @@ class TooltipDemo1 extends StatelessWidget {
     );
   }
 
-  Widget buildTolyTooltipDisplay(TooltipPlacement placement){
+  Widget buildTolyTooltipDisplay(Placement placement){
     Palette foreground = const Palette(normal: Color(0xff606266), hover: Color(0xff096dd9), pressed: Color(0xff096dd9));
     Palette border = const Palette(normal: Color(0xffd9d9d9), hover: Color(0x44409eff), pressed: Color(0xff096dd9));
     Palette bg = const Palette(normal: Color(0xff1890ff), hover: Color(0xffecf5ff), pressed: Color(0xffecf5ff));
     String info = placement.toString().split('.')[1];
+    info = info.substring(0,1).toUpperCase()+info.substring(1);
     return Center(
       child:
       TolyTooltip(
@@ -69,7 +70,7 @@ class TooltipDemo1 extends StatelessWidget {
         message: '${info} \nmessage tips.',
         child: ElevatedButton(
           onPressed: () {},
-          child: Text(info),
+          child: Text(_nameMap[placement]!),
           style: OutlineButtonPalette(
             foregroundPalette: foreground,
             borderPalette: border,
@@ -79,4 +80,19 @@ class TooltipDemo1 extends StatelessWidget {
       ),
     );
   }
+
+  static const Map<Placement,String> _nameMap = {
+    Placement.top: 'Top',
+    Placement.topStart: 'TStart',
+    Placement.topEnd: 'TEnd',
+    Placement.bottomEnd: 'BEnd',
+    Placement.bottom: 'Bottom',
+    Placement.bottomStart: 'BStart',
+    Placement.rightEnd: 'REnd',
+    Placement.right: 'Right',
+    Placement.rightStart: 'RStart',
+    Placement.leftEnd: 'LEnd',
+    Placement.left: 'Left',
+    Placement.leftStart: 'LStart',
+  };
 }

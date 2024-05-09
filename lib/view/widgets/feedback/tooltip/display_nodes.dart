@@ -2,7 +2,7 @@ Map<String,dynamic> get displayNodes => {
   'TooltipDemo1': {
     'title': 'Tooltip 排列方式',
     'desc': 'TolyUI 中基于 Flutter 的 Tooltip 组件进行了强化。'
-        '提供 9 种不同方向的展示方式，以及气泡框包裹效果。',
+        '提供 12 种不同方向的展示方式，以及气泡框包裹效果。',
     'code': r"""class TooltipDemo1 extends StatelessWidget {
   const TooltipDemo1({super.key});
 

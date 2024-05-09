@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toly_ui/app/logic/actions/navigation.dart';
 import 'package:tolyui/basic/basic.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
@@ -22,22 +23,20 @@ class TooltipDemo3 extends StatelessWidget {
   }
 
   Widget buildTolyTooltipDisplay1(){
+    String message = '21 世纪伟大的编程者、诗人、文学家、思想家。代表作有 《捷特诗集》、《幻将录》、《代码之海》、《Flutter 系列著作》等。';
     return TolyTooltip(
-      message: '21 世纪伟大的编程者、诗人、文学家、思想家。代表作有 《捷特诗集》、《幻将录》、《代码之海》、《Flutter 系列著作》等。',
-      placement: TooltipPlacement.top,
-      // textAlign: TextAlign.center,
-      // triggerMode: TooltipTriggerMode.tap,
-      textStyle: TextStyle(fontFamily: '宋体',fontSize: 12,fontWeight: FontWeight.bold),
-      decorationConfig: DecorationConfig(
+      message: message,
+      placement: Placement.top,
+      textStyle: const TextStyle(fontFamily: '宋体',fontSize: 12,fontWeight: FontWeight.bold),
+      decorationConfig: const DecorationConfig(
         isBubble: false,
         textColor: Colors.white,
-        style: PaintingStyle.stroke
       ),
       maxWidth: 250,
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       gap: 12,
-      child:TolyLink(
-        text: '张风捷特烈', href: '', onTap: (String value) {  },
+      child: const TolyLink(
+        text: '张风捷特烈', href: 'https://juejin.cn/user/149189281194766', onTap: jumpUrl,
       ),
     );
   }
@@ -45,7 +44,7 @@ class TooltipDemo3 extends StatelessWidget {
   Widget buildTolyTooltipDisplay2(){
     return TolyTooltip(
       message: '《应龙》\n一游小池两岁月，\n洗却凡世几闲尘。\n时逢雷霆风 会雨，\n应乘扶摇化入云。',
-      placement: TooltipPlacement.rightStart,
+      placement: Placement.rightStart,
       textAlign: TextAlign.center,
       // triggerMode: TooltipTriggerMode.tap,
       textStyle: TextStyle(fontFamily: '宋体',fontSize: 13,fontWeight: FontWeight.bold),
@@ -67,7 +66,7 @@ class TooltipDemo3 extends StatelessWidget {
     return TolyTooltip(
       message: '鲁迅（1881年9月25日—1936年10月19日），原名周樟寿，后改名周树人，字豫山，后改字豫才，浙江绍兴人。'
           '著名文学家、思想家、革命家、教育家、民主战士，新文化运动的重要参与者，中国现代文学的奠基人之一。 毛泽东曾评价：“鲁迅的方向，就是中华民族新文化的方向。',
-      placement: TooltipPlacement.top,
+      placement: Placement.top,
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       gap: 18,
       child: TolyLink(
@@ -82,7 +81,7 @@ class TooltipDemo3 extends StatelessWidget {
           '    一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。\n\n'
           '    小草偷偷地从土里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻悄悄的，草软绵绵的。\n\n'
           '    “吹面不寒杨柳风”，不错的，像母亲的手抚摸着你。风里带来些新翻的泥土的气息，混着青草味儿，还有各种花的香，都在微微润湿的空气里酝酿。鸟儿将窠巢安在繁花嫩叶当中，高兴起来了，呼朋引伴地卖弄清脆的喉咙，唱出宛转的曲子，与轻风流水应和着。牛背上牧童的短笛，这时候也成天在嘹亮地响。\n\n'
-          '    雨是最寻常的，一下就是三两天。可别恼。看，像牛毛，像花针，像细丝，密密地斜织着，人家屋顶上全笼着一层薄烟。树叶子却绿得发亮，小草也青得逼你的眼。傍晚时候，上灯了，一点点黄晕的光，烘托出一片安静而和平的夜。乡下去，小路上，石桥边，有撑起伞慢慢走着的人；还有地里工作的农夫，披着蓑，戴着笠的。他们的草屋，稀稀疏疏的，在雨里静默着。'
+          '    雨是最寻常的，一下就是三两天。可别恼。看，像牛毛，像花针，像细丝，密密地斜织着，人家屋顶上全笼着一层薄烟。树叶子却绿得发亮，小草也青得逼你的眼。傍晚时候，上灯了，一点点黄晕的光，烘托出一片安静而和平的夜。乡下去，小路上，石桥边，有撑起伞慢慢走着的人；还有地里工作的农夫，披着蓑，戴着笠的。他们的草屋，稀稀疏疏的，在雨里静默着。\n\n'
           '    天上风筝渐渐多了，地上孩子也多了。城里乡下，家家户户，老老小小，他们也赶趟儿似的，一个个都出来了。舒活舒活筋骨，抖擞抖擞精神，各做各的一份事去。“一年之计在于春”，刚起头儿，有的是工夫，有的是希望。'
       ,
       decorationConfig: DecorationConfig(
@@ -90,7 +89,7 @@ class TooltipDemo3 extends StatelessWidget {
           textColor: Colors.black,
           backgroundColor:Colors.white
       ),
-      placement: TooltipPlacement.top,
+      placement: Placement.top,
       maxWidth: 240,
       textStyle: TextStyle(fontFamily: '宋体',fontSize: 12),
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),

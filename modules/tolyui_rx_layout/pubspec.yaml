@@ -1,7 +1,7 @@
 name: tolyui_rx_layout
 description: "tolyui responsive layout."
-version: 0.2.0
-homepage: https://github.com/TolyFx/tolyui_rx_layout
+version: 1.0.0
+homepage: https://github.com/TolyFx/tolyui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui_rx_layout
 
 environment:

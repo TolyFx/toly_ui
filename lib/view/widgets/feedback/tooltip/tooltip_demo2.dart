@@ -33,7 +33,7 @@ class TooltipDemo2 extends StatelessWidget {
     ]);
     return TolyTooltip(
       richMessage: span,
-      placement: TooltipPlacement.top,
+      placement: Placement.top,
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       gap: 12,
       child: ElevatedButton(
@@ -81,7 +81,7 @@ class TooltipDemo2 extends StatelessWidget {
                   '，帮助开发者通过一套代码库高效构建多平台精美应用，支持移动、Web、桌面和嵌入式平台。 Flutter 开源、免费，拥有宽松的开源协议，适合商业项目。',
             ),
       ]),
-      placement: TooltipPlacement.top,
+      placement: Placement.top,
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       gap: 12,
       child: ElevatedButton(
@@ -161,7 +161,7 @@ class TooltipDemo2 extends StatelessWidget {
           ),
         ],
       ),
-      placement: TooltipPlacement.left,
+      placement: Placement.left,
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       gap: 18,
       child: Padding(

@@ -134,7 +134,7 @@ class CooperationPanel extends StatelessWidget {
                 text: '1981462002@qq.com ',
               )
             ]),
-            placement: TooltipPlacement.top,
+            placement: Placement.top,
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             gap: 12,
             textAlign: TextAlign.center,

@@ -3,7 +3,7 @@
 // 'left' | 'left-start' | 'left-end' |
 // 'right' | 'right-start' | 'right-end'
 
-enum TooltipPlacement {
+enum Placement {
   top,
   topStart,
   topEnd,
@@ -28,19 +28,19 @@ enum TooltipPlacement {
 
   bool get isRight => index >= 9 && index <= 11;
 
-  TooltipPlacement get shift {
+  Placement get shift {
     if (isBottom||isRight) {
-      return TooltipPlacement.values[index - 3];
+      return Placement.values[index - 3];
     }
     if (isTop||isLeft) {
-      return TooltipPlacement.values[index + 3];
+      return Placement.values[index + 3];
     }
     return this;
   }
 }
 
 class PlacementShift{
-  final TooltipPlacement placement;
+  final Placement placement;
   final double x;
 
   PlacementShift(this.placement, this.x);
