@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
-import 'palette.dart';
 
 class ButtonDemo4 extends StatelessWidget {
   const ButtonDemo4({super.key});

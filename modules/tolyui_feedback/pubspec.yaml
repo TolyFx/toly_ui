@@ -12,7 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  tolyui_message:
+    path: ../tolyui_message
 dev_dependencies:
   flutter_test:
     sdk: flutter

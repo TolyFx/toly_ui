@@ -33,7 +33,14 @@ Widget widgetDisplayMap(String key) {
     'PopoverDemo1' => const PopoverDemo1(),
     'PopoverDemo2' => const PopoverDemo2(),
     'PopoverDemo3' => const PopoverDemo3(),
-    'PopoverDemo4' => const PopoverDemo4(),
+    'MessageDemo1' => const MessageDemo1(),
+    'MessageDemo2' => const MessageDemo2(),
+    'MessageDemo3' => const MessageDemo3(),
+    'MessageDemo4' => const MessageDemo4(),
+    'MessageDemo5' => const MessageDemo5(),
+    'NotificationDemo1' => const NotificationDemo1(),
+    'NotificationDemo2' => const NotificationDemo2(),
+    'NotificationDemo3' => const NotificationDemo3(),
     _ => const SizedBox()
   };
 }

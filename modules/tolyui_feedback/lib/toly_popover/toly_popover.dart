@@ -158,6 +158,7 @@ class _TolyPopoverState extends State<TolyPopover>
       ancestor: overlayState.context.findRenderObject(),
     );
     final Widget overlayChild = _PopOverlay(
+
       overlay: widget.overlay,
       tapRegionGroup: _popController,
       offsetCalculator: widget.offsetCalculator,

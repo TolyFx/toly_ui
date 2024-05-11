@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
-import 'palette.dart';
 
 class ButtonDemo2 extends StatelessWidget {
   const ButtonDemo2({super.key});

@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import 'app/logic/app_state/app_logic.dart';
 import 'app/logic/app_state/app_state.dart';
@@ -10,11 +10,11 @@ import 'app/view/app_scope.dart';
 import 'navigation/router/app_router.dart';
 
 void main() {
-  runApp( AppScope(child: MyApp()));
+  runApp(AppScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+  MyApp({super.key});
 
   final GoRouter _router = GoRouter(
     initialLocation: '/home',
@@ -30,18 +30,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppState state = context.watch<AppLogic>().state;
-    return MaterialApp.router(
-      routerConfig: _router,
-      debugShowCheckedModeBanner: false,
-      title: 'TolyUI',
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: state.themeMode,
-      // home: const MyHomePage(title: 'TolyUI'),
+    ThemeData light = lightTheme;
+    ThemeData dark = darkTheme;
+    ThemeMode mode = state.themeMode;
+    return TolyMessage(
+      theme: light,
+      darkTheme: dark,
+      themeMode: mode,
+      child: MaterialApp.router(
+        routerConfig: _router,
+        debugShowCheckedModeBanner: false,
+        theme: light,
+        darkTheme: dark,
+        themeMode: mode,
+        title: 'TolyUI',
+      ),
     );
   }
 }
-
-
-
-

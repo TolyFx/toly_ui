@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toly_ui/view/widgets/basic/button/button_demo2.dart';
 import 'package:tolyui/tolyui.dart';
-
-import 'palette.dart';
-
 
 class ButtonDemo1 extends StatelessWidget {
   const ButtonDemo1({super.key});

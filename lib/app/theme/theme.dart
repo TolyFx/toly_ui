@@ -19,25 +19,19 @@ Rx _elementParserStrategy(double width) {
   return Rx.xl;
 }
 
+SystemUiOverlayStyle overlayStyle = const SystemUiOverlayStyle(
+  statusBarColor: Colors.transparent,
+  statusBarBrightness: Brightness.dark,
+  statusBarIconBrightness: Brightness.light,
+);
+
 ThemeData get darkTheme {
-  Color scaffoldBackgroundColor = const Color(0xff010201);
-
-  SystemUiOverlayStyle overlayStyle = const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarBrightness: Brightness.dark,
-    statusBarIconBrightness: Brightness.light,
-  );
-
   return ThemeData(
-    fontFamily: '黑体',
-    scaffoldBackgroundColor: scaffoldBackgroundColor,
     extensions: [
-      // LinkTheme(
-      //   style: const TextStyle(fontSize: 14, color: Color(0xff606266)),
-      //   hoverColor: const Color(0xff0061a4),
-      //   // lineType:LineType.always,
-      //   // hoverColor: Colors.redAccent,
-      // ),
+      TolyMessageStyleTheme.tolyuiDark(),
+      TolyMessageShowTheme.tolyui(
+          duration: const Duration(seconds: 5)
+      ),
       TolyMenuTheme(
           backgroundColor: const Color(0xff001529),
           expandBackgroundColor:const Color(0xff0C2135),
@@ -48,6 +42,8 @@ ThemeData get darkTheme {
 
       // ReParserStrategyTheme(parserStrategy: _elementParserStrategy),
     ],
+    fontFamily: '黑体',
+    scaffoldBackgroundColor: const Color(0xff010201),
     pageTransitionsTheme: const PageTransitionsTheme(builders: {
       TargetPlatform.android: SlidePageTransitionsBuilder(),
       TargetPlatform.iOS: SlidePageTransitionsBuilder(),
@@ -91,6 +87,28 @@ ThemeData get darkTheme {
 
 ThemeData get lightTheme {
   return ThemeData(
+    extensions: [
+      TolyMessageStyleTheme.tolyuiLight(),
+      TolyMessageShowTheme.tolyui(
+        duration: const Duration(seconds: 5)
+      ),
+      LinkTheme(
+        style: const TextStyle(fontSize: 14, color: Color(0xff606266)),
+        hoverColor: const Color(0xff0061a4),
+        // lineType:LineType.always,
+        // hoverColor: Colors.redAccent,
+      ),
+
+      TolyMenuTheme(
+          backgroundColor: Colors.white,
+          expandBackgroundColor: Colors.white,
+          selectedItemBackground: Color(0xffe6f7ff),
+          unselectedLabelTextStyle: TextStyle(color: Color(0xff2d3a53)),
+          selectedLabelTextStyle: const TextStyle(color: Colors.blue,fontWeight: FontWeight.bold)
+      ),
+      // ReParserStrategyTheme(parserStrategy: _elementParserStrategy),
+    ],
+
     dividerColor: Colors.transparent,
     // useMaterial3: false,
     fontFamily: '黑体',
@@ -99,23 +117,6 @@ ThemeData get lightTheme {
           splashFactory: NoSplash.splashFactory,
       overlayColor: MaterialStatePropertyAll(Colors.transparent),
     )),
-    extensions: [
-      LinkTheme(
-        style: const TextStyle(fontSize: 14, color: Color(0xff606266)),
-        hoverColor: const Color(0xff0061a4),
-        // lineType:LineType.always,
-        // hoverColor: Colors.redAccent,
-      ),
-      TolyMenuTheme(
-        backgroundColor: Colors.white,
-        expandBackgroundColor: Colors.white,
-          selectedItemBackground: Color(0xffe6f7ff),
-        unselectedLabelTextStyle: TextStyle(color: Color(0xff2d3a53)),
-        selectedLabelTextStyle: const TextStyle(color: Colors.blue,fontWeight: FontWeight.bold)
-      )
-
-      // ReParserStrategyTheme(parserStrategy: _elementParserStrategy),
-    ],
 
     bottomSheetTheme: BottomSheetThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

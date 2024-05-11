@@ -392,14 +392,21 @@ packages:
       path: "modules/tolyui_feedback"
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.3.0"
+  tolyui_message:
+    dependency: transitive
+    description:
+      path: "modules/tolyui_message"
+      relative: true
+    source: path
+    version: "0.1.0"
   tolyui_rx_layout:
     dependency: "direct main"
     description:
       path: "modules/tolyui_rx_layout"
       relative: true
     source: path
-    version: "0.2.0"
+    version: "1.0.0"
   typed_data:
     dependency: transitive
     description:

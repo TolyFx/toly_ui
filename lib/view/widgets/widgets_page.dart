@@ -25,3 +25,4 @@ class WidgetsPage extends StatelessWidget {
     );
   }
 }
+
