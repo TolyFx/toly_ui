@@ -137,16 +137,6 @@ class CooperationPanel extends StatelessWidget {
                   borderPalette: border,
                   backgroundPalette: bg,
                 ).style,
-                // FillButtonPalette(
-                //   borderRadius: BorderRadius.circular(20),
-                //   palette: const Palette(
-                //     normal: Color(0xff1890ff),
-                //     hover: Color(0xffecf5ff),
-                //     foregroundPalette: Color(0xff606266),
-                //     pressed: Color(0xff096dd9),
-                //   ),
-                // ).style
-
                 onPressed: () {
                   context.go('/sponsor');
                 },
