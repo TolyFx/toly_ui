@@ -12,6 +12,7 @@ class ZeroPageRoute<T> extends MaterialPageRoute<T> {
 
   ZeroPageRoute({
     required this.child,
+    super.settings
   }) : super(builder: (_) => child);
 
   @override
@@ -33,4 +34,35 @@ class ZeroPageRoute<T> extends MaterialPageRoute<T> {
 
   @override
   Duration get transitionDuration => Duration.zero;
+}
+
+class ZeroPage<T> extends Page<T> {
+  /// Creates a material page.
+  const ZeroPage({
+    required this.child,
+    this.maintainState = true,
+    this.fullscreenDialog = false,
+    this.allowSnapshotting = true,
+    super.key,
+    super.name,
+    super.arguments,
+    super.restorationId,
+  });
+
+  /// The content to be shown in the [Route] created by this page.
+  final Widget child;
+
+  /// {@macro flutter.widgets.ModalRoute.maintainState}
+  final bool maintainState;
+
+  /// {@macro flutter.widgets.PageRoute.fullscreenDialog}
+  final bool fullscreenDialog;
+
+  /// {@macro flutter.widgets.TransitionRoute.allowSnapshotting}
+  final bool allowSnapshotting;
+
+  @override
+  Route<T> createRoute(BuildContext context) {
+    return ZeroPageRoute(child: child,settings: this);
+  }
 }

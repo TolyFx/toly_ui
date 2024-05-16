@@ -5,3 +5,5 @@ export 'src/parser/parser.dart';
 export 'src/model/menu_state.dart';
 export 'src/model/menu_data.dart';
 export 'src/view/menu_theme.dart';
+
+export 'src/view/view.dart';

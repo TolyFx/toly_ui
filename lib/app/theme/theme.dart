@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:toly_menu/toly_menu.dart';
-import 'package:tolyui/tolyui.dart';
+import 'package:tolyui/tolyui.dart' hide TolyMenuTheme;
 
 import '../../navigation/router/transition/fade_page_transitions_builder.dart';
 import '../../navigation/router/transition/slide_transition/slide_page_transition_builder.dart';
@@ -30,7 +30,7 @@ ThemeData get darkTheme {
     extensions: [
       TolyMessageStyleTheme.tolyuiDark(),
       TolyMessageShowTheme.tolyui(
-          duration: const Duration(seconds: 5)
+          duration: const Duration(seconds: 3)
       ),
       TolyMenuTheme(
           backgroundColor: const Color(0xff001529),
@@ -90,7 +90,8 @@ ThemeData get lightTheme {
     extensions: [
       TolyMessageStyleTheme.tolyuiLight(),
       TolyMessageShowTheme.tolyui(
-        duration: const Duration(seconds: 5)
+        duration: const Duration(seconds: 3),
+          offset:Offset(0, 36)
       ),
       LinkTheme(
         style: const TextStyle(fontSize: 14, color: Color(0xff606266)),

@@ -6,7 +6,7 @@ import 'package:tolyui_feedback/toly_popover/callback.dart';
 import 'package:tolyui_feedback/toly_popover/toly_popover.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
-import '../debugger/debugger.dart';
+import '../../../debugger/debugger.dart';
 
 class PopoverDemo3 extends StatelessWidget {
   const PopoverDemo3({super.key});

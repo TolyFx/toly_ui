@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
-import '../debugger/debugger.dart';
-import '../debugger/panel/debug_display_panel.dart';
+import '../../../debugger/debugger.dart';
+import '../../../debugger/panel/debug_display_panel.dart';
 
 class MessageDemo5 extends StatelessWidget {
   const MessageDemo5({super.key});

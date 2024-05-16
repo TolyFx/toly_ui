@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
+export 'display/debug_leading_avatar.dart';
+export 'display/debug_tail.dart';
 
 enum DebugButtonType {
   outlineDisplay,

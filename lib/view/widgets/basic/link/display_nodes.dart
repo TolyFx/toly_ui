@@ -1,4 +1,4 @@
-Map<String,dynamic> displayNodes = {
+Map<String,dynamic> get displayNodes => {
   'LinkDemo1': {
     'title': '基础用法',
     'desc': '基础的文字链接用法。',

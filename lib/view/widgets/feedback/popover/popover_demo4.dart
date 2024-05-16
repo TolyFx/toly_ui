@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:toly_ui/view/widgets/feedback/debugger/debugger.dart';
+import 'package:toly_ui/view/debugger/debugger.dart';
 import 'package:tolyui/basic/basic.dart';
 import 'package:tolyui_feedback/toly_popover/toly_popover.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';

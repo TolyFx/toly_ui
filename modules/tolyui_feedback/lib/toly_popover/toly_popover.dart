@@ -194,6 +194,21 @@ class _TolyPopoverState extends State<TolyPopover>
                 spreadRadius: 0,
               )
             ]);
+    if(!config.isBubble){
+      return BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.black.withOpacity(0.1)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            offset: const Offset(0, 2),
+            blurRadius: 6,
+            spreadRadius: 0,
+          )
+        ],
+        borderRadius: BorderRadius.circular(4),
+      );
+    }
     return BubbleDecoration(
       shiftX: decoration.shift.dx,
       radius: config.radius,

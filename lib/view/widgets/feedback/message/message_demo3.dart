@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
-import '../debugger/debugger.dart';
+import '../../../debugger/debugger.dart';
 
 class MessageDemo3 extends StatelessWidget {
   const MessageDemo3({super.key});

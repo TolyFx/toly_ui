@@ -16,11 +16,11 @@ class WidgetsPage extends StatelessWidget {
     // return Scaffold(body: const Center(child: Text('WidgetsPage')));
     return const Scaffold(
       body: Center(
-        child: DebugConstraintsDisplay(
-          color: Color(0xff00ffff),
-          showBorder: true,
-          showColor: true,
-        ),
+        // child: DebugConstraintsDisplay(
+        //   color: Color(0xff00ffff),
+        //   showBorder: true,
+        //   showColor: true,
+        // ),
       ),
     );
   }

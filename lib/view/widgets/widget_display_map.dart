@@ -41,6 +41,11 @@ Widget widgetDisplayMap(String key) {
     'NotificationDemo1' => const NotificationDemo1(),
     'NotificationDemo2' => const NotificationDemo2(),
     'NotificationDemo3' => const NotificationDemo3(),
+    'RailMenuBarDemo1' => const RailMenuBarDemo1(),
+    'RailMenuBarDemo2' => const RailMenuBarDemo2(),
+    'RailMenuBarDemo3' => const RailMenuBarDemo3(),
+    'DropMenuDemo1' => const DropMenuDemo1(),
+    'DropMenuDemo2' => const DropMenuDemo2(),
     _ => const SizedBox()
   };
 }

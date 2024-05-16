@@ -1,5 +1,5 @@
 Map<String, dynamic> get navigationMenus => {
-      'path': '/widgets/Navigation',
+      'path': '/widgets/navigation',
       // 'icon': FxIcon.icon_paint,
       'label': 'Navigation 导航',
       'children': [
@@ -15,13 +15,18 @@ Map<String, dynamic> get navigationMenus => {
           // 'icon': Icons.text_fields,
         },
         {
-          'path': '/DropdownMenu',
-          'label': 'DropdownMenu 下拉菜单',
+          'path': '/drop_menu',
+          'label': 'DropMenu 下拉菜单',
           // 'icon': Icons.text_fields,
         },
         {
-          'path': '/Menu',
-          'label': 'Menu 菜单',
+          'path': '/rail_menu_tree',
+          'label': 'RailMenuTree 树形菜单',
+          // 'icon': Icons.text_fields,
+        },
+        {
+          'path': '/rail_menu_bar',
+          'label': 'RailMenuBar 侧栏菜单',
           // 'icon': Icons.text_fields,
         },
         {

@@ -1,4 +1,9 @@
 
+#### App 全局消息通知(Message Notification)
+
+Dependence by [tolyui_message](https://pub.dev/packages/tolyui_message)
+
+
 #### TolyPopover 组件
 
 如何使用(How to use):

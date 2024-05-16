@@ -46,16 +46,13 @@ dependencies:
     path: modules/toly_menu
   tolyui:
     path: modules/tolyui
-  tolyui_rx_layout:
-    path: modules/tolyui_rx_layout
+
   wrapper:
     path: modules/wrapper
 #  toly_menu_manager: ^0.0.1
   toly_menu_manager:
     path: modules/toly_menu_manager
 
-  tolyui_feedback:
-    path: modules/tolyui_feedback
   toggle_rotate: 1.0.1
   flutter_highlight: ^0.7.0
   go_router: ^13.2.3

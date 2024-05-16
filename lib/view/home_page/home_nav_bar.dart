@@ -133,9 +133,6 @@ class _AppNavMenusState extends State<AppNavMenus>
   Widget build(BuildContext context) {
     return TolyMenuBar(
       onTap: (int value) {
-        // setState(() {
-        //   _activeIndex = value;
-        // });
         if(value==1){
           context.go('/widgets/basic/layout');
           return;
@@ -198,7 +195,7 @@ mixin RouterChangeListenerMixin<T extends StatefulWidget> on State<T> {
 
   void _onChange() {
     RouteMatchBase match = _delegate.currentConfiguration.matches.last;
-    onChangeRoute(match.matchedLocation);
+    onChangeRoute("/${match.matchedLocation}");
   }
 
   void onChangeRoute(String path);
