@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../../debugger/debugger.dart';
+import '../../widgets.dart';
+import 'menu_display/action_menu_item.dart';
+import 'menu_display/menu_item_diaplsy.dart';
 
-class DropMenuDemo1 extends StatelessWidget{
+class DropMenuDemo1 extends StatelessWidget {
   const DropMenuDemo1({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -15,20 +17,21 @@ class DropMenuDemo1 extends StatelessWidget{
       spacing: 20,
       children: [
         TolyPopover(
+          // overlayDecorationBuilder: decorationBuilder,
           placement: Placement.bottom,
-          maxWidth: 200,
+          maxWidth:140,
           overlayBuilder: (_, ctrl) => MenuListPanel(
-            disableList: ['03'],
             menus: [
-              MenuMeta(router: '01', label: '1st menu item'),
-              MenuMeta(router: '02', label: '2nd menu item'),
-              MenuMeta(router: '03', label: '3rd menu item'),
-              MenuMeta(router: '04', label: '4ur menu item'),
+              ActionMenuDisplay(MenuMeta(router: '01', label: '1st menu item'),onSelect: (m)=>onSelect(m,ctrl)),
+              ActionMenuDisplay(MenuMeta(router: '02', label: '2nd menu item'),onSelect: (m)=>onSelect(m,ctrl)),
+              ActionMenuDisplay(MenuMeta(router: '03', label: '3rd menu item'),onSelect: null),
+              const DividerMenuDisplay(),
+              ActionMenuDisplay(MenuMeta(router: '04', label: '4ur menu item'),onSelect: (m)=>onSelect(m,ctrl)),
             ],
-            onSelect: (MenuMeta menu) {
-              ctrl.close();
-              $message.success(message: '点击了 [${menu.label}] 个菜单');
-            },
+            // onSelect: (MenuMeta menu) {
+            //   ctrl.close();
+            //   $message.success(message: '点击了 [${menu.label}] 个菜单');
+            // },
           ),
           builder: (_, ctrl, __) {
             return DebugDisplayButton(
@@ -41,60 +44,77 @@ class DropMenuDemo1 extends StatelessWidget{
           // overlayDecorationBuilder: decorationBuilder,
           placement: Placement.bottomStart,
           decorationConfig: DecorationConfig(isBubble: false),
-          maxWidth: 200,
-          offsetCalculator: (_) => Offset(0, -8),
+          maxWidth:140,
+          offsetCalculator: boxOffsetCalculator,
           overlayBuilder: (_, ctrl) => MenuListPanel(
-            disableList: ['03'],
             menus: [
-              MenuMeta(router: '01', label: '1st menu item'),
-              MenuMeta(router: '02', label: '2nd menu item'),
-              MenuMeta(router: '03', label: '3rd menu item'),
-              MenuMeta(router: '04', label: '4ur menu item'),
+              ActionMenuDisplay(MenuMeta(router: '01', label: '1st menu item'),onSelect: (m)=>onSelect(m,ctrl)),
+              ActionMenuDisplay(MenuMeta(router: '02', label: '2nd menu item'),onSelect: null),
+              ActionMenuDisplay(MenuMeta(router: '03', label: '3rd menu item'),onSelect: (m)=>onSelect(m,ctrl)),
+              const DividerMenuDisplay(),
+              ActionMenuDisplay(MenuMeta(router: '04', label: '4ur menu item'),onSelect: (m)=>onSelect(m,ctrl)),
             ],
-            onSelect: (MenuMeta menu) {
-              ctrl.close();
-              $message.success(message: '点击了 [${menu.label}] 个菜单');
-            },
+            // onSelect: (MenuMeta menu) {
+            //   ctrl.close();
+            //   $message.success(message: '点击了 [${menu.label}] 个菜单');
+            // },
           ),
           builder: (_, ctrl, __) {
             return DebugDisplayButton(
-                info: 'DropMenu', onPressed: ctrl.open);
+              info: 'DropMenu',
+              onPressed: ctrl.open,
+            );
           },
         ),
       ],
     );
   }
+
+void onSelect (MenuMeta menu,PopoverController controller,) {
+  controller.close();
+  $message.success(message: '点击了 [${menu.label}] 个菜单');
+  }
 }
 
+
 class MenuListPanel extends StatelessWidget {
-  final ValueChanged<MenuMeta> onSelect;
-  final List<MenuMeta> menus;
-  final List<String> disableList;
+  final List<MenuDisplay> menus;
 
   const MenuListPanel({
     super.key,
-    required this.onSelect,
     required this.menus,
-    this.disableList= const[],
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Wrap(
-        direction: Axis.vertical,
+      padding: EdgeInsets.symmetric(vertical: 8),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: menus.map(_mapItem).toList(),
       ),
     );
   }
 
-  Widget _mapItem(MenuMeta menu) {
-    bool disable = disableList.contains(menu.id);
-    return ActionMenuItem(
-      menu: menu,
-      onTap: disable?null:() => onSelect(menu),
-    );
+  Widget _mapItem(MenuDisplay menu) {
+    return switch(menu){
+      ActionMenuDisplay() => ActionMenuItem(display: menu,),
+      DividerMenuDisplay() => DividerMenuItem(display: menu,),
+    };
+    // bool disable = disableList.contains(menu.id);
+    // if (menu.id == '02') {
+    //   return SubMenuItem();
+    // }
+    // if (menu.id == '01') {
+    //   return ActionMenuItem(
+    //     menu: menu,
+    //     onTap: disable ? null : () => onSelect(menu),
+    //   );
+    // }
+    // return ActionMenuItem(
+    //   menu: menu,
+    //   onTap: disable ? null : () => onSelect(menu),
+    // );
     // ActionMenuItem(
     //     child: Text('1st menu item'), onTap: () => onSelect(0)),
     // ActionMenuItem(
@@ -105,75 +125,61 @@ class MenuListPanel extends StatelessWidget {
   }
 }
 
-class ActionMenuItem extends StatefulWidget {
-  final MenuMeta menu;
-  final VoidCallback? onTap;
 
-  const ActionMenuItem({super.key, required this.onTap, required this.menu});
+class SubMenuItem extends StatelessWidget {
+  const SubMenuItem({super.key});
 
-  @override
-  State<ActionMenuItem> createState() => _ActionMenuItemState();
-}
-
-class _ActionMenuItemState extends State<ActionMenuItem> with HoverStateMix {
   @override
   Widget build(BuildContext context) {
-    bool enable = widget.onTap != null;
-    MouseCursor cursor =
-    enable ? SystemMouseCursors.click : SystemMouseCursors.forbidden;
     Color backgroundColor = Colors.transparent;
     Color forgroundColor = Color(0xff1f1f1f);
-    if (enable) {
-      if (hovered) {
-        backgroundColor = Color(0xfff5f5f5);
-      }
-    }else{
-      forgroundColor = Color(0xffbfbfbf);
-    }
-
     Widget child = Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
         color: backgroundColor,
       ),
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: Text(widget.menu.label,style: TextStyle(color: forgroundColor),),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // crossAxisAlignment: WrapCrossAlignment.e,
+        children: [
+          Text(
+            'Sub66',
+            style: TextStyle(color: forgroundColor),
+          ),
+          Spacer(),
+          // const SizedBox(width: 20,),
+          const Icon(
+            Icons.navigate_next,
+            size: 18,
+          )
+        ],
+      ),
     );
 
-    if (enable) {
-      child = GestureDetector(
-        onTap: widget.onTap,
-        child: child,
-      );
-    }
-
-    return wrap(child, cursor: cursor);
+    return TolyPopover(
+      placement: Placement.rightStart,
+      maxWidth: 200,
+      decorationConfig: DecorationConfig(isBubble: false),
+      overlay: const DisplayPanel(),
+      builder: (_, ctrl, __) {
+        return GestureDetector(onTap: ctrl.open, child: child);
+      },
+    );
   }
 }
 
-mixin HoverStateMix<T extends StatefulWidget> on State<T> {
-  bool _hovered = false;
+class DebugLayoutPrinter extends StatelessWidget {
+  final Widget child;
 
-  bool get hovered => _hovered;
+  const DebugLayoutPrinter({super.key, required this.child});
 
-  Widget wrap(Widget child, {MouseCursor? cursor}) {
-    return MouseRegion(
-      cursor: cursor ?? SystemMouseCursors.click,
-      onEnter: _onEnter,
-      onExit: _onExit,
-      child: child,
-    );
-  }
-
-  void _onEnter(PointerEnterEvent event) {
-    setState(() {
-      _hovered = true;
-    });
-  }
-
-  void _onExit(PointerExitEvent event) {
-    setState(() {
-      _hovered = false;
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (_, cts) {
+      print(cts);
+      return child;
     });
   }
 }

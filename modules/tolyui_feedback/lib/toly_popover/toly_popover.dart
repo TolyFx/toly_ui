@@ -9,6 +9,17 @@ import '../toly_tooltip/toly_tooltip.dart';
 import '../toly_tooltip/tooltip_placement.dart';
 import 'callback.dart';
 
+Offset boxOffsetCalculator(Calculator calculator){
+  return switch(calculator.placement){
+    Placement.top => Offset(0, calculator.gap-6),
+    Placement.topStart => Offset(0, calculator.gap-6),
+    Placement.topEnd => Offset(0, calculator.gap-6),
+    Placement.bottom => Offset(0, -calculator.gap+6),
+    Placement.bottomStart => Offset(0, -calculator.gap+6),
+    Placement.bottomEnd => Offset(0, -calculator.gap+6),
+    _ => Offset(0, 0),
+  };
+}
 
 class TolyPopover extends StatefulWidget {
   final Widget? child;
@@ -308,6 +319,7 @@ class _PopOverlay extends StatefulWidget {
 class _PopOverlayState extends State<_PopOverlay> {
   late Placement effectPlacement = widget.placement;
   double shiftX = 0;
+  Size? _size;
 
   // Decoration get effectDecoration {
   //   DecorationConfig config = widget.decoration;
@@ -348,7 +360,11 @@ class _PopOverlayState extends State<_PopOverlay> {
                   boxSize: widget.boxSize,
                 )),
                 // padding: widget.padding,
-                child: widget.overlayBuilder
+                child: _size!=null?SizedBox(width: _size!.width,child: widget.overlayBuilder
+                    ?.call(context, widget.tapRegionGroup) ??
+                    widget.overlay,):
+
+                widget.overlayBuilder
                         ?.call(context, widget.tapRegionGroup) ??
                     widget.overlay,
               ),
@@ -363,6 +379,13 @@ class _PopOverlayState extends State<_PopOverlay> {
         delegate: PopoverPositionDelegate(
           offsetCalculator: widget.offsetCalculator,
           onPlacementShift: _onPlacementShift,
+          onSizeFind: (Size size){
+            if(_size!=null) return;
+            _size = size;
+            setState(() {
+
+            });
+          },
           target: widget.target,
           placement: widget.placement,
           gap: widget.verticalOffset,

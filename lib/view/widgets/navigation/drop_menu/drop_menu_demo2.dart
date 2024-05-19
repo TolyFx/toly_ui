@@ -7,6 +7,7 @@ import 'package:tolyui_feedback/toly_popover/toly_popover.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import 'drop_menu_demo1.dart';
+import 'menu_display/menu_item_diaplsy.dart';
 
 class DropMenuDemo2 extends StatelessWidget {
   const DropMenuDemo2({super.key});
@@ -63,20 +64,16 @@ class DropMenuDemo2 extends StatelessWidget {
         // overlayDecorationBuilder: decorationBuilder,
         placement: placement,
         decorationConfig: DecorationConfig(isBubble: false),
-        maxWidth: 200,
-        offsetCalculator: (_) => Offset(0, -8),
+        maxWidth: 140,
+        offsetCalculator: boxOffsetCalculator,
         overlayBuilder: (_, ctrl) => MenuListPanel(
-          disableList: ['03'],
           menus: [
-            MenuMeta(router: '01', label: '1st menu item'),
-            MenuMeta(router: '02', label: '2nd menu item'),
-            MenuMeta(router: '03', label: '3rd menu item'),
-            MenuMeta(router: '04', label: '4ur menu item'),
+            ActionMenuDisplay(MenuMeta(router: '01', label: '1st menu item'),onSelect: (m)=>onSelect(m,ctrl)),
+            ActionMenuDisplay(MenuMeta(router: '02', label: '2nd menu item'),onSelect: null),
+            ActionMenuDisplay(MenuMeta(router: '03', label: '3rd menu item'),onSelect: (m)=>onSelect(m,ctrl)),
+            const DividerMenuDisplay(),
+            ActionMenuDisplay(MenuMeta(router: '04', label: '4ur menu item'),onSelect: (m)=>onSelect(m,ctrl)),
           ],
-          onSelect: (MenuMeta menu) {
-            ctrl.close();
-            $message.success(message: '点击了 [${menu.label}] 个菜单');
-          },
         ),
         builder: (_, ctrl, __) {
           return DebugDisplayButton(
@@ -100,6 +97,11 @@ class DropMenuDemo2 extends StatelessWidget {
     Placement.leftStart: 'LStart',
   };
 
+
+  void onSelect (MenuMeta menu,PopoverController controller,) {
+    controller.close();
+    $message.success(message: '点击了 [${menu.label}] 个菜单');
+  }
 }
 
 class _DisplayPanel extends StatelessWidget {

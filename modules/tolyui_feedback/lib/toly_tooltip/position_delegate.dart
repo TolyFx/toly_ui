@@ -16,6 +16,7 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
     required this.target,
     required this.boxSize,
     this.offsetCalculator,
+    this.onSizeFind,
     required this.gap,
     required this.placement,
     required this.onPlacementShift,
@@ -28,11 +29,14 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
   final OffsetCalculator? offsetCalculator;
 
   final ValueChanged<PlacementShift> onPlacementShift;
+  final ValueChanged<Size>? onSizeFind;
   final Size boxSize;
 
   /// The amount of vertical distance between the target and the displayed
   /// tooltip.
   final double gap;
+  @override
+  Size getSize(BoxConstraints constraints) => constraints.biggest;
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) =>
@@ -97,6 +101,13 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
 
   @override
   Offset getPositionForChild(Size size, Size childSize) {
+    // onSizeFind?.call(childSize);
+    if(onSizeFind!=null){
+      scheduleMicrotask(() {
+        onSizeFind!(childSize);
+      });
+    }
+
     bool outBottom =
         target.dy > size.height - (childSize.height + boxSize.height / 2 + gap);
     bool outTop = target.dy < childSize.height + boxSize.height / 2;
@@ -146,7 +157,7 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
     if (offsetCalculator != null) {
       // effectPlacement,boxSize,childSize,gap
       result += offsetCalculator!(Calculator(
-          placement: placement,
+          placement: effectPlacement,
           boxSize: boxSize,
           overlaySize: childSize,
           gap: gap));
