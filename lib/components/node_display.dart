@@ -36,20 +36,20 @@ class NodeDisplay extends StatelessWidget {
       Rx.lg => const EdgeInsets.symmetric(horizontal: 48.0),
       Rx.xl => const EdgeInsets.symmetric(horizontal: 64.0),
     },
-    child: SelectionArea(
-      child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TitleShow(
+    child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SelectionArea(
+                child: TitleShow(
                   title: node.title,
                   desc: node.desc,
                 ),
-                CodeDisplay(
-                  display: display,
-                  code: node.code,
-                ),
-              ],
-      ),
+              ),
+              CodeDisplay(
+                display: display,
+                code: node.code,
+              ),
+            ],
     ));
   }
 }

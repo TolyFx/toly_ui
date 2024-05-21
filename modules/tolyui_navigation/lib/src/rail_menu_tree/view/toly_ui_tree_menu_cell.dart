@@ -115,7 +115,7 @@ class TolyUITreeMenuCell extends StatelessWidget {
             child: Container(
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(
-                  horizontal: 24.0 + (12 * menuNode.depth), vertical: 12),
+                  horizontal: 12.0 + (12 * menuNode.depth), vertical: 12),
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
@@ -160,31 +160,3 @@ class TolyUITreeMenuCell extends StatelessWidget {
   }
 }
 
-class LineIndicator extends StatelessWidget {
-  final double width;
-  final double height;
-  final double progress;
-  final Color? color;
-
-  const LineIndicator({
-    super.key,
-    this.width = 4,
-    required this.progress,
-    required this.color,
-    this.height = 20,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: width,
-      height: width + (height - 4) * progress,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(
-          width / 2,
-        ),
-      ),
-    );
-  }
-}

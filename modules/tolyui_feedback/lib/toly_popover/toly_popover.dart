@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -9,15 +10,33 @@ import '../toly_tooltip/toly_tooltip.dart';
 import '../toly_tooltip/tooltip_placement.dart';
 import 'callback.dart';
 
-Offset boxOffsetCalculator(Calculator calculator){
-  return switch(calculator.placement){
-    Placement.top => Offset(0, calculator.gap-6),
-    Placement.topStart => Offset(0, calculator.gap-6),
-    Placement.topEnd => Offset(0, calculator.gap-6),
-    Placement.bottom => Offset(0, -calculator.gap+6),
-    Placement.bottomStart => Offset(0, -calculator.gap+6),
-    Placement.bottomEnd => Offset(0, -calculator.gap+6),
+Offset boxOffsetCalculator(Calculator calculator) {
+  return switch (calculator.placement) {
+    Placement.top => Offset(0, calculator.gap - 6),
+    Placement.topStart => Offset(0, calculator.gap - 6),
+    Placement.topEnd => Offset(0, calculator.gap - 6),
+    Placement.bottom => Offset(0, -calculator.gap + 6),
+    Placement.bottomStart => Offset(0, -calculator.gap + 6),
+    Placement.bottomEnd => Offset(0, -calculator.gap + 6),
     _ => Offset(0, 0),
+  };
+}
+
+Offset menuOffsetCalculator(Calculator calculator, {double shift = 0}) {
+  return switch (calculator.placement) {
+    Placement.top => Offset(0, calculator.gap - shift),
+    Placement.topStart => Offset(0, calculator.gap - shift),
+    Placement.topEnd => Offset(0, calculator.gap - shift),
+    Placement.bottom => Offset(0, -calculator.gap + shift),
+    Placement.bottomStart => Offset(0, -calculator.gap + shift),
+    Placement.bottomEnd => Offset(0, -calculator.gap + shift),
+    Placement.leftStart => Offset(calculator.gap - shift, 0),
+    Placement.left => Offset(calculator.gap - shift, 0),
+    Placement.leftEnd => Offset(calculator.gap - shift, 0),
+    Placement.rightStart => Offset(-calculator.gap + shift, 0),
+    Placement.right => Offset(-calculator.gap + shift, 0),
+    Placement.rightEnd => Offset(-calculator.gap + shift, 0),
+    // _ => Offset(0, 0),
   };
 }
 
@@ -66,9 +85,11 @@ class TolyPopover extends StatefulWidget {
 }
 
 class _TolyPopoverState extends State<TolyPopover>
-    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   final OverlayPortalController _overlayController = OverlayPortalController(
       debugLabel: kReleaseMode ? null : 'TolyPopover controller');
+
+  Offset? _clickPosition;
 
   bool get _isOpen => _overlayController.isShowing;
   PopoverController? _internalPopController;
@@ -87,7 +108,6 @@ class _TolyPopoverState extends State<TolyPopover>
     )..addStatusListener(_handleStatusChanged);
   }
 
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -97,7 +117,7 @@ class _TolyPopoverState extends State<TolyPopover>
   }
 
   void _handleScroll() {
-    _close();
+    if (mounted) _close();
   }
 
   @override
@@ -117,11 +137,14 @@ class _TolyPopoverState extends State<TolyPopover>
     }
     _popController._detach(this);
     _internalPopController = null;
+    _backingController?.dispose();
+    _backingController = null;
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
   void _close({bool inDispose = false}) {
+    _clickPosition = null;
     _controller.reverse();
   }
 
@@ -164,14 +187,17 @@ class _TolyPopoverState extends State<TolyPopover>
     final OverlayState overlayState =
         Overlay.of(context, debugRequiredFor: widget);
     final RenderBox box = this.context.findRenderObject()! as RenderBox;
-    final Offset target = box.localToGlobal(
+    Offset target = box.localToGlobal(
       box.size.center(Offset.zero),
       ancestor: overlayState.context.findRenderObject(),
     );
+    // if(_clickPosition!=null){
+    //   target = _clickPosition!.translate(0, box.size.height);
+    // }
     final Widget overlayChild = _PopOverlay(
-
       overlay: widget.overlay,
       tapRegionGroup: _popController,
+      clickPosition: _clickPosition,
       offsetCalculator: widget.offsetCalculator,
       boxSize: box.size,
       placement: widget.placement,
@@ -205,7 +231,7 @@ class _TolyPopoverState extends State<TolyPopover>
                 spreadRadius: 0,
               )
             ]);
-    if(!config.isBubble){
+    if (!config.isBubble) {
       return BoxDecoration(
         color: Colors.white,
         border: Border.all(color: Colors.black.withOpacity(0.1)),
@@ -231,8 +257,9 @@ class _TolyPopoverState extends State<TolyPopover>
     );
   }
 
-  void _open() {
+  void _open({Offset? position}) {
     if (_isOpen) return;
+    _clickPosition = position;
     _controller.forward();
     _overlayController.show();
     widget.onOpen?.call();
@@ -261,9 +288,9 @@ class PopoverController {
     _state!._close();
   }
 
-  void open() {
+  void open({Offset? position}) {
     assert(_state != null);
-    _state!._open();
+    _state!._open(position: position);
   }
 
   void _attach(_TolyPopoverState state) {
@@ -286,6 +313,7 @@ class _PopOverlay extends StatefulWidget {
     required this.overlay,
     required this.tapRegionGroup,
     required this.offsetCalculator,
+    required this.clickPosition,
 
     // this.padding,
     required this.animation,
@@ -306,6 +334,7 @@ class _PopOverlay extends StatefulWidget {
   // final EdgeInsetsGeometry? padding;
   final Animation<double> animation;
   final Offset target;
+  final Offset? clickPosition;
   final PopoverController tapRegionGroup;
   final Size boxSize;
   final double verticalOffset;
@@ -314,78 +343,62 @@ class _PopOverlay extends StatefulWidget {
   State<_PopOverlay> createState() => _PopOverlayState();
 }
 
-
-
 class _PopOverlayState extends State<_PopOverlay> {
   late Placement effectPlacement = widget.placement;
   double shiftX = 0;
   Size? _size;
 
-  // Decoration get effectDecoration {
-  //   DecorationConfig config = widget.decoration;
-  //   if (config.isBubble) {
-  //     return BubbleDecoration(
-  //         shiftX: shiftX,
-  //         radius: config.radius,
-  //         boxSize: widget.boxSize,
-  //         placement: effectPlacement,
-  //         color: config.backgroundColor,
-  //         style: config.style);
-  //   }
-  //   return BoxDecoration(
-  //       color: config.backgroundColor,
-  //       borderRadius: BorderRadius.all(config.radius),
-  //       border: config.style == PaintingStyle.stroke
-  //           ? Border.all(color: Color(0xffe4e7ed))
-  //           : null);
-  // }
+  Widget? get child {
+    Widget? child =
+        widget.overlayBuilder?.call(context, widget.tapRegionGroup) ??
+            widget.overlay;
+
+    // if(_size!=null){
+    //   child = SizedBox(width: _size!.width,child:child);
+    // }
+    return child;
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget result = FadeTransition(
-      opacity: widget.animation,
-      child: TapRegion(
-        groupId: widget.tapRegionGroup,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-              maxHeight: widget.maxHeight, maxWidth: widget.maxWidth ?? 320),
-          child: DefaultTextStyle(
-            style: Theme.of(context).textTheme.bodyMedium!,
-            child: Semantics(
-              container: true,
-              child: Container(
-                decoration: widget.overlayDecorationBuilder(PopoverDecoration(
-                  placement: effectPlacement,
-                  shift: Offset(shiftX, 0),
-                  boxSize: widget.boxSize,
-                )),
-                // padding: widget.padding,
-                child: _size!=null?SizedBox(width: _size!.width,child: widget.overlayBuilder
-                    ?.call(context, widget.tapRegionGroup) ??
-                    widget.overlay,):
-
-                widget.overlayBuilder
-                        ?.call(context, widget.tapRegionGroup) ??
-                    widget.overlay,
+        opacity: widget.animation,
+        child: TapRegion(
+          groupId: widget.tapRegionGroup,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+                maxHeight: widget.maxHeight, maxWidth: widget.maxWidth ?? 320),
+            child: DefaultTextStyle(
+              style: Theme.of(context).textTheme.bodyMedium!,
+              child: Semantics(
+                container: true,
+                child: Container(
+                  decoration: widget.overlayDecorationBuilder(PopoverDecoration(
+                    placement: effectPlacement,
+                    shift: Offset(shiftX, 0),
+                    boxSize: widget.boxSize,
+                  )),
+                  // padding: widget.padding,
+                  child: child,
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
     return Positioned.fill(
       bottom: 0.0,
       child: CustomSingleChildLayout(
         delegate: PopoverPositionDelegate(
+          clickPosition: widget.clickPosition,
           offsetCalculator: widget.offsetCalculator,
           onPlacementShift: _onPlacementShift,
-          onSizeFind: (Size size){
-            if(_size!=null) return;
-            _size = size;
-            setState(() {
-
-            });
-          },
+          // onSizeFind: (Size size){
+          //   if(_size!=null) return;
+          //   _size = size;
+          //   setState(() {
+          //
+          //   });
+          // },
           target: widget.target,
           placement: widget.placement,
           gap: widget.verticalOffset,

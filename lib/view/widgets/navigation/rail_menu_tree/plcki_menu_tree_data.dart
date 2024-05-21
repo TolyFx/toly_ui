@@ -10,12 +10,10 @@ Map<String, dynamic> plckiMenuData = {
       'label': 'PLCKI 总览',
       'children': [
         {
-          // 'icon': Icons.home,
           'path': '/home',
           'label': '欢迎使用',
         },
         {
-          // 'icon': Icons.home,
           'path': '/language',
           'label': '语言支持',
           'children': [
@@ -53,7 +51,6 @@ Map<String, dynamic> plckiMenuData = {
     },
     {
       'path': '/text',
-      // 'icon': FxIcon.icon_paint,
       'icon': Icons.insights,
 
       'label': '语法基础',
@@ -120,7 +117,6 @@ Map<String, dynamic> plckiMenuData = {
     },
     {
       'path': '/calc',
-      // 'icon': FxIcon.icon_paint,
       'icon': Icons.calculate_outlined,
       'label': '语言能力',
       'children': [

@@ -8,15 +8,23 @@
 
 import 'package:flutter/material.dart';
 
+abstract class MenuMateExt{
+  const MenuMateExt();
+}
+
 class MenuMeta implements Identify<String>{
   final String router;
   final String label;
+  final bool enable;
   final IconData? icon;
+  final MenuMateExt? ext;
 
   const MenuMeta({
     required this.router,
     required this.label,
     this.icon,
+    this.ext,
+    this.enable=true,
   });
 
   @override

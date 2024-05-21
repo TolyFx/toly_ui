@@ -1,9 +1,9 @@
 Map<String,dynamic> get displayNodes => {
-  'RailMenuBarDemo1': {
-    'title': 'TolyUI 默认样式',
-    'desc': '左侧是支持拖拽拉伸，点击选中时条目背景色、字号、指示器动画变化。\n'
-        '中间是禁止拖拽拉伸的设置案例。\n'
-        '右间是自定义动画参数的配置案例。'
+  'RailMenuTreeDemo1': {
+    'title': 'TolyUI 默认菜单树样式',
+    'desc': '支持拖拽拉伸，点击选中时条目背景色、指示器动画变化，子菜单面板。\n'
+        '具有子节点的菜单项，有 icon 标识，点击时会折叠/展开子菜单列表，且具有动画效果。\n'
+        '下面案例中支持多个菜单项同时展开：'
     ,
     'code': """class LinkDemo1 extends StatelessWidget {
   const LinkDemo1({super.key});
@@ -28,9 +28,9 @@ Map<String,dynamic> get displayNodes => {
   }
 }"""
   },
-  'RailMenuBarDemo2': {
-    'title': '自定义菜单项样式',
-    'desc': '通过 cellBuilder 可以感知框架内部数据，自定义构建菜单项。如下是三个不同风格的导航菜单。',
+  'RailMenuTreeDemo2': {
+    'title': '只同时展开一个子面板',
+    'desc': '将折叠的选中事件触发时，singleExpand 设置为 true，可以在展开子菜单面板时，关闭其他已展开面板:',
     'code': """class BaseUseDemo extends StatelessWidget {
   const BaseUseDemo({super.key});
 
@@ -50,9 +50,33 @@ Map<String,dynamic> get displayNodes => {
   }
 }"""
   },
-  'RailMenuBarDemo3': {
-    'title': 'FlutterUnit 的导航菜单',
-    'desc': '关于 TolyRailMenuBar 结合导航 2.0 的实际使用方式，可参考其在 FlutterUnit 中的使用: \nhttps://github.com/toly1994328/FlutterUnit/blob/master/lib/navigation/views/desk',
+  'RailMenuTreeDemo3': {
+    'title': '首尾组件',
+    'desc': 'leading 和 tail 属性可以设置 TolyRailMenuTree 的首尾组件，树形菜单内容超出时，可在中间区域滚动展示',
+    'code': """class LinkDemo3 extends StatelessWidget {
+  const LinkDemo3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    String href = 'https://github.com/TolyFx/toly_ui';
+    return Wrap(
+      spacing: 10,
+      children: [
+        TolyLink(href: href, onTap: jump, text: 'None', lineType: LineType.none),
+        TolyLink(href: href, onTap: jump, text: 'Active', lineType: LineType.active,),
+        TolyLink(href: href, onTap: jump, text: 'Always', lineType: LineType.always,),
+      ],
+    );
+  }
+
+  void jump(String url){
+    //TODO 点击跳转操作
+  }
+}"""
+  },
+  'RailMenuTreeDemo4': {
+    'title': 'Meta 拓展和自定义构建菜单项',
+    'desc': '可以通过 MenuMeta 的拓展，以及自定义菜单项，来灵活构建菜单项，以此满足更多的使用场景。',
     'code': """class LinkDemo3 extends StatelessWidget {
   const LinkDemo3({super.key});
 

@@ -1050,6 +1050,7 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
       bottom: 0.0,
       child: CustomSingleChildLayout(
         delegate: PopoverPositionDelegate(
+          clickPosition: null,
           onPlacementShift: _onPlacementShift,
           target: widget.target,
           placement: widget.placement,

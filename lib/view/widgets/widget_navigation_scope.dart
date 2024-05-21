@@ -147,6 +147,7 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin{
   @override
   void onChangeRoute(String path) {
     _menuMeta = _menuMeta.selectPath(path, singleExpand: true);
+    print(path);
     setState(() {});
   }
 }

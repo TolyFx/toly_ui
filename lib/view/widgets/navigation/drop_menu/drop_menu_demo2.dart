@@ -1,136 +1,72 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:toly_ui/view/debugger/debugger.dart';
-import 'package:tolyui/basic/basic.dart';
+import 'package:toly_ui/view/widgets/navigation/drop_menu/menu_display/drop_menu.dart';
 import 'package:tolyui/tolyui.dart';
-import 'package:tolyui_feedback/toly_popover/toly_popover.dart';
-import 'package:tolyui_feedback/tolyui_feedback.dart';
 
-import 'drop_menu_demo1.dart';
-import 'menu_display/menu_item_diaplsy.dart';
+import '../../../debugger/debugger.dart';
+import '../../widgets.dart';
+import 'menu_display/menu_item_display.dart';
 
 class DropMenuDemo2 extends StatelessWidget {
   const DropMenuDemo2({super.key});
 
   @override
   Widget build(BuildContext context) {
-   return SizedBox(
-      width: 360,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Expanded(child: buildDisplay(Placement.topStart)),
-              Expanded(child: buildDisplay(Placement.top)),
-              Expanded(child: buildDisplay(Placement.topEnd)),
+    return Wrap(
+      spacing: 20,
+      children: [
+        TolyDropMenu(
+            onSelect: onSelect,
+            placement: Placement.bottomStart,
+            decorationConfig: DecorationConfig(isBubble: false),
+            offsetCalculator: boxOffsetCalculator,
+            menuItems: [
+              ActionMenu(MenuMeta(
+                  icon: Icons.add,
+                  router: '01', label: '1st menu item')),
+              ActionMenu(MenuMeta(
+                  icon: Icons.remove,
+                  router: '02', label: '2nd menu item')),
+              ActionMenu(MenuMeta(
+                  icon: Icons.close,
+
+                  router: '03', label: '3rd menu item')),
+              const DividerMenu(),
+              ActionMenu(MenuMeta(
+                  icon: Icons.diamond,
+
+                  router: '04', label: '4ur menu item')),
             ],
-          ),
-          const SizedBox(height: 10,),
-          Row(
-            children: [
-              Expanded(child: buildDisplay(Placement.leftStart)),
-              Expanded(child: buildDisplay(Placement.left)),
-              Expanded(child: buildDisplay(Placement.leftEnd)),
+            childBuilder: (_, ctrl, __) {
+              return DebugDisplayButton(
+                info: 'Divider Menu',
+                onPressed: ctrl.open,
+              );
+            }),
+        TolyDropMenu(
+            onSelect: onSelect,
+            menuItems: [
+              ActionMenu(MenuMeta(router: '01', label: '1st menu item')),
+              ActionMenu(MenuMeta(router: '02', label: '2nd menu item')),
+              ActionMenu(MenuMeta(router: '03', label: '3rd menu item'),
+                  enable: false),
+              const DividerMenu(),
+              ActionMenu(MenuMeta(router: '04', label: '4ur menu item')),
             ],
-          ),
-          const SizedBox(height: 10,),
-          Row(
-            children: [
-              Expanded(child: buildDisplay(Placement.rightStart)),
-              Expanded(child: buildDisplay(Placement.right)),
-              Expanded(child: buildDisplay(Placement.rightEnd)),
-            ],
-          ),
-          const SizedBox(height: 10,),
-          Row(
-            children: [
-              Expanded(child: buildDisplay(Placement.bottomStart)),
-              Expanded(child: buildDisplay(Placement.bottom)),
-              Expanded(child: buildDisplay(Placement.bottomEnd)),
-            ],
-          ),
-        ],
-      ),
+            // width: 140,
+            childBuilder: (_, ctrl, __) {
+              return DebugDisplayButton(
+                info: 'Disable Menu',
+                onPressed: ctrl.open,
+              );
+            }),
+      ],
     );
   }
 
-  Widget buildDisplay(Placement placement){
-    String info = placement.toString().split('.')[1];
-    String buttonText = _nameMap[placement]!;
-    return Center(
-      child:
-      TolyPopover(
-        // overlayDecorationBuilder: decorationBuilder,
-        placement: placement,
-        decorationConfig: DecorationConfig(isBubble: false),
-        maxWidth: 140,
-        offsetCalculator: boxOffsetCalculator,
-        overlayBuilder: (_, ctrl) => MenuListPanel(
-          menus: [
-            ActionMenuDisplay(MenuMeta(router: '01', label: '1st menu item'),onSelect: (m)=>onSelect(m,ctrl)),
-            ActionMenuDisplay(MenuMeta(router: '02', label: '2nd menu item'),onSelect: null),
-            ActionMenuDisplay(MenuMeta(router: '03', label: '3rd menu item'),onSelect: (m)=>onSelect(m,ctrl)),
-            const DividerMenuDisplay(),
-            ActionMenuDisplay(MenuMeta(router: '04', label: '4ur menu item'),onSelect: (m)=>onSelect(m,ctrl)),
-          ],
-        ),
-        builder: (_, ctrl, __) {
-          return DebugDisplayButton(
-              info: buttonText, onPressed: ctrl.open);
-        },
-      ),
-    );
-  }
-  static const Map<Placement,String> _nameMap = {
-    Placement.top: 'Top',
-    Placement.topStart: 'TStart',
-    Placement.topEnd: 'TEnd',
-    Placement.bottomEnd: 'BEnd',
-    Placement.bottom: 'Bottom',
-    Placement.bottomStart: 'BStart',
-    Placement.rightEnd: 'REnd',
-    Placement.right: 'Right',
-    Placement.rightStart: 'RStart',
-    Placement.leftEnd: 'LEnd',
-    Placement.left: 'Left',
-    Placement.leftStart: 'LStart',
-  };
-
-
-  void onSelect (MenuMeta menu,PopoverController controller,) {
-    controller.close();
+  void onSelect(
+    MenuMeta menu,
+  ) {
     $message.success(message: '点击了 [${menu.label}] 个菜单');
   }
 }
 
-class _DisplayPanel extends StatelessWidget {
-  final String title;
-  const _DisplayPanel({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return SelectionArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
-            child: Text(
-              title.substring(0,1).toUpperCase()+title.substring(1),
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          Divider(),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
-            child: Text(
-              'this is content, this is content, this is content',
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}

@@ -6,8 +6,6 @@
 // CreateTime:  2024-05-19
 // Contact Me:  1981462002@qq.com
 
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:tolyui/tolyui.dart';
 
@@ -15,25 +13,36 @@ sealed class MenuDisplay {
   const MenuDisplay();
 }
 
-class ActionMenuDisplay extends MenuDisplay {
+class ActionMenu extends MenuDisplay {
   final MenuMeta menu;
   final bool enable;
 
-  final ValueChanged<MenuMeta>? onSelect;
-
-  ActionMenuDisplay(
+  ActionMenu(
     this.menu, {
-    this.onSelect,
     this.enable = true,
   });
 
-  bool get disable => !enable || onSelect == null;
+  bool get disable => !enable;
 }
 
-class DividerMenuDisplay extends MenuDisplay {
+class SubMenu extends MenuDisplay {
+  final List<MenuDisplay> menus;
+  final MenuMeta menu;
+  final bool enable;
+
+  SubMenu(
+    this.menu, {
+    this.enable = true,
+    required this.menus,
+  });
+
+  bool get disable => !enable;
+}
+
+class DividerMenu extends MenuDisplay {
   final double height;
 
-  const DividerMenuDisplay({
+  const DividerMenu({
     this.height = 10,
   });
 }

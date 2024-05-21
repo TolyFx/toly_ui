@@ -11,6 +11,26 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
+class VersionTail extends StatelessWidget {
+  const VersionTail({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Divider(),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.0,vertical: 8),
+          child: Text('v0.0.1',style: TextStyle(color: Colors.grey),),
+        ),
+        Divider(),
+      ],
+    );
+  }
+}
+
+
 class DebugTail extends StatelessWidget {
   final MenuWidthType type;
   final bool dark;

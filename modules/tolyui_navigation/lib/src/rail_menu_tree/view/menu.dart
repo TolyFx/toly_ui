@@ -4,6 +4,8 @@ import 'toly_ui_tree_menu_cell.dart';
 
 class TolyRailMenuTree extends StatelessWidget {
   final double width;
+  final Widget? leading;
+  final Widget? tail;
   final double maxWidth;
   final MenuTreeMeta meta;
   final TextStyle? labelTextStyle;
@@ -20,6 +22,8 @@ class TolyRailMenuTree extends StatelessWidget {
     super.key,
     required this.meta,
     this.backgroundColor,
+    this.leading,
+    this.tail,
     this.expandBackgroundColor,
     this.activeItemBackground,
     this.enableWidthChange = false,
@@ -65,6 +69,20 @@ class TolyRailMenuTree extends StatelessWidget {
         ),
       ),
     );
+
+    if(leading!=null||tail!=null){
+      child = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if(leading!=null)
+            leading!,
+          Expanded(child: child),
+          if(tail!=null)
+            tail!,
+        ],
+      );
+    }
+
     if (enableWidthChange) {
       child = ChangeWidthArea(
         width: width,

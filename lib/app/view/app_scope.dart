@@ -11,10 +11,8 @@ class AppScope extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OKToast(
-      child: MultiBlocProvider(providers: [
-        BlocProvider<AppLogic>(create: (_) => AppLogic()),
-      ], child: child),
-    );
+    return MultiBlocProvider(providers: [
+      BlocProvider<AppLogic>(create: (_) => AppLogic()),
+    ], child: child);
   }
 }

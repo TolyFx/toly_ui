@@ -1,6 +1,6 @@
 name: tolyui_feedback
 description: "feedback ui package for toly ui."
-version: 0.3.1
+version: 0.3.2
 homepage: https://github.com/TolyFx/tolyui_rx_layout
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui_feedback
 
@@ -12,9 +12,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  tolyui_message: ^0.2.0
-#  tolyui_message:
-#    path: ../tolyui_message
+#  tolyui_message: ^0.2.0
+  tolyui_message:
+    path: ../tolyui_message
 dev_dependencies:
   flutter_test:
     sdk: flutter

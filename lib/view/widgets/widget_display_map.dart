@@ -33,6 +33,7 @@ Widget widgetDisplayMap(String key) {
     'PopoverDemo1' => const PopoverDemo1(),
     'PopoverDemo2' => const PopoverDemo2(),
     'PopoverDemo3' => const PopoverDemo3(),
+    'PopoverDemo4' => const PopoverDemo4(),
     'MessageDemo1' => const MessageDemo1(),
     'MessageDemo2' => const MessageDemo2(),
     'MessageDemo3' => const MessageDemo3(),
@@ -45,7 +46,14 @@ Widget widgetDisplayMap(String key) {
     'RailMenuBarDemo2' => const RailMenuBarDemo2(),
     'RailMenuBarDemo3' => const RailMenuBarDemo3(),
     'DropMenuDemo1' => const DropMenuDemo1(),
+    'DropMenuDemo3' => const DropMenuDemo3(),
     'DropMenuDemo2' => const DropMenuDemo2(),
+    'DropMenuDemo4' => const DropMenuDemo4(),
+    'DropMenuDemo5' => const DropMenuDemo5(),
+    'RailMenuTreeDemo1' => const RailMenuTreeDemo1(),
+    'RailMenuTreeDemo2' => const RailMenuTreeDemo2(),
+    'RailMenuTreeDemo3' => const RailMenuTreeDemo3(),
+    'RailMenuTreeDemo4' => const RailMenuTreeDemo4(),
     _ => const SizedBox()
   };
 }

@@ -32,6 +32,8 @@ dependencies:
     sdk: flutter
 
   url_launcher: ^6.2.5 # url 跳转
+  package_info_plus: ^8.0.0 #应用信息
+
   # 状态管理
   flutter_bloc: ^8.1.5
   equatable: ^2.0.5

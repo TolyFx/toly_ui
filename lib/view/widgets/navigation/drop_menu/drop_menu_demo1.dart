@@ -1,130 +1,61 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:toly_ui/view/widgets/navigation/drop_menu/menu_display/drop_menu.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../../debugger/debugger.dart';
 import '../../widgets.dart';
-import 'menu_display/action_menu_item.dart';
-import 'menu_display/menu_item_diaplsy.dart';
+import 'menu_display/menu_item_display.dart';
 
 class DropMenuDemo1 extends StatelessWidget {
   const DropMenuDemo1({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     return Wrap(
       spacing: 20,
       children: [
-        TolyPopover(
-          // overlayDecorationBuilder: decorationBuilder,
-          placement: Placement.bottom,
-          maxWidth:140,
-          overlayBuilder: (_, ctrl) => MenuListPanel(
-            menus: [
-              ActionMenuDisplay(MenuMeta(router: '01', label: '1st menu item'),onSelect: (m)=>onSelect(m,ctrl)),
-              ActionMenuDisplay(MenuMeta(router: '02', label: '2nd menu item'),onSelect: (m)=>onSelect(m,ctrl)),
-              ActionMenuDisplay(MenuMeta(router: '03', label: '3rd menu item'),onSelect: null),
-              const DividerMenuDisplay(),
-              ActionMenuDisplay(MenuMeta(router: '04', label: '4ur menu item'),onSelect: (m)=>onSelect(m,ctrl)),
+        TolyDropMenu(
+          hoverConfig: const HoverConfig(enterPop: true,exitClose: true),
+            onSelect: onSelect,
+            menuItems: [
+              ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
+              ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
+              ActionMenu(const MenuMeta(router: '03', label: '3rd menu item'),),
+              ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
             ],
-            // onSelect: (MenuMeta menu) {
-            //   ctrl.close();
-            //   $message.success(message: '点击了 [${menu.label}] 个菜单');
-            // },
-          ),
-          builder: (_, ctrl, __) {
-            return DebugDisplayButton(
-              info: 'DropMenu',
-              onPressed: ctrl.open,
-            );
-          },
-        ),
-        TolyPopover(
-          // overlayDecorationBuilder: decorationBuilder,
-          placement: Placement.bottomStart,
-          decorationConfig: DecorationConfig(isBubble: false),
-          maxWidth:140,
-          offsetCalculator: boxOffsetCalculator,
-          overlayBuilder: (_, ctrl) => MenuListPanel(
-            menus: [
-              ActionMenuDisplay(MenuMeta(router: '01', label: '1st menu item'),onSelect: (m)=>onSelect(m,ctrl)),
-              ActionMenuDisplay(MenuMeta(router: '02', label: '2nd menu item'),onSelect: null),
-              ActionMenuDisplay(MenuMeta(router: '03', label: '3rd menu item'),onSelect: (m)=>onSelect(m,ctrl)),
-              const DividerMenuDisplay(),
-              ActionMenuDisplay(MenuMeta(router: '04', label: '4ur menu item'),onSelect: (m)=>onSelect(m,ctrl)),
+            // width: 140,
+            child: DebugDisplayButton(
+              info: 'Hover Pop',
+              onPressed: (){},
+            ),),
+        TolyDropMenu(
+            placement: Placement.bottomStart,
+            offsetCalculator: boxOffsetCalculator,
+            decorationConfig: const DecorationConfig(isBubble: false),
+            onSelect: onSelect,
+            menuItems: [
+              ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
+              ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
+              ActionMenu(const MenuMeta(router: '03', label: '3rd menu item'),),
+              ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
             ],
-            // onSelect: (MenuMeta menu) {
-            //   ctrl.close();
-            //   $message.success(message: '点击了 [${menu.label}] 个菜单');
-            // },
-          ),
-          builder: (_, ctrl, __) {
-            return DebugDisplayButton(
-              info: 'DropMenu',
-              onPressed: ctrl.open,
-            );
-          },
-        ),
+            childBuilder: (_, ctrl, __) {
+              return DebugDisplayButton(
+                info: 'Click Pop',
+                onPressed: ctrl.open,
+              );
+            }),
       ],
     );
   }
 
-void onSelect (MenuMeta menu,PopoverController controller,) {
-  controller.close();
-  $message.success(message: '点击了 [${menu.label}] 个菜单');
+  void onSelect(
+    MenuMeta menu,
+  ) {
+    $message.success(message: '点击了 [${menu.label}] 个菜单');
   }
 }
-
-
-class MenuListPanel extends StatelessWidget {
-  final List<MenuDisplay> menus;
-
-  const MenuListPanel({
-    super.key,
-    required this.menus,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: menus.map(_mapItem).toList(),
-      ),
-    );
-  }
-
-  Widget _mapItem(MenuDisplay menu) {
-    return switch(menu){
-      ActionMenuDisplay() => ActionMenuItem(display: menu,),
-      DividerMenuDisplay() => DividerMenuItem(display: menu,),
-    };
-    // bool disable = disableList.contains(menu.id);
-    // if (menu.id == '02') {
-    //   return SubMenuItem();
-    // }
-    // if (menu.id == '01') {
-    //   return ActionMenuItem(
-    //     menu: menu,
-    //     onTap: disable ? null : () => onSelect(menu),
-    //   );
-    // }
-    // return ActionMenuItem(
-    //   menu: menu,
-    //   onTap: disable ? null : () => onSelect(menu),
-    // );
-    // ActionMenuItem(
-    //     child: Text('1st menu item'), onTap: () => onSelect(0)),
-    // ActionMenuItem(
-    // child: Text('2nd menu item'), onTap: () => onSelect(1)),
-    // ActionMenuItem(
-    // child: Text('3rd menu item'), onTap: () => onSelect(2)),
-    // ActionMenuItem(child: Text('4ur menu item'), onTap: null),
-  }
-}
-
 
 class SubMenuItem extends StatelessWidget {
   const SubMenuItem({super.key});
@@ -132,13 +63,13 @@ class SubMenuItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color backgroundColor = Colors.transparent;
-    Color forgroundColor = Color(0xff1f1f1f);
+    Color forgroundColor = const Color(0xff1f1f1f);
     Widget child = Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
         color: backgroundColor,
       ),
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,7 +79,7 @@ class SubMenuItem extends StatelessWidget {
             'Sub66',
             style: TextStyle(color: forgroundColor),
           ),
-          Spacer(),
+          const Spacer(),
           // const SizedBox(width: 20,),
           const Icon(
             Icons.navigate_next,
@@ -161,7 +92,7 @@ class SubMenuItem extends StatelessWidget {
     return TolyPopover(
       placement: Placement.rightStart,
       maxWidth: 200,
-      decorationConfig: DecorationConfig(isBubble: false),
+      decorationConfig: const DecorationConfig(isBubble: false),
       overlay: const DisplayPanel(),
       builder: (_, ctrl, __) {
         return GestureDetector(onTap: ctrl.open, child: child);

@@ -7,18 +7,21 @@
 // Contact Me:  1981462002@qq.com
 
 import 'package:flutter/material.dart';
+import 'package:tolyui/tolyui.dart';
 
 import 'hover_action_mixin.dart';
-import 'menu_item_diaplsy.dart';
+import 'menu_item_display.dart';
 
 class ActionMenuItem extends StatefulWidget {
-  final ActionMenuDisplay display;
+  final ActionMenu display;
   final Widget? tail;
+  final ValueChanged<MenuMeta>? onSelect;
 
   const ActionMenuItem({
     super.key,
     required this.display,
     this.tail,
+    this.onSelect,
   });
 
   @override
@@ -36,23 +39,30 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
     Color foregroundColor = Color(0xff1f1f1f);
     if (enable) {
       if (hovered) {
-        backgroundColor = Color(0xfff5f5f5);
+        backgroundColor = Color(0xffe6f7ff);
       }
     } else {
       foregroundColor = Color(0xffbfbfbf);
     }
 
     Widget child = Container(
-      alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      alignment: Alignment.centerLeft,
+      // margin: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
+        // borderRadius: BorderRadius.circular(6),
         color: backgroundColor,
       ),
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if(widget.display.menu.icon!=null)
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Icon(widget.display.menu.icon,size: 16,
+              color: foregroundColor,
+              ),
+            ),
           Text(
             widget.display.menu.label,
             style: TextStyle(color: foregroundColor),
@@ -65,7 +75,7 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
 
     if (enable) {
       child = GestureDetector(
-        onTap: ()=>widget.display.onSelect!(widget.display.menu),
+        onTap: ()=>widget.onSelect!(widget.display.menu),
         child: child,
       );
     }
@@ -76,7 +86,7 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
 
 
 class DividerMenuItem extends StatelessWidget{
-  final DividerMenuDisplay display;
+  final DividerMenu display;
 
   const DividerMenuItem({super.key, required this.display});
 
