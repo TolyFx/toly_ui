@@ -10,7 +10,7 @@ class RailMenuTreeDemo1 extends StatefulWidget {
 }
 
 class _RailMenuTreeDemo1State extends State<RailMenuTreeDemo1> {
-  late MenuTreeMeta _menuMeta;
+  late MenuTreeMeta _treeMeta;
 
   @override
   void initState() {
@@ -20,22 +20,19 @@ class _RailMenuTreeDemo1State extends State<RailMenuTreeDemo1> {
 
   @override
   Widget build(BuildContext context) {
-    Color expandBackgroundColor = context.isDark?Colors.black:Colors.transparent;
-    Color backgroundColor = context.isDark?Color(0xff001529):Colors.white;
+    Color expandBackgroundColor = context.isDark ? Colors.black : Colors.transparent;
+    Color backgroundColor = context.isDark ? const Color(0xff001529) : Colors.white;
     return SizedBox(
       height: 460,
-      child: Row(
-        children: [
-          TolyRailMenuTree(
-            enableWidthChange: true,
-            meta: _menuMeta,
-            backgroundColor: backgroundColor,
-            activeColor: const Color(0xffe6edf3),
-            activeItemBackground: Colors.red,
-            expandBackgroundColor: expandBackgroundColor,
-            onSelect: _onSelect,
-          ),
-        ],
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: TolyRailMenuTree(
+          enableWidthChange: true,
+          meta: _treeMeta,
+          backgroundColor: backgroundColor,
+          expandBackgroundColor: expandBackgroundColor,
+          onSelect: _onSelect,
+        ),
       ),
     );
   }
@@ -48,7 +45,7 @@ class _RailMenuTreeDemo1State extends State<RailMenuTreeDemo1> {
 
   void _initTreeMeta() {
     MenuNode root = MenuNode.fromMap(plckiMenuData);
-    _menuMeta = MenuTreeMeta(
+    _treeMeta = MenuTreeMeta(
       expandMenus: ['/dashboard'],
       activeMenu: root.find('/dashboard/home'),
       root: root,
@@ -56,8 +53,7 @@ class _RailMenuTreeDemo1State extends State<RailMenuTreeDemo1> {
   }
 
   void _onSelect(MenuNode menu) {
-    _menuMeta = _menuMeta.select(menu);
-
+    _treeMeta = _treeMeta.select(menu);
     setState(() {});
   }
 }

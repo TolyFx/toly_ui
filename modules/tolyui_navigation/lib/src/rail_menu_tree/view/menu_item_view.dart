@@ -13,11 +13,7 @@ class MenuNodeItemView extends StatefulWidget {
   final String? activeMenu;
   final List<String> expandMenus;
   final ValueChanged<MenuNode> onSelect;
-  final TextStyle? unselectedLabelTextStyle;
-  final TextStyle? selectedLabelTextStyle;
   final Color expandBackgroundColor;
-  final Color activeColor;
-  final Color? activeItemBackground;
 
   const MenuNodeItemView({
     super.key,
@@ -25,12 +21,8 @@ class MenuNodeItemView extends StatefulWidget {
     required this.activeMenu,
     required this.expandMenus,
     required this.onSelect,
-    this.unselectedLabelTextStyle,
-    this.selectedLabelTextStyle,
     required this.builder,
-    this.activeItemBackground,
     required this.expandBackgroundColor,
-    required this.activeColor,
     required this.animationConfig,
   });
 
@@ -54,11 +46,7 @@ class _MenuNodeItemViewState extends State<MenuNodeItemView> {
     return Column(
       children: [
         MenuItemView(
-          activeItemBackground: widget.activeItemBackground,
           builder: widget.builder,
-          selectedLabelTextStyle: widget.selectedLabelTextStyle,
-          activeColor: widget.activeColor,
-          unselectedLabelTextStyle: widget.unselectedLabelTextStyle,
           expanded: crossFadeState == CrossFadeState.showSecond,
           onSelect: widget.onSelect,
           selected: active,
@@ -81,16 +69,12 @@ class _MenuNodeItemViewState extends State<MenuNodeItemView> {
               color: widget.expandBackgroundColor,
               child: MenuNodeItemView(
                 animationConfig: widget.animationConfig,
-                activeItemBackground: widget.activeItemBackground,
                 builder: widget.builder,
-                activeColor: widget.activeColor,
                 expandBackgroundColor: widget.expandBackgroundColor,
                 onSelect: widget.onSelect,
                 data: e,
                 activeMenu: widget.activeMenu,
                 expandMenus: widget.expandMenus,
-                unselectedLabelTextStyle: widget.unselectedLabelTextStyle,
-                selectedLabelTextStyle: widget.selectedLabelTextStyle,
               ),
             ))
         .toList();
@@ -104,23 +88,15 @@ class MenuItemView extends StatefulWidget {
   final ValueChanged<MenuNode> onSelect;
   final bool selected;
   final bool expanded;
-  final TextStyle? unselectedLabelTextStyle;
-  final TextStyle? selectedLabelTextStyle;
-  final Color activeColor;
-  final Color? activeItemBackground;
   final AnimationConfig animationConfig;
 
   const MenuItemView({
     super.key,
     required this.builder,
     required this.node,
-    required this.selectedLabelTextStyle,
-    required this.unselectedLabelTextStyle,
     required this.selected,
     required this.onSelect,
     required this.expanded,
-    required this.activeColor,
-    required this.activeItemBackground,
     required this.animationConfig,
   });
 

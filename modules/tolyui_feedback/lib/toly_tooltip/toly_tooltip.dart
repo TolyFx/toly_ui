@@ -966,7 +966,7 @@ class DecorationConfig {
   final bool isBubble;
   final Radius radius;
   final List<BoxShadow>? shadows;
-
+  final BubbleMeta bubbleMeta;
 
   const DecorationConfig({
     this.style = PaintingStyle.fill,
@@ -975,6 +975,7 @@ class DecorationConfig {
     this.shadows,
     this.radius = const Radius.circular(4),
     this.isBubble = true,
+    this.bubbleMeta = const BubbleMeta(),
   });
 }
 
@@ -991,7 +992,8 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
         boxSize: widget.boxSize,
         placement: effectPlacement,
         color: config.backgroundColor,
-          style: config.style
+          style: config.style,
+        bubbleMeta: config.bubbleMeta,
       );
     }
     return BoxDecoration(

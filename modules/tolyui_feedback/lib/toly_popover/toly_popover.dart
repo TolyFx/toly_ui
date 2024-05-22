@@ -10,17 +10,7 @@ import '../toly_tooltip/toly_tooltip.dart';
 import '../toly_tooltip/tooltip_placement.dart';
 import 'callback.dart';
 
-Offset boxOffsetCalculator(Calculator calculator) {
-  return switch (calculator.placement) {
-    Placement.top => Offset(0, calculator.gap - 6),
-    Placement.topStart => Offset(0, calculator.gap - 6),
-    Placement.topEnd => Offset(0, calculator.gap - 6),
-    Placement.bottom => Offset(0, -calculator.gap + 6),
-    Placement.bottomStart => Offset(0, -calculator.gap + 6),
-    Placement.bottomEnd => Offset(0, -calculator.gap + 6),
-    _ => Offset(0, 0),
-  };
-}
+Offset boxOffsetCalculator(Calculator calculator) => menuOffsetCalculator(calculator,shift: 6);
 
 Offset menuOffsetCalculator(Calculator calculator, {double shift = 0}) {
   return switch (calculator.placement) {
@@ -36,7 +26,6 @@ Offset menuOffsetCalculator(Calculator calculator, {double shift = 0}) {
     Placement.rightStart => Offset(-calculator.gap + shift, 0),
     Placement.right => Offset(-calculator.gap + shift, 0),
     Placement.rightEnd => Offset(-calculator.gap + shift, 0),
-    // _ => Offset(0, 0),
   };
 }
 
@@ -254,6 +243,7 @@ class _TolyPopoverState extends State<TolyPopover>
       placement: decoration.placement,
       color: config.backgroundColor,
       style: config.style,
+      bubbleMeta: config.bubbleMeta,
     );
   }
 

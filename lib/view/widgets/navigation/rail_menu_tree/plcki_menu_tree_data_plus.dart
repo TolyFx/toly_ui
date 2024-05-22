@@ -60,7 +60,6 @@ Map<String, dynamic> get plckiMenuDataPlus => {
           'label': '语法基础',
           'subtitle': '编程应用基础语法',
           'tag': '新',
-
           'children': [
             {
               'path': '/gen',

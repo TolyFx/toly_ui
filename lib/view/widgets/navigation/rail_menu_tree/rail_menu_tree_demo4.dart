@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:toly_ui/view/debugger/debugger.dart';
 import 'package:toly_ui/view/widgets/navigation/rail_menu_tree/plcki_menu_tree_data_plus.dart';
 import 'package:tolyui/tolyui.dart';
-import 'plcki_menu_tree_data.dart';
 
 class RailMenuTreeDemo4 extends StatefulWidget {
   const RailMenuTreeDemo4({super.key});
@@ -27,22 +26,22 @@ class _RailMenuTreeDemo4State extends State<RailMenuTreeDemo4> {
   Widget build(BuildContext context) {
     Color expandBackgroundColor =
         context.isDark ? Colors.black : Colors.transparent;
-    Color backgroundColor = context.isDark ? Color(0xff001529) : Colors.white;
+    Color backgroundColor =
+        context.isDark ? const Color(0xff001529) : Colors.white;
     return SizedBox(
       height: 490,
       child: Row(
         children: [
           TolyRailMenuTree(
-            builder: (menu,display)=>PlckiTreeMenuCell(menuNode: menu, display: display,),
-            leading: DebugLeadingAvatar(
-              type: MenuWidthType.large,
+            builder: (menu, display) => PlckiTreeMenuCell(
+              menuNode: menu,
+              display: display,
             ),
-            tail: VersionTail(),
+            leading: const DebugLeadingAvatar(),
+            tail: const VersionTail(),
             enableWidthChange: true,
             meta: _menuMeta,
             backgroundColor: backgroundColor,
-            activeColor: const Color(0xffe6edf3),
-            activeItemBackground: Colors.red,
             expandBackgroundColor: expandBackgroundColor,
             onSelect: _onSelect,
           ),
@@ -58,8 +57,10 @@ class _RailMenuTreeDemo4State extends State<RailMenuTreeDemo4> {
   }
 
   void _initTreeMeta() {
-    MenuNode root =
-        MenuNode.fromMap(plckiMenuDataPlus, extParser: PlckiMenuMetaExt.fromJson);
+    MenuNode root = MenuNode.fromMap(
+      plckiMenuDataPlus,
+      extParser: PlckiMenuMetaExt.fromMap,
+    );
     _menuMeta = MenuTreeMeta(
       expandMenus: ['/dashboard'],
       activeMenu: root.find('/dashboard/home'),
@@ -83,15 +84,13 @@ class PlckiMenuMetaExt extends MenuMateExt {
     required this.tag,
   });
 
-  factory PlckiMenuMetaExt.fromJson(Map<String, dynamic> map) {
+  factory PlckiMenuMetaExt.fromMap(Map<String, dynamic> map) {
     return PlckiMenuMetaExt(
       subtitle: map['subtitle'],
       tag: map['tag'],
     );
   }
 }
-
-
 
 class PlckiTreeMenuCell extends StatelessWidget {
   final MenuNode menuNode;
@@ -107,7 +106,7 @@ class PlckiTreeMenuCell extends StatelessWidget {
 
   MenuTreeCellStyle get effectStyle =>
       style ??
-          (display.isDark ? MenuTreeCellStyle.dark() : MenuTreeCellStyle.light());
+      (display.isDark ? MenuTreeCellStyle.dark() : MenuTreeCellStyle.light());
 
   Color? effectForegroundColor(MenuTreeCellStyle style) {
     if (display.selected) {
@@ -143,6 +142,7 @@ class PlckiTreeMenuCell extends StatelessWidget {
 
     Color? bgColor = backgroundColor(effectStyle);
     Color? fgColor = effectForegroundColor(effectStyle);
+    EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 2);
 
     Widget cell = DecoratedBox(
       decoration: BoxDecoration(
@@ -164,17 +164,12 @@ class PlckiTreeMenuCell extends StatelessWidget {
                       padding: const EdgeInsets.only(right: 8.0),
                       child: Icon(menuNode.data.icon, size: 20, color: fgColor),
                     ),
-                  buildTitle(fgColor)
-                  // Text(menuNode.data.label,
-                  //     overflow: TextOverflow.ellipsis,
-                  //     maxLines: 1,
-                  //     style: TextStyle(color: fgColor))
+                  _buildTitle(fgColor)
                 ],
               ),
             ),
           ),
-          if(ext?.tag!=null)
-            buildTag(ext),
+          if (ext?.tag != null) _buildTag(ext),
           if (menuNode.children.isNotEmpty)
             _buildExpandIndicator(display.expanded, fgColor)
         ],
@@ -189,52 +184,45 @@ class PlckiTreeMenuCell extends StatelessWidget {
         ],
       );
     }
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 2),
-        child: cell);
+    return Padding(padding: padding, child: cell);
   }
 
   PlckiMenuMetaExt? get ext {
-    if(menuNode.data.ext is PlckiMenuMetaExt){
+    if (menuNode.data.ext is PlckiMenuMetaExt) {
       return (menuNode.data.ext) as PlckiMenuMetaExt;
-  }
+    }
     return null;
-}
+  }
 
-  Widget buildTitle(Color? fgColor){
+  Widget _buildTitle(Color? fgColor) {
+    TextStyle subStyle = const TextStyle(fontSize: 12, color: Colors.grey);
+    TextStyle titleStyle = TextStyle(color: fgColor);
     Widget child = Text(menuNode.data.label,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
-        style: TextStyle(color: fgColor));
-    MenuMateExt? ext = menuNode.data.ext;
-    if(ext is PlckiMenuMetaExt){
-      if(ext.subtitle!=null){
-        child = Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            child,
-            Text(ext.subtitle!,style: TextStyle(fontSize: 12,color: Colors.grey),)
-          ],
-        );
-      }
+        style: titleStyle);
+    if (ext?.subtitle != null) {
+      child = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          child,
+          Text(ext!.subtitle!, style: subStyle)
+        ],
+      );
     }
-
     return child;
   }
 
-  Widget buildTag(PlckiMenuMetaExt? ext){
-    Widget child = Text('${ext?.tag}',
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-        style: TextStyle(color: Colors.white,height: 1,fontSize: 12));
+  Widget _buildTag(PlckiMenuMetaExt? ext) {
+    TextStyle tagStyle = const TextStyle(color: Colors.white, height: 1, fontSize: 12);
+    Widget child = Text('${ext?.tag}', overflow: TextOverflow.ellipsis, maxLines: 1, style: tagStyle);
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 4,vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
           decoration: BoxDecoration(
-            color: Colors.red.withOpacity(0.8),
-            borderRadius: BorderRadius.circular(4)
-          ),
+              color: Colors.red.withOpacity(0.8),
+              borderRadius: BorderRadius.circular(4)),
           child: child),
     );
   }

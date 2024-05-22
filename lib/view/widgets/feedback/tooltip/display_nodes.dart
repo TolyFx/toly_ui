@@ -162,7 +162,7 @@ Map<String,dynamic> get displayNodes => {
   },
   'TooltipDemo3': {
     'title': 'Tooltip 样式配置',
-    'desc': '可以通过 decorationConfig、textStyle、textAlign、padding 等配置弹出内容样式; gap 参数设置弹出框与组件的间隔; exitDuration 参数设置移除浮层的延迟时长。',
+    'desc': '可以通过 decorationConfig、textStyle、textAlign、padding 等配置弹出内容样式; DecorationConfig#bubbleMeta 可以配置气泡的高度和尖角的角度；gap 参数设置弹出框与组件的间隔; exitDuration 参数设置移除浮层的延迟时长。',
     'code': r"""class TooltipDemo1 extends StatelessWidget {
   const TooltipDemo1({super.key});
 

@@ -9,10 +9,6 @@ class RailMenuTreeDemo2 extends StatefulWidget {
   State<RailMenuTreeDemo2> createState() => _RailMenuTreeDemo2State();
 }
 
-// class TailingMenuMetaExt extends MenuMateExt{
-//   final
-// }
-
 class _RailMenuTreeDemo2State extends State<RailMenuTreeDemo2> {
   late MenuTreeMeta _menuMeta;
 
@@ -24,24 +20,20 @@ class _RailMenuTreeDemo2State extends State<RailMenuTreeDemo2> {
 
   @override
   Widget build(BuildContext context) {
-    Color expandBackgroundColor = context.isDark?Colors.black:Colors.transparent;
-    Color backgroundColor = context.isDark?Color(0xff001529):Colors.white;
+    Color expandBackgroundColor = context.isDark ? Colors.black : Colors.transparent;
+    Color backgroundColor = context.isDark ? Color(0xff001529) : Colors.white;
     return SizedBox(
-      height: 460,
-      child: Row(
-        children: [
-          TolyRailMenuTree(
+        height: 460,
+        child: Align(
+          alignment: Alignment.topLeft,
+          child: TolyRailMenuTree(
             enableWidthChange: true,
             meta: _menuMeta,
             backgroundColor: backgroundColor,
-            activeColor: const Color(0xffe6edf3),
-            activeItemBackground: Colors.red,
             expandBackgroundColor: expandBackgroundColor,
             onSelect: _onSelect,
           ),
-        ],
-      ),
-    );
+        ));
   }
 
   @override
@@ -60,8 +52,7 @@ class _RailMenuTreeDemo2State extends State<RailMenuTreeDemo2> {
   }
 
   void _onSelect(MenuNode menu) {
-    _menuMeta = _menuMeta.select(menu,singleExpand: true);
-
+    _menuMeta = _menuMeta.select(menu, singleExpand: true);
     setState(() {});
   }
 }

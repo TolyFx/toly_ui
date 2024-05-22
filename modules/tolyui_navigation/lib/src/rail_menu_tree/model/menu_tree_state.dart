@@ -6,6 +6,7 @@ class MenuTreeMeta {
   final List<String> expandMenus;
   final MenuNode? activeMenu;
   final MenuNode root;
+
    List<MenuNode> get items=>root.children;
 
   MenuTreeMeta({

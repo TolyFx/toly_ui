@@ -44,12 +44,13 @@ class TooltipDemo3 extends StatelessWidget {
   Widget buildTolyTooltipDisplay2(){
     return TolyTooltip(
       message: '《应龙》\n一游小池两岁月，\n洗却凡世几闲尘。\n时逢雷霆风 会雨，\n应乘扶摇化入云。',
-      placement: Placement.rightStart,
+      placement: Placement.topStart,
       textAlign: TextAlign.center,
       // triggerMode: TooltipTriggerMode.tap,
       textStyle: TextStyle(fontFamily: '宋体',fontSize: 13,fontWeight: FontWeight.bold),
       decorationConfig: DecorationConfig(
         backgroundColor: Color(0xff95ec69),
+        bubbleMeta: BubbleMeta(spineHeight: 6,angle: 90),
         textColor: Colors.black,),
       exitDuration: Duration(milliseconds: 500),
       padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),

@@ -16,7 +16,7 @@ import '../../view/widgets/form/input/input_display_page.dart';
 import '../../view/widgets/navigation/drop_menu/drop_menu_display_page.dart';
 import '../../view/widgets/navigation/drop_menu/link_display_page.dart';
 import '../../view/widgets/navigation/rail_menu_bar/link_display_page.dart';
-import '../../view/widgets/navigation/rail_menu_tree/link_display_page.dart';
+import '../../view/widgets/navigation/rail_menu_tree/rail_menu_tree_display_page.dart';
 import '../../view/widgets/overview/overview_page.dart';
 import '../../view/widgets/widgets_page.dart';
 import '../view/empty404/widget404.dart';

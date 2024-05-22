@@ -4,19 +4,21 @@ import 'toly_ui_tree_menu_cell.dart';
 
 class TolyRailMenuTree extends StatelessWidget {
   final double width;
+  final double maxWidth;
+  final bool enableWidthChange;
+
   final Widget? leading;
   final Widget? tail;
-  final double maxWidth;
+
   final MenuTreeMeta meta;
-  final TextStyle? labelTextStyle;
+
   final Color? backgroundColor;
-  final Color activeColor;
   final Color? expandBackgroundColor;
-  final Color? activeItemBackground;
+  final MenuTreeCellStyle? cellStyle;
+
   final ValueChanged<MenuNode> onSelect;
   final MenuTreeCellBuilder? builder;
   final AnimationConfig animationConfig;
-  final bool enableWidthChange;
 
   const TolyRailMenuTree({
     super.key,
@@ -25,21 +27,20 @@ class TolyRailMenuTree extends StatelessWidget {
     this.leading,
     this.tail,
     this.expandBackgroundColor,
-    this.activeItemBackground,
     this.enableWidthChange = false,
     this.animationConfig = const AnimationConfig(),
-    this.labelTextStyle,
     required this.onSelect,
-    this.activeColor = const Color(0xff0960BD),
     this.builder,
-     this.width = 240,
-     this.maxWidth = 360,
+    this.cellStyle,
+    this.width = 240,
+    this.maxWidth = 360,
   });
 
   Widget _defaultMenuTreeCellBuilder(MenuNode node, DisplayMeta display) {
     return TolyUITreeMenuCell(
       menuNode: node,
       display: display,
+      style: cellStyle,
     );
   }
 
@@ -47,7 +48,7 @@ class TolyRailMenuTree extends StatelessWidget {
   Widget build(BuildContext context) {
     TolyMenuTheme? tolyMenuTheme = Theme.of(context).extension<TolyMenuTheme>();
     MenuTreeCellBuilder effectBuilder = builder ?? _defaultMenuTreeCellBuilder;
-    Widget child =  ColoredBox(
+    Widget child = ColoredBox(
       color: backgroundColor ??
           tolyMenuTheme?.backgroundColor ??
           Colors.transparent,
@@ -55,9 +56,6 @@ class TolyRailMenuTree extends StatelessWidget {
         itemCount: meta.items.length,
         itemBuilder: (_, index) => MenuNodeItemView(
           builder: effectBuilder,
-          activeItemBackground: activeItemBackground,
-          activeColor: activeColor,
-          unselectedLabelTextStyle: labelTextStyle,
           onSelect: onSelect,
           data: meta.items[index],
           activeMenu: meta.activeMenu?.id,
@@ -70,15 +68,13 @@ class TolyRailMenuTree extends StatelessWidget {
       ),
     );
 
-    if(leading!=null||tail!=null){
+    if (leading != null || tail != null) {
       child = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if(leading!=null)
-            leading!,
+          if (leading != null) leading!,
           Expanded(child: child),
-          if(tail!=null)
-            tail!,
+          if (tail != null) tail!,
         ],
       );
     }
@@ -86,7 +82,7 @@ class TolyRailMenuTree extends StatelessWidget {
     if (enableWidthChange) {
       child = ChangeWidthArea(
         width: width,
-        range: RangeValues(width,maxWidth),
+        range: RangeValues(width, maxWidth),
         child: child,
       );
     } else {

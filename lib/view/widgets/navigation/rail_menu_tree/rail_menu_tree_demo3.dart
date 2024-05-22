@@ -25,22 +25,17 @@ class _RailMenuTreeDemo3State extends State<RailMenuTreeDemo3> {
     Color backgroundColor = context.isDark?Color(0xff001529):Colors.white;
     return SizedBox(
       height: 490,
-      child: Row(
-        children: [
-          TolyRailMenuTree(
-            leading: DebugLeadingAvatar(
-              type: MenuWidthType.large,
-            ),
-            tail: VersionTail(),
-            enableWidthChange: true,
-            meta: _menuMeta,
-            backgroundColor: backgroundColor,
-            activeColor: const Color(0xffe6edf3),
-            activeItemBackground: Colors.red,
-            expandBackgroundColor: expandBackgroundColor,
-            onSelect: _onSelect,
-          ),
-        ],
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: TolyRailMenuTree(
+          leading: const DebugLeadingAvatar(),
+          tail: const VersionTail(),
+          enableWidthChange: true,
+          meta: _menuMeta,
+          backgroundColor: backgroundColor,
+          expandBackgroundColor: expandBackgroundColor,
+          onSelect: _onSelect,
+        ),
       ),
     );
   }

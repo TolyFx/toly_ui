@@ -14,7 +14,7 @@ class DebugLeadingAvatar extends StatelessWidget {
   final Brightness brightness;
 
   const DebugLeadingAvatar(
-      {super.key, required this.type, this.brightness = Brightness.light});
+      {super.key, this.type=MenuWidthType.large, this.brightness = Brightness.light});
 
   @override
   Widget build(BuildContext context) {

@@ -92,8 +92,6 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin{
       width: 240,
       meta: _menuMeta,
       backgroundColor: backgroundColor,
-      activeColor: const Color(0xffe6edf3),
-      activeItemBackground: Colors.red,
       expandBackgroundColor: expandBackgroundColor,
       onSelect: _onSelect,
     );

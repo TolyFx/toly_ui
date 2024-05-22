@@ -2,6 +2,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:tolyui_feedback/toly_tooltip/tooltip_placement.dart';
 
+class BubbleMeta {
+  final double spineHeight;
+  final double angle;
+
+  const BubbleMeta({this.spineHeight = 8, this.angle = 70});
+}
+
 class BubbleDecoration extends Decoration {
   final Color? color;
   final Size boxSize;
@@ -10,6 +17,7 @@ class BubbleDecoration extends Decoration {
   final List<BoxShadow>? shadows;
   final Radius radius;
   final PaintingStyle style;
+  final BubbleMeta bubbleMeta;
 
   const BubbleDecoration({
     this.color,
@@ -19,6 +27,7 @@ class BubbleDecoration extends Decoration {
     required this.shiftX,
     required this.style,
     required this.radius,
+    required this.bubbleMeta,
   });
 
   @override
@@ -36,18 +45,29 @@ class BubbleBoxPainter extends BoxPainter {
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
     Size? size = configuration.size;
     if (size == null) return;
-    Paint paint = Paint()
-      ..color = decoration.color ?? Colors.black;
-    Path path = buildPath(offset.translate(-decoration.shiftX, 0), size.width, size.height);
-    path = Path.combine(PathOperation.union, path, Path()..addRRect(RRect.fromRectAndRadius(offset & size, decoration.radius)));
-    canvas.drawPath(path, Paint()..style..color = decoration.color ?? Colors.black);
-    if(decoration.style==PaintingStyle.stroke){
+    Paint paint = Paint()..color = decoration.color ?? Colors.black;
+    Path path = buildPath(
+        offset.translate(-decoration.shiftX, 0), size.width, size.height);
+    path = Path.combine(
+        PathOperation.union,
+        path,
+        Path()
+          ..addRRect(
+              RRect.fromRectAndRadius(offset & size, decoration.radius)));
+    canvas.drawPath(
+        path,
+        Paint()
+          ..style
+          ..color = decoration.color ?? Colors.black);
+    if (decoration.style == PaintingStyle.stroke) {
       canvas.drawPath(
           path,
-          paint..style = PaintingStyle.stroke..color=const Color(0xffe4e7ed));
+          paint
+            ..style = PaintingStyle.stroke
+            ..color = const Color(0xffe4e7ed));
     }
-    if(decoration.shadows!=null&& decoration.shadows!.isNotEmpty){
-      drawShadows(canvas,path,decoration.shadows!);
+    if (decoration.shadows != null && decoration.shadows!.isNotEmpty) {
+      drawShadows(canvas, path, decoration.shadows!);
     }
     // canvas.drawRect(offset&size, Paint());
   }
@@ -65,16 +85,17 @@ class BubbleBoxPainter extends BoxPainter {
         m4.translate(zone.width / 2, zone.height / 2);
         m4.scale(xScale, yScale);
         m4.translate(-zone.width / 2, -zone.height / 2);
-        canvas.drawPath(path.shift(shadow.offset).transform(m4.storage), shadowPainter);
+        canvas.drawPath(
+            path.shift(shadow.offset).transform(m4.storage), shadowPainter);
       }
     }
-    Paint whitePaint = Paint()..color = decoration.color?? Colors.black;
+    Paint whitePaint = Paint()..color = decoration.color ?? Colors.black;
     canvas.drawPath(path, whitePaint);
   }
 
   Path buildPath(Offset offset, double width, double height) {
-    var angleRad = pi / 180 * 70;
-    double spineHeight = 8;
+    var angleRad = pi / 180 * decoration.bubbleMeta.angle;
+    double spineHeight = decoration.bubbleMeta.spineHeight;
     var spineMoveX = spineHeight * tan(angleRad / 2);
 
     double xb = (width - decoration.boxSize.width) / 2 +
@@ -152,13 +173,6 @@ class BubbleBoxPainter extends BoxPainter {
           ..relativeLineTo(-spineMoveY, spineMoveX);
       }
     }
-
-    ///       return Path()
-    //         ..moveTo(
-    //             !formBottom ? offset : width - offset - spineHeight, lineHeight)
-    //         ..relativeLineTo(spineMoveX, spineMoveY)
-    //         ..relativeLineTo(spineMoveX, -spineMoveY);
-
     return Path();
   }
 }
