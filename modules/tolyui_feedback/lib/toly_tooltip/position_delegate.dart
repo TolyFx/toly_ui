@@ -112,7 +112,7 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
     }
     if (clickPosition != null) {
       return clickPosition!
-          .translate(childSize.height / 2, target.dy - boxSize.height / 2);
+          .translate(target.dx - boxSize.width / 2, target.dy - boxSize.height / 2);
     }
 
     bool outBottom =

@@ -14,11 +14,13 @@ class DebugDisplayButton extends StatefulWidget {
   final String info;
   final VoidCallback? onPressed;
   final DebugButtonType type;
+  final FocusNode? focusNode;
 
   const DebugDisplayButton({
     super.key,
     required this.info,
     this.onPressed,
+    this.focusNode,
     this.type = DebugButtonType.outlineDisplay,
   });
 
@@ -89,6 +91,7 @@ class _DebugDisplayButtonState extends State<DebugDisplayButton> {
   @override
   Widget build(BuildContext context) {
     Widget child = ElevatedButton(
+      focusNode: widget.focusNode,
       onPressed: widget.onPressed ?? () {},
       style: palette.style,
       child: Text(widget.info),

@@ -14,7 +14,7 @@ import '../../view/widgets/basic/link/link_display_page.dart';
 import '../../view/widgets/basic/text/text_display_page.dart';
 import '../../view/widgets/form/input/input_display_page.dart';
 import '../../view/widgets/navigation/drop_menu/drop_menu_display_page.dart';
-import '../../view/widgets/navigation/drop_menu/link_display_page.dart';
+import '../../view/widgets/navigation/drop_menu/drop_menu_display_page.dart';
 import '../../view/widgets/navigation/rail_menu_bar/link_display_page.dart';
 import '../../view/widgets/navigation/rail_menu_tree/rail_menu_tree_display_page.dart';
 import '../../view/widgets/overview/overview_page.dart';
@@ -35,24 +35,11 @@ RouteBase get widgetsRoute => ShellRoute(
               },
               routes: [
                 GoRoute(
-                    path: "dashboard",
+                    path: "overview",
                     builder: (BuildContext context, GoRouterState state) {
-                      return WidgetsPage();
+                      return OverviewPage();
                     },
-                    routes: [
-                      GoRoute(
-                        path: 'overview',
-                        builder: (BuildContext context, GoRouterState state) {
-                          return OverviewPage();
-                        },
-                      ),
-                      GoRoute(
-                        path: 'statistics',
-                        builder: (BuildContext context, GoRouterState state) {
-                          return IconDisplayPage();
-                        },
-                      ),
-                    ]),
+                ),
                 GoRoute(
                     path: "navigation",
                     builder: (BuildContext context, GoRouterState state) {

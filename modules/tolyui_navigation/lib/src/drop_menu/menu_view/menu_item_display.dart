@@ -6,8 +6,7 @@
 // CreateTime:  2024-05-19
 // Contact Me:  1981462002@qq.com
 
-import 'package:flutter/cupertino.dart';
-import 'package:tolyui/tolyui.dart';
+import '../../model/model.dart';
 
 sealed class MenuDisplay {
   const MenuDisplay();

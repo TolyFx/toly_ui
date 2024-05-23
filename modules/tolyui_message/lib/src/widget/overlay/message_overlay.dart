@@ -84,7 +84,9 @@ class MessageOverlayState extends State<MessageOverlay>
               position: widget.position,
               offset: widget.offset,
             ),
-            child: widget.child,
+            child: Material(
+                color: Colors.transparent,
+                child: widget.child),
           ),
         ));
   }

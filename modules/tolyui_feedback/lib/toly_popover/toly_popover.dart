@@ -208,9 +208,12 @@ class _TolyPopoverState extends State<TolyPopover>
   }
 
   Decoration _defaultDecorationBuilder(PopoverDecoration decoration) {
+    bool isDark = Theme.of(context).brightness==Brightness.dark;
+    Color backgroundColor = isDark?const Color(0xff303133):Colors.white;
+    Color borderColor = isDark? const Color(0xff414243):const Color(0xffe4e7ed);
     DecorationConfig config = widget.decorationConfig ??
         DecorationConfig(
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundColor,
             style: PaintingStyle.stroke,
             shadows: [
               BoxShadow(
@@ -222,8 +225,8 @@ class _TolyPopoverState extends State<TolyPopover>
             ]);
     if (!config.isBubble) {
       return BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.black.withOpacity(0.1)),
+        color: config.backgroundColor,
+        border: Border.all(color: borderColor),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -244,6 +247,7 @@ class _TolyPopoverState extends State<TolyPopover>
       color: config.backgroundColor,
       style: config.style,
       bubbleMeta: config.bubbleMeta,
+      borderColor: borderColor
     );
   }
 

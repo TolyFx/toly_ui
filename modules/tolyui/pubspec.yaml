@@ -23,8 +23,6 @@ dependencies:
   tolyui_rx_layout:
     path: ../tolyui_rx_layout
 
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

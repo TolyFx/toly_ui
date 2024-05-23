@@ -10,12 +10,18 @@ import 'package:flutter/material.dart';
 
 abstract class MenuMateExt{
   const MenuMateExt();
+
+  T? me<T extends MenuMateExt>(){
+    if(this is T){
+      return this as T;
+    }
+    return null;
+  }
 }
 
 class MenuMeta implements Identify<String>{
   final String router;
   final String label;
-  final bool enable;
   final IconData? icon;
   final MenuMateExt? ext;
 
@@ -24,7 +30,6 @@ class MenuMeta implements Identify<String>{
     required this.label,
     this.icon,
     this.ext,
-    this.enable=true,
   });
 
   @override

@@ -9,10 +9,12 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:toly_ui/view/widgets/navigation/drop_menu/menu_display/sub_menu.dart';
-import 'package:tolyui/tolyui.dart';
-import 'action_menu_item.dart';
-import 'menu_item_display.dart';
+import 'package:tolyui_feedback/tolyui_feedback.dart';
+import '../../model/model.dart';
+import '../menu_view/action_menu_item.dart';
+import '../menu_view/menu_item_display.dart';
+import '../menu_view/sub_menu.dart';
+import '../style/drop_menu_style.dart';
 
 typedef MenuBuilder = List<MenuDisplay> Function(PopoverController controller);
 
@@ -33,26 +35,28 @@ class TolyDropMenu extends StatefulWidget {
   final double subMenuGap;
   final Widget? child;
 
+  final DropMenuCellStyle? style;
+  final MenuMetaBuilder? leadingBuilder;
+  final MenuMetaBuilder? tailBuilder;
+
   final ValueChanged<MenuMeta>? onSelect;
   final HoverConfig hoverConfig;
   final Placement placement;
   final DecorationConfig? decorationConfig;
   final OffsetCalculator? offsetCalculator;
 
-  // final PopoverController? controller;
-  // final VoidCallback? onEnter;
-
   const TolyDropMenu({
     super.key,
     required this.menuItems,
     this.width,
     this.child,
+    this.leadingBuilder,
+    this.tailBuilder,
+    this.style,
     this.subMenuGap = 0,
-    // this.onEnter,
     this.placement = Placement.bottom,
     this.decorationConfig,
     this.offsetCalculator,
-    // this.controller,
     this.childBuilder,
     this.onSelect,
     this.hoverConfig = const HoverConfig(),
@@ -65,17 +69,22 @@ class TolyDropMenu extends StatefulWidget {
 class _TolyDropMenuState extends State<TolyDropMenu> {
   Timer? exitTimer;
 
-  void startExitTimer(PopoverController controller) {
-    closeTimer();
+  void _startExitTimer(PopoverController controller) {
+    _closeTimer();
     exitTimer = Timer(const Duration(milliseconds: 200), () {
       controller.close();
     });
-    // setState(() {});
   }
 
-  void closeTimer() {
+  void _closeTimer() {
     exitTimer?.cancel();
     exitTimer = null;
+  }
+
+  @override
+  void dispose() {
+    _closeTimer();
+    super.dispose();
   }
 
   @override
@@ -86,25 +95,33 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
       offsetCalculator: widget.offsetCalculator,
       decorationConfig: widget.decorationConfig,
       overlayBuilder: _overlayBuilder,
-      builder: (ctx, ctrl, child) {
-        Widget content = widget.childBuilder?.call(ctx, ctrl, child)
-            ??widget.child?? const SizedBox();
-        if (widget.hoverConfig.enterPop) {
-          return MouseRegion(
-            onEnter: (_) => ctrl.open(),
-            onExit: (_) => startExitTimer(ctrl),
-            child: content,
-          );
-        }
-        return content;
-      },
-      child: widget.child ,
+      builder: _displayBuilder,
+      child: widget.child,
     );
+  }
+
+  Widget _displayBuilder(
+      BuildContext context, PopoverController ctrl, Widget? child) {
+    Widget content = widget.childBuilder?.call(context, ctrl, child) ??
+        widget.child ??
+        const SizedBox();
+    if (widget.hoverConfig.enterPop) {
+      return MouseRegion(
+        onEnter: (_) => ctrl.open(),
+        onExit: (_) => _startExitTimer(ctrl),
+        child: content,
+      );
+    }
+    return content;
   }
 
   Widget _overlayBuilder(BuildContext context, PopoverController ctrl) {
     Widget panel = MenuListPanel(
+      tailBuilder: widget.tailBuilder,
+      leadingBuilder: widget.leadingBuilder,
+      style: widget.style,
       subMenuGap: widget.subMenuGap,
+      decorationConfig: widget.decorationConfig,
       onSelect: (menu) {
         widget.onSelect?.call(menu);
         ctrl.close();
@@ -113,14 +130,10 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
     );
     if (widget.hoverConfig.enterPop) {
       panel = MouseRegion(
-        onEnter: (_) {
-          // widget.onEnter?.call();
-          closeTimer();
-        },
+        onEnter: (_) => _closeTimer(),
         onExit: (_) {
           if (widget.hoverConfig.exitClose) {
             ctrl.close();
-            // startExitTimer(ctrl);
           }
         },
         child: panel,
@@ -128,26 +141,32 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
     }
     return panel;
   }
-
-// Widget _handle
 }
 
 class MenuListPanel extends StatelessWidget {
   final List<MenuDisplay> menus;
   final ValueChanged<MenuMeta>? onSelect;
   final double subMenuGap;
+  final DropMenuCellStyle? style;
+  final DecorationConfig? decorationConfig;
+  final MenuMetaBuilder? leadingBuilder;
+  final MenuMetaBuilder? tailBuilder;
 
   const MenuListPanel({
     super.key,
     required this.menus,
+    required this.decorationConfig,
+    required this.leadingBuilder,
+    required this.tailBuilder,
     this.onSelect,
+    this.style,
     required this.subMenuGap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: IntrinsicWidth(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -160,16 +179,23 @@ class MenuListPanel extends StatelessWidget {
   Widget _mapItem(MenuDisplay menu) {
     return switch (menu) {
       ActionMenu() => ActionMenuItem(
+          leadingBuilder: leadingBuilder,
+          tailBuilder: tailBuilder,
           display: menu,
           onSelect: onSelect,
+          style: style,
         ),
       DividerMenu() => DividerMenuItem(
           display: menu,
         ),
       SubMenu() => SubMenuItem(
+          style: style,
+        leadingBuilder: leadingBuilder,
+        tailBuilder: tailBuilder,
           menu: menu,
           subMenuGap: subMenuGap,
           onSelect: onSelect,
+          decorationConfig: decorationConfig,
         ),
     };
   }

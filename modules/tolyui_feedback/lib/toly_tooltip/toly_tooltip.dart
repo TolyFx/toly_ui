@@ -987,6 +987,7 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
     DecorationConfig config = widget.decoration;
     if (config.isBubble) {
       return BubbleDecoration(
+        borderColor: const Color(0xffe4e7ed),
         shiftX: shiftX,
         radius: config.radius,
         boxSize: widget.boxSize,

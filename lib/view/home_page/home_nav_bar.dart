@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toly_ui/app/logic/actions/navigation.dart';
 import 'package:toly_ui/app/theme/theme.dart';
@@ -52,10 +53,7 @@ class HomeNavBar extends StatelessWidget implements PreferredSizeWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 12.0),
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(2),
-                            child: Image.asset(
-                              'assets/images/logo.png',
-                              width: 32,
-                            )),
+                            child: SvgPicture.asset('assets/images/logo.svg',width: 30,)),
                       ),
 
                           if( cts.maxWidth > 480)

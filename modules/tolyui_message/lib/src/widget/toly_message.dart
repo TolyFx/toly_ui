@@ -41,57 +41,21 @@ class TolyMessageState extends State<TolyMessage> {
     super.dispose();
   }
 
-  Iterable<LocalizationsDelegate<dynamic>> get _localizationsDelegates {
-    return <LocalizationsDelegate<dynamic>>[
-      if (widget.localizationsDelegates != null)
-        ...widget.localizationsDelegates!,
-      DefaultWidgetsLocalizations.delegate,
-      DefaultMaterialLocalizations.delegate,
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
-    final Overlay overlay = Overlay(
-      initialEntries: <OverlayEntry>[
-        OverlayEntry(
-          builder: (BuildContext ctx) {
-            handler.attach(ctx);
-            return widget.child;
-          },
-        ),
-      ],
-    );
-
-    Widget result = Directionality(
-      textDirection: TextDirection.ltr,
-      child: overlay,
-    );
-
-    return Localizations(
-      locale: widget.locale ?? const Locale('en', 'US'),
-      delegates: _localizationsDelegates.toList(),
-      child: Theme(
-        data: _themeBuilder(context),
-        child: Material(
-          color: Colors.transparent,
-          child: result,
-        ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: widget.theme,
+      darkTheme: widget.darkTheme,
+      themeMode: widget.themeMode,
+      locale: widget.locale,
+      localizationsDelegates: widget.localizationsDelegates,
+      home: Builder(
+        builder: (context) {
+          handler.attach(context);
+          return widget.child;
+        }
       ),
     );
-  }
-
-  ThemeData _themeBuilder(BuildContext context) {
-    ThemeData? theme;
-    final ThemeMode mode = widget.themeMode ?? ThemeMode.system;
-    final Brightness platformBrightness =
-        MediaQuery.platformBrightnessOf(context);
-    final bool useDarkTheme = mode == ThemeMode.dark ||
-        (mode == ThemeMode.system && platformBrightness == Brightness.dark);
-    if (useDarkTheme && widget.darkTheme != null) {
-      theme = widget.darkTheme;
-    }
-    theme ??= widget.theme ?? ThemeData.light();
-    return theme;
   }
 }

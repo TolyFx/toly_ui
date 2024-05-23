@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../../debugger/debugger.dart';
-import 'menu_display/drop_menu.dart';
-import 'menu_display/menu_item_display.dart';
 
 class DropMenuDemo3 extends StatelessWidget {
   const DropMenuDemo3({super.key});
@@ -14,18 +12,20 @@ class DropMenuDemo3 extends StatelessWidget {
     return Wrap(
       spacing: 20,
       children: [
-        display(),
-        display(gap: 6),
+        display(context),
+        display(context,gap: 6),
       ],
     );
   }
 
-  Widget display({double gap=0}){
+  Widget display(BuildContext context,{double gap=0}){
+    Color bgColor = context.isDark? const Color(0xff303133):Colors.white;
+
     return TolyDropMenu(
         onSelect: onSelect,
         subMenuGap: gap,
         placement: Placement.bottomStart,
-        // decorationConfig: const DecorationConfig(isBubble: false),
+        decorationConfig:  DecorationConfig(isBubble: false,backgroundColor: bgColor),
         offsetCalculator: boxOffsetCalculator,
         menuItems: [
           ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
@@ -43,8 +43,7 @@ class DropMenuDemo3 extends StatelessWidget {
                     ]),
               ]),
           const DividerMenu(),
-          ActionMenu(const MenuMeta(router: '03', label: '3rd menu item'),
-              enable: false),
+          ActionMenu(const MenuMeta(router: '03', label: '3rd menu item'), enable: false),
           ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
         ],
         // width: 160,
@@ -56,9 +55,7 @@ class DropMenuDemo3 extends StatelessWidget {
         });
   }
 
-  void onSelect(
-    MenuMeta menu,
-  ) {
+  void onSelect(MenuMeta menu) {
     $message.success(message: '点击了 [${menu.label}] 菜单');
   }
 }

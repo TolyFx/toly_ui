@@ -9,6 +9,7 @@ import 'package:tolyui_rx_layout/tolyui_rx_layout.dart';
 
 import '../../navigation/menu/menu_repository_impl.dart';
 import '../../navigation/menu/widget_menus.dart';
+import 'widget_rail_menu/widget_rai_menu.dart';
 
 class WidgetNavigationScope extends StatelessWidget {
   final Widget child;
@@ -64,88 +65,3 @@ class WidgetNavigationScope extends StatelessWidget {
   }
 }
 
-class AppNavMenu extends StatefulWidget {
-  const AppNavMenu({super.key});
-
-  @override
-  State<AppNavMenu> createState() => _AppNavMenuState();
-}
-
-class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin{
-  late MenuTreeMeta _menuMeta;
-
-  @override
-  void initState() {
-    super.initState();
-    _initTreeMeta();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    Color expandBackgroundColor = context.isDark?Colors.black:Colors.transparent;
-    Color backgroundColor = context.isDark?Color(0xff001529):Colors.white;
-
-    return TolyRailMenuTree(
-      enableWidthChange: true,
-      maxWidth: 360,
-      width: 240,
-      meta: _menuMeta,
-      backgroundColor: backgroundColor,
-      expandBackgroundColor: expandBackgroundColor,
-      onSelect: _onSelect,
-    );
-
-    // return MenuChangeListener(
-    //   onRouterChanged: (BuildContext ctx, String? path) {
-    //     if (path != null) {
-    //       context.go(path);
-    //     }
-    //   },
-    //   child: TolyMenu(
-    //     // activeItemBackground: Color(0xffe6f7ff),
-    //     // activeColor: Color(0xffe6edf3),
-    //     // backgroundColor: Colors.white,
-    //     // expandBackgroundColor: Colors.white,
-    //     // labelTextStyle: TextStyle(color: Color(0xff2d3a53)),
-    //     state: context.watchMenu,
-    //     onSelect: (menu) {
-    //       print(menu.path);
-    //       context.changeMenu(menu);
-    //     },
-    //   ),
-    // );
-  }
-
-  void _initTreeMeta() {
-    MenuNode root = MenuNode.fromMap(widgetMenus);
-    _menuMeta = MenuTreeMeta(
-      expandMenus: ['/dashboard'],
-      activeMenu: root.find('/dashboard/home'),
-      root: root,
-    );
-  }
-
-  void _onSelect(MenuNode menu) {
-    if(menu.isLeaf){
-      context.go(menu.id);
-    }else{
-      _menuMeta = _menuMeta.select(menu, singleExpand: true);
-      setState(() {});
-    }
-
-  }
-
-  @override
-  void reassemble() {
-    context.reassembleMenu();
-    super.reassemble();
-  }
-
-  @override
-  void onChangeRoute(String path) {
-    _menuMeta = _menuMeta.selectPath(path, singleExpand: true);
-    print(path);
-    setState(() {});
-  }
-}

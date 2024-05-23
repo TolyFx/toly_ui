@@ -20,7 +20,7 @@ class MenuNode implements Identify<String> {
   bool get isLeaf => children.isEmpty;
 
   const MenuNode({
-    required this.children,
+    this.children = const [],
     required this.data,
     this.depth = 0,
   });

@@ -36,45 +36,51 @@ class DebugDisplayPanel extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
           ),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    CircleAvatar(
-                      radius: 24,
-                      backgroundImage: AssetImage(image),
+                    Container(
+                      width: 42,
+                      height: 42,
+                      padding: const EdgeInsets.all(6),
+                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            image: DecorationImage(image: AssetImage(image))),
+                      ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           title,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           info1,
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                          style: const TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                         Text(
                           info2,
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                          style: const TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                       ],
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                   ],
                 ),
               ],
             ),
           ),
         ),
-        if(onClose!=null)
-        buildCloseButton()
+        if (onClose != null) buildCloseButton()
       ],
     );
   }

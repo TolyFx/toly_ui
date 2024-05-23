@@ -14,6 +14,9 @@ mixin ContextAttachable {
   }
 
   void attach(BuildContext context) {
+    if(_context!=null){
+      detach();
+    }
     _context = context;
   }
 

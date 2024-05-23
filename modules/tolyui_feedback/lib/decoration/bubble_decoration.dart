@@ -11,6 +11,7 @@ class BubbleMeta {
 
 class BubbleDecoration extends Decoration {
   final Color? color;
+  final Color borderColor;
   final Size boxSize;
   final double shiftX;
   final Placement placement;
@@ -24,6 +25,7 @@ class BubbleDecoration extends Decoration {
     required this.boxSize,
     required this.placement,
     this.shadows,
+    required this.borderColor,
     required this.shiftX,
     required this.style,
     required this.radius,
@@ -64,7 +66,7 @@ class BubbleBoxPainter extends BoxPainter {
           path,
           paint
             ..style = PaintingStyle.stroke
-            ..color = const Color(0xffe4e7ed));
+            ..color = decoration.borderColor);
     }
     if (decoration.shadows != null && decoration.shadows!.isNotEmpty) {
       drawShadows(canvas, path, decoration.shadows!);

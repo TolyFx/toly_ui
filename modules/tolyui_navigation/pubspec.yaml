@@ -11,6 +11,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+#  tolyui_feedback: ^0.3.3
+  tolyui_feedback:
+    path: ../tolyui_feedback
 
 dev_dependencies:
   flutter_test:

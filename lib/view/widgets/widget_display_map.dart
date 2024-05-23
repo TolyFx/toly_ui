@@ -50,6 +50,8 @@ Widget widgetDisplayMap(String key) {
     'DropMenuDemo2' => const DropMenuDemo2(),
     'DropMenuDemo4' => const DropMenuDemo4(),
     'DropMenuDemo5' => const DropMenuDemo5(),
+    'DropMenuDemo6' => const DropMenuDemo6(),
+    'DropMenuDemo7' => const DropMenuDemo7(),
     'RailMenuTreeDemo1' => const RailMenuTreeDemo1(),
     'RailMenuTreeDemo2' => const RailMenuTreeDemo2(),
     'RailMenuTreeDemo3' => const RailMenuTreeDemo3(),

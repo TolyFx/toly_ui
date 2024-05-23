@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:toly_ui/view/widgets/navigation/drop_menu/menu_display/drop_menu.dart';
 import 'package:tolyui/tolyui.dart';
-
-import '../../../debugger/debugger.dart';
-import '../../widgets.dart';
-import 'menu_display/menu_item_display.dart';
 
 class DropMenuDemo5 extends StatelessWidget{
   const DropMenuDemo5({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Color bgColor = context.isDark? const Color(0xff303133):Colors.white;
+
     return TolyDropMenu(
       onSelect: onSelect,
-      decorationConfig: const DecorationConfig(isBubble: false),
-      placement: Placement.topEnd,
+      decorationConfig:  DecorationConfig(isBubble: false,backgroundColor: bgColor),
+      placement: Placement.topStart,
       menuItems: [
         ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
         ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
@@ -42,7 +39,7 @@ class DropMenuDemo5 extends StatelessWidget{
   void onSelect(
     MenuMeta menu,
   ) {
-    $message.success(message: '点击了 [${menu.label}] 个菜单');
+    $message.success(message: '点击了 [${menu.label}] 菜单');
   }
 
   void _onSecondaryTapDown(TapDownDetails details, PopoverController ctrl) async {

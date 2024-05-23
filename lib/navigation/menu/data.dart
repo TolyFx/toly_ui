@@ -1,41 +1,54 @@
+import 'package:flutter/material.dart';
+
 Map<String, dynamic> get dataMenus => {
       'path': '/widgets/Data',
-      // 'icon': FxIcon.icon_paint,
+      'icon': Icons.data_thresholding_sharp,
       'label': 'Data 数据展示',
       'children': [
         {
           'path': '/Avatar',
-          'label': 'Avatar 头像',
+          'label': 'Avatar',
+          'subtitle': '头像',
           // 'icon': Icons.text_fields,
         },
         {
           'path': '/Collapse',
-          'label': 'Collapse 折叠面板',
+          'label': 'Collapse',
+          'subtitle': '折叠面板',
           // 'icon': Icons.text_fields,
         },
         {
           'path': '/Image',
-          'label': 'Image 图片',
+          'label': 'Image',
+          'subtitle': '图片',
+
           // 'icon': Icons.text_fields,
         },
         {
           'path': '/Pagination',
-          'label': 'Pagination 分页',
+          'label': 'Pagination',
+          'subtitle': '分页',
           // 'icon': Icons.text_fields,
         },
         {
           'path': '/Progress',
-          'label': 'Progress 进度条',
+          'label': 'Progress',
+          'subtitle': '进度条',
+
           // 'icon': Icons.text_fields,
         },
         {
           'path': '/Skeleton',
-          'label': 'Skeleton 骨架屏',
+          'label': 'Skeleton',
+          'subtitle': '骨架屏',
+
           // 'icon': Icons.text_fields,
         },
         {
           'path': '/Tree',
-          'label': 'Tree 树形控件',
+          'label': 'Tree',
+          'subtitle': '树形控件',
+
           // 'icon': Icons.text_fields,
         },
       ]

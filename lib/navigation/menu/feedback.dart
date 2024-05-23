@@ -1,7 +1,10 @@
 
+import 'package:flutter/material.dart';
+
 Map<String, dynamic> get feedbackMenus => {
   'path': '/widgets/feedback',
-  // 'icon': FxIcon.icon_paint,
+  'icon': Icons.feedback,
+
   'label': 'Feedback 反馈组件',
   'children': [
     {

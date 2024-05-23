@@ -80,13 +80,15 @@ class NoticeOverlayState extends State<NoticeOverlay>
               offset: widget.offset,
             ),
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 320),
+              constraints: const BoxConstraints(maxWidth: 320),
               child: SlideTransition(
                 // opacity: _controller,
                 position: Tween<Offset>(begin: startOffset, end: Offset.zero)
                     .animate(
                         CurveTween(curve: Curves.ease).animate(_controller)),
-                child: widget.child,
+                child: Material(
+                    color: Colors.transparent,
+                    child: widget.child),
               ),
             )));
   }
