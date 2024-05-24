@@ -11,3 +11,7 @@
 
 * DecorationConfig#BubbleMeta config Bubble △ height and angle
 * [menuOffsetCalculator] to translate pop panel 
+
+## 0.3.4
+
+[tolyui_message](https://pub.dev/packages/tolyui_message) update v0.2.1

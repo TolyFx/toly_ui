@@ -122,26 +122,59 @@ Map<String, dynamic> get displayNodes => {
       'DropMenuDemo3': {
         'title': '子菜单',
         'desc': '通过 SubMenu 提供子菜单的元数据，可通过 TolyDropMenu#subMenuGap 参数，调节弹出子面板的间距。',
-        'code': """class LinkDemo1 extends StatelessWidget {
-  const LinkDemo1({super.key});
+        'code': r"""class DropMenuDemo3 extends StatelessWidget {
+  const DropMenuDemo3({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const TextStyle style1 = TextStyle(color: Color(0xff419fff));
-    const TextStyle style2 = TextStyle(color: Color(0xff72c749), fontWeight: FontWeight.bold);
-    String href = 'https://github.com/TolyFx/toly_ui';
     return Wrap(
-      spacing: 10,
+      spacing: 20,
       children: [
-        TolyLink(href: href, onTap: jump, text: 'TolyUI'),
-        TolyLink(href: href, onTap: jump, text: 'TolyUI', style: style1),
-        TolyLink(href: href, onTap: jump, text: 'TolyUI', style: style2),
+        display(context),
+        display(context,gap: 6),
       ],
     );
   }
-  
-  void jump(String url){
-    //TODO 点击跳转操作
+
+  Widget display(BuildContext context,{double gap=0}){
+    Color bgColor = context.isDark? const Color(0xff303133):Colors.white;
+
+    return TolyDropMenu(
+        onSelect: onSelect,
+        subMenuGap: gap,
+        placement: Placement.bottomStart,
+        decorationConfig:  DecorationConfig(isBubble: false,backgroundColor: bgColor),
+        offsetCalculator: boxOffsetCalculator,
+        menuItems: [
+          ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
+          ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
+          SubMenu(const MenuMeta(router: 'export', label: 'export image'),
+              menus: [
+                ActionMenu(const MenuMeta(router: 'png', label: 'sub out .png')),
+                ActionMenu(const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
+                ActionMenu(const MenuMeta(router: 'svg', label: 'sub out .svg')),
+                SubMenu(const MenuMeta(router: 'sub sub', label: 'sub sub menu'),
+                    menus: [
+                      ActionMenu(const MenuMeta(router: 's1', label: 'sub menu1')),
+                      ActionMenu(const MenuMeta(router: 's2', label: 'sub menu2')),
+                      ActionMenu(const MenuMeta(router: 's3', label: 'sub menu3')),
+                    ]),
+              ]),
+          const DividerMenu(),
+          ActionMenu(const MenuMeta(router: '03', label: '3rd menu item'), enable: false),
+          ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
+        ],
+        // width: 160,
+        childBuilder: (_, ctrl, __) {
+          return DebugDisplayButton(
+            info: 'SubMenu:gap#$gap',
+            onPressed: ctrl.open,
+          );
+        });
+  }
+
+  void onSelect(MenuMeta menu) {
+    $message.success(message: '点击了 [${menu.label}] 菜单');
   }
 }"""
       },
@@ -170,125 +203,231 @@ Map<String, dynamic> get displayNodes => {
     //TODO 点击跳转操作
   }
 }"""
-      },  'DropMenuDemo6': {
+      },  'DropMenuDemo5': {
     'title': '修改样式',
     'desc': '可以通过 DropMenuCellStyle 修改菜单项样式。包括背景色、前景色、边距、圆角等属性。',
-    'code': r"""class DropMenuDemo5 extends StatelessWidget{
+    'code': r"""class DropMenuDemo5 extends StatelessWidget {
   const DropMenuDemo5({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return TolyDropMenu(
-      onSelect: onSelect,
-      decorationConfig: const DecorationConfig(isBubble: false),
-      placement: Placement.topEnd,
-      menuItems: [
-        ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
-        ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
-        SubMenu(const MenuMeta(router: '03', label: 'export image'), menus: [
-          ActionMenu(const MenuMeta(router: 'png', label: 'sub out .png')),
-          ActionMenu(const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
-          ActionMenu(const MenuMeta(router: 'svg', label: 'sub out .svg')),
-        ]),
-        ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
-      ],
-      // width: 140,
-      childBuilder: (_, ctrl, __) => GestureDetector(
-        onTapDown: (_) => ctrl.close(),
-        onSecondaryTapDown: (detail) => _onSecondaryTapDown(detail, ctrl),
-        child: Container(
-          color: const Color(0xfff7f7f7),
-          alignment: Alignment.center,
-          height: 180,
-          child: const Text('Right Click on here'),
-        ),
-      ),
+    DropMenuCellStyle lightStyle = const DropMenuCellStyle(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      borderRadius: BorderRadius.all(Radius.circular(6)),
+      foregroundColor: Color(0xff1f1f1f),
+      backgroundColor: Colors.transparent,
+      disableColor: Color(0xffbfbfbf),
+      hoverBackgroundColor: Color(0xfff5f5f5),
+      hoverForegroundColor: Color(0xff1f1f1f),
     );
+
+    DropMenuCellStyle darkStyle = const DropMenuCellStyle(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      borderRadius: BorderRadius.all(Radius.circular(6)),
+      foregroundColor: Color(0xffcfd3dc),
+      backgroundColor: Colors.transparent,
+      disableColor: Colors.grey,
+      hoverBackgroundColor: Color(0xff313131),
+      hoverForegroundColor: Color(0xffcfd3dc),
+    );
+    return Wrap(
+      spacing: 20,
+      children: [
+        display(context, lightStyle, Colors.white, 'light'),
+        display(context, darkStyle, const Color(0xff1f1f1f), 'dark'),
+      ],
+    );
+  }
+
+  Widget display(
+    BuildContext context,
+    DropMenuCellStyle style,
+    Color bgColor,
+    String label,
+  ) {
+    return TolyDropMenu(
+        onSelect: onSelect,
+        style: style,
+        subMenuGap: 6,
+        placement: Placement.bottomStart,
+        decorationConfig:
+            DecorationConfig(isBubble: false, backgroundColor: bgColor),
+        offsetCalculator: boxOffsetCalculator,
+        menuItems: [
+          ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
+          ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
+          SubMenu(const MenuMeta(router: 'export', label: 'export image'),
+              menus: [
+                ActionMenu(
+                    const MenuMeta(router: 'png', label: 'sub out .png')),
+                ActionMenu(
+                    const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
+                ActionMenu(
+                    const MenuMeta(router: 'svg', label: 'sub out .svg')),
+                SubMenu(
+                    const MenuMeta(router: 'sub sub', label: 'sub sub menu'),
+                    menus: [
+                      ActionMenu(const MenuMeta(router: 's1', label: 'sub menu1')),
+                      ActionMenu(const MenuMeta(router: 's2', label: 'sub menu2')),
+                      ActionMenu(const MenuMeta(router: 's3', label: 'sub menu3')),
+                    ]),
+              ]),
+          const DividerMenu(),
+          ActionMenu(const MenuMeta(router: '03', label: '3rd menu item'),
+              enable: false),
+          ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
+        ],
+        // width: 160,
+        childBuilder: (_, ctrl, __) {
+          return DebugDisplayButton(
+            info: 'DIY Style#$label',
+            onPressed: ctrl.open,
+          );
+        });
   }
 
   void onSelect(
     MenuMeta menu,
   ) {
-    $message.success(message: '点击了 [${menu.label}] 个菜单');
-  }
-
-  void _onSecondaryTapDown(TapDownDetails details, PopoverController ctrl) async {
-    if (ctrl.isOpen) {
-      ctrl.close();
-      Future.delayed(Duration(milliseconds: 260), () {
-        ctrl.open(position: details.localPosition);
-      });
-    } else {
-      ctrl.open(position: details.localPosition);
-    }
+    $message.success(message: '点击了 [${menu.label}] 菜单');
   }
 }"""
-  }, 'DropMenuDemo7': {
+  }, 'DropMenuDemo6': {
         'title': '自定义 Meta 拓展和首尾组件',
         'desc': '可以通过自定义 Meta 和首尾组件构造器，来灵活定制菜单项的表现。',
-        'code': r"""class DropMenuDemo5 extends StatelessWidget{
-  const DropMenuDemo5({super.key});
+        'code': r"""class MenuDisplayExt extends MenuMateExt {
+  final ImageProvider? image;
+  final String? action;
+
+  const MenuDisplayExt({this.image, this.action});
+}
+
+class DropMenuDemo6 extends StatelessWidget {
+  const DropMenuDemo6({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return TolyDropMenu(
-      onSelect: onSelect,
-      decorationConfig: const DecorationConfig(isBubble: false),
-      placement: Placement.topEnd,
-      menuItems: [
-        ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
-        ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
-        SubMenu(const MenuMeta(router: '03', label: 'export image'), menus: [
-          ActionMenu(const MenuMeta(router: 'png', label: 'sub out .png')),
-          ActionMenu(const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
-          ActionMenu(const MenuMeta(router: 'svg', label: 'sub out .svg')),
-        ]),
-        ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
-      ],
-      // width: 140,
-      childBuilder: (_, ctrl, __) => GestureDetector(
-        onTapDown: (_) => ctrl.close(),
-        onSecondaryTapDown: (detail) => _onSecondaryTapDown(detail, ctrl),
-        child: Container(
-          color: const Color(0xfff7f7f7),
-          alignment: Alignment.center,
-          height: 180,
-          child: const Text('Right Click on here'),
-        ),
-      ),
+    DropMenuCellStyle lightStyle = const DropMenuCellStyle(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      borderRadius: BorderRadius.all(Radius.circular(6)),
+      foregroundColor: Color(0xff1f1f1f),
+      backgroundColor: Colors.transparent,
+      disableColor: Color(0xffbfbfbf),
+      hoverBackgroundColor: Color(0xfff5f5f5),
+      hoverForegroundColor: Color(0xff1f1f1f),
+    );
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: TolyDropMenu(
+          onSelect: onSelect,
+          style: lightStyle,
+          tailBuilder: _tailBuilder,
+          leadingBuilder: _leadingBuilder,
+          subMenuGap: 6,
+          placement: Placement.bottomStart,
+          decorationConfig:
+              DecorationConfig(isBubble: false, backgroundColor: Colors.white),
+          offsetCalculator: boxOffsetCalculator,
+          menuItems: [
+            ActionMenu(const MenuMeta(
+                router: '01',
+                label: '1st menu item',
+                ext: MenuDisplayExt(
+                  image: AssetImage('assets/images/icon_head.webp'),
+                  action: 'Ctrl+J',
+                ))),
+            ActionMenu(
+              const MenuMeta(
+                  router: '02',
+                  label: '2nd menu item',
+                  ext: MenuDisplayExt(
+                    image: AssetImage('assets/images/logo.png'),
+                    action: 'Ctrl+P',
+                  )),
+            ),
+            SubMenu(
+                const MenuMeta(router: 'export', label: 'export image', icon: Icons.file_upload_outlined),
+                menus: [
+                  ActionMenu(const MenuMeta(router: 'png', label: 'sub out .png')),
+                  ActionMenu(const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
+                  ActionMenu(const MenuMeta(router: 'svg', label: 'sub out .svg')),
+                  SubMenu(
+                      const MenuMeta(router: 'sub sub', label: 'sub sub menu'),
+                      menus: [
+                        ActionMenu(const MenuMeta(router: 's1', label: 'sub menu1')),
+                        ActionMenu(const MenuMeta(router: 's2', label: 'sub menu2')),
+                        ActionMenu(const MenuMeta(router: 's3', label: 'sub menu3')),
+                      ]),
+                ]),
+            const DividerMenu(),
+            ActionMenu(const MenuMeta(router: '03', label: '3rd menu item'), enable: false),
+            ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
+          ],
+          // width: 160,
+          childBuilder: (_, ctrl, __) {
+            return DebugDisplayButton(
+              info: 'Leading&tail',
+              onPressed: ctrl.open,
+            );
+          }),
     );
   }
 
-  void onSelect(
-    MenuMeta menu,
-  ) {
-    $message.success(message: '点击了 [${menu.label}] 个菜单');
+  void onSelect(MenuMeta menu) {
+    $message.success(message: '点击了 [${menu.label}] 菜单');
   }
 
-  void _onSecondaryTapDown(TapDownDetails details, PopoverController ctrl) async {
-    if (ctrl.isOpen) {
-      ctrl.close();
-      Future.delayed(Duration(milliseconds: 260), () {
-        ctrl.open(position: details.localPosition);
-      });
-    } else {
-      ctrl.open(position: details.localPosition);
+  Widget? _tailBuilder(_, MenuMeta menu, DropMenuDisplayMeta display) {
+    MenuDisplayExt? ext = menu.ext?.me<MenuDisplayExt>();
+    
+    if (ext?.action != null) {
+      const TextStyle style = TextStyle(color: Colors.grey, fontSize: 12);
+      return Padding(
+        padding: const EdgeInsets.only(left: 12.0),
+        child: Text(ext!.action!, style: style),
+      );
     }
+
+    return null;
+  }
+
+  Widget? _leadingBuilder(_, MenuMeta menu, DropMenuDisplayMeta display) {
+    if (menu.router == '04') {
+      return const Padding(
+          padding:  EdgeInsets.only(right: 8.0),
+          child: FlutterLogo(size: 18));
+    }
+    MenuDisplayExt? ext = menu.ext?.me<MenuDisplayExt>();
+    if (ext?.image != null) {
+      return Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: Image(image: ext!.image!, width: 20),
+      );
+    }
+    if (menu.icon != null) {
+      return Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: Icon(menu.icon!, size: 20),
+      );
+    }
+    return null;
   }
 }"""
       },
-  'DropMenuDemo5': {
+  'DropMenuDemo7': {
     'title': '右键触发',
     'desc': '可以通过右键，在一个组件之上弹出菜单面板。',
-    'code': r"""class DropMenuDemo5 extends StatelessWidget{
-  const DropMenuDemo5({super.key});
+    'code': r"""class DropMenuDemo7 extends StatelessWidget{
+  const DropMenuDemo7({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Color bgColor = context.isDark? const Color(0xff303133):Colors.white;
+
     return TolyDropMenu(
       onSelect: onSelect,
-      decorationConfig: const DecorationConfig(isBubble: false),
-      placement: Placement.topEnd,
+      decorationConfig:  DecorationConfig(isBubble: false,backgroundColor: bgColor),
+      placement: Placement.topStart,
       menuItems: [
         ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
         ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
@@ -316,7 +455,7 @@ Map<String, dynamic> get displayNodes => {
   void onSelect(
     MenuMeta menu,
   ) {
-    $message.success(message: '点击了 [${menu.label}] 个菜单');
+    $message.success(message: '点击了 [${menu.label}] 菜单');
   }
 
   void _onSecondaryTapDown(TapDownDetails details, PopoverController ctrl) async {

@@ -5,6 +5,14 @@ import 'package:tolyui/tolyui.dart';
 
 import '../../../debugger/debugger.dart';
 
+class MenuDisplayExt extends MenuMateExt {
+  final ImageProvider? image;
+  final String? action;
+  final Widget? leading;
+
+  const MenuDisplayExt({this.image, this.action,this.leading});
+}
+
 class DropMenuDemo6 extends StatelessWidget {
   const DropMenuDemo6({super.key});
 
@@ -19,75 +27,89 @@ class DropMenuDemo6 extends StatelessWidget {
       hoverBackgroundColor: Color(0xfff5f5f5),
       hoverForegroundColor: Color(0xff1f1f1f),
     );
-
-    DropMenuCellStyle darkStyle = const DropMenuCellStyle(
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      borderRadius: BorderRadius.all(Radius.circular(6)),
-      foregroundColor: Color(0xffcfd3dc),
-      backgroundColor: Colors.transparent,
-      disableColor: Colors.grey,
-      hoverBackgroundColor: Color(0xff313131),
-      hoverForegroundColor: Color(0xffcfd3dc),
-    );
-    return Wrap(
-      spacing: 20,
-      children: [
-        display(context, lightStyle, Colors.white, 'light'),
-        display(context, darkStyle, const Color(0xff1f1f1f), 'dark'),
-      ],
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: TolyDropMenu(
+          onSelect: onSelect,
+          style: lightStyle,
+          tailBuilder: _tailBuilder,
+          leadingBuilder: _leadingBuilder,
+          subMenuGap: 6,
+          placement: Placement.bottomStart,
+          decorationConfig:
+              DecorationConfig(isBubble: false, backgroundColor: Colors.white),
+          offsetCalculator: boxOffsetCalculator,
+          menuItems: [
+            ActionMenu(const MenuMeta(
+                router: '01',
+                label: '1st menu item',
+                ext: MenuDisplayExt(image: AssetImage('assets/images/icon_head.webp'), action: 'Ctrl+J'))),
+            ActionMenu(
+              const MenuMeta(router: '02',
+                  label: '2nd menu item',
+                  ext: MenuDisplayExt(image: AssetImage('assets/images/logo.png'), action: 'Ctrl+P')),
+            ),
+            SubMenu(
+                const MenuMeta(router: 'export', label: 'export image', icon: Icons.file_upload_outlined),
+                menus: [
+                  ActionMenu(const MenuMeta(router: 'png', label: 'sub out .png')),
+                  ActionMenu(const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
+                  ActionMenu(const MenuMeta(router: 'svg', label: 'sub out .svg')),
+                  SubMenu(
+                      const MenuMeta(router: 'sub sub', label: 'sub sub menu'),
+                      menus: [
+                        ActionMenu(const MenuMeta(router: 's1', label: 'sub menu1')),
+                        ActionMenu(const MenuMeta(router: 's2', label: 'sub menu2')),
+                        ActionMenu(const MenuMeta(router: 's3', label: 'sub menu3')),
+                      ]),
+                ]),
+            const DividerMenu(),
+            ActionMenu(const MenuMeta(router: '03', label: '3rd menu item',
+                ext: MenuDisplayExt(leading: SizedBox(width: 20))), enable: false),
+            ActionMenu(const MenuMeta(router: '04', label: '4ur menu item',
+                ext: MenuDisplayExt(leading: FlutterLogo(size: 20)))),
+          ],
+          // width: 160,
+          childBuilder: (_, ctrl, __) {
+            return DebugDisplayButton(
+              info: 'Leading&tail',
+              onPressed: ctrl.open,
+            );
+          }),
     );
   }
 
-  Widget display(
-    BuildContext context,
-    DropMenuCellStyle style,
-    Color bgColor,
-    String label,
-  ) {
-    return TolyDropMenu(
-        onSelect: onSelect,
-        style: style,
-        subMenuGap: 6,
-        placement: Placement.bottomStart,
-        decorationConfig:
-            DecorationConfig(isBubble: false, backgroundColor: bgColor),
-        offsetCalculator: boxOffsetCalculator,
-        menuItems: [
-          ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
-          ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
-          SubMenu(const MenuMeta(router: 'export', label: 'export image'),
-              menus: [
-                ActionMenu(
-                    const MenuMeta(router: 'png', label: 'sub out .png')),
-                ActionMenu(
-                    const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
-                ActionMenu(
-                    const MenuMeta(router: 'svg', label: 'sub out .svg')),
-                SubMenu(
-                    const MenuMeta(router: 'sub sub', label: 'sub sub menu'),
-                    menus: [
-                      ActionMenu(const MenuMeta(router: 's1', label: 'sub menu1')),
-                      ActionMenu(const MenuMeta(router: 's2', label: 'sub menu2')),
-                      ActionMenu(const MenuMeta(router: 's3', label: 'sub menu3')),
-                    ]),
-              ]),
-          const DividerMenu(),
-          ActionMenu(const MenuMeta(router: '03', label: '3rd menu item'),
-              enable: false),
-          ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
-        ],
-        // width: 160,
-        childBuilder: (_, ctrl, __) {
-          return DebugDisplayButton(
-            info: 'DIY Style#$label',
-            onPressed: ctrl.open,
-          );
-        });
-  }
-
-  void onSelect(
-    MenuMeta menu,
-  ) {
+  void onSelect(MenuMeta menu) {
     $message.success(message: '点击了 [${menu.label}] 菜单');
+  }
+
+  Widget? _tailBuilder(_, MenuMeta menu, DropMenuDisplayMeta display) {
+    MenuDisplayExt? ext = menu.ext?.me<MenuDisplayExt>();
+    if (ext?.action != null) {
+      const TextStyle style = TextStyle(color: Colors.grey, fontSize: 12);
+      return Padding(
+        padding: const EdgeInsets.only(left: 12.0),
+        child: Text(ext!.action!, style: style),
+      );
+    }
+    return null;
+  }
+
+  Widget? _leadingBuilder(_, MenuMeta menu, DropMenuDisplayMeta display) {
+    MenuDisplayExt? ext = menu.ext?.me<MenuDisplayExt>();
+    Widget? child;
+    if (ext?.image != null) {
+      child = Image(image: ext!.image!, width: 20);
+    }
+    if (ext?.leading != null) {
+      child = ext?.leading;
+    }
+    if (menu.icon != null) {
+      child = Icon(menu.icon!, size: 20);
+    }
+    if(child!=null){
+      return Padding(padding: const EdgeInsets.only(right: 8.0), child: child);
+    }
+    return null;
   }
 }

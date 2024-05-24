@@ -11,7 +11,7 @@ import 'widgets_route.dart';
 
 RouteBase get appRoutes => GoRoute(
       path: '/',
-      redirect: (_, __) => null,
+      redirect: _widgetHome,
       routes: [
         ShellRoute(
             builder: (BuildContext context, GoRouterState state, Widget child) {
@@ -64,3 +64,9 @@ RouteBase get appRoutes => GoRoute(
         // deskNavRoute
       ],
     );
+String? _widgetHome(_, state) {
+  if (state.fullPath == '/') {
+    return '/home';
+  }
+  return null;
+}

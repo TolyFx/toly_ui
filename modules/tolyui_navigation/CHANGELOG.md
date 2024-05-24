@@ -7,3 +7,6 @@
 
 ## 0.0.5
 * Support Widget: [TolyRailMenuTree]
+* 
+## 0.0.7
+* Support Widget: [TolyDropMenu]

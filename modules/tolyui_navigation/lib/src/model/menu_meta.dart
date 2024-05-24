@@ -26,7 +26,7 @@ class MenuMeta implements Identify<String>{
   final MenuMateExt? ext;
 
   const MenuMeta({
-    required this.router,
+    this.router = '',
     required this.label,
     this.icon,
     this.ext,

@@ -5,3 +5,7 @@
 ## 0.2.0
 
 * Support [TolyMessageShowTheme] and [TolyMessageStyleTheme] to set default Theme
+
+## 0.2.1
+
+* Fix TapRegion Bug

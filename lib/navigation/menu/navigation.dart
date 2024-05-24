@@ -16,11 +16,9 @@ Map<String, dynamic> get navigationMenus => {
           // 'icon': Icons.text_fields,
         },
         {
-          'path': '/Breadcrumb',
+          'path': '/breadcrumb',
           'label': 'Breadcrumb',
           'subtitle': '面包屑',
-
-          // 'icon': Icons.text_fields,
         },
         {
           'path': '/drop_menu',

@@ -26,7 +26,10 @@ class DropMenuDisplayMeta {
 }
 
 typedef MenuMetaBuilder = Widget? Function(
-    BuildContext context, MenuMeta menu, DropMenuDisplayMeta display);
+  BuildContext context,
+  MenuMeta menu,
+  DropMenuDisplayMeta display,
+);
 
 class ActionMenuItem extends StatefulWidget {
   final ActionMenu display;
@@ -81,7 +84,7 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
       ),
     );
 
-    if (widget.display.menu.icon != null&&leading==null) {
+    if (widget.display.menu.icon != null && leading == null) {
       leading = Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: Icon(
@@ -112,8 +115,7 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (leading != null)
-            leading,
+          if (leading != null) leading,
           // if (widget.display.menu.icon != null)
           //   Padding(
           //     padding: const EdgeInsets.only(right: 8.0),
@@ -128,8 +130,7 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
             style: TextStyle(color: foregroundColor),
           ),
           // Spacer(),
-          if (tail != null)
-            tail
+          if (tail != null) tail
         ],
       ),
     );
@@ -144,10 +145,9 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
     return wrap(child, cursor: cursor);
   }
 
-  // Widget buildLeading(){
-  //
-  // }
-
+// Widget buildLeading(){
+//
+// }
 }
 
 class DividerMenuItem extends StatelessWidget {

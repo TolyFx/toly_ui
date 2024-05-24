@@ -56,6 +56,10 @@ Widget widgetDisplayMap(String key) {
     'RailMenuTreeDemo2' => const RailMenuTreeDemo2(),
     'RailMenuTreeDemo3' => const RailMenuTreeDemo3(),
     'RailMenuTreeDemo4' => const RailMenuTreeDemo4(),
+    'BreadcrumbDemo1' => const BreadcrumbDemo1(),
+    'BreadcrumbDemo2' => const BreadcrumbDemo2(),
+    'BreadcrumbDemo3' => const BreadcrumbDemo3(),
+    'BreadcrumbDemo4' => const BreadcrumbDemo4(),
     _ => const SizedBox()
   };
 }

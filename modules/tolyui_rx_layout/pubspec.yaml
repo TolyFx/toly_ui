@@ -5,7 +5,7 @@ homepage: https://github.com/TolyFx/tolyui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui_rx_layout
 
 environment:
-  sdk: '>=3.3.4 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:

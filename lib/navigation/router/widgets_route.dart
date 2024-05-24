@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toly_ui/view/widgets/feedback/message/message_display_page.dart';
 import 'package:toly_ui/view/widgets/feedback/popover/popover_display_page.dart';
+import 'package:toly_ui/view/widgets/navigation/breadcrumb/breadcrumb_display_page.dart';
 import 'package:toly_ui/view/widgets/widget_navigation_scope.dart';
 
 import '../../view/ecological/ecological_page.dart';
@@ -14,8 +15,7 @@ import '../../view/widgets/basic/link/link_display_page.dart';
 import '../../view/widgets/basic/text/text_display_page.dart';
 import '../../view/widgets/form/input/input_display_page.dart';
 import '../../view/widgets/navigation/drop_menu/drop_menu_display_page.dart';
-import '../../view/widgets/navigation/drop_menu/drop_menu_display_page.dart';
-import '../../view/widgets/navigation/rail_menu_bar/link_display_page.dart';
+import '../../view/widgets/navigation/rail_menu_bar/rail_menu_bar_display_page.dart';
 import '../../view/widgets/navigation/rail_menu_tree/rail_menu_tree_display_page.dart';
 import '../../view/widgets/overview/overview_page.dart';
 import '../../view/widgets/widgets_page.dart';
@@ -30,9 +30,7 @@ RouteBase get widgetsRoute => ShellRoute(
         routes: [
           GoRoute(
               path: 'widgets',
-              builder: (BuildContext context, GoRouterState state) {
-                return WidgetsPage();
-              },
+              redirect: _widgetRedirect,
               routes: [
                 GoRoute(
                     path: "overview",
@@ -47,6 +45,11 @@ RouteBase get widgetsRoute => ShellRoute(
                     },
                     routes: [
                       GoRoute(
+                        path: 'breadcrumb',
+                        builder: (BuildContext context, GoRouterState state) {
+                          return BreadcrumbDisplayPage();
+                        },
+                      ),               GoRoute(
                         path: 'rail_menu_bar',
                         builder: (BuildContext context, GoRouterState state) {
                           return RailMenuBarDisplayPage();
@@ -57,7 +60,8 @@ RouteBase get widgetsRoute => ShellRoute(
                         builder: (BuildContext context, GoRouterState state) {
                           return RailMenuTreeDisplayPage();
                         },
-                      ),          GoRoute(
+                      ),
+                      GoRoute(
                         path: 'drop_menu',
                         builder: (BuildContext context, GoRouterState state) {
                           return DropMenuDisplay();
@@ -161,7 +165,8 @@ RouteBase get widgetsRoute => ShellRoute(
                         builder: (BuildContext context, GoRouterState state) {
                           return MessageDisplayPage();
                         },
-                      ),     GoRoute(
+                      ),
+                      GoRoute(
                         path: 'notification',
                         builder: (BuildContext context, GoRouterState state) {
                           return NotificationDisplayPage();
@@ -191,3 +196,10 @@ RouteBase get widgetsRoute => ShellRoute(
                 ),
               ]),
         ]);
+
+String? _widgetRedirect(_, state) {
+  if (state.fullPath == '/widgets') {
+    return '/widgets/overview';
+  }
+  return null;
+}
