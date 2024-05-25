@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Map<String, dynamic> get dataMenus => {
-      'path': '/widgets/Data',
+      'path': '/widgets/data',
       'icon': Icons.data_thresholding_sharp,
       'label': 'Data 数据展示',
       'children': [
@@ -51,5 +51,13 @@ Map<String, dynamic> get dataMenus => {
 
           // 'icon': Icons.text_fields,
         },
+        {
+          'path': '/statistics',
+          'label': 'Statistics',
+          'subtitle': '数据统计',
+
+          // 'icon': Icons.text_fields,
+        },
+
       ]
     };

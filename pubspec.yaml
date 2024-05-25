@@ -61,7 +61,7 @@ dependencies:
   # svg 展示
   flutter_svg: ^2.0.10+1
   oktoast: ^3.4.0
-
+  ac_string_ext: ^0.0.2
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
