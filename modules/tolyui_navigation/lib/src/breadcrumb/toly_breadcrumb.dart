@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:tolyui/tolyui.dart';
+
+import '../model/model.dart';
 
 class TolyBreadcrumb extends StatelessWidget {
   final List<MenuMeta> items;

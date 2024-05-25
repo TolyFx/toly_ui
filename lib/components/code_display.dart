@@ -6,6 +6,7 @@ import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:toggle_rotate/toggle_rotate.dart';
 import 'package:toly_ui/app/theme/code_theme.dart';
 import 'package:toly_ui/app/utils/toast.dart';
+import 'package:tolyui/tolyui.dart';
 import 'package:tolyui_feedback/toly_tooltip/toly_tooltip.dart';
 
 import '../incubator/components/data/collapse.dart';
@@ -44,7 +45,7 @@ class CodeDisplay extends StatelessWidget {
                       GestureDetector(
                           onTap: () async{
                             await Clipboard.setData(ClipboardData(text: code));
-                            Toast.success(context, '代码复制成功!');
+                            $message.success(message: '代码复制成功!');
                           },
                           child: const TolyTooltip(
                               message: '复制代码',

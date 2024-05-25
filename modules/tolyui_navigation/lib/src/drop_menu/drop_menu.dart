@@ -7,6 +7,7 @@
 // Contact Me:  1981462002@qq.com
 
 export 'core/drop_menu.dart';
+export 'mixin/hover_action_mixin.dart';
 export 'menu_view/menu_item_display.dart';
 export 'menu_view/sub_menu.dart';
 export 'menu_view/action_menu_item.dart';
