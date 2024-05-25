@@ -19,19 +19,18 @@ Map<String, dynamic> get navigationMenus => {
           'path': '/breadcrumb',
           'label': 'Breadcrumb',
           'subtitle': '面包屑',
+          'tag' :'新'
         },
         {
           'path': '/drop_menu',
           'label': 'DropMenu',
           'subtitle': '下拉菜单',
-          'tag' :'新'
           // 'icon': Icons.text_fields,
         },
         {
           'path': '/rail_menu_tree',
           'label': 'RailMenuTree',
           'subtitle': '树形菜单',
-          'tag' :'新'
 
 
           // 'icon': Icons.text_fields,
@@ -44,17 +43,16 @@ Map<String, dynamic> get navigationMenus => {
           // 'icon': Icons.text_fields,
         },
         {
-          'path': '/Tabs',
+          'path': '/tabs',
           'label': 'Tabs',
           'subtitle': '标签页',
-          // 'icon': Icons.text_fields,
+          'tag' :'新'
+
         },
         {
           'path': '/Steps',
           'label': 'Steps',
           'subtitle': '步骤条',
-
-          // 'icon': Icons.text_fields,
         },
       ]
     };

@@ -18,9 +18,12 @@ import '../../view/widgets/form/input/input_display_page.dart';
 import '../../view/widgets/navigation/drop_menu/drop_menu_display_page.dart';
 import '../../view/widgets/navigation/rail_menu_bar/rail_menu_bar_display_page.dart';
 import '../../view/widgets/navigation/rail_menu_tree/rail_menu_tree_display_page.dart';
+import '../../view/widgets/navigation/tabs/tabs_display_page.dart';
 import '../../view/widgets/overview/overview_page.dart';
 import '../../view/widgets/widgets_page.dart';
 import '../view/empty404/widget404.dart';
+
+
 
 RouteBase get widgetsRoute => ShellRoute(
         builder: (BuildContext context, GoRouterState state, Widget child) {
@@ -66,6 +69,12 @@ RouteBase get widgetsRoute => ShellRoute(
                         path: 'drop_menu',
                         builder: (BuildContext context, GoRouterState state) {
                           return DropMenuDisplay();
+                        },
+                      ),
+                      GoRoute(
+                        path: 'tabs',
+                        builder: (BuildContext context, GoRouterState state) {
+                          return TabsDisplayPage();
                         },
                       ),
                     ]),

@@ -16,3 +16,5 @@ export 'breadcrumb/breadcrumb_demo1.dart';
 export 'breadcrumb/breadcrumb_demo2.dart';
 export 'breadcrumb/breadcrumb_demo3.dart';
 export 'breadcrumb/breadcrumb_demo4.dart';
+
+export 'tabs/tabs_demo1.dart';

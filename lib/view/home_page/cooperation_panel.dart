@@ -43,7 +43,7 @@ class CooperationPanel extends StatelessWidget {
                 child: Row(
                   children: [
                     Image.asset(
-                      'assets/images/logo.png',
+                      'assets/images/fx.png',
                       width: 42,
                     ),
                     const SizedBox(

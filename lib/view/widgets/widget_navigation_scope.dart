@@ -19,7 +19,7 @@ class WidgetNavigationScope extends StatelessWidget {
   Widget? _buildDrawer(Rx r){
     if(r.index > 1) return null;
     return Material(
-      child: _buildMenuBar(),
+      child: const AppNavMenu(),
     );
   }
 
@@ -40,13 +40,6 @@ class WidgetNavigationScope extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuBar(){
-    return  MenuRouterScope(
-      repository: WidgetMenuRepositoryImpl(),
-      child: const AppNavMenu(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return WindowRespondBuilder(
@@ -55,7 +48,7 @@ class WidgetNavigationScope extends StatelessWidget {
         appBar: _buildAppBar(r),
         body: Row(
           children: [
-            if (r.index > 1) _buildMenuBar(),
+            if (r.index > 1) const AppNavMenu(),
             // if (r.index > 1) const VerticalDivider(),
             Expanded(child: child),
           ],

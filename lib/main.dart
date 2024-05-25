@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toly_ui/incubator/ext/go_router/path.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import 'app/logic/app_state/app_logic.dart';
@@ -13,10 +14,15 @@ void main() {
   runApp(AppScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({super.key});
 
-  final GoRouter _router = GoRouter(
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  GoRouter _router = GoRouter(
     initialLocation: '/home',
     routes: <RouteBase>[appRoutes],
     onException: (BuildContext ctx, GoRouterState state, GoRouter router) {
@@ -25,6 +31,8 @@ class MyApp extends StatelessWidget {
       router.go('/$parent/404', extra: state.uri.toString());
     },
   );
+
+
 
   // This widget is the root of your application.
   @override
@@ -43,8 +51,22 @@ class MyApp extends StatelessWidget {
         theme: light,
         darkTheme: dark,
         themeMode: mode,
-        title: 'TolyUI',
+        title: 'TolyUI1',
       ),
+    );
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    _router = GoRouter(
+      initialLocation: _router.path,
+      routes: <RouteBase>[appRoutes],
+      onException: (BuildContext ctx, GoRouterState state, GoRouter router) {
+        String parent = state.uri.pathSegments.first;
+        print("onException::${state.uri}==============");
+        router.go('/$parent/404', extra: state.uri.toString());
+      },
     );
   }
 }

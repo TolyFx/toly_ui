@@ -6,13 +6,13 @@
 // CreateTime:  2024-05-23
 // Contact Me:  1981462002@qq.com
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:toly_menu_manager/ext/ext.dart';
+import 'package:toly_ui/incubator/ext/go_router/listener.dart';
 import 'package:toly_ui/navigation/menu/widget_menus.dart';
 import 'package:tolyui/tolyui.dart';
-
-import '../../home_page/home_nav_bar.dart';
 import 'toly_ui_menu_cell.dart';
 
 class AppNavMenu extends StatefulWidget {
@@ -53,8 +53,8 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin{
   void _initTreeMeta() {
     MenuNode root = MenuNode.fromMap(widgetMenus,extParser: TolyUIMenuMetaExt.fromMap);
     _menuMeta = MenuTreeMeta(
-      expandMenus: ['/dashboard'],
-      activeMenu: root.find('/dashboard/home'),
+      expandMenus: [File(path).parent.path],
+      activeMenu: root.find(path),
       root: root,
     );
   }
@@ -66,7 +66,6 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin{
       _menuMeta = _menuMeta.select(menu, singleExpand: true);
       setState(() {});
     }
-
   }
 
   @override

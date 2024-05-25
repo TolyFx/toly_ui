@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toly_ui/app/logic/actions/navigation.dart';
 import 'package:toly_ui/app/theme/theme.dart';
+import 'package:toly_ui/incubator/ext/go_router/listener.dart';
 
 import '../../app/logic/app_state/app_logic.dart';
 import '../../app/res/toly_icon.dart';
@@ -88,20 +89,20 @@ class AppThemeSwitch extends StatelessWidget {
       scale: 0.85,
       child: Switch(
           value: isDark,
-          overlayColor: MaterialStateProperty.all(Colors.transparent),
-          trackOutlineWidth: MaterialStateProperty.all(px1),
+          overlayColor: WidgetStateProperty.all(Colors.transparent),
+          trackOutlineWidth: WidgetStateProperty.all(px1),
           inactiveTrackColor: const Color(0xfff2f2f2),
           activeColor: const Color(0xff2c2c2c),
-          trackOutlineColor: MaterialStateProperty.all(const Color(0xffdcdfe6)),
+          trackOutlineColor: WidgetStateProperty.all(const Color(0xffdcdfe6)),
           // thumbIcon: MaterialStateProperty.all(const Icon(
           //   Icons.light_mode,
           //   color: Color(0xff606266),
           // )),
-          thumbIcon: MaterialStateProperty.all(
+          thumbIcon: WidgetStateProperty.all(
               isDark ? const Icon(Icons.dark_mode,color: const Color(0xff2c2c2c),)
                   : const Icon(Icons.light_mode,color: const Color(0xff2c2c2c),)),
 
-          thumbColor: MaterialStateProperty.all(Colors.white),
+          thumbColor: WidgetStateProperty.all(Colors.white),
 
           onChanged: (v) =>context.read<AppLogic>().toggleThemeModel(v)),
     );
@@ -132,7 +133,7 @@ class _AppNavMenusState extends State<AppNavMenus>
     return TolyMenuBar(
       onTap: (int value) {
         if(value==1){
-          context.go('/widgets/basic/layout');
+          context.go('/widgets');
           return;
         }
         if (value >= 0) {
@@ -175,26 +176,3 @@ class _HoveTextButtonState extends State<HoveTextButton> {
   }
 }
 
-mixin RouterChangeListenerMixin<T extends StatefulWidget> on State<T> {
-  late GoRouterDelegate _delegate;
-
-  @override
-  void initState() {
-    super.initState();
-    _delegate = GoRouter.of(context).routerDelegate;
-    _delegate.addListener(_onChange);
-  }
-
-  @override
-  void dispose() {
-    _delegate.removeListener(_onChange);
-    super.dispose();
-  }
-
-  void _onChange() {
-    RouteMatchBase match = _delegate.currentConfiguration.matches.last;
-    onChangeRoute("/${match.matchedLocation}");
-  }
-
-  void onChangeRoute(String path);
-}
