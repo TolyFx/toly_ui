@@ -15,181 +15,7 @@ const double _kTabHeight = 46.0;
 const double _kTextAndIconTabHeight = 72.0;
 const double _kStartOffset = 52.0;
 
-/// Defines how the bounds of the selected tab indicator are computed.
-///
-/// See also:
-///
-///  * [TolyTabBar], which displays a row of tabs.
-///  * [TabBarView], which displays a widget for the currently selected tab.
-///  * [TolyTabBar.indicator], which defines the appearance of the selected tab
-///    indicator relative to the tab's bounds.
-// enum TabBarIndicatorSize {
-//   /// The tab indicator's bounds are as wide as the space occupied by the tab
-//   /// in the tab bar: from the right edge of the previous tab to the left edge
-//   /// of the next tab.
-//   tab,
-//
-//   /// The tab's bounds are only as wide as the (centered) tab widget itself.
-//   ///
-//   /// This value is used to align the tab's label, typically a [Tab]
-//   /// widget's text or icon, with the selected tab indicator.
-//   label,
-// }
-
-/// Defines how tabs are aligned horizontally in a [TolyTabBar].
-///
-/// See also:
-///
-///   * [TolyTabBar], which displays a row of tabs.
-///   * [TabBarView], which displays a widget for the currently selected tab.
-///   * [TolyTabBar.tabAlignment], which defines the horizontal alignment of the
-///     tabs within the [TolyTabBar].
-// enum TabAlignment {
-//   // TODO(tahatesser): Add a link to the Material Design spec for
-//   // horizontal offset when it is available.
-//   // It's currently sourced from androidx/compose/material3/TabRow.kt.
-//   /// If [TabBar.isScrollable] is true, tabs are aligned to the
-//   /// start of the [TabBar]. Otherwise throws an exception.
-//   ///
-//   /// It is not recommended to set [TabAlignment.start] when
-//   /// [ThemeData.useMaterial3] is false.
-//   start,
-//
-//   /// If [TabBar.isScrollable] is true, tabs are aligned to the
-//   /// start of the [TabBar] with an offset of 52.0 pixels.
-//   /// Otherwise throws an exception.
-//   ///
-//   /// It is not recommended to set [TabAlignment.startOffset] when
-//   /// [ThemeData.useMaterial3] is false.
-//   startOffset,
-//
-//   /// If [TabBar.isScrollable] is false, tabs are stretched to fill the
-//   /// [TabBar]. Otherwise throws an exception.
-//   fill,
-//
-//   /// Tabs are aligned to the center of the [TabBar].
-//   center,
-// }
-
-/// A Material Design [TolyTabBar] tab.
-///
-/// If both [icon] and [text] are provided, the text is displayed below
-/// the icon.
-///
-/// See also:
-///
-///  * [TolyTabBar], which displays a row of tabs.
-///  * [TabBarView], which displays a widget for the currently selected tab.
-///  * [TabController], which coordinates tab selection between a [TolyTabBar] and a [TabBarView].
-///  * <https://material.io/design/components/tabs.html>
-class Tab extends StatelessWidget implements PreferredSizeWidget {
-  /// Creates a Material Design [TolyTabBar] tab.
-  ///
-  /// At least one of [text], [icon], and [child] must be non-null. The [text]
-  /// and [child] arguments must not be used at the same time. The
-  /// [iconMargin] is only useful when [icon] and either one of [text] or
-  /// [child] is non-null.
-  const Tab({
-    super.key,
-    this.text,
-    this.icon,
-    this.iconMargin,
-    this.height,
-    this.child,
-  }) : assert(text != null || child != null || icon != null),
-       assert(text == null || child == null);
-
-  /// The text to display as the tab's label.
-  ///
-  /// Must not be used in combination with [child].
-  final String? text;
-
-  /// The widget to be used as the tab's label.
-  ///
-  /// Usually a [Text] widget, possibly wrapped in a [Semantics] widget.
-  ///
-  /// Must not be used in combination with [text].
-  final Widget? child;
-
-  /// An icon to display as the tab's label.
-  final Widget? icon;
-
-  /// The margin added around the tab's icon.
-  ///
-  /// Only useful when used in combination with [icon], and either one of
-  /// [text] or [child] is non-null.
-  ///
-  /// Defaults to 2 pixels of bottom margin. If [ThemeData.useMaterial3] is false,
-  /// then defaults to 10 pixels of bottom margin.
-  final EdgeInsetsGeometry? iconMargin;
-
-  /// The height of the [Tab].
-  ///
-  /// If null, the height will be calculated based on the content of the [Tab]. When `icon` is not
-  /// null along with `child` or `text`, the default height is 72.0 pixels. Without an `icon`, the
-  /// height is 46.0 pixels.
-  final double? height;
-
-  Widget _buildLabelText() {
-    return child ?? Text(text!, softWrap: false, overflow: TextOverflow.fade);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    assert(debugCheckHasMaterial(context));
-
-    final double calculatedHeight;
-    final Widget label;
-    if (icon == null) {
-      calculatedHeight = _kTabHeight;
-      label = _buildLabelText();
-    } else if (text == null && child == null) {
-      calculatedHeight = _kTabHeight;
-      label = icon!;
-    } else {
-      calculatedHeight = _kTextAndIconTabHeight;
-      final EdgeInsetsGeometry effectiveIconMargin = iconMargin ??
-        (Theme.of(context).useMaterial3
-          ? _TabsPrimaryDefaultsM3.iconMargin
-          : _TabsDefaultsM2.iconMargin);
-      label = Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            margin: effectiveIconMargin,
-            child: icon,
-          ),
-          _buildLabelText(),
-        ],
-      );
-    }
-
-    return SizedBox(
-      height: height ?? calculatedHeight,
-      child: Center(
-        widthFactor: 1.0,
-        child: label,
-      ),
-    );
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(StringProperty('text', text, defaultValue: null));
-  }
-
-  @override
-  Size get preferredSize {
-    if (height != null) {
-      return Size.fromHeight(height!);
-    } else if ((text != null || child != null) && icon != null) {
-      return const Size.fromHeight(_kTextAndIconTabHeight);
-    } else {
-      return const Size.fromHeight(_kTabHeight);
-    }
-  }
-}
+typedef EnableValueCallback = bool Function(int index);
 
 class _TabStyle extends AnimatedWidget {
   const _TabStyle({
@@ -824,6 +650,8 @@ class TolyTabBar extends StatefulWidget implements PreferredSizeWidget {
     required this.tabs,
     this.controller,
     this.isScrollable = false,
+    this.showDivider = true,
+    this.showIndicator = true,
     this.padding,
     this.indicatorColor,
     this.automaticIndicatorColorAdjustment = true,
@@ -875,6 +703,8 @@ class TolyTabBar extends StatefulWidget implements PreferredSizeWidget {
     required this.tabs,
     this.controller,
     this.isScrollable = false,
+    this.showDivider = true,
+    this.showIndicator = true,
     this.padding,
     this.indicatorColor,
     this.automaticIndicatorColorAdjustment = true,
@@ -981,6 +811,9 @@ class TolyTabBar extends StatefulWidget implements PreferredSizeWidget {
   ///  * [splashBorderRadius], which defines the clipping radius of the splash
   ///    and is generally used with [BoxDecoration.borderRadius].
   final Decoration? indicator;
+  final bool showDivider;
+  final bool showIndicator;
+
 
   /// Whether this tab bar should automatically adjust the [indicatorColor].
   ///
@@ -1159,7 +992,7 @@ class TolyTabBar extends StatefulWidget implements PreferredSizeWidget {
   /// even if the tap doesn't change the TabController's index. TabBar [onTap]
   /// callbacks should not make changes to the TabController since that would
   /// interfere with the default tap handler.
-  final ValueChanged<int>? onTap;
+  final EnableValueCallback? onTap;
 
   /// How the [TolyTabBar]'s scroll view should respond to user input.
   ///
@@ -1299,6 +1132,7 @@ class _TolyTabBarState extends State<TolyTabBar> {
   }
 
   Decoration _getIndicator(TabBarIndicatorSize indicatorSize) {
+    if(!widget.showIndicator) return const BoxDecoration();
     final ThemeData theme = Theme.of(context);
     final TabBarTheme tabBarTheme = TabBarTheme.of(context);
 
@@ -1418,7 +1252,7 @@ class _TolyTabBarState extends State<TolyTabBar> {
       labelPaddings: _labelPaddings,
       dividerColor: widget.dividerColor ?? tabBarTheme.dividerColor ?? _defaults.dividerColor,
       dividerHeight: widget.dividerHeight ?? tabBarTheme.dividerHeight ?? _defaults.dividerHeight,
-      showDivider: theme.useMaterial3 && !widget.isScrollable,
+      showDivider: theme.useMaterial3 && !widget.isScrollable&& widget.showDivider,
     );
 
     oldPainter?.dispose();
@@ -1564,8 +1398,10 @@ class _TolyTabBarState extends State<TolyTabBar> {
 
   void _handleTap(int index) {
     assert(index >= 0 && index < widget.tabs.length);
-    _controller!.animateTo(index);
-    widget.onTap?.call(index);
+    bool enable = widget.onTap?.call(index)??false;
+    if(enable){
+      _controller!.animateTo(index);
+    }
   }
 
   Widget _buildStyledTab(Widget child, bool isSelected, Animation<double> animation, TabBarTheme defaults) {
@@ -1797,7 +1633,7 @@ class _TolyTabBarState extends State<TolyTabBar> {
           child: tabBar,
         );
 
-        if (showDivider) {
+        if (showDivider&&widget.showDivider) {
           tabBar = CustomPaint(
             painter: _DividerPainter(
               dividerColor: widget.dividerColor ?? tabBarTheme.dividerColor ?? _defaults.dividerColor!,
@@ -1815,340 +1651,6 @@ class _TolyTabBarState extends State<TolyTabBar> {
     }
 
     return tabBar;
-  }
-}
-
-/// A page view that displays the widget which corresponds to the currently
-/// selected tab.
-///
-/// This widget is typically used in conjunction with a [TolyTabBar].
-///
-/// {@youtube 560 315 https://www.youtube.com/watch?v=POtoEH-5l40}
-///
-/// If a [TabController] is not provided, then there must be a [DefaultTabController]
-/// ancestor.
-///
-/// The tab controller's [TabController.length] must equal the length of the
-/// [children] list and the length of the [TolyTabBar.tabs] list.
-///
-/// To see a sample implementation, visit the [TabController] documentation.
-class TabBarView extends StatefulWidget {
-  /// Creates a page view with one child per tab.
-  ///
-  /// The length of [children] must be the same as the [controller]'s length.
-  const TabBarView({
-    super.key,
-    required this.children,
-    this.controller,
-    this.physics,
-    this.dragStartBehavior = DragStartBehavior.start,
-    this.viewportFraction = 1.0,
-    this.clipBehavior = Clip.hardEdge,
-  });
-
-  /// This widget's selection and animation state.
-  ///
-  /// If [TabController] is not provided, then the value of [DefaultTabController.of]
-  /// will be used.
-  final TabController? controller;
-
-  /// One widget per tab.
-  ///
-  /// Its length must match the length of the [TolyTabBar.tabs]
-  /// list, as well as the [controller]'s [TabController.length].
-  final List<Widget> children;
-
-  /// How the page view should respond to user input.
-  ///
-  /// For example, determines how the page view continues to animate after the
-  /// user stops dragging the page view.
-  ///
-  /// The physics are modified to snap to page boundaries using
-  /// [PageScrollPhysics] prior to being used.
-  ///
-  /// Defaults to matching platform conventions.
-  final ScrollPhysics? physics;
-
-  /// {@macro flutter.widgets.scrollable.dragStartBehavior}
-  final DragStartBehavior dragStartBehavior;
-
-  /// {@macro flutter.widgets.pageview.viewportFraction}
-  final double viewportFraction;
-
-  /// {@macro flutter.material.Material.clipBehavior}
-  ///
-  /// Defaults to [Clip.hardEdge].
-  final Clip clipBehavior;
-
-  @override
-  State<TabBarView> createState() => _TabBarViewState();
-}
-
-class _TabBarViewState extends State<TabBarView> {
-  TabController? _controller;
-  PageController? _pageController;
-  late List<Widget> _childrenWithKey;
-  int? _currentIndex;
-  int _warpUnderwayCount = 0;
-  int _scrollUnderwayCount = 0;
-  bool _debugHasScheduledValidChildrenCountCheck = false;
-
-  // If the TabBarView is rebuilt with a new tab controller, the caller should
-  // dispose the old one. In that case the old controller's animation will be
-  // null and should not be accessed.
-  bool get _controllerIsValid => _controller?.animation != null;
-
-  void _updateTabController() {
-    final TabController? newController = widget.controller ?? DefaultTabController.maybeOf(context);
-    assert(() {
-      if (newController == null) {
-        throw FlutterError(
-          'No TabController for ${widget.runtimeType}.\n'
-          'When creating a ${widget.runtimeType}, you must either provide an explicit '
-          'TabController using the "controller" property, or you must ensure that there '
-          'is a DefaultTabController above the ${widget.runtimeType}.\n'
-          'In this case, there was neither an explicit controller nor a default controller.',
-        );
-      }
-      return true;
-    }());
-
-    if (newController == _controller) {
-      return;
-    }
-
-    if (_controllerIsValid) {
-      _controller!.animation!.removeListener(_handleTabControllerAnimationTick);
-    }
-    _controller = newController;
-    if (_controller != null) {
-      _controller!.animation!.addListener(_handleTabControllerAnimationTick);
-    }
-  }
-
-  void _jumpToPage(int page) {
-    _warpUnderwayCount += 1;
-    _pageController!.jumpToPage(page);
-    _warpUnderwayCount -= 1;
-  }
-
-  Future<void> _animateToPage(
-    int page, {
-    required Duration duration,
-    required Curve curve,
-  }) async {
-    _warpUnderwayCount += 1;
-    await _pageController!.animateToPage(page, duration: duration, curve: curve);
-    _warpUnderwayCount -= 1;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _updateChildren();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _updateTabController();
-    _currentIndex = _controller!.index;
-    if (_pageController == null) {
-      _pageController = PageController(
-        initialPage: _currentIndex!,
-        viewportFraction: widget.viewportFraction,
-      );
-    } else {
-      _pageController!.jumpToPage(_currentIndex!);
-    }
-  }
-
-  @override
-  void didUpdateWidget(TabBarView oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.controller != oldWidget.controller) {
-      _updateTabController();
-      _currentIndex = _controller!.index;
-      _jumpToPage(_currentIndex!);
-    }
-    if (widget.viewportFraction != oldWidget.viewportFraction) {
-      _pageController?.dispose();
-      _pageController = PageController(
-        initialPage: _currentIndex!,
-        viewportFraction: widget.viewportFraction,
-      );
-    }
-    // While a warp is under way, we stop updating the tab page contents.
-    // This is tracked in https://github.com/flutter/flutter/issues/31269.
-    if (widget.children != oldWidget.children && _warpUnderwayCount == 0) {
-      _updateChildren();
-    }
-  }
-
-  @override
-  void dispose() {
-    if (_controllerIsValid) {
-      _controller!.animation!.removeListener(_handleTabControllerAnimationTick);
-    }
-    _controller = null;
-    _pageController?.dispose();
-    // We don't own the _controller Animation, so it's not disposed here.
-    super.dispose();
-  }
-
-  void _updateChildren() {
-    _childrenWithKey = KeyedSubtree.ensureUniqueKeysForList(widget.children);
-  }
-
-  void _handleTabControllerAnimationTick() {
-    if (_scrollUnderwayCount > 0 || !_controller!.indexIsChanging) {
-      return;
-    } // This widget is driving the controller's animation.
-
-    if (_controller!.index != _currentIndex) {
-      _currentIndex = _controller!.index;
-      _warpToCurrentIndex();
-    }
-  }
-
-  void _warpToCurrentIndex() {
-    if (!mounted || _pageController!.page == _currentIndex!.toDouble()) {
-      return;
-    }
-
-    final bool adjacentDestination = (_currentIndex! - _controller!.previousIndex).abs() == 1;
-    if (adjacentDestination) {
-      _warpToAdjacentTab(_controller!.animationDuration);
-    } else {
-      _warpToNonAdjacentTab(_controller!.animationDuration);
-    }
-  }
-
-  Future<void> _warpToAdjacentTab(Duration duration) async {
-    if (duration == Duration.zero) {
-      _jumpToPage(_currentIndex!);
-    } else {
-      await _animateToPage(_currentIndex!, duration: duration, curve: Curves.ease);
-    }
-    if (mounted) {
-      setState(() { _updateChildren(); });
-    }
-    return Future<void>.value();
-  }
-
-  Future<void> _warpToNonAdjacentTab(Duration duration) async {
-    final int previousIndex = _controller!.previousIndex;
-    assert((_currentIndex! - previousIndex).abs() > 1);
-
-    // initialPage defines which page is shown when starting the animation.
-    // This page is adjacent to the destination page.
-    final int initialPage = _currentIndex! > previousIndex
-        ? _currentIndex! - 1
-        : _currentIndex! + 1;
-
-    setState(() {
-      // Needed for `RenderSliverMultiBoxAdaptor.move` and kept alive children.
-      // For motivation, see https://github.com/flutter/flutter/pull/29188 and
-      // https://github.com/flutter/flutter/issues/27010#issuecomment-486475152.
-      _childrenWithKey = List<Widget>.of(_childrenWithKey, growable: false);
-      final Widget temp = _childrenWithKey[initialPage];
-      _childrenWithKey[initialPage] = _childrenWithKey[previousIndex];
-      _childrenWithKey[previousIndex] = temp;
-    });
-
-    // Make a first jump to the adjacent page.
-    _jumpToPage(initialPage);
-
-    // Jump or animate to the destination page.
-    if (duration == Duration.zero) {
-      _jumpToPage(_currentIndex!);
-    } else {
-      await _animateToPage(_currentIndex!, duration: duration, curve: Curves.ease);
-    }
-
-    if (mounted) {
-      setState(() { _updateChildren(); });
-    }
-  }
-
-  void _syncControllerOffset() {
-    _controller!.offset = clampDouble(_pageController!.page! - _controller!.index, -1.0, 1.0);
-  }
-
-  // Called when the PageView scrolls
-  bool _handleScrollNotification(ScrollNotification notification) {
-    if (_warpUnderwayCount > 0 || _scrollUnderwayCount > 0) {
-      return false;
-    }
-
-    if (notification.depth != 0) {
-      return false;
-    }
-
-    if (!_controllerIsValid) {
-      return false;
-    }
-
-    _scrollUnderwayCount += 1;
-    final double page = _pageController!.page!;
-    if (notification is ScrollUpdateNotification && !_controller!.indexIsChanging) {
-      final bool pageChanged = (page - _controller!.index).abs() > 1.0;
-      if (pageChanged) {
-        _controller!.index = page.round();
-        _currentIndex =_controller!.index;
-      }
-      _syncControllerOffset();
-    } else if (notification is ScrollEndNotification) {
-      _controller!.index = page.round();
-      _currentIndex = _controller!.index;
-      if (!_controller!.indexIsChanging) {
-        _syncControllerOffset();
-      }
-    }
-    _scrollUnderwayCount -= 1;
-
-    return false;
-  }
-
-  bool _debugScheduleCheckHasValidChildrenCount() {
-    if (_debugHasScheduledValidChildrenCountCheck) {
-      return true;
-    }
-    WidgetsBinding.instance.addPostFrameCallback((Duration duration) {
-      _debugHasScheduledValidChildrenCountCheck = false;
-      if (!mounted) {
-        return;
-      }
-      assert(() {
-        if (_controller!.length != widget.children.length) {
-          throw FlutterError(
-            "Controller's length property (${_controller!.length}) does not match the "
-            "number of children (${widget.children.length}) present in TabBarView's children property.",
-          );
-        }
-        return true;
-      }());
-    }, debugLabel: 'TabBarView.validChildrenCountCheck');
-    _debugHasScheduledValidChildrenCountCheck = true;
-    return true;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    assert(_debugScheduleCheckHasValidChildrenCount());
-
-    return NotificationListener<ScrollNotification>(
-      onNotification: _handleScrollNotification,
-      child: PageView(
-        dragStartBehavior: widget.dragStartBehavior,
-        clipBehavior: widget.clipBehavior,
-        controller: _pageController,
-        physics: widget.physics == null
-          ? const PageScrollPhysics().applyTo(const ClampingScrollPhysics())
-          : const PageScrollPhysics().applyTo(widget.physics),
-        children: _childrenWithKey,
-      ),
-    );
   }
 }
 

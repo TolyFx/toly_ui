@@ -37,6 +37,8 @@ class MenuMeta implements Identify<String>{
     return 'MenuMeta{router: $router, label: $label, icon: $icon}';
   }
 
+  bool get enable => router.isNotEmpty;
+
   @override
   String get id => router;
 }
