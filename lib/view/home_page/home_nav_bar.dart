@@ -133,7 +133,7 @@ class _AppNavMenusState extends State<AppNavMenus>
   @override
   void initState() {
     super.initState();
-    _activeId = items.first.id;
+    // _activeId = items.first.id;
   }
 
   @override
@@ -151,6 +151,7 @@ class _AppNavMenusState extends State<AppNavMenus>
   void onChangeRoute(String path) {
     String first = Uri.parse(path).pathSegments.first;
     _activeId = "/$first";
+    print("=====onChangeRoute:${_activeId}===============");
     setState(() {});
   }
 }

@@ -11,17 +11,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-#  tolyui_feedback: ^0.3.3
-#  tolyui_navigation: ^0.0.5
-#  tolyui_rx_layout: ^1.0.0
+  tolyui_feedback: ^0.3.4
+  tolyui_navigation: ^0.0.8
+  tolyui_rx_layout: ^1.0.0
 
-  tolyui_feedback:
-    path: ../tolyui_feedback
-  tolyui_navigation:
-    path: ../tolyui_navigation
-
-  tolyui_rx_layout:
-    path: ../tolyui_rx_layout
+#  tolyui_feedback:
+#    path: ../tolyui_feedback
+#  tolyui_navigation:
+#    path: ../tolyui_navigation
+#
+#  tolyui_rx_layout:
+#    path: ../tolyui_rx_layout
 
 dev_dependencies:
   flutter_test:

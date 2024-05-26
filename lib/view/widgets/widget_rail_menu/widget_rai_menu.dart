@@ -6,7 +6,6 @@
 // CreateTime:  2024-05-23
 // Contact Me:  1981462002@qq.com
 
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +13,7 @@ import 'package:toly_ui/incubator/ext/go_router/listener.dart';
 import 'package:toly_ui/navigation/menu/widget_menus.dart';
 import 'package:tolyui/tolyui.dart';
 import 'toly_ui_menu_cell.dart';
+import 'package:path/path.dart' as p;
 
 class AppNavMenu extends StatefulWidget {
   const AppNavMenu({super.key});
@@ -52,8 +52,10 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin{
 
   void _initTreeMeta() {
     MenuNode root = MenuNode.fromMap(widgetMenus,extParser: TolyUIMenuMetaExt.fromMap);
+    List<String> parts = Uri.parse(path).pathSegments;
+    String parentPath = parts.sublist(0,parts.length-1).join('/');
     _menuMeta = MenuTreeMeta(
-      expandMenus: [File(path).parent.path],
+      expandMenus: ['/$parentPath'],
       activeMenu: root.find(path),
       root: root,
     );
