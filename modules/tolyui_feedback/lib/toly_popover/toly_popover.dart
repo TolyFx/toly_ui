@@ -123,8 +123,8 @@ class _TolyPopoverState extends State<TolyPopover>
   void dispose() {
     if (_isOpen) {
       _close(inDispose: true);
-    }
-    _popController._detach(this);
+    }    _popController._detach(this);
+
     _internalPopController = null;
     _backingController?.dispose();
     _backingController = null;

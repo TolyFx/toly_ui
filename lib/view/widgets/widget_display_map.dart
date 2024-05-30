@@ -67,6 +67,9 @@ Widget widgetDisplayMap(String key) {
     'TabsDemo4' => const TabsDemo4(),
     'TabsDemo5' => const TabsDemo5(),
     'TabsDemo6' => const TabsDemo6(),
+    'CollapseDemo1' => const CollapseDemo1(),
+    'CollapseDemo2' => const CollapseDemo2(),
+    'CollapseDemo3' => const CollapseDemo3(),
     _ => const SizedBox()
   };
 }
