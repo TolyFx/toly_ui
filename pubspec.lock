@@ -184,6 +184,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.19.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -421,9 +429,10 @@ packages:
   tolyui_feedback:
     dependency: transitive
     description:
-      path: "modules/tolyui_feedback"
-      relative: true
-    source: path
+      name: tolyui_feedback
+      sha256: "08508038ee77c9ec1c27a39e6cc7fae5a1f9c59da20c771b2fbd52258ff31206"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "0.3.4"
   tolyui_message:
     dependency: transitive
@@ -436,16 +445,18 @@ packages:
   tolyui_navigation:
     dependency: transitive
     description:
-      path: "modules/tolyui_navigation"
-      relative: true
-    source: path
-    version: "0.0.7"
+      name: tolyui_navigation
+      sha256: "777685f1794b7b93c6ff901e54843feac6e24833e3f243dce40c2bdc87964cae"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.8"
   tolyui_rx_layout:
     dependency: transitive
     description:
-      path: "modules/tolyui_rx_layout"
-      relative: true
-    source: path
+      name: tolyui_rx_layout
+      sha256: "559198f0bc1d2b3d2beb75be54ae17b8d9fc4276d7ff099967e8007450ce0719"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "1.0.0"
   typed_data:
     dependency: transitive
@@ -599,5 +610,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.3.3 <4.0.0"
+  dart: ">=3.3.4 <4.0.0"
   flutter: ">=3.19.0"

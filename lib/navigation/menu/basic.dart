@@ -10,18 +10,21 @@ Map<String, dynamic> get basicMenus => {
     {
       'path': '/button',
       'label': 'Button',
-      'subtitle': '按钮'
+      'subtitle': '按钮',
+      'isFlutter': true,
       // 'icon': Icons.text_fields,
     },
     {
       'path': '/icon',
       'label': 'Icon',
+      'isFlutter': true,
       'subtitle': '图标'
       // 'icon': Icons.text_fields,
     },
     {
       'path': '/text',
       'label': 'Text',
+      'isFlutter': true,
       'subtitle': '文本'
       // 'icon': Icons.text_fields,
     },   {

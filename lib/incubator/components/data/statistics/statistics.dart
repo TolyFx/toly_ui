@@ -11,7 +11,6 @@ class TolyStatistics extends StatefulWidget {
   final TextStyle? valueStyle;
   final bool enableSeparator;
 
-
   /// [value] Animation
   final bool enableAnimation;
 
@@ -38,11 +37,11 @@ class TolyStatistics extends StatefulWidget {
 
 class _TolyStatisticsState extends State<TolyStatistics>
     with SingleTickerProviderStateMixin {
-    AnimationController? valueAnimationController;
+  AnimationController? valueAnimationController;
 
   @override
   void initState() {
-    if (widget.enableAnimation){
+    if (widget.enableAnimation) {
       valueAnimationController = AnimationController(
           vsync: this, duration: const Duration(milliseconds: 500));
       if (widget.enableAnimation) valueAnimationController?.forward();
@@ -53,7 +52,7 @@ class _TolyStatisticsState extends State<TolyStatistics>
   @override
   Widget build(BuildContext context) {
     TextStyle titleStyle =
-        widget.titleStyle ?? const TextStyle(color: Colors.grey, fontSize: 10);
+        widget.titleStyle ?? const TextStyle(color: Colors.grey, fontSize: 12);
     TextStyle valueStyle = widget.valueStyle ??
         Theme.of(context).textTheme.bodyMedium ??
         const TextStyle();
@@ -64,45 +63,32 @@ class _TolyStatisticsState extends State<TolyStatistics>
         builder: (BuildContext context, Widget? child) => Text(calcValue),
       );
     }
+    Widget optimizedValue = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (widget.prefix != null) widget.prefix!,
+        value,
+        if (widget.suffix != null) widget.suffix!
+      ],
+    );
 
-    if (widget.prefix != null) {
-      value = Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [widget.prefix!, value],
-      );
-    }
-    if (widget.suffix != null) {
-      value = Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          value,
-          widget.suffix!,
-        ],
-      );
-    }
-    if (widget.prefix != null && widget.suffix != null) {
-      value = Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [widget.prefix!, value, widget.suffix!],
-      );
-    }
     return Column(
       children: [
         Text(widget.title, style: titleStyle),
         const SizedBox(height: 5),
-        value,
+        optimizedValue,
       ],
     );
   }
+
   @override
   void dispose() {
     valueAnimationController?.dispose();
     super.dispose();
   }
 
-  String get calcValue{
+  String get calcValue {
     String ret = "${(widget.value * valueAnimationController!.value).toInt()}";
     return ret.separator();
   }
-
 }

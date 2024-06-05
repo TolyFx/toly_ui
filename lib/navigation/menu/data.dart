@@ -9,19 +9,29 @@ Map<String, dynamic> get dataMenus => {
           'path': '/Avatar',
           'label': 'Avatar',
           'subtitle': '头像',
+          'isFlutter': true,
+
+          // 'icon': Icons.text_fields,
+        },
+        {
+          'path': '/card',
+          'label': 'card',
+          'subtitle': '卡片',
+          'isFlutter': true,
           // 'icon': Icons.text_fields,
         },
         {
           'path': '/collapse',
           'label': 'Collapse',
           'subtitle': '折叠面板',
-          'tag':'新'
+          'tag': '新'
           // 'icon': Icons.text_fields,
         },
         {
           'path': '/Image',
           'label': 'Image',
           'subtitle': '图片',
+          'isFlutter': true,
 
           // 'icon': Icons.text_fields,
         },
@@ -59,6 +69,13 @@ Map<String, dynamic> get dataMenus => {
 
           // 'icon': Icons.text_fields,
         },
-
+        {
+          'path': '/segmented',
+          'label': 'Segmented',
+          'subtitle': '分段控制器',
+          'isFlutter': true,
+          'tag': '新'
+          // 'icon': Icons.text_fields,
+        },
       ]
     };

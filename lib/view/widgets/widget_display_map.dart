@@ -60,7 +60,8 @@ Widget widgetDisplayMap(String key) {
     'BreadcrumbDemo2' => const BreadcrumbDemo2(),
     'BreadcrumbDemo3' => const BreadcrumbDemo3(),
     'BreadcrumbDemo4' => const BreadcrumbDemo4(),
-    "StatisticsDemo1" => const StatisticsDemo1(),
+    "StatisticsDemo" => const StatisticsDemo(),
+    'CountdownDemo' => const CountdownDemo(),
     'TabsDemo1' => const TabsDemo1(),
     'TabsDemo2' => const TabsDemo2(),
     'TabsDemo3' => const TabsDemo3(),
@@ -70,6 +71,8 @@ Widget widgetDisplayMap(String key) {
     'CollapseDemo1' => const CollapseDemo1(),
     'CollapseDemo2' => const CollapseDemo2(),
     'CollapseDemo3' => const CollapseDemo3(),
+    'SegmentedDemo1' => const SegmentedDemo1(),
+    'SegmentedDemo2' => const SegmentedDemo2(),
     _ => const SizedBox()
   };
 }

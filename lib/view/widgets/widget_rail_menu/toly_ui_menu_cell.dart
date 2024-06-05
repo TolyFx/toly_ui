@@ -15,16 +15,19 @@ import 'package:tolyui/tolyui.dart';
 class TolyUIMenuMetaExt extends MenuMateExt {
   final String? subtitle;
   final String? tag;
+  final bool? isFlutter;
 
   const TolyUIMenuMetaExt({
     required this.subtitle,
     required this.tag,
+    required this.isFlutter,
   });
 
   factory TolyUIMenuMetaExt.fromMap(Map<String, dynamic> map) {
     return TolyUIMenuMetaExt(
       subtitle: map['subtitle'],
       tag: map['tag'],
+      isFlutter: map['isFlutter'],
     );
   }
 }
@@ -134,6 +137,13 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: titleStyle);
+    if(ext?.isFlutter??false){
+      child = Wrap(
+        spacing: 4,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [child,FlutterLogo(size: 14,)],
+      );
+    }
     if (ext?.subtitle != null) {
       child = Column(
         crossAxisAlignment: CrossAxisAlignment.start,

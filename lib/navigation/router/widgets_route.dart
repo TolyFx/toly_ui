@@ -7,8 +7,10 @@ import 'package:toly_ui/view/widgets/widget_navigation_scope.dart';
 
 import '../../view/ecological/ecological_page.dart';
 import '../../view/widgets/basic/button/button_display_page.dart';
+import '../../view/widgets/data/card/card_display_page.dart';
 import '../../view/widgets/data/collapse/collapse_display_page.dart';
-import '../../view/widgets/data/statistics/link_display_page.dart';
+import '../../view/widgets/data/segmented/segmented_display_page.dart';
+import '../../view/widgets/data/statistics/statistics_display_page.dart';
 import '../../view/widgets/feedback/notification/notification_display_page.dart';
 import '../../view/widgets/feedback/tooltip/tooltip_display_page.dart';
 import '../../view/widgets/basic/icon/icon_display_page.dart';
@@ -162,13 +164,25 @@ RouteBase get widgetsRoute => ShellRoute(
                       GoRoute(
                         path: 'statistics',
                         builder: (BuildContext context, GoRouterState state) {
-                          return StatisticsDisplayPage();
+                          return const StatisticsDisplayPage();
                         },
                       ),
                       GoRoute(
                         path: 'collapse',
                         builder: (BuildContext context, GoRouterState state) {
                           return CollapseDisplayPage();
+                        },
+                      ),
+                      GoRoute(
+                        path: 'segmented',
+                        builder: (BuildContext context, GoRouterState state) {
+                          return SegmentedDisplayPage();
+                        },
+                      ),
+                      GoRoute(
+                        path: 'card',
+                        builder: (BuildContext context, GoRouterState state) {
+                          return const CardDisplayPage();
                         },
                       ),
                     ]),
