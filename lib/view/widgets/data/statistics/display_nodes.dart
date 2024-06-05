@@ -33,24 +33,44 @@ class StatisticsDemo extends StatelessWidget {
   'CountdownDemo': {
     'title': '禁用状态',
     'desc': '文字链接不可用状态。',
-    'code': """class BaseUseDemo extends StatelessWidget {
-  const BaseUseDemo({super.key});
+    'code': """class CountdownDemo extends StatelessWidget {
+  const CountdownDemo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const TextStyle style1 = TextStyle(color: Color(0xff419fff));
-    const TextStyle style2 = TextStyle(color: Color(0xff72c749), fontWeight: FontWeight.bold);
-    String href = 'https://github.com/TolyFx/toly_ui';
     return Wrap(
-      spacing: 10,
+      spacing: 40,
       children: [
-        TolyLink(href: href, onTap: null, text: 'TolyUI'),
-        TolyLink(href: href, onTap: null, text: 'TolyUI', style: style1),
-        TolyLink(href: href, onTap: null, text: 'TolyUI', style: style2),
+        TolyCountdown(
+          title: '倒计时结束时弹窗',
+          value: const Duration(seconds: 10),
+          format: "ss",
+          finish: (){
+            message.info(message: '倒计时已结束');
+          },
+        ),
+        TolyCountdown(
+          title: '跨年倒计时',
+          endTime: DateTime.fromMillisecondsSinceEpoch(1717654306000),
+          format: "hh:mm:ss",
+        ),
+        const TolyCountdown(
+          title: '高考倒计时',
+          value: Duration(
+            days: 58,
+          ),
+          format: "MM月DD天",
+        ),
+        TolyCountdown(
+          title: '恋爱一周年',
+          value: const Duration(days: 60),
+          suffix: ElevatedButton(onPressed: () {}, child: const Text("按钮")),
+        ),
       ],
     );
   }
-}"""
+}
+"""
   },
   'LinkDemo3': {
     'title': '下划线',

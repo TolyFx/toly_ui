@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
-import '../../../../incubator/components/data/statistics/toly_countdown.dart';
+import '../../../../incubator/components/data/statistics/countdown.dart';
 
 class CountdownDemo extends StatelessWidget {
   const CountdownDemo({super.key});

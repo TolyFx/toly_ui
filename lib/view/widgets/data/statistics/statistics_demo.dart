@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../incubator/components/data/statistics/toly_statistics.dart';
+import '../../../../incubator/components/data/statistics/statistics.dart';
 
 class StatisticsDemo extends StatelessWidget {
   const StatisticsDemo({super.key});
