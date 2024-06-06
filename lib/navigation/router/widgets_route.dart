@@ -11,6 +11,7 @@ import '../../view/widgets/data/card/card_display_page.dart';
 import '../../view/widgets/data/collapse/collapse_display_page.dart';
 import '../../view/widgets/data/segmented/segmented_display_page.dart';
 import '../../view/widgets/data/statistics/statistics_display_page.dart';
+import '../../view/widgets/data/tag/tag_display_page.dart';
 import '../../view/widgets/feedback/notification/notification_display_page.dart';
 import '../../view/widgets/feedback/tooltip/tooltip_display_page.dart';
 import '../../view/widgets/basic/icon/icon_display_page.dart';
@@ -183,6 +184,12 @@ RouteBase get widgetsRoute => ShellRoute(
                         path: 'card',
                         builder: (BuildContext context, GoRouterState state) {
                           return const CardDisplayPage();
+                        },
+                      ),
+                      GoRoute(
+                        path: 'tag',
+                        builder: (BuildContext context, GoRouterState state) {
+                          return const TagDisplayPage();
                         },
                       ),
                     ]),

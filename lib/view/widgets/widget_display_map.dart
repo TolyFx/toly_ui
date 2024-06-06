@@ -73,6 +73,7 @@ Widget widgetDisplayMap(String key) {
     'CollapseDemo3' => const CollapseDemo3(),
     'SegmentedDemo1' => const SegmentedDemo1(),
     'SegmentedDemo2' => const SegmentedDemo2(),
+    'TagDemo1' => const TagDemo1(),
     _ => const SizedBox()
   };
 }
