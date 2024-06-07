@@ -74,6 +74,8 @@ Widget widgetDisplayMap(String key) {
     'SegmentedDemo1' => const SegmentedDemo1(),
     'SegmentedDemo2' => const SegmentedDemo2(),
     'TagDemo1' => const TagDemo1(),
+    'TagDemo2' => const TagDemo2(),
+    'TagDemo3' => const TagDemo3(),
     _ => const SizedBox()
   };
 }

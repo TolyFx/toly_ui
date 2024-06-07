@@ -8,21 +8,19 @@ class TagDemo1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const TextStyle style2 = TextStyle(color: Color(0xff72c749), fontWeight: FontWeight.bold);
-    return Wrap(
-      spacing: 10,
+    return const Wrap(
+      spacing:20,
       children: [
         TolyTag(
-          tagStyle: style2,
+          tagBgColor: Colors.transparent,
         ),
         TolyTag(
           tagText: "正常",
-          tagColor: Colors.green.withOpacity(0.4),
+          tagStyle: TextStyle(color: Colors.cyan),
         ),
         TolyTag(
           tagText: "紧急",
-          tagColor: Colors.red.withOpacity(0.6),
-          close: () {},
+          tagStyle: TextStyle(color: Colors.red),
         ),
       ],
     );

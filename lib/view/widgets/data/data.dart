@@ -10,4 +10,6 @@ export 'collapse/collapse_demo3.dart';
 export 'segmented/segmented_demo1.dart';
 export 'segmented/segmented_demo2.dart';
 export 'tag/tag_demo1.dart';
+export 'tag/tag_demo2.dart';
+export 'tag/tag_demo3.dart';
 

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+const TextStyle _defaultTagStyle = TextStyle(color: Colors.blue, fontSize: 14);
+
 class TolyTag extends StatefulWidget {
-  final Color tagColor;
   final String tagText;
+  final Color? tagBgColor;
+  final bool hasBorder;
   final Size? size;
   final TextStyle? tagStyle;
   final double radius;
@@ -10,15 +13,17 @@ class TolyTag extends StatefulWidget {
   final VoidCallback? click;
   final EdgeInsetsGeometry? padding;
 
-  const TolyTag({super.key,
-    this.tagColor = Colors.blue,
-    this.tagText = "toly",
-    this.size,
-    this.tagStyle,
-    this.radius = 8,
-    this.close,
-    this.click,
-    this.padding});
+  const TolyTag(
+      {super.key,
+      this.tagText = "toly",
+      this.tagBgColor,
+      this.size,
+      this.tagStyle,
+      this.radius = 8,
+      this.close,
+      this.click,
+      this.padding,
+      this.hasBorder = true});
 
   @override
   State<TolyTag> createState() => _TolyTagState();
@@ -26,43 +31,52 @@ class TolyTag extends StatefulWidget {
 
 class _TolyTagState extends State<TolyTag> {
   late Color hoverColor;
-
-  Color defColor = Colors.transparent;
+  Color? defColor;
 
   @override
   void initState() {
-    hoverColor = widget.tagColor;
+    hoverColor = widget.tagStyle?.color ?? _defaultTagStyle.color!;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    TextStyle tagText = widget.tagStyle ?? const TextStyle(color: Colors.white, fontSize: 14);
+    TextStyle tagText = widget.tagStyle ?? _defaultTagStyle;
     EdgeInsetsGeometry padding = widget.padding ?? const EdgeInsets.symmetric(horizontal: 5, vertical: 3);
     Widget child = Text(widget.tagText, style: tagText);
+    Color? tagBgColor = widget.tagBgColor ?? (widget.tagStyle?.color ?? _defaultTagStyle.color)?.withOpacity(0.2);
+    BoxDecoration tagDecoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(widget.radius),
+      border: widget.hasBorder
+          ? Border.all(
+              color: widget.tagStyle?.color ?? _defaultTagStyle.color!,
+              width: 1,
+            )
+          : null,
+      color: tagBgColor,
+    );
     if (widget.click != null) {
       child = GestureDetector(
         onTap: widget.click,
         child: child,
       );
     }
-
     if (widget.close != null) {
       child = Wrap(
         children: [
           child,
-          const SizedBox(width: 5,),
+          const SizedBox(width: 5),
           MouseRegion(
             onHover: (p) {
               setState(() {
                 hoverColor = Colors.white;
-                defColor = widget.tagColor;
+                defColor = widget.tagStyle?.color ?? _defaultTagStyle.color!;
               });
             },
             onExit: (p) {
               setState(() {
-                hoverColor = widget.tagColor;
-                defColor = Colors.transparent;
+                hoverColor = widget.tagStyle?.color ?? _defaultTagStyle.color!;
+                defColor = null;
               });
             },
             child: GestureDetector(
@@ -70,13 +84,13 @@ class _TolyTagState extends State<TolyTag> {
               child: Container(
                 padding: const EdgeInsets.all(2),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(tagText.fontSize!),
+                  borderRadius: BorderRadius.circular(tagText.fontSize ?? _defaultTagStyle.fontSize!),
                   color: defColor,
                 ),
                 child: Icon(
                   Icons.close,
                   color: hoverColor,
-                  size: tagText.fontSize,
+                  size: tagText.fontSize ?? _defaultTagStyle.fontSize!,
                 ),
               ),
             ),
@@ -88,10 +102,7 @@ class _TolyTagState extends State<TolyTag> {
       padding: padding,
       width: widget.size?.width,
       height: widget.size?.height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(widget.radius),
-        color: widget.tagColor,
-      ),
+      decoration: tagDecoration,
       child: child,
     );
   }
@@ -109,7 +120,7 @@ class _TolyTagState extends State<TolyTag> {
       },
       onExit: (p) {
         setState(() {
-          hoverColor = widget.tagColor;
+          hoverColor = Colors.blue;
           defColor = Colors.transparent;
         });
       },

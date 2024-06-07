@@ -1,21 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:tolyui/tolyui.dart';
-
-class TagDemo2 extends StatelessWidget {
+import 'package:toly_ui/incubator/components/data/tag/tag.dart';
+class TagDemo2 extends StatefulWidget {
   const TagDemo2({super.key});
 
   @override
+  State<TagDemo2> createState() => _TagDemo2State();
+}
+
+class _TagDemo2State extends State<TagDemo2> {
+  List<TagModel> tags = [
+    TagModel("上进", Colors.deepPurpleAccent),
+    TagModel("努力", Colors.greenAccent),
+    TagModel("成功", Colors.deepOrange)
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    const TextStyle style1 = TextStyle(color: Color(0xff419fff));
-    const TextStyle style2 = TextStyle(color: Color(0xff72c749), fontWeight: FontWeight.bold);
-    String href = 'https://github.com/TolyFx/toly_ui';
     return Wrap(
-      spacing: 10,
+      spacing: 20,
       children: [
-        TolyLink(href: href, onTap: null, text: 'TolyUI'),
-        TolyLink(href: href, onTap: null, text: 'TolyUI', style: style1),
-        TolyLink(href: href, onTap: null, text: 'TolyUI', style: style2),
+        ...List.generate(tags.length, (i) {
+          return TolyTag(
+            tagText: tags[i].title,
+            tagStyle: TextStyle(color: tags[i].color),
+            close: () {
+              tags.removeAt(i);
+              setState(() {});
+            },
+          );
+        })
       ],
     );
   }
+}
+
+class TagModel {
+  String title;
+  Color color;
+
+  TagModel(this.title, this.color);
 }
