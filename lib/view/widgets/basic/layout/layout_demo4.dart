@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../utils/box.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title:  r'Row$：间隔与边距',
+  desc:r'提供 gutter 属性来指水平方向单元格间距；'
+  r'单元格跨度总数超出 24，会自动换行，提供 verticalGutter 属性来指定列竖直方向间距；'
+  r'padding 属性可以设计响应式的内边距；'
+  r'这三个属性都支持 Rx 响应式变化。',
+)
 class LayoutDemo4 extends StatelessWidget {
   const LayoutDemo4({super.key});
 

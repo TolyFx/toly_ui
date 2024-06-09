@@ -7,7 +7,11 @@ import 'package:tolyui_feedback/toly_popover/toly_popover.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import '../../../debugger/debugger.dart';
-
+import '../../display_nodes/display_nodes.dart';
+@DisplayNode(
+  title: 'Popover 自定义装饰与偏移',
+  desc: '可以通过 overlayDecorationBuilder 可以自定义弹出浮层的装饰。通过 offsetCalculator 计算偏移',
+)
 class PopoverDemo3 extends StatelessWidget {
   const PopoverDemo3({super.key});
 

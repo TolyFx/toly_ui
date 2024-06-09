@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title:  '具有图标的按钮',
+  desc:'按钮的 child 可以通过 Wrap 组件包裹若干个孩子。',
+)
 class ButtonDemo3 extends StatelessWidget {
   const ButtonDemo3({super.key});
 

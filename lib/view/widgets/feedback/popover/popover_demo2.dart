@@ -4,7 +4,11 @@ import 'package:tolyui_feedback/toly_popover/toly_popover.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import '../../../debugger/debugger.dart';
-
+import '../../display_nodes/display_nodes.dart';
+@DisplayNode(
+  title: 'Popover 弹框控制隐藏',
+  desc: '使用 overlayBuilder 构造弹框内容，获取控制器。',
+)
 class PopoverDemo2 extends StatelessWidget {
   const PopoverDemo2({super.key});
 

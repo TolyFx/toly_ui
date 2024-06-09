@@ -1,19 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:toly_ui/view/widgets/feedback/popover/popover_display_page.dart';
 import 'package:toly_ui/view/widgets/navigation/breadcrumb/breadcrumb_display_page.dart';
 import 'package:toly_ui/view/widgets/widget_display_page/widget_display_page.dart';
 import 'package:toly_ui/view/widgets/widget_navigation_scope.dart';
 
 import '../../view/ecological/ecological_page.dart';
-import '../../view/widgets/basic/button/button_display_page.dart';
-import '../../view/widgets/basic/icon/icon_display_page.dart';
-import '../../view/widgets/basic/layout/layout_display_page.dart';
-import '../../view/widgets/basic/link/link_display_page.dart';
-import '../../view/widgets/basic/text/text_display_page.dart';
-import '../../view/widgets/feedback/notification/notification_display_page.dart';
-import '../../view/widgets/feedback/tooltip/tooltip_display_page.dart';
-import '../../view/widgets/form/input/input_display_page.dart';
 import '../../view/widgets/navigation/drop_menu/drop_menu_display_page.dart';
 import '../../view/widgets/navigation/rail_menu_bar/rail_menu_bar_display_page.dart';
 import '../../view/widgets/navigation/rail_menu_tree/rail_menu_tree_display_page.dart';
@@ -79,36 +70,12 @@ RouteBase get widgetsRoute => ShellRoute(
                   return EcologicalPage();
                 },
                 routes: [
-                  GoRoute(
-                    path: 'button',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return ButtonDisplayPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: 'icon',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return IconDisplayPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: 'layout',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return LayoutDisPlayPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: 'link',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return LinkDisplayPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: 'text',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return TextDisplayPage();
-                    },
-                  ),
+                  _customRoute('button'),
+                  _customRoute('icon'),
+                  _customRoute('layout'),
+                  _customRoute('link'),
+                  _customRoute('text'),
+
                 ]),
             GoRoute(
                 path: 'form',
@@ -116,36 +83,11 @@ RouteBase get widgetsRoute => ShellRoute(
                   return EcologicalPage();
                 },
                 routes: [
-                  GoRoute(
-                    path: 'input',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return InputDisplayPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: 'icon',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return IconDisplayPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: 'layout',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return LayoutDisPlayPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: 'link',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return LinkDisplayPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: 'text',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return TextDisplayPage();
-                    },
-                  ),
+                  _customRoute('button'),
+                  _customRoute('icon'),
+                  _customRoute('layout'),
+                  _customRoute('link'),
+                  _customRoute('text'),
                 ]),
             GoRoute(
                 path: 'data',
@@ -165,25 +107,12 @@ RouteBase get widgetsRoute => ShellRoute(
                   return EcologicalPage();
                 },
                 routes: [
-                  GoRoute(
-                    path: 'popover',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return PopoverDisplayPage();
-                    },
-                  ),
-                  GoRoute(
-                    path: 'tooltip',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return TooltipDisplayPage();
-                    },
-                  ),
+
+                  _customRoute('popover'),
+                  _customRoute('tooltip'),
+
                   _customRoute('message'),
-                  GoRoute(
-                    path: 'notification',
-                    builder: (BuildContext context, GoRouterState state) {
-                      return NotificationDisplayPage();
-                    },
-                  ),
+                  _customRoute('notification'),
                 ]),
             GoRoute(
               path: '404',

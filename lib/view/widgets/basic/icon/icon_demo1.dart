@@ -2,10 +2,16 @@
 
 import 'package:flutter/material.dart';
 
+import '../../display_nodes/display_nodes.dart';
+
 /// create by 张风捷特烈 on 2020/4/27
 /// contact me by email 1981462002@qq.com
 /// 说明:
 
+@DisplayNode(
+  title: '用于显示一个图标',
+  desc: 'Icon 组件使用 Flutter 框架内部的组件。',
+)
 class IconDemo1 extends StatelessWidget {
   const IconDemo1({super.key});
 

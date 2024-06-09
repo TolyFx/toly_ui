@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tolyui/basic/basic.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
-
+import '../../display_nodes/display_nodes.dart';
+@DisplayNode(
+  title: 'Tooltip 富文本',
+  desc:'使用 richMessage 可以展示富文本信息。',
+)
 class TooltipDemo2 extends StatelessWidget {
   const TooltipDemo2({super.key});
 

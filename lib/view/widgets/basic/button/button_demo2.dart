@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '边线样式',
+  desc: '按钮的边线样式。通过 OutlineButtonPalette 调色形成样式, dashGap 可以指定虚线的间隔。',
+)
 class ButtonDemo2 extends StatelessWidget {
   const ButtonDemo2({super.key});
 

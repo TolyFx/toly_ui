@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title:'禁用状态',
+  desc: '文字链接不可用状态。',
+)
 class LinkDemo2 extends StatelessWidget {
   const LinkDemo2({super.key});
 

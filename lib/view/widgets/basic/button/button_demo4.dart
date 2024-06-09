@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '禁用按钮',
+  desc:'按钮的 onPressed 回调为 null 时，表示禁用按钮。',
+)
 class ButtonDemo4 extends StatelessWidget {
   const ButtonDemo4({super.key});
 
