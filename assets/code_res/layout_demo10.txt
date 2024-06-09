@@ -1,0 +1,25 @@
+class LayoutDemo10 extends StatelessWidget {
+  const LayoutDemo10({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+        color: const Color(0xffd3dce6),
+        child: SizedBox(
+          width: 300,
+          height: 150,
+          child: Padding$(
+              child: Container(
+                  color: Colors.orange.withOpacity(0.6),
+                  alignment: Alignment.center,
+                  child: const Text("边距根据屏幕尺寸变化")),
+              padding: (re) => switch (re) {
+                    Rx.xs => const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                    Rx.sm => const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    Rx.md => const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+                    Rx.lg => const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+                    Rx.xl => const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                  }),
+        ));
+  }
+}
