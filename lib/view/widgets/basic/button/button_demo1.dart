@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
+import '../../display_nodes/display_nodes.dart';
+
+@DisplayNode(
+  title: '填充样式',
+  desc: '按钮的填充样式。通过 FillButtonPalette 调色形成样式, 提供 elevation 设置按钮的阴影深度，默认为 0。',
+)
 class ButtonDemo1 extends StatelessWidget {
   const ButtonDemo1({super.key});
 

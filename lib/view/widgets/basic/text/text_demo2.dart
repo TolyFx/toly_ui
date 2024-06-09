@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '可选择文字',
+  desc:'可选择文字的展示基于 Flutter 框架内置的 SelectionArea、SelectableRegion、SelectionContainer、SelectableText等组件实现 。',
+)
 class TextDemo2 extends StatelessWidget {
   const TextDemo2({super.key});
 

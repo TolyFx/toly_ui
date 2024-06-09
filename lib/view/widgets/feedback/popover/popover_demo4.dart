@@ -4,13 +4,18 @@ import 'package:toly_ui/view/debugger/debugger.dart';
 import 'package:tolyui/basic/basic.dart';
 import 'package:tolyui_feedback/toly_popover/toly_popover.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: 'Popover 对齐方式',
+  desc: 'TolyPopover 提供 12 种不同方向的展示方式，以及气泡框包裹效果。',
+)
 class PopoverDemo4 extends StatelessWidget {
   const PopoverDemo4({super.key});
 
   @override
   Widget build(BuildContext context) {
-   return SizedBox(
+    return SizedBox(
       width: 360,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -22,7 +27,9 @@ class PopoverDemo4 extends StatelessWidget {
               Expanded(child: buildDisplay(Placement.topEnd)),
             ],
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
             children: [
               Expanded(child: buildDisplay(Placement.leftStart)),
@@ -30,7 +37,9 @@ class PopoverDemo4 extends StatelessWidget {
               Expanded(child: buildDisplay(Placement.leftEnd)),
             ],
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
             children: [
               Expanded(child: buildDisplay(Placement.rightStart)),
@@ -38,7 +47,9 @@ class PopoverDemo4 extends StatelessWidget {
               Expanded(child: buildDisplay(Placement.rightEnd)),
             ],
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
             children: [
               Expanded(child: buildDisplay(Placement.bottomStart)),
@@ -51,22 +62,26 @@ class PopoverDemo4 extends StatelessWidget {
     );
   }
 
-  Widget buildDisplay(Placement placement){
+  Widget buildDisplay(Placement placement) {
     String info = placement.toString().split('.')[1];
     String buttonText = _nameMap[placement]!;
     return Center(
-      child:
-      TolyPopover(
+      child: TolyPopover(
         maxWidth: 200,
         placement: placement,
         gap: 12,
-        overlay: _DisplayPanel(title: info,),
-        builder: (_,ctrl,__)=>
-            DebugDisplayButton(info: buttonText ,onPressed: ctrl.open,),
+        overlay: _DisplayPanel(
+          title: info,
+        ),
+        builder: (_, ctrl, __) => DebugDisplayButton(
+          info: buttonText,
+          onPressed: ctrl.open,
+        ),
       ),
     );
   }
-  static const Map<Placement,String> _nameMap = {
+
+  static const Map<Placement, String> _nameMap = {
     Placement.top: 'Top',
     Placement.topStart: 'TStart',
     Placement.topEnd: 'TEnd',
@@ -80,11 +95,11 @@ class PopoverDemo4 extends StatelessWidget {
     Placement.left: 'Left',
     Placement.leftStart: 'LStart',
   };
-
 }
 
 class _DisplayPanel extends StatelessWidget {
   final String title;
+
   const _DisplayPanel({super.key, required this.title});
 
   @override
@@ -94,10 +109,10 @@ class _DisplayPanel extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-           Padding(
+          Padding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8.0),
             child: Text(
-              title.substring(0,1).toUpperCase()+title.substring(1),
+              title.substring(0, 1).toUpperCase() + title.substring(1),
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),

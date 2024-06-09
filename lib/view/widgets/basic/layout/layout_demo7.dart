@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../utils/box.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: 'Cell: 列偏移',
+  desc: r'Cell#offset 可以指定分栏偏移的栏数，该属性支持 Rx 响应式变化。',
+)
 class LayoutDemo7 extends StatelessWidget {
   const LayoutDemo7({super.key});
 

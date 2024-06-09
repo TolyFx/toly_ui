@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title:'基础用法',
+  desc: '基础的文字链接用法。',
+)
 class LinkDemo1 extends StatelessWidget {
   const LinkDemo1({super.key});
 

@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../utils/box.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: r'Row$：竖直对齐',
+  desc:
+  r'在竖直方向上，单元格有三种对齐方式，通过 align 参数配置。下图自上而下依次是 top、bottom、middle：',
+)
 class LayoutDemo6 extends StatelessWidget {
   const LayoutDemo6({super.key});
 

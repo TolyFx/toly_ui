@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
+import '../../display_nodes/display_nodes.dart';
 import '../../utils/box.dart';
-
+@DisplayNode(
+  title: '混合布局',
+  desc:'通过基础的 1/24 分栏任意扩展组合形成较为复杂的混合布局。',
+)
 class LayoutDemo2 extends StatelessWidget {
   const LayoutDemo2({super.key});
 

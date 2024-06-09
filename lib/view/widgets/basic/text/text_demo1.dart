@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '基础用法',
+  desc: '文字的展示基于 Flutter 框架内置的 Text 组件。它可以通过 style 设置文字样式，Text 组件展示的文本默认不能被选择操作。',
+)
 class TextDemo1 extends StatelessWidget {
   const TextDemo1({super.key});
 

@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../utils/box.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: 'Cell: 列平移',
+  desc:   r'pull 和 push 仅对对单元格进行平移，并不占据栅格空间。push 向右移动指定格数；pull 向左移动指定格数。',
+)
 class LayoutDemo8 extends StatelessWidget {
   const LayoutDemo8({super.key});
 

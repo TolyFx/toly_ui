@@ -4,7 +4,11 @@ import 'package:tolyui_feedback/toly_popover/toly_popover.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import '../../../debugger/debugger.dart';
-
+import '../../display_nodes/display_nodes.dart';
+@DisplayNode(
+  title: 'Popover 基本使用',
+  desc: 'Popover 会将浮层弹框的控制器暴露给 build 方法。你可以通过任何手势事件来打开或关闭浮层弹框。',
+)
 class PopoverDemo1 extends StatelessWidget {
   const PopoverDemo1({super.key});
 

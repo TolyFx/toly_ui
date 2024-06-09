@@ -2,7 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tolyui/basic/basic.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
-
+import '../../display_nodes/display_nodes.dart';
+@DisplayNode(
+    title: 'Tooltip 排列方式',
+    desc: 'TolyUI 中基于 Flutter 的 Tooltip 组件进行了强化。'
+)
 class TooltipDemo1 extends StatelessWidget {
   const TooltipDemo1({super.key});
 

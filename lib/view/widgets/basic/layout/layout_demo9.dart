@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '响应式尺寸盒',
+  desc:r'通过 SizedBox$ 设置具有响应式的尺寸盒',
+)
 class LayoutDemo9 extends StatelessWidget {
   const LayoutDemo9({super.key});
 

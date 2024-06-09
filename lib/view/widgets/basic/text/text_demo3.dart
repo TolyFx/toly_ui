@@ -1,7 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '富文本展示',
+  desc: '富文本文字的展示基于 Flutter 框架内置的 RichText 组件',
+)
 class TextDemo3 extends StatelessWidget {
   const TextDemo3({super.key});
 

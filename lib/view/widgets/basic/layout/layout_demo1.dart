@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
+import '../../display_nodes/display_nodes.dart';
+
+@DisplayNode(
+  title: '基础布局',
+  desc:  '通过基础的 24 分栏，迅速简便地创建布局。',
+)
 class LayoutDemo1 extends StatelessWidget {
   const LayoutDemo1({super.key});
 

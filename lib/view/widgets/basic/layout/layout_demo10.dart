@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title:  '响应式边距',
+  desc:r'通过 Padding$ 让边距根据屏幕尺寸变化',
+)
 class LayoutDemo10 extends StatelessWidget {
   const LayoutDemo10({super.key});
 

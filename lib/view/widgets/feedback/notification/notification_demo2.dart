@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import '../../../debugger/debugger.dart';
 
+@DisplayNode(
+    title: 'Notification 类型与定位',
+    desc: r'position 属性的 NoticePosition 枚举有左上、左下、右上、右下四种定位方式。另外，info、success、error、warning 四种提示类型可通过对应的 $message.xxxNotice 弹出。')
 class NotificationDemo2 extends StatelessWidget {
   const NotificationDemo2({super.key});
 

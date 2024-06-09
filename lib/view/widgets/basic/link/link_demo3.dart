@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title:'下划线',
+  desc: '文字链接下划线。',
+)
 class LinkDemo3 extends StatelessWidget {
   const LinkDemo3({super.key});
 

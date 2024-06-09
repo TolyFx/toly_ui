@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../utils/box.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title:'响应式布局',
+  desc: '参照了 Bootstrap 的 响应式设计，预设了五个响应尺阶：xs、sm、md、lg 和 xl。支持响应式的参数都可以感知尺阶设置数值，比如 span 跨度、gutter 间距等。',
+)
 class LayoutDemo3 extends StatelessWidget {
   const LayoutDemo3({super.key});
 
