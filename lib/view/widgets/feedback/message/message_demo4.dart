@@ -3,7 +3,12 @@ import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import '../../../debugger/debugger.dart';
 import '../../../debugger/panel/debug_display_panel.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: 'Message 自定义消息内容',
+  desc: '通过 emit 方法，产出自定义的组件提示信息。animaDuration 控制动画时长；duration 控制展示时长；offset 控制消息的偏移。',
+)
 class MessageDemo4 extends StatelessWidget {
   const MessageDemo4({super.key});
 
@@ -18,11 +23,11 @@ class MessageDemo4 extends StatelessWidget {
   }
 
   Widget buildDisplay1() {
-    return
-      DebugDisplayButton(
+    return DebugDisplayButton(
       info: '自定义内容',
       onPressed: () {
-        $message.emit(child: const DebugDisplayPanel(
+        $message.emit(
+            child: const DebugDisplayPanel(
           image: 'assets/images/icon_head.webp',
           title: '张风捷特烈',
           info1: '微信号: zdl1994328',

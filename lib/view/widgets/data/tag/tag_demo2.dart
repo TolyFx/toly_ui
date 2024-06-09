@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:toly_ui/incubator/components/data/tag/tag.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
+
+@DisplayNode(
+  title: '可删除状态',
+  desc: '使用 close 方法',
+)
 class TagDemo2 extends StatefulWidget {
   const TagDemo2({super.key});
 

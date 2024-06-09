@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import '../../../debugger/debugger.dart';
 
+@DisplayNode(
+  title: 'Message Plain 模式',
+  desc: r'设置 plain:true 可以让消息样式变为白色背景、阴影边框。',
+)
 class MessageDemo3 extends StatelessWidget {
   const MessageDemo3({super.key});
 
@@ -22,7 +27,7 @@ class MessageDemo3 extends StatelessWidget {
     return DebugDisplayButton(
       info: 'Success',
       onPressed: () {
-        $message.success(plain: true, message:message );
+        $message.success(plain: true, message: message);
       },
     );
   }

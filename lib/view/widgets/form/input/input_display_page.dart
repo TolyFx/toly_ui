@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:toly_ui/components/node_display.dart';
+
 import '../../widget_display_map.dart';
 import 'display_nodes.dart';
 import 'input_demo1.dart';
@@ -29,8 +28,10 @@ class InputDisplayPage extends StatelessWidget {
     double borderWidth = 1;
     Color focusedColor = Colors.blue;
     Color unFocusedColor = Color(0xffd9d9d9);
-    OutlineInputBorder focusedBorder = OutlineInputBorder(borderSide: BorderSide(color: focusedColor, width: borderWidth));
-    OutlineInputBorder border = OutlineInputBorder(borderSide: BorderSide(color: unFocusedColor, width: borderWidth));
+    OutlineInputBorder focusedBorder =
+        OutlineInputBorder(borderSide: BorderSide(color: focusedColor, width: borderWidth));
+    OutlineInputBorder border =
+        OutlineInputBorder(borderSide: BorderSide(color: unFocusedColor, width: borderWidth));
 
     return Column(
       children: [
@@ -39,8 +40,8 @@ class InputDisplayPage extends StatelessWidget {
         ),
         DecoratedBox(
           decoration: BoxDecoration(
-            // color: Colors.blue.withOpacity(0.2)
-          ),
+              // color: Colors.blue.withOpacity(0.2)
+              ),
           child: SizedBox(
               width: 250,
               child: TextField(
@@ -54,21 +55,18 @@ class InputDisplayPage extends StatelessWidget {
                   // hintStyle: style.copyWith(color: unFocusedColor),
                   constraints: BoxConstraints.tight(Size(0, height)),
                   // contentPadding: EdgeInsets.only(top: 8),
-                  contentPadding:
-                      EdgeInsets.only(top: 0,right: 12,left: 12),
+                  contentPadding: EdgeInsets.only(top: 0, right: 12, left: 12),
                   focusedBorder: focusedBorder,
                   enabledBorder: border,
                   hoverColor: focusedColor,
                   border: border,
                 ),
               )),
-
-
         ),
         const SizedBox(
           height: 24,
         ),
-         SizedBox(
+        SizedBox(
             width: 250,
             child: TextField(
               // maxLines: 4,
@@ -82,8 +80,7 @@ class InputDisplayPage extends StatelessWidget {
                 // hintStyle: style.copyWith(color: unFocusedColor),
                 constraints: BoxConstraints.tight(Size(0, height)),
                 // contentPadding: EdgeInsets.only(top: 8),
-                contentPadding:
-                EdgeInsets.only(top: 0,right: 12,left: 12),
+                contentPadding: EdgeInsets.only(top: 0, right: 12, left: 12),
                 focusedBorder: focusedBorder,
                 enabledBorder: border,
                 hoverColor: focusedColor,

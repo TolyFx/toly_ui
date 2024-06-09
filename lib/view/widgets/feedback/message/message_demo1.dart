@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import '../../../debugger/debugger.dart';
+import '../../display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: 'Message 全局消息',
+  desc: r'使用 $message 弹出全局消息。',
+)
 class MessageDemo1 extends StatelessWidget {
   const MessageDemo1({super.key});
 

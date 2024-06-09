@@ -1,10 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import '../../../debugger/debugger.dart';
 import '../../../debugger/panel/debug_display_panel.dart';
 
+@DisplayNode(
+  title: '可主动关闭的 Message',
+  desc: r'通过 closeable 设置消息是否可以被主动关闭；自定义的内容可以通过 builder 回调访问关闭函数。',
+)
 class MessageDemo5 extends StatelessWidget {
   const MessageDemo5({super.key});
 

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import '../../../debugger/debugger.dart';
 
+@DisplayNode(
+  title: '四种样式简化使用',
+  desc: r'消息类型分为 success、warning、info、error 四种级别:',
+)
 class MessageDemo2 extends StatelessWidget {
   const MessageDemo2({super.key});
 

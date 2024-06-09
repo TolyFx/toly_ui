@@ -1,10 +1,9 @@
-Map<String,dynamic> get displayNodes => {
-  'BreadcrumbDemo1': {
-    'title': '基础用法',
-    'desc': '通过 TolyBreadcrumb 展示面包屑，可容纳 MenuMeta 列表展示条目，默认通过 "/" 分隔。\n'
-        'onSelect 回调中处理点击条目事件，可用于路由跳转。不设置 router 的条目，将无法响应点击事件，呈灰色展示。'
-    ,
-    'code': """class BreadcrumbDemo1 extends StatelessWidget {
+Map<String, dynamic> get displayNodes => {
+      'BreadcrumbDemo1': {
+        'title': '基础用法',
+        'desc': '通过 TolyBreadcrumb 展示面包屑，可容纳 MenuMeta 列表展示条目，默认通过 "/" 分隔。\n'
+            'onSelect 回调中处理点击条目事件，可用于路由跳转。不设置 router 的条目，将无法响应点击事件，呈灰色展示。',
+        'code': """class BreadcrumbDemo1 extends StatelessWidget {
   const BreadcrumbDemo1({super.key});
 
   @override
@@ -20,11 +19,11 @@ Map<String,dynamic> get displayNodes => {
     );
   }
 }"""
-  },
-  'BreadcrumbDemo2': {
-    'title': '自定义分隔符',
-    'desc': '可以通过 separator 参数自定义分隔符组件；MenuMeta 中的 Icon 可以设置菜单项的图标。',
-    'code': """class BaseUseDemo extends StatelessWidget {
+      },
+      'BreadcrumbDemo2': {
+        'title': '自定义分隔符',
+        'desc': '可以通过 separator 参数自定义分隔符组件；MenuMeta 中的 Icon 可以设置菜单项的图标。',
+        'code': """class BaseUseDemo extends StatelessWidget {
   const BaseUseDemo({super.key});
 
   @override
@@ -42,11 +41,11 @@ Map<String,dynamic> get displayNodes => {
     );
   }
 }"""
-  },
-  'BreadcrumbDemo3': {
-    'title': '自定义样式',
-    'desc': '通过 cellStyle 属性，可以设置 BreadcrumbCellStyle 样式配色。如下紫色样式：',
-    'code': """class LinkDemo3 extends StatelessWidget {
+      },
+      'BreadcrumbDemo3': {
+        'title': '自定义样式',
+        'desc': '通过 cellStyle 属性，可以设置 BreadcrumbCellStyle 样式配色。如下紫色样式：',
+        'code': """class LinkDemo3 extends StatelessWidget {
   const LinkDemo3({super.key});
 
   @override
@@ -66,11 +65,11 @@ Map<String,dynamic> get displayNodes => {
     //TODO 点击跳转操作
   }
 }"""
-  },
-  'BreadcrumbDemo4': {
-    'title': '自定义菜单项',
-    'desc': '通过 cellBuilder 属性，可以自定义构建菜单项组件。结合 TolyDropMenu 可以实现面包屑 + 弹出菜单的效果：',
-    'code': """class BreadcrumbDemo4 extends StatelessWidget {
+      },
+      'BreadcrumbDemo4': {
+        'title': '自定义菜单项',
+        'desc': '通过 cellBuilder 属性，可以自定义构建菜单项组件。结合 TolyDropMenu 可以实现面包屑 + 弹出菜单的效果：',
+        'code': """class BreadcrumbDemo4 extends StatelessWidget {
   const BreadcrumbDemo4({super.key});
 
   @override
@@ -180,5 +179,5 @@ class DIYBreadcrumbCell extends StatelessWidget {
   }
 }
 """
-  },
-};
+      },
+    };

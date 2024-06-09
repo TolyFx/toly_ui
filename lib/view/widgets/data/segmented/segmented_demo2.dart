@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:tolyui/tolyui.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '基础用法',
+  desc: '设置 Segmented 的背景色和前景色：',
+)
 class SegmentedDemo2 extends StatefulWidget {
-  const SegmentedDemo2({Key? key}) : super(key: key);
+  const SegmentedDemo2({super.key});
 
   @override
-  _SegmentedDemo2State createState() =>
-      _SegmentedDemo2State();
+  _SegmentedDemo2State createState() => _SegmentedDemo2State();
 }
 
-class _SegmentedDemo2State
-    extends State<SegmentedDemo2> {
+class _SegmentedDemo2State extends State<SegmentedDemo2> {
   int _value = 1;
 
   @override
@@ -20,7 +21,6 @@ class _SegmentedDemo2State
       groupValue: _value,
       onValueChanged: _onValueChanged,
       thumbColor: Color(0xffffd100),
-
       backgroundColor: Color(0xfff5f7fa),
       padding: const EdgeInsets.all(5),
       children: const {
@@ -33,10 +33,9 @@ class _SegmentedDemo2State
   }
 
   void _onValueChanged(int? value) {
-    if(value==null) return;
+    if (value == null) return;
     setState(() {
-      _value=value;
+      _value = value;
     });
   }
 }
-

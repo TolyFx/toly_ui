@@ -56,6 +56,13 @@ Map<String, dynamic> get dataMenus => {
           // 'icon': Icons.text_fields,
         },
         {
+          'path': '/Tag',
+          'label': 'Tag',
+          'subtitle': '标签',
+          'tag': '新'
+          // 'icon': Icons.text_fields,
+        },
+        {
           'path': '/Tree',
           'label': 'Tree',
           'subtitle': '树形控件',
@@ -73,14 +80,6 @@ Map<String, dynamic> get dataMenus => {
           'path': '/segmented',
           'label': 'Segmented',
           'subtitle': '分段控制器',
-          'isFlutter': true,
-          'tag': '新'
-          // 'icon': Icons.text_fields,
-        },
-        {
-          'path': '/tag',
-          'label': 'tag',
-          'subtitle': '标签',
           'isFlutter': true,
           'tag': '新'
           // 'icon': Icons.text_fields,

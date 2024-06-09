@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:tolyui/tolyui.dart';
+import 'package:toly_ui/incubator/components/data/card/card.dart';
+import 'package:toly_ui/view/debugger/display/debug_display_tile.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 
-class LinkDemo1 extends StatelessWidget {
-  const LinkDemo1({super.key});
+@DisplayNode(
+  title: '基础用法',
+  desc: '可以通过 TolyCard 组件实现具有阴影的卡片效果：',
+)
+class CardDemo1 extends StatelessWidget {
+  const CardDemo1({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const TextStyle style1 = TextStyle(color: Color(0xff419fff));
-    const TextStyle style2 = TextStyle(color: Color(0xff72c749), fontWeight: FontWeight.bold);
-    String href = 'https://github.com/TolyFx/toly_ui';
-    return Wrap(
-      spacing: 10,
-      children: [
-        TolyLink(href: href, onTap: jump, text: 'TolyUI'),
-        TolyLink(href: href, onTap: jump, text: 'TolyUI', style: style1),
-        TolyLink(href: href, onTap: jump, text: 'TolyUI', style: style2),
-      ],
+    return const SizedBox(
+      width: 260,
+      child: TolyCard(
+          child: DebugDisplayTile(
+        title: '《应龙》',
+        centerTitle: true,
+        content: "一游小池两岁月，\n洗却凡世几闲尘。\n时逢雷霆风会雨，\n应乘扶摇化入云。",
+        foot: '张风捷特烈 2017.2.2',
+      )),
     );
-  }
-
-  void jump(String url){
-    // TODO 点击跳转操作
   }
 }

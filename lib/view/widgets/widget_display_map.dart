@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'widgets.dart';
 
 Widget widgetDisplayMap(String key) {
@@ -27,6 +28,7 @@ Widget widgetDisplayMap(String key) {
     'InputDemo1' => const InputDemo1(),
     'InputDemo2' => const InputDemo2(),
     'InputDemo3' => const InputDemo3(),
+    'InputDemo4' => const InputDemo4(),
     'TooltipDemo1' => const TooltipDemo1(),
     'TooltipDemo2' => const TooltipDemo2(),
     'TooltipDemo3' => const TooltipDemo3(),
@@ -76,6 +78,9 @@ Widget widgetDisplayMap(String key) {
     'TagDemo1' => const TagDemo1(),
     'TagDemo2' => const TagDemo2(),
     'TagDemo3' => const TagDemo3(),
+    'CardDemo1' => const CardDemo1(),
+    'CardDemo2' => const CardDemo2(),
+    'CardDemo3' => const CardDemo3(),
     _ => const SizedBox()
   };
 }

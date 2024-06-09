@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:tolyui/tolyui.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '基础用法',
+  desc: '点击切换展示某个 Segmented 页签：',
+)
 class SegmentedDemo1 extends StatefulWidget {
-  const SegmentedDemo1({Key? key}) : super(key: key);
+  const SegmentedDemo1({super.key});
 
   @override
-  _SegmentedDemo1State createState() =>
-      _SegmentedDemo1State();
+  _SegmentedDemo1State createState() => _SegmentedDemo1State();
 }
 
-class _SegmentedDemo1State
-    extends State<SegmentedDemo1> {
+class _SegmentedDemo1State extends State<SegmentedDemo1> {
   int _value = 1;
 
   @override
@@ -30,10 +31,9 @@ class _SegmentedDemo1State
   }
 
   void _onValueChanged(int? value) {
-    if(value==null) return;
+    if (value == null) return;
     setState(() {
-      _value=value;
+      _value = value;
     });
   }
 }
-

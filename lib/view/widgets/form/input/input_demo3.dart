@@ -6,18 +6,18 @@ class InputDemo3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = 32;
-    TextStyle style = TextStyle(fontSize: 14, height: 1);
+    TextStyle style = const TextStyle(fontSize: 14, height: 1);
     double borderWidth = 1;
     Color focusedColor = Colors.blue;
-    Color unFocusedColor = Color(0xffd9d9d9);
+    Color unFocusedColor = const Color(0xffd9d9d9);
     OutlineInputBorder focusedBorder = OutlineInputBorder(
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topRight: Radius.circular(4),
           bottomRight: Radius.circular(4),
         ),
         borderSide: BorderSide(color: focusedColor, width: borderWidth));
     OutlineInputBorder border = OutlineInputBorder(
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomRight: Radius.circular(4),
           topRight: Radius.circular(4),
         ),
@@ -28,16 +28,16 @@ class InputDemo3 extends StatelessWidget {
         Container(
           height: 32,
           // width: 70,
-          padding: EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
 
-          child: Center(
+          child: const Center(
               child: Text(
             'Http://',
             style: TextStyle(color: Color(0xff909399), fontSize: 14),
           )),
           decoration: BoxDecoration(
-              color: Color(0xfff5f7fa),
-              borderRadius: BorderRadius.only(
+              color: const Color(0xfff5f7fa),
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(4),
                 bottomLeft: Radius.circular(4),
               ),
@@ -60,7 +60,7 @@ class InputDemo3 extends StatelessWidget {
                 hintStyle: style.copyWith(color: unFocusedColor),
                 constraints: BoxConstraints.tight(Size(0, height)),
                 // contentPadding: EdgeInsets.only(top: 8),
-                contentPadding: EdgeInsets.only(top: 0, right: 12, left: 12),
+                contentPadding: const EdgeInsets.only(top: 0, right: 12, left: 12),
                 focusedBorder: focusedBorder,
                 enabledBorder: border,
                 hoverColor: focusedColor,

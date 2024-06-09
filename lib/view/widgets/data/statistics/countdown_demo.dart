@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../../../incubator/components/data/statistics/countdown.dart';
 
+@DisplayNode(
+  title: '基础用法',
+  desc: '倒计时组件，支持添加其他组件来控制。',
+)
 class CountdownDemo extends StatelessWidget {
   const CountdownDemo({super.key});
 
@@ -15,7 +20,7 @@ class CountdownDemo extends StatelessWidget {
           title: '倒计时结束时弹窗',
           value: const Duration(seconds: 10),
           format: "ss",
-          finish: (){
+          finish: () {
             $message.info(message: '倒计时已结束');
           },
         ),

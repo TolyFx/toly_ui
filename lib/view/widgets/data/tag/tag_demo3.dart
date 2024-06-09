@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 
 import '../../../../incubator/components/data/tag/tag.dart';
 
+@DisplayNode(
+  title: '高级用法',
+  desc: '自定义 Tag 样式',
+)
 class TagDemo3 extends StatelessWidget {
   const TagDemo3({super.key});
 
