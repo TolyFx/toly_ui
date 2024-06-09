@@ -54,6 +54,7 @@ $content    _ => {},
   }
 
   String nodeTemp(String content, String name) {
+    content = content.replaceAll(r'$', r'\$');
     return """/// ===================================================
 /// Power By 张风捷特烈 --- Generated file. Do not edit.
 /// github: https://github.com/toly1994328
