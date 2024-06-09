@@ -1,12 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
-
-import '../../../../incubator/components/data/statistics/statistics.dart';
-
-@DisplayNode(
-  title: '倒计时',
-  desc: '用于突出某个或某组数字时，如统计数值、金额、排名等，数值和标题前后都可以加icon、单位等元素。',
-)
 class StatisticsDemo extends StatelessWidget {
   const StatisticsDemo({super.key});
 

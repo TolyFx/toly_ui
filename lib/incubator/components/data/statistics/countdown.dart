@@ -43,7 +43,8 @@ class TolyCountdown extends StatefulWidget {
       this.format = 'HH:mm:ss',
       this.finish,
       this.endTime})
-      : assert(value == null || endTime == null, "The target value and defined value cannot coexist at the same time"),
+      : assert(value == null || endTime == null,
+            "The target value and defined value cannot coexist at the same time"),
         assert(value != null || endTime != null, "Countdown requires passing in the initial value");
 
   @override
@@ -59,6 +60,8 @@ class _TolyCountdownState extends State<TolyCountdown> {
     super.initState();
     if (widget.value != null) {
       currentValue = widget.value!.inMilliseconds;
+      print(currentValue);
+      print(DateTime.fromMillisecondsSinceEpoch(currentValue, isUtc: true));
     } else if (widget.endTime != null) {
       assert(widget.endTime!.millisecondsSinceEpoch > DateTime.now().millisecondsSinceEpoch,
           "The target time is greater than the current time");
@@ -71,7 +74,8 @@ class _TolyCountdownState extends State<TolyCountdown> {
   Widget build(BuildContext context) {
     TextStyle textStyle = widget.titleStyle ?? const TextStyle(color: Colors.grey, fontSize: 12);
     TextStyle valueStyle = widget.valueStyle ?? const TextStyle();
-    String valueText = DateFormat(widget.format).format(DateTime.fromMillisecondsSinceEpoch(currentValue, isUtc: true));
+    String valueText = DateFormat(widget.format)
+        .format(DateTime.fromMillisecondsSinceEpoch(currentValue, isUtc: true));
 
     Widget child = Column(
       children: [

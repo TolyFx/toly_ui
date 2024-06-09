@@ -26,7 +26,7 @@ class CountdownDemo extends StatelessWidget {
         ),
         TolyCountdown(
           title: '跨年倒计时',
-          endTime: DateTime.fromMillisecondsSinceEpoch(1717654306000),
+          endTime: DateTime.now().add(Duration(days: 1)),
           format: "hh:mm:ss",
         ),
         const TolyCountdown(
