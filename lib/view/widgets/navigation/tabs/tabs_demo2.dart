@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
+@DisplayNode(
+  title: '禁用项与分割线等配置项',
+  desc:
+      '将 MenuMeta 中的 router 为空字符串时，可禁用对应菜单项;\nshowDivider 置为 false 可隐藏下划线;\nlabelPadding 设置标签四边距；indicatorPadding 设置指示器的四边距。\nindicatorSize 设置称 tab 时，指示器和菜单项宽度一致。',
+)
 class TabsDemo2 extends StatefulWidget {
   const TabsDemo2({super.key});
 

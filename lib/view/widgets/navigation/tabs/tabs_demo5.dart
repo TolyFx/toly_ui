@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tolyui_navigation/src/tabs/toly_tabs.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
-import '../../../../app/theme/theme.dart';
-
+@DisplayNode(
+  title: '自定义页签组件',
+  desc: '通过 cellBuilder 可以自定义构建页签样式：',
+)
 class TabsDemo5 extends StatefulWidget {
   const TabsDemo5({super.key});
 
@@ -12,12 +14,11 @@ class TabsDemo5 extends StatefulWidget {
 }
 
 class _TabsDemo5State extends State<TabsDemo5> with TickerProviderStateMixin {
-
-  List<MenuMeta> items =  [
-    MenuMeta(label: 'Tab1', router: 'tab1',icon: Icons.anchor),
-    MenuMeta(label: 'Tab2', router: 'tab2',icon: Icons.ramp_right),
-    MenuMeta(label: 'Tab3', router: 'tab3',icon: Icons.cable),
-    MenuMeta(label: 'Tab4', router: 'tab4',icon: Icons.account_box_rounded),
+  List<MenuMeta> items = [
+    MenuMeta(label: 'Tab1', router: 'tab1', icon: Icons.anchor),
+    MenuMeta(label: 'Tab2', router: 'tab2', icon: Icons.ramp_right),
+    MenuMeta(label: 'Tab3', router: 'tab3', icon: Icons.cable),
+    MenuMeta(label: 'Tab4', router: 'tab4', icon: Icons.account_box_rounded),
   ];
 
   String activeId = 'tab1';
@@ -28,15 +29,19 @@ class _TabsDemo5State extends State<TabsDemo5> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: [
         TolyTabs(
-          showDivider: false,
-          showIndicator: false,
-          indicatorSize: TabBarIndicatorSize.tab,
-          labelPadding: EdgeInsets.symmetric(horizontal: 1),
-          cellBuilder: (menu,meta)=>DiyTabCell(menu: menu,meta: meta,),
-            tabs: items, activeId: activeId, onSelect: _onSelect),
+            showDivider: false,
+            showIndicator: false,
+            indicatorSize: TabBarIndicatorSize.tab,
+            labelPadding: EdgeInsets.symmetric(horizontal: 1),
+            cellBuilder: (menu, meta) => DiyTabCell(
+                  menu: menu,
+                  meta: meta,
+                ),
+            tabs: items,
+            activeId: activeId,
+            onSelect: _onSelect),
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Text('Content of ${activeMenu.label}'),
@@ -75,7 +80,6 @@ class DiyTabCell extends StatelessWidget {
       menu.label,
       maxLines: 1,
       style: TextStyle(
-
         // fontWeight: fontWeight,
         color: color,
       ),
@@ -85,22 +89,22 @@ class DiyTabCell extends StatelessWidget {
       content.insert(0, Icon(menu.icon, color: color, size: 18));
     }
 
-    if(content.length>1){
+    if (content.length > 1) {
       child = Wrap(
         spacing: 4,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: content,
       );
     }
-     const BorderSide side =  BorderSide(color: Color(0xfff0f0f0));
+    const BorderSide side = BorderSide(color: Color(0xfff0f0f0));
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 14,vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
           border: Border(
             top: side,
             left: side,
             right: side,
-            bottom: meta.active?BorderSide.none:side,
+            bottom: meta.active ? BorderSide.none : side,
           ),
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(6),
@@ -108,10 +112,8 @@ class DiyTabCell extends StatelessWidget {
             bottomLeft: Radius.circular(0),
             bottomRight: Radius.circular(0),
           ),
-          color: !meta.active?Color(0xfffafafa):null,
-
+          color: !meta.active ? Color(0xfffafafa) : null,
         ),
         child: child);
   }
 }
-

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../../debugger/debugger.dart';
 
+@DisplayNode(
+  title: '基础用法',
+  desc: '当页面上的操作命令过多时，用此组件可以收纳操作元素。点击或移入触点，会出现一个下拉菜单。可在列表中进行选择，并执行相应的命令。下面是气泡和非气泡模式：',
+)
 class DropMenuDemo1 extends StatelessWidget {
   const DropMenuDemo1({super.key});
 
@@ -18,8 +23,7 @@ class DropMenuDemo1 extends StatelessWidget {
         TolyDropMenu(
             placement: Placement.bottomStart,
             offsetCalculator: boxOffsetCalculator,
-            decorationConfig:
-                DecorationConfig(isBubble: false, backgroundColor: bgColor),
+            decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),
             onSelect: onSelect,
             menuItems: [
               ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
@@ -62,8 +66,7 @@ class DropMenuDemo1 extends StatelessWidget {
   }
 
   Widget display2(Color bgColor) {
-    return
-      TolyDropMenu(
+    return TolyDropMenu(
         placement: Placement.bottomStart,
         offsetCalculator: boxOffsetCalculator,
         decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),

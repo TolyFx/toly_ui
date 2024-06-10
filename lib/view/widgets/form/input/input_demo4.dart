@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '自定义装饰线',
+  desc: '可以通过自定义 InputBorder 边线类，自主控制边线装饰绘制：',
+)
 class InputDemo4 extends StatelessWidget {
   const InputDemo4({super.key});
 

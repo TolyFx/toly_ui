@@ -15,24 +15,20 @@ import 'display_file_parser.dart';
 import 'file_gen.dart';
 
 void main() async {
-  String dataPath = path.join(
-    Directory.current.path,
-    'lib',
-    'view',
-    'widgets',
-  );
-  Directory dataDir = Directory(dataPath);
-  Map<String, List<NodeMeta>> displayMap = {};
-  await parserDir(dataDir, displayMap);
+  String widgetPath = path.join(Directory.current.path, 'lib', 'view', 'widgets');
+  Directory widgetDir = Directory(widgetPath);
 
-  String genPath =
-      path.join(Directory.current.path, 'lib', 'view', 'widgets', 'display_nodes', 'gen');
+  Map<String, List<NodeMeta>> displayMap = {};
+  await parserDir(widgetDir, displayMap);
+
+  String genPath = path.join(widgetPath, 'display_nodes', 'gen');
   Directory genDir = Directory(genPath);
+
   if (!genDir.existsSync()) {
     await genDir.create();
   }
   String out = path.join(genPath, 'node.g.dart');
-  FileGen(displayMap).genNode(out);
+  await FileGen(displayMap).genNode(out);
 }
 
 Future<void> parserDir(Directory dir, Map<String, List<NodeMeta>> displayMap) async {
@@ -40,8 +36,8 @@ Future<void> parserDir(Directory dir, Map<String, List<NodeMeta>> displayMap) as
   List<FileSystemEntity> entity = dir.listSync();
   for (FileSystemEntity e in entity) {
     if (e is File) {
-      ParserType ret = await DisplayFileParser(e.path).parser();
-      if (ret is NodeMeta) {
+      NodeMeta? ret = await DisplayFileParser(e.path).parser();
+      if (ret != null) {
         displays.add(ret);
         ret.saveCode();
       }

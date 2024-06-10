@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '禁用输入',
+  desc: 'enabled 置为 false 可禁用输入',
+)
 class InputDemo2 extends StatelessWidget {
   const InputDemo2({super.key});
 

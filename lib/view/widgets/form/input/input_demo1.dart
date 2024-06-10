@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '基础用法',
+  desc: '通过 Flutter 内置的 TextField 组件展示输入框。',
+)
 class InputDemo1 extends StatelessWidget {
   const InputDemo1({super.key});
 

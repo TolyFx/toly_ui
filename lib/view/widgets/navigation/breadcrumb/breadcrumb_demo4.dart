@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
+@DisplayNode(
+  title: '自定义菜单项',
+  desc: '通过 cellBuilder 属性，可以自定义构建菜单项组件。结合 TolyDropMenu 可以实现面包屑 + 弹出菜单的效果：',
+)
 class BreadcrumbDemo4 extends StatelessWidget {
   const BreadcrumbDemo4({super.key});
 
@@ -50,9 +55,7 @@ class DIYBreadcrumbCell extends StatelessWidget {
     bool hasTarget = (menu.router.isNotEmpty);
     Color? color;
     if (hasTarget) {
-      color = display.hovered
-          ? effectStyle.hoverCellColor
-          : effectStyle.enableCellColor;
+      color = display.hovered ? effectStyle.hoverCellColor : effectStyle.enableCellColor;
     } else {
       color = effectStyle.disableCellColor;
     }
@@ -61,26 +64,19 @@ class DIYBreadcrumbCell extends StatelessWidget {
     }
 
     TextStyle style = TextStyle(
-        fontSize: display.fountSize,
-        fontWeight: hasTarget ? FontWeight.bold : null,
-        color: color);
+        fontSize: display.fountSize, fontWeight: hasTarget ? FontWeight.bold : null, color: color);
     Widget child = Text(menu.label, style: style);
     if (menu.icon != null) {
       child = Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
-        children: [
-          Icon(menu.icon!, size: 16, color: color),
-          const SizedBox(width: 4),
-          child
-        ],
+        children: [Icon(menu.icon!, size: 16, color: color), const SizedBox(width: 4), child],
       );
     }
 
     if (menu.router == '/') {
       child = TolyDropMenu(
         hoverConfig: HoverConfig(enterPop: true),
-        decorationConfig:
-            DecorationConfig(isBubble: false, backgroundColor: Colors.white),
+        decorationConfig: DecorationConfig(isBubble: false, backgroundColor: Colors.white),
         onSelect: (menu) => context.go(menu.router),
         menuItems: [
           ActionMenu(const MenuMeta(router: '/guide', label: '使用指南')),
@@ -101,9 +97,7 @@ class DIYBreadcrumbCell extends StatelessWidget {
       child = Container(
         padding: effectStyle.hoverBackgroundStyle!.padding,
         decoration: BoxDecoration(
-            color: display.hovered
-                ? effectStyle.hoverBackgroundStyle!.backgroundColor
-                : null,
+            color: display.hovered ? effectStyle.hoverBackgroundStyle!.backgroundColor : null,
             borderRadius: effectStyle.hoverBackgroundStyle!.radius),
         child: child,
       );

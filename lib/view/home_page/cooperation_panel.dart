@@ -3,23 +3,22 @@ import 'package:go_router/go_router.dart';
 import 'package:tolyui/tolyui.dart';
 
 class CooperationPanel extends StatelessWidget {
-  final EdgeInsetsGeometry padding;
-  const CooperationPanel({super.key,  this.padding=const EdgeInsets.only(bottom: 46.0, top: 72)});
+  final bool isDense;
+
+  const CooperationPanel({super.key, this.isDense = false});
 
   @override
   Widget build(BuildContext context) {
+    EdgeInsetsGeometry padding = isDense
+        ? const EdgeInsets.only(top: 46, bottom: 12)
+        : const EdgeInsets.only(bottom: 46.0, top: 72);
+
     Palette foreground = const Palette(
-        normal: Color(0xff606266),
-        hover: Color(0xff096dd9),
-        pressed: Color(0xff096dd9));
+        normal: Color(0xff606266), hover: Color(0xff096dd9), pressed: Color(0xff096dd9));
     Palette border = const Palette(
-        normal: Color(0xffd9d9d9),
-        hover: Color(0x44409eff),
-        pressed: Color(0xff096dd9));
+        normal: Color(0xffd9d9d9), hover: Color(0x44409eff), pressed: Color(0xff096dd9));
     Palette bg = const Palette(
-        normal: Color(0xff1890ff),
-        hover: Color(0xffecf5ff),
-        pressed: Color(0xffecf5ff));
+        normal: Color(0xff1890ff), hover: Color(0xffecf5ff), pressed: Color(0xffecf5ff));
     return Center(
         child: Padding(
       padding: padding,
@@ -27,14 +26,9 @@ class CooperationPanel extends StatelessWidget {
         children: [
           const Text(
             '合作与赞助',
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Color(0xff606266)),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xff606266)),
           ),
-          const SizedBox(
-            height: 48,
-          ),
+          SizedBox(height: isDense ? 24 : 48),
           Wrap(
             runSpacing: 24,
             spacing: 24,
@@ -55,8 +49,7 @@ class CooperationPanel extends StatelessWidget {
                       children: [
                         Text(
                           "Fx 架构",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "Flutter 全平台开发框架",
@@ -67,23 +60,6 @@ class CooperationPanel extends StatelessWidget {
                   ],
                 ),
               ),
-
-              // SizedBox(
-              //   width: 240,
-              //   child: Row(
-              //     children: [
-              //       Image.asset('assets/images/fc.webp',width: 42,),
-              //       const SizedBox(width: 20,),
-              //       Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: [
-              //           Text("FlutterCandies",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-              //           Text("Flutter 糖果包",style: TextStyle(color: Color(0xff606266)),),
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
               SizedBox(
                 width: 240,
                 child: Row(
@@ -100,8 +76,7 @@ class CooperationPanel extends StatelessWidget {
                       children: [
                         Text(
                           "PLCKI",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           "编程语言通用知识接口",
@@ -114,9 +89,7 @@ class CooperationPanel extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(
-            height: 48,
-          ),
+          SizedBox(height: isDense ? 24 : 48),
           TolyTooltip(
             richMessage: TextSpan(children: [
               TextSpan(

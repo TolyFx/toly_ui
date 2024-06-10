@@ -4,13 +4,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toly_ui/app/logic/actions/navigation.dart';
 import 'package:toly_ui/app/theme/theme.dart';
-import 'package:tolyui_navigation/src/tabs/toly_tabs.dart';
 import 'package:toly_ui/incubator/ext/go_router/listener.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../app/logic/app_state/app_logic.dart';
 import '../../app/res/toly_icon.dart';
-import '../../incubator/components/toly_tab_bar.dart';
 
 class HomeNavBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeNavBar({super.key});
@@ -119,8 +117,7 @@ class AppNavMenus extends StatefulWidget {
   State<AppNavMenus> createState() => _AppNavMenusState();
 }
 
-class _AppNavMenusState extends State<AppNavMenus>
-    with RouterChangeListenerMixin {
+class _AppNavMenusState extends State<AppNavMenus> with RouterChangeListenerMixin {
   String _activeId = '';
 
   List<MenuMeta> items = const [
@@ -151,7 +148,6 @@ class _AppNavMenusState extends State<AppNavMenus>
   void onChangeRoute(String path) {
     String first = Uri.parse(path).pathSegments.first;
     _activeId = "/$first";
-    print("=====onChangeRoute:${_activeId}===============");
     setState(() {});
   }
 }

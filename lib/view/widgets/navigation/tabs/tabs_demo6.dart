@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tolyui_navigation/src/tabs/toly_tabs.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
-
+@DisplayNode(
+  title: '页签的添加和移除',
+  desc: '通过 leading和tail 属性，可以设置左右的首尾组件：',
+)
 class TabsDemo6 extends StatefulWidget {
   const TabsDemo6({super.key});
 
@@ -11,7 +14,7 @@ class TabsDemo6 extends StatefulWidget {
 }
 
 class _TabsDemo6State extends State<TabsDemo6> with TickerProviderStateMixin {
-  List<MenuMeta> items = [
+  List<MenuMeta> items = const [
     MenuMeta(label: 'Tab1', router: 'tab1'),
     MenuMeta(label: 'Tab2', router: 'tab2'),
     MenuMeta(label: 'Tab3', router: 'tab3'),
@@ -32,7 +35,11 @@ class _TabsDemo6State extends State<TabsDemo6> with TickerProviderStateMixin {
           showDivider: false,
           showIndicator: false,
           labelPadding: EdgeInsets.symmetric(horizontal: 1),
-          cellBuilder: (menu,meta)=>CloseableTabCell(menu: menu, meta: meta, onDelete: _onDelete,),
+          cellBuilder: (menu, meta) => CloseableTabCell(
+            menu: menu,
+            meta: meta,
+            onDelete: _onDelete,
+          ),
           tabs: items,
           activeId: activeId,
           onSelect: _onSelect,
@@ -46,18 +53,20 @@ class _TabsDemo6State extends State<TabsDemo6> with TickerProviderStateMixin {
   }
 
   Widget _buildTail() => Wrap(spacing: 8, children: [
-    IconButton(
-      onPressed: addTab,
-      icon: Icon(Icons.add),
-    )
-  ]);
-
+        IconButton(
+          onPressed: addTab,
+          icon: Icon(Icons.add),
+        )
+      ]);
 
   void addTab() {
-    items = [...items,  MenuMeta(
-      label: 'Tab${items.length + 1}',
-      router: 'tab_${DateTime.now().millisecondsSinceEpoch}',
-    ),];
+    items = [
+      ...items,
+      MenuMeta(
+        label: 'Tab${items.length + 1}',
+        router: 'tab_${DateTime.now().millisecondsSinceEpoch}',
+      ),
+    ];
     activeId = items.last.router;
     setState(() {});
   }
@@ -68,18 +77,17 @@ class _TabsDemo6State extends State<TabsDemo6> with TickerProviderStateMixin {
   }
 
   void _onDelete(MenuMeta value) {
-    if(items.length==1) return;
-    int index = items.indexWhere((e)=>e.id==activeId);
+    if (items.length == 1) return;
+    int index = items.indexWhere((e) => e.id == activeId);
     int newActiveIndex = 0;
     List<MenuMeta> newList = List.of(items);
-    if(items[index].id!=value.id){
+    if (items[index].id != value.id) {
       newActiveIndex = index;
-    }else{
-      if(index==items.length-1){
-        newActiveIndex = index-1;
-      }else{
-        newActiveIndex = index+1;
-
+    } else {
+      if (index == items.length - 1) {
+        newActiveIndex = index - 1;
+      } else {
+        newActiveIndex = index + 1;
       }
     }
     activeId = newList[newActiveIndex].id;
@@ -90,7 +98,6 @@ class _TabsDemo6State extends State<TabsDemo6> with TickerProviderStateMixin {
     });
   }
 }
-
 
 class CloseableTabCell extends StatelessWidget {
   final MenuMeta menu;
@@ -118,7 +125,6 @@ class CloseableTabCell extends StatelessWidget {
       menu.label,
       maxLines: 1,
       style: TextStyle(
-
         // fontWeight: fontWeight,
         color: color,
       ),
@@ -128,12 +134,15 @@ class CloseableTabCell extends StatelessWidget {
       content.insert(0, Icon(menu.icon, color: color, size: 18));
     }
     content.add(GestureDetector(
-        onTap:(){
+        onTap: () {
           onDelete.call(menu);
         },
-        child: const Icon(Icons.close,size: 14,)));
+        child: const Icon(
+          Icons.close,
+          size: 14,
+        )));
 
-    if(content.length>1){
+    if (content.length > 1) {
       child = Wrap(
         spacing: 4,
         crossAxisAlignment: WrapCrossAlignment.center,
@@ -146,16 +155,16 @@ class CloseableTabCell extends StatelessWidget {
       //   children: content,
       // );
     }
-    const BorderSide side =  BorderSide(color: Color(0xfff0f0f0));
+    const BorderSide side = BorderSide(color: Color(0xfff0f0f0));
 
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 14,vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
           border: Border(
             top: side,
             left: side,
             right: side,
-            bottom: meta.active?BorderSide.none:side,
+            bottom: meta.active ? BorderSide.none : side,
           ),
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(6),
@@ -163,10 +172,8 @@ class CloseableTabCell extends StatelessWidget {
             bottomLeft: Radius.circular(0),
             bottomRight: Radius.circular(0),
           ),
-          color: !meta.active?Color(0xfffafafa):null,
-
+          color: !meta.active ? Color(0xfffafafa) : null,
         ),
         child: child);
   }
 }
-

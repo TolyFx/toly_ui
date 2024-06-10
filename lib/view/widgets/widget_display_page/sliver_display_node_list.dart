@@ -8,9 +8,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:toly_ui/components/node_display.dart';
+import 'package:toly_ui/view/widgets/display_nodes/gen/widget_display_map.g.dart';
 
 import '../display_nodes/gen/node.g.dart';
-import '../widget_display_map.dart';
 
 class SliverDisplayNodeList extends StatelessWidget {
   final String name;
@@ -20,18 +20,14 @@ class SliverDisplayNodeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> displayNodes = queryDisplayNodes(name);
-
     List<String> keys = displayNodes.keys.toList();
     dynamic data = displayNodes.values.toList();
-
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (_, index) {
-          return NodeDisplay(
-            display: widgetDisplayMap(keys[index]),
-            node: Node.fromMap(data[index]),
-          );
-        },
+        (_, index) => NodeDisplay(
+          display: widgetDisplayMap(keys[index]),
+          node: Node.fromMap(data[index]),
+        ),
         childCount: displayNodes.length,
       ),
     );

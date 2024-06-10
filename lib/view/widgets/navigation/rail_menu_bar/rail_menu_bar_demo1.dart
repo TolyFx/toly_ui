@@ -1,9 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../../debugger/debugger.dart';
 
+@DisplayNode(
+  title: 'TolyUI 默认样式',
+  desc: '左侧是支持拖拽拉伸，点击选中时条目背景色、字号、指示器动画变化。\n中间是禁止拖拽拉伸的设置案例。\n右间是自定义动画参数的配置案例。',
+)
 class RailMenuBarDemo1 extends StatefulWidget {
   const RailMenuBarDemo1({super.key});
 
@@ -15,13 +19,9 @@ class _RailMenuBarDemo1State extends State<RailMenuBarDemo1> {
   String activeId = '/guide/start';
 
   List<MenuMeta> navMenus = const [
-    MenuMeta(
-        icon: Icons.real_estate_agent_rounded,
-        label: "开始使用",
-        router: '/guide/start'),
+    MenuMeta(icon: Icons.real_estate_agent_rounded, label: "开始使用", router: '/guide/start'),
     MenuMeta(icon: Icons.account_tree, label: "模块树", router: '/guide/modules'),
-    MenuMeta(
-        icon: Icons.privacy_tip, label: "设计原则", router: '/guide/principle'),
+    MenuMeta(icon: Icons.privacy_tip, label: "设计原则", router: '/guide/principle'),
     MenuMeta(icon: Icons.note_alt, label: "更新日志", router: '/guide/update_log'),
   ];
 
@@ -71,12 +71,10 @@ class _RailMenuBarDemo1State extends State<RailMenuBarDemo1> {
         tail: (type) => DebugTail(type: type),
       );
 
-  Widget display3() =>
-      TolyRailMenuBar(
+  Widget display3() => TolyRailMenuBar(
         width: 72,
         maxWidth: 240,
-        widthTypeParser: (width) =>
-            width > 150 ? MenuWidthType.large : MenuWidthType.small,
+        widthTypeParser: (width) => width > 150 ? MenuWidthType.large : MenuWidthType.small,
         backgroundColor: backgroundColor,
         animationConfig: const AnimationConfig(
             duration: Duration(milliseconds: 500),

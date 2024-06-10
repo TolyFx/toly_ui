@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
-class DropMenuDemo7 extends StatelessWidget{
+@DisplayNode(
+  title: '右键触发',
+  desc: '可以通过右键，在一个组件之上弹出菜单面板。',
+)
+class DropMenuDemo7 extends StatelessWidget {
   const DropMenuDemo7({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Color bgColor = context.isDark? const Color(0xff303133):Colors.white;
+    Color bgColor = context.isDark ? const Color(0xff303133) : Colors.white;
     return TolyDropMenu(
       onSelect: onSelect,
-      decorationConfig:  DecorationConfig(isBubble: false,backgroundColor: bgColor),
+      decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),
       placement: Placement.topStart,
       menuItems: [
         ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),

@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
+
 import '../../../debugger/debugger.dart';
 
+@DisplayNode(
+  title: '分割线与不可用菜单项',
+  desc: 'DividerMenu 可以展示分割线项，ActionMenu 的 enable 属性配置其是否可用; 菜单元数据 MenuMeta 中的 icon 属性可以配置菜单项图标。',
+)
 class DropMenuDemo2 extends StatelessWidget {
   const DropMenuDemo2({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Color bgColor = context.isDark? const Color(0xff303133):Colors.white;
+    Color bgColor = context.isDark ? const Color(0xff303133) : Colors.white;
     return Wrap(
       spacing: 20,
       children: [display1(bgColor), display2(bgColor)],
@@ -19,11 +25,10 @@ class DropMenuDemo2 extends StatelessWidget {
   }
 
   Widget display1(Color bgColor) {
-    return
-      TolyDropMenu(
+    return TolyDropMenu(
         onSelect: onSelect,
         placement: Placement.bottomStart,
-        decorationConfig: DecorationConfig(isBubble: false,backgroundColor: bgColor),
+        decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),
         offsetCalculator: boxOffsetCalculator,
         menuItems: [
           ActionMenu(const MenuMeta(icon: Icons.add, router: '01', label: '1st menu item')),
@@ -58,4 +63,3 @@ class DropMenuDemo2 extends StatelessWidget {
         });
   }
 }
-

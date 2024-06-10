@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/widget_display_page/sliver_display_node_list.dart';
+import 'package:toly_ui/view/widgets/widget_display_page/widget_pitch.dart';
 
 import '../../home_page/cooperation_panel.dart';
 import '../../home_page/link_panel.dart';
@@ -25,11 +26,11 @@ class WidgetDisplayPage extends StatelessWidget {
           SliverDisplayNodeList(name: name),
           SliverList(
               delegate: SliverChildListDelegate([
-            const CooperationPanel(
-              padding: EdgeInsets.symmetric(vertical: 46),
-            ),
+            if (hasPitch(name)) WidgetPitch(name: name),
+            const SizedBox(height: 36),
             const Divider(),
-            const LinkPanel(),
+            const CooperationPanel(isDense: true),
+            const LinkPanel(isDense: true),
           ]))
         ],
       ),

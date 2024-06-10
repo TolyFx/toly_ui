@@ -10,8 +10,8 @@ class DisplayNode {
   final String title;
   final String desc;
 
-  static RegExp titleRegex = RegExp(r"""title.*('|")(?<title>.*)('|")""");
-  static RegExp descRegex = RegExp(r"""desc.*('|")(?<desc>.*)('|")""");
+  static final RegExp _titleRegex = RegExp(r"""title.*('|")(?<title>.*)('|")""");
+  static final RegExp _descRegex = RegExp(r"""desc.*('|")(?<desc>.*)('|")""");
 
   const DisplayNode({
     required this.title,
@@ -20,8 +20,8 @@ class DisplayNode {
 
   factory DisplayNode.fromString(String text) {
     return DisplayNode(
-      title: titleRegex.firstMatch(text)?.namedGroup('title') ?? '',
-      desc: descRegex.firstMatch(text)?.namedGroup('desc') ?? '',
+      title: _titleRegex.firstMatch(text)?.namedGroup('title') ?? '',
+      desc: _descRegex.firstMatch(text)?.namedGroup('desc') ?? '',
     );
   }
 

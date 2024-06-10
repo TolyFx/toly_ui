@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 
+@DisplayNode(
+  title: '组合输入框',
+  desc: '可以通过 Wrap/Row 等组件，组合输入框和其他组件。如下：前置标签',
+)
 class InputDemo3 extends StatelessWidget {
   const InputDemo3({super.key});
 

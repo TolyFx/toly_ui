@@ -1,9 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../../debugger/debugger.dart';
 
+@DisplayNode(
+  title: '子菜单',
+  desc: '通过 SubMenu 提供子菜单的元数据，可通过 TolyDropMenu#subMenuGap 参数，调节弹出子面板的间距。',
+)
 class DropMenuDemo3 extends StatelessWidget {
   const DropMenuDemo3({super.key});
 
@@ -13,35 +17,33 @@ class DropMenuDemo3 extends StatelessWidget {
       spacing: 20,
       children: [
         display(context),
-        display(context,gap: 6),
+        display(context, gap: 6),
       ],
     );
   }
 
-  Widget display(BuildContext context,{double gap=0}){
-    Color bgColor = context.isDark? const Color(0xff303133):Colors.white;
+  Widget display(BuildContext context, {double gap = 0}) {
+    Color bgColor = context.isDark ? const Color(0xff303133) : Colors.white;
 
     return TolyDropMenu(
         onSelect: onSelect,
         subMenuGap: gap,
         placement: Placement.bottomStart,
-        decorationConfig:  DecorationConfig(isBubble: false,backgroundColor: bgColor),
+        decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),
         offsetCalculator: boxOffsetCalculator,
         menuItems: [
           ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
           ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
-          SubMenu(const MenuMeta(router: 'export', label: 'export image'),
-              menus: [
-                ActionMenu(const MenuMeta(router: 'png', label: 'sub out .png')),
-                ActionMenu(const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
-                ActionMenu(const MenuMeta(router: 'svg', label: 'sub out .svg')),
-                SubMenu(const MenuMeta(router: 'sub sub', label: 'sub sub menu'),
-                    menus: [
-                      ActionMenu(const MenuMeta(router: 's1', label: 'sub menu1')),
-                      ActionMenu(const MenuMeta(router: 's2', label: 'sub menu2')),
-                      ActionMenu(const MenuMeta(router: 's3', label: 'sub menu3')),
-                    ]),
-              ]),
+          SubMenu(const MenuMeta(router: 'export', label: 'export image'), menus: [
+            ActionMenu(const MenuMeta(router: 'png', label: 'sub out .png')),
+            ActionMenu(const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
+            ActionMenu(const MenuMeta(router: 'svg', label: 'sub out .svg')),
+            SubMenu(const MenuMeta(router: 'sub sub', label: 'sub sub menu'), menus: [
+              ActionMenu(const MenuMeta(router: 's1', label: 'sub menu1')),
+              ActionMenu(const MenuMeta(router: 's2', label: 'sub menu2')),
+              ActionMenu(const MenuMeta(router: 's3', label: 'sub menu3')),
+            ]),
+          ]),
           const DividerMenu(),
           ActionMenu(const MenuMeta(router: '03', label: '3rd menu item'), enable: false),
           ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),

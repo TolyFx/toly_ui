@@ -6,7 +6,7 @@ Map<String, dynamic> get dataMenus => {
       'label': 'Data 数据展示',
       'children': [
         {
-          'path': '/Avatar',
+          'path': '/avatar',
           'label': 'Avatar',
           'subtitle': '头像',
           'isFlutter': true,
@@ -15,9 +15,9 @@ Map<String, dynamic> get dataMenus => {
         },
         {
           'path': '/card',
-          'label': 'card',
+          'label': 'Card',
           'subtitle': '卡片',
-          'isFlutter': true,
+          'tag': '新'
           // 'icon': Icons.text_fields,
         },
         {

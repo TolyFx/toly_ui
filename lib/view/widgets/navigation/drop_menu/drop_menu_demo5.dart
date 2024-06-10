@@ -1,10 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../../debugger/debugger.dart';
 
+@DisplayNode(
+  title: '修改样式',
+  desc: '可以通过 DropMenuCellStyle 修改菜单项样式。包括背景色、前景色、边距、圆角等属性。',
+)
 class DropMenuDemo5 extends StatelessWidget {
   const DropMenuDemo5({super.key});
 
@@ -54,25 +57,18 @@ class DropMenuDemo5 extends StatelessWidget {
         menuItems: [
           ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
           ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
-          SubMenu(const MenuMeta(router: 'export', label: 'export image'),
-              menus: [
-                ActionMenu(
-                    const MenuMeta(router: 'png', label: 'sub out .png')),
-                ActionMenu(
-                    const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
-                ActionMenu(
-                    const MenuMeta(router: 'svg', label: 'sub out .svg')),
-                SubMenu(
-                    const MenuMeta(router: 'sub sub', label: 'sub sub menu'),
-                    menus: [
-                      ActionMenu(const MenuMeta(router: 's1', label: 'sub menu1')),
-                      ActionMenu(const MenuMeta(router: 's2', label: 'sub menu2')),
-                      ActionMenu(const MenuMeta(router: 's3', label: 'sub menu3')),
-                    ]),
-              ]),
+          SubMenu(const MenuMeta(router: 'export', label: 'export image'), menus: [
+            ActionMenu(const MenuMeta(router: 'png', label: 'sub out .png')),
+            ActionMenu(const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
+            ActionMenu(const MenuMeta(router: 'svg', label: 'sub out .svg')),
+            SubMenu(const MenuMeta(router: 'sub sub', label: 'sub sub menu'), menus: [
+              ActionMenu(const MenuMeta(router: 's1', label: 'sub menu1')),
+              ActionMenu(const MenuMeta(router: 's2', label: 'sub menu2')),
+              ActionMenu(const MenuMeta(router: 's3', label: 'sub menu3')),
+            ]),
+          ]),
           const DividerMenu(),
-          ActionMenu(const MenuMeta(router: '03', label: '3rd menu item'),
-              enable: false),
+          ActionMenu(const MenuMeta(router: '03', label: '3rd menu item'), enable: false),
           ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
         ],
         // width: 160,

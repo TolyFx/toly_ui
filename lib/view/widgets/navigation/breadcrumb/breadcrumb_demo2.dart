@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
+@DisplayNode(title: '自定义分隔符', desc: '可以通过 separator 参数自定义分隔符组件；MenuMeta 中的 Icon 可以设置菜单项的图标。')
 class BreadcrumbDemo2 extends StatelessWidget {
   const BreadcrumbDemo2({super.key});
 

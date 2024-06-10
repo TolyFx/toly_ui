@@ -1,9 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
-import '../../../debugger/debugger.dart';
-
+@DisplayNode(
+  title: 'FlutterUnit 的导航菜单',
+  desc:
+      '关于 TolyRailMenuBar 结合导航 2.0 的实际使用方式，可参考其在 FlutterUnit 中的使用: \nhttps://github.com/toly1994328/FlutterUnit/blob/master/lib/navigation/views/desk',
+)
 class RailMenuBarDemo3 extends StatefulWidget {
   const RailMenuBarDemo3({super.key});
 
@@ -71,10 +74,9 @@ class FlutterUnitMenuCell extends StatelessWidget {
     double height = 42;
 
     double anim = display.rate;
-    Color? color = ColorTween(
-        begin: Colors.white.withAlpha(33),
-        end: Theme.of(context).primaryColor)
-        .transform(anim);
+    Color? color =
+        ColorTween(begin: Colors.white.withAlpha(33), end: Theme.of(context).primaryColor)
+            .transform(anim);
 
     double iconSize = _sizeTween.transform(anim);
     double fontSize = _fontSizeTween.transform(anim);

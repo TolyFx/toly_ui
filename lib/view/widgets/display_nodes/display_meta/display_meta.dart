@@ -12,41 +12,22 @@ import 'package:path/path.dart' as path;
 
 import '../display_nodes.dart';
 
-sealed class ParserType {
-  final String filePath;
-
-  const ParserType({required this.filePath});
-}
-
-class SkipParser extends ParserType {
-  const SkipParser({required super.filePath});
-}
-
-class NodeMeta extends ParserType {
+class NodeMeta {
   final String code;
   final String name;
+  final String filePath;
   final DisplayNode display;
 
   const NodeMeta({
-    required super.filePath,
+    required this.filePath,
     required this.code,
     required this.name,
     required this.display,
   });
 
-  // factory DisplayMeta.fromMap(dynamic map){
-  //   return DisplayMeta(filePath: map['code'], code: '', name: name, display: display);
-  // }
+  String get assetsName => '${path.basenameWithoutExtension(filePath)}.txt';
 
-  String get assetPath => 'assets/code_res/${path.basenameWithoutExtension(filePath)}.txt';
-
-  Map<String, dynamic> toJson() => {
-        name: {
-          'title': display.title,
-          'desc': display.desc,
-          'code': assetPath,
-        }
-      };
+  String get assetPath => 'assets/code_res/$assetsName';
 
   Map<String, dynamic> get valueMap => {
         'title': display.title,
@@ -60,8 +41,7 @@ class NodeMeta extends ParserType {
   }
 
   void saveCode() {
-    File codeFile =
-        File(path.join(Directory.current.path, 'assets', 'code_res', path.basename(assetPath)));
+    File codeFile = File(path.join(Directory.current.path, 'assets', 'code_res', assetsName));
     codeFile.writeAsString(code);
   }
 }

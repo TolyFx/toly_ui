@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/debugger/debugger.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
+
 import 'plcki_menu_tree_data.dart';
 
+@DisplayNode(
+  title: '首尾组件',
+  desc: 'leading 和 tail 属性可以设置 TolyRailMenuTree 的首尾组件，树形菜单内容超出时，可在中间区域滚动展示',
+)
 class RailMenuTreeDemo3 extends StatefulWidget {
   const RailMenuTreeDemo3({super.key});
 
@@ -21,8 +27,8 @@ class _RailMenuTreeDemo3State extends State<RailMenuTreeDemo3> {
 
   @override
   Widget build(BuildContext context) {
-    Color expandBackgroundColor = context.isDark?Colors.black:Colors.transparent;
-    Color backgroundColor = context.isDark?Color(0xff001529):Colors.white;
+    Color expandBackgroundColor = context.isDark ? Colors.black : Colors.transparent;
+    Color backgroundColor = context.isDark ? Color(0xff001529) : Colors.white;
     return SizedBox(
       height: 490,
       child: Align(
@@ -56,7 +62,7 @@ class _RailMenuTreeDemo3State extends State<RailMenuTreeDemo3> {
   }
 
   void _onSelect(MenuNode menu) {
-    _menuMeta = _menuMeta.select(menu,singleExpand: true);
+    _menuMeta = _menuMeta.select(menu, singleExpand: true);
 
     setState(() {});
   }

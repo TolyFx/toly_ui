@@ -1,9 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/tolyui.dart';
 
 import '../../../debugger/debugger.dart';
 
+@DisplayNode(
+  title: '自定义菜单项样式',
+  desc: '通过 cellBuilder 可以感知框架内部数据，自定义构建菜单项。如下是三个不同风格的导航菜单。',
+)
 class RailMenuBarDemo2 extends StatefulWidget {
   const RailMenuBarDemo2({super.key});
 
@@ -15,13 +19,9 @@ class _RailMenuBarDemo2State extends State<RailMenuBarDemo2> {
   String activeId = '/guide/start';
 
   List<MenuMeta> navMenus = const [
-    MenuMeta(
-        icon: Icons.real_estate_agent_rounded,
-        label: "开始使用",
-        router: '/guide/start'),
+    MenuMeta(icon: Icons.real_estate_agent_rounded, label: "开始使用", router: '/guide/start'),
     MenuMeta(icon: Icons.account_tree, label: "模块树", router: '/guide/modules'),
-    MenuMeta(
-        icon: Icons.privacy_tip, label: "设计原则", router: '/guide/principle'),
+    MenuMeta(icon: Icons.privacy_tip, label: "设计原则", router: '/guide/principle'),
     MenuMeta(icon: Icons.note_alt, label: "更新日志", router: '/guide/update_log'),
   ];
 
@@ -71,8 +71,8 @@ class _RailMenuBarDemo2State extends State<RailMenuBarDemo2> {
           menu: menu,
           display: display,
         ),
-        animationConfig: AnimationConfig(
-            type: AnimTickType.hove, duration: Duration(milliseconds: 250)),
+        animationConfig:
+            AnimationConfig(type: AnimTickType.hove, duration: Duration(milliseconds: 250)),
         width: 68,
         maxWidth: 240,
         padding: EdgeInsets.symmetric(horizontal: 6),
@@ -100,8 +100,7 @@ class _RailMenuBarDemo2State extends State<RailMenuBarDemo2> {
         onSelected: onSelected,
       );
 
-  Widget display3() =>
-    TolyRailMenuBar(
+  Widget display3() => TolyRailMenuBar(
         width: 64,
         gap: 10,
         maxWidth: 200,
@@ -109,15 +108,14 @@ class _RailMenuBarDemo2State extends State<RailMenuBarDemo2> {
           showIndicator: false,
           hideActiveText: false,
           height: 56,
-          heightLarge:46,
+          heightLarge: 46,
           hoverColor: Color(0xff4b5569),
           activeColor: Colors.white,
           foregroundColor: Color(0xffc2c5cc),
           iconSize: 20,
         ),
         animationConfig: AnimationConfig(type: AnimTickType.hove),
-        leading: (type) =>
-            DebugLeadingAvatar(type: type, brightness: Brightness.dark),
+        leading: (type) => DebugLeadingAvatar(type: type, brightness: Brightness.dark),
         menus: navMenus,
         activeId: activeId,
         enableWidthChange: true,
@@ -160,8 +158,7 @@ class QiWeiMenuCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool largeWidth = display.widthType == MenuWidthType.large;
-    TextStyle style =
-        TextStyle(color: foregroundColor, fontSize: largeWidth ? 14 : 11);
+    TextStyle style = TextStyle(color: foregroundColor, fontSize: largeWidth ? 14 : 11);
     BorderRadius br = const BorderRadius.all(Radius.circular(6));
     return Container(
       alignment: largeWidth ? Alignment.centerLeft : Alignment.center,
