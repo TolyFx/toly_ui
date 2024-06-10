@@ -1,0 +1,55 @@
+class RailMenuTreeDemo1 extends StatefulWidget {
+  const RailMenuTreeDemo1({super.key});
+
+  @override
+  State<RailMenuTreeDemo1> createState() => _RailMenuTreeDemo1State();
+}
+
+class _RailMenuTreeDemo1State extends State<RailMenuTreeDemo1> {
+  late MenuTreeMeta _treeMeta;
+
+  @override
+  void initState() {
+    super.initState();
+    _initTreeMeta();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Color expandBackgroundColor = context.isDark ? Colors.black : Colors.transparent;
+    Color backgroundColor = context.isDark ? const Color(0xff001529) : Colors.white;
+    return SizedBox(
+      height: 460,
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: TolyRailMenuTree(
+          enableWidthChange: true,
+          meta: _treeMeta,
+          backgroundColor: backgroundColor,
+          expandBackgroundColor: expandBackgroundColor,
+          onSelect: _onSelect,
+        ),
+      ),
+    );
+  }
+
+  @override
+  void reassemble() {
+    _initTreeMeta();
+    super.reassemble();
+  }
+
+  void _initTreeMeta() {
+    MenuNode root = MenuNode.fromMap(plckiMenuData);
+    _treeMeta = MenuTreeMeta(
+      expandMenus: ['/dashboard'],
+      activeMenu: root.find('/dashboard/home'),
+      root: root,
+    );
+  }
+
+  void _onSelect(MenuNode menu) {
+    _treeMeta = _treeMeta.select(menu);
+    setState(() {});
+  }
+}

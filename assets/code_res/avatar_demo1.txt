@@ -1,0 +1,49 @@
+class AvatarDemo1 extends StatelessWidget {
+  const AvatarDemo1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 16,
+      children: [
+        const CircleAvatar(
+          radius: 18,
+          backgroundImage: AssetImage("assets/images/icon_head.webp"),
+        ),
+        const CircleAvatar(
+          radius: 24,
+          backgroundImage: AssetImage("assets/images/plcki.jpg"),
+        ),
+        _buildShadowAvatar(),
+        const CircleAvatar(
+          radius: 24,
+          backgroundImage: AssetImage("assets/images/lx.webp"),
+        ),
+        const CircleAvatar(
+          radius: 18,
+          backgroundImage: AssetImage("assets/images/fx.png"),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildShadowAvatar() {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.white, width: 2),
+        boxShadow: [
+          BoxShadow(color: Colors.blue.withOpacity(0.25), blurRadius: 4, spreadRadius: 2),
+        ],
+      ),
+      child: const Padding(
+        padding: EdgeInsets.all(2.0),
+        child: CircleAvatar(
+          radius: 32,
+          backgroundImage: AssetImage("assets/images/me.webp"),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,38 @@
+class TabsDemo1 extends StatefulWidget {
+  const TabsDemo1({super.key});
+
+  @override
+  State<TabsDemo1> createState() => _TabsDemo1State();
+}
+
+class _TabsDemo1State extends State<TabsDemo1> with TickerProviderStateMixin {
+  List<MenuMeta> items = const [
+    MenuMeta(label: 'Tab1', router: 'tab1'),
+    MenuMeta(label: 'Tab2', router: 'tab2'),
+    MenuMeta(label: 'Tab3', router: 'tab3'),
+    MenuMeta(label: 'Tab4', router: 'tab4'),
+  ];
+
+  String activeId = 'tab1';
+
+  MenuMeta get activeMenu => items.singleWhere((e) => e.id == activeId);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TolyTabs(dividerHeight: px1, tabs: items, activeId: activeId, onSelect: _onSelect),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text('Content of ${activeMenu.label}'),
+        )
+      ],
+    );
+  }
+
+  void _onSelect(MenuMeta meta) {
+    activeId = meta.id;
+    setState(() {});
+  }
+}

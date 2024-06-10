@@ -1,0 +1,16 @@
+class BreadcrumbDemo1 extends StatelessWidget {
+  const BreadcrumbDemo1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TolyBreadcrumb(
+      onSelect: context.go,
+      items: const [
+        MenuMeta(label: 'Home', router: '/'),
+        MenuMeta(label: 'Widget', router: '/widgets'),
+        MenuMeta(label: 'Navigation'),
+        MenuMeta(label: 'Breadcrumb'),
+      ],
+    );
+  }
+}

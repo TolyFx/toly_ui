@@ -1,0 +1,41 @@
+class AvatarDemo2 extends StatelessWidget {
+  const AvatarDemo2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 12,
+      children: [
+        CircleAvatar(
+          radius: 24,
+          foregroundColor: Theme.of(context).primaryColor,
+          child: const FlutterLogo(),
+        ),
+        CircleAvatar(
+          radius: 24,
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Colors.white,
+          child: const Text(
+            '张',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        const CircleAvatar(
+          radius: 24,
+          foregroundColor: Colors.white,
+          backgroundColor: Colors.orange,
+          child: Icon(Icons.account_box_rounded),
+        ),
+        CircleAvatar(
+          radius: 24,
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.limeAccent,
+          child: const Text(
+            'UI',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+      ],
+    );
+  }
+}
