@@ -3,14 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toly_ui/navigation/view/empty404/widget404.dart';
 import 'package:toly_ui/view/home_page/home_page.dart';
+
 import '../../view/ecological/ecological_page.dart';
 import '../../view/sponsor/sponsor_page.dart';
 import '../view/app_navigation_scope.dart';
 import 'guide_route.dart';
 import 'widgets_route.dart';
 
+enum AppRoute {
+  root('/', '/'),
+  home('home', '/home'),
+  sponsor('sponsor', '/sponsor'),
+  ecological('ecological', '/ecological'),
+  error('404', '/404'),
+  ;
+
+  final String path;
+  final String name;
+
+  const AppRoute(this.name, this.path);
+
+  void go(BuildContext context) {
+    context.go(path);
+  }
+}
+
 RouteBase get appRoutes => GoRoute(
-      path: '/',
+      path: AppRoute.root.name,
       redirect: _widgetHome,
       routes: [
         ShellRoute(
@@ -21,7 +40,7 @@ RouteBase get appRoutes => GoRoute(
             },
             routes: [
               GoRoute(
-                path: 'home',
+                path: AppRoute.home.name,
                 builder: (BuildContext context, GoRouterState state) {
                   return HomePage();
                 },
@@ -34,14 +53,14 @@ RouteBase get appRoutes => GoRoute(
               // ),
               guideRoute,
               GoRoute(
-                path: 'sponsor',
+                path: AppRoute.sponsor.name,
                 builder: (BuildContext context, GoRouterState state) {
                   return SponsorPage();
                 },
               ),
               widgetsRoute,
               GoRoute(
-                path: 'ecological',
+                path: AppRoute.ecological.name,
                 builder: (BuildContext context, GoRouterState state) {
                   return EcologicalPage();
                 },
@@ -56,7 +75,7 @@ RouteBase get appRoutes => GoRoute(
         //   },
         // ),
         GoRoute(
-          path: '404',
+          path: AppRoute.error.name,
           builder: (BuildContext context, GoRouterState state) {
             return Widget404();
           },
@@ -64,9 +83,10 @@ RouteBase get appRoutes => GoRoute(
         // deskNavRoute
       ],
     );
+
 String? _widgetHome(_, state) {
   if (state.fullPath == '/') {
-    return '/home';
+    return AppRoute.home.path;
   }
   return null;
 }

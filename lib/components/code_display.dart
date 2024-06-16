@@ -68,41 +68,30 @@ class _CodeDisplayState extends State<CodeDisplay> {
         child: Row(
           children: [
             const Spacer(),
-            GestureDetector(
-                onTap: _copyCode,
-                child: const TolyTooltip(
-                    message: '复制代码',
-                    gap: 20,
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    child: Icon(Icons.copy_rounded, size: 20, color: Color(0xff828282)))),
-            const SizedBox(
-              width: 16,
+            TolyAction(
+              tooltip: "复制代码",
+              onTap: _copyCode,
+              child: Icon(Icons.copy_rounded, size: 20, color: Color(0xff828282)),
             ),
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: TolyTooltip(
-                  message: '查看代码',
-                  gap: 20,
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  child: GestureDetector(
-                    onTap: () => _toggleCode(ctrl),
-                    child: AnimatedBuilder(
-                      animation: anima,
-                      builder: (_, child) {
-                        Color? color = Color.lerp(const Color(0xff828282), Colors.blue,
-                            Curves.ease.transform(anima.value));
-                        return Transform.rotate(
-                          angle: pi / 2 * Curves.ease.transform(anima.value),
-                          child: Icon(
-                            Icons.code,
-                            color: color,
-                          ),
-                        );
-                      },
-                    ),
-                  )),
-              // GestureDetector(onTap: action, child: Icon(Icons.code))
-            ),
+            const SizedBox(width: 6),
+            TolyAction(
+                tooltip: "查看代码",
+                onTap: () => _toggleCode(ctrl),
+                child: AnimatedBuilder(
+                  animation: anima,
+                  builder: (_, child) {
+                    Color? color = Color.lerp(
+                        const Color(0xff828282), Colors.blue, Curves.ease.transform(anima.value));
+                    return Transform.rotate(
+                      angle: pi / 2 * Curves.ease.transform(anima.value),
+                      child: Icon(
+                        Icons.code,
+                        color: color,
+                        size: 20,
+                      ),
+                    );
+                  },
+                )),
           ],
         ));
   }

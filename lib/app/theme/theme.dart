@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -29,16 +28,13 @@ ThemeData get darkTheme {
   return ThemeData(
     extensions: [
       TolyMessageStyleTheme.tolyuiDark(),
-      TolyMessageShowTheme.tolyui(
-          duration: const Duration(seconds: 3)
-      ),
+      TolyMessageShowTheme.tolyui(duration: const Duration(seconds: 3)),
       TolyMenuTheme(
           backgroundColor: const Color(0xff001529),
-          expandBackgroundColor:const Color(0xff0C2135),
+          expandBackgroundColor: const Color(0xff0C2135),
           unselectedLabelTextStyle: TextStyle(color: Colors.white),
           selectedItemBackground: Color(0x22e6f7ff),
-          selectedLabelTextStyle: const TextStyle(color: Colors.blue,fontWeight: FontWeight.bold)
-      )
+          selectedLabelTextStyle: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold))
 
       // ReParserStrategyTheme(parserStrategy: _elementParserStrategy),
     ],
@@ -68,10 +64,8 @@ ThemeData get darkTheme {
         centerTitle: false,
         backgroundColor: const Color(0xff181818),
         iconTheme: const IconThemeData(color: Color(0xffCCCCCC)),
-        titleTextStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Color(0xffCCCCCC))),
+        titleTextStyle:
+            const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffCCCCCC))),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
         foregroundColor: Colors.white, backgroundColor: Color(0xff4699FB)),
     dividerTheme: DividerThemeData(
@@ -80,8 +74,7 @@ ThemeData get darkTheme {
       thickness: px1,
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: Color(0xff181818),
-        selectedItemColor: Color(0xff4699FB)),
+        backgroundColor: Color(0xff181818), selectedItemColor: Color(0xff4699FB)),
   );
 }
 
@@ -89,10 +82,7 @@ ThemeData get lightTheme {
   return ThemeData(
     extensions: [
       TolyMessageStyleTheme.tolyuiLight(),
-      TolyMessageShowTheme.tolyui(
-        duration: const Duration(seconds: 3),
-          offset:Offset(0, 36)
-      ),
+      TolyMessageShowTheme.tolyui(duration: const Duration(seconds: 3), offset: Offset(0, 36)),
       LinkTheme(
         style: const TextStyle(fontSize: 14, color: Color(0xff606266)),
         hoverColor: const Color(0xff0061a4),
@@ -105,17 +95,15 @@ ThemeData get lightTheme {
           expandBackgroundColor: Colors.white,
           selectedItemBackground: Color(0xffe6f7ff),
           unselectedLabelTextStyle: TextStyle(color: Color(0xff2d3a53)),
-          selectedLabelTextStyle: const TextStyle(color: Colors.blue,fontWeight: FontWeight.bold)
-      ),
+          selectedLabelTextStyle: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
       // ReParserStrategyTheme(parserStrategy: _elementParserStrategy),
     ],
-
     dividerColor: Colors.transparent,
     // useMaterial3: false,
     fontFamily: '黑体',
     iconButtonTheme: const IconButtonThemeData(
         style: ButtonStyle(
-          splashFactory: NoSplash.splashFactory,
+      splashFactory: NoSplash.splashFactory,
       overlayColor: MaterialStatePropertyAll(Colors.transparent),
     )),
 
@@ -123,8 +111,7 @@ ThemeData get lightTheme {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     ),
     expansionTileTheme: const ExpansionTileThemeData(
-        shape: RoundedRectangleBorder(
-            side: BorderSide(color: Colors.transparent))),
+        shape: RoundedRectangleBorder(side: BorderSide(color: Colors.transparent))),
     datePickerTheme: DatePickerThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         backgroundColor: const Color(0xfff4f8fb),

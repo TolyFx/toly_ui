@@ -21,9 +21,8 @@ class InputDemo2 extends StatelessWidget {
       style: style,
       decoration: InputDecoration(
         hintText: 'please input',
-        constraints: BoxConstraints.tight(Size(0, height)),
-        contentPadding: EdgeInsets.only(top: 0, right: 12, left: 12),
         focusedBorder: focusedBorder,
+        isDense: true,
         enabledBorder: border,
         hoverColor: focusedColor,
         border: border,

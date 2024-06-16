@@ -40,6 +40,7 @@ RouteBase get widgetsRoute => ShellRoute(
                   return EcologicalPage();
                 },
                 routes: [
+                  _customRoute('action'),
                   _customRoute('button'),
                   _customRoute('icon'),
                   _customRoute('layout'),
@@ -61,6 +62,7 @@ RouteBase get widgetsRoute => ShellRoute(
                 },
                 routes: [
                   _customRoute('avatar'),
+                  _customRoute('image'),
                   _customRoute('statistics'),
                   _customRoute('collapse'),
                   _customRoute('segmented'),
@@ -77,6 +79,7 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('tooltip'),
                   _customRoute('message'),
                   _customRoute('notification'),
+                  _customRoute('shortcuts'),
                 ]),
             GoRoute(
               path: '404',

@@ -47,7 +47,7 @@ class CardDemo3 extends StatelessWidget {
               shadowMode: ShadowMode.hover,
               shadows: shadows,
               child: DebugDisplayTile(
-                title: 'always',
+                title: 'hover',
                 centerTitle: true,
                 content: '悬浮时展示阴影效果',
                 foot: '阴影模式',
@@ -59,7 +59,7 @@ class CardDemo3 extends StatelessWidget {
               shadowMode: ShadowMode.never,
               shadows: shadows,
               child: DebugDisplayTile(
-                title: 'always',
+                title: 'never',
                 centerTitle: true,
                 content: '永不展示阴影效果',
                 foot: '阴影模式',

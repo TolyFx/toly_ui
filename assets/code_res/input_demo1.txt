@@ -22,8 +22,7 @@ class InputDemo1 extends StatelessWidget {
           decoration: InputDecoration(
             hintText: 'please input',
             hintStyle: style.copyWith(color: unFocusedColor),
-            constraints: BoxConstraints.tight(Size(0, height)),
-            contentPadding: EdgeInsets.only(top: 0, right: 12, left: 12),
+            isDense: true,
             focusedBorder: focusedBorder,
             enabledBorder: border,
             hoverColor: focusedColor,

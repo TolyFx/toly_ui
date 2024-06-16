@@ -53,11 +53,13 @@ class TolyTabs extends StatefulWidget {
 
 class _TolyTabsState extends State<TolyTabs> with TickerProviderStateMixin {
   TabController? controller;
+  bool _noMatch = false;
 
   @override
   void initState() {
     super.initState();
     initController(0);
+    _updateActive();
   }
 
   void initController(int initialIndex) {
@@ -77,15 +79,36 @@ class _TolyTabsState extends State<TolyTabs> with TickerProviderStateMixin {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.tabs.length != widget.tabs.length) {
       int activeIndex = widget.tabs.indexWhere((e) => e.id == widget.activeId);
-      initController(activeIndex);
+      _noMatch = activeIndex == -1;
+      if(!_noMatch){
+        initController(activeIndex);
+      }
+    }
+    
+    if(widget.activeId!=oldWidget.activeId){
+      _updateActive();
+    }
+  }
+
+  void _updateActive(){
+    int activeIndex = widget.tabs.indexWhere((e) => e.id == widget.activeId);
+
+    _noMatch = activeIndex == -1;
+    print("======_updateActive==${activeIndex}====${_noMatch}=====");
+
+    if(!_noMatch){
+      controller?.animateTo(activeIndex);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    bool showIndicator = !_noMatch&&widget.showIndicator;
+    print("======build======${showIndicator}=====");
+
     bool showExt = widget.leading != null || widget.tail != null;
     Widget tab = TolyTabBar(
-        showIndicator: widget.showIndicator,
+        showIndicator: !_noMatch&&widget.showIndicator,
         showDivider: widget.showDivider && !showExt,
         labelPadding: widget.labelPadding,
         overlayColor: WidgetStateProperty.all(Colors.transparent),
@@ -185,10 +208,13 @@ class TolyUITabCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness==Brightness.dark;
     Color? color;
     // FontWeight? fontWeight = widget.active ? FontWeight.bold : null;
     if (meta.active || meta.hovered) {
       color = Theme.of(context).primaryColor;
+    }else{
+      color = isDark?Colors.white:Color(0xff43474e);
     }
     if (!menu.enable) {
       color = Color(0xff8c8c8c);

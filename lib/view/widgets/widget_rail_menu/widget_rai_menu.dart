@@ -6,14 +6,13 @@
 // CreateTime:  2024-05-23
 // Contact Me:  1981462002@qq.com
 
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toly_ui/incubator/ext/go_router/listener.dart';
 import 'package:toly_ui/navigation/menu/widget_menus.dart';
 import 'package:tolyui/tolyui.dart';
+
 import 'toly_ui_menu_cell.dart';
-import 'package:path/path.dart' as p;
 
 class AppNavMenu extends StatefulWidget {
   const AppNavMenu({super.key});
@@ -22,7 +21,7 @@ class AppNavMenu extends StatefulWidget {
   State<AppNavMenu> createState() => _AppNavMenuState();
 }
 
-class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin{
+class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin {
   late MenuTreeMeta _menuMeta;
 
   @override
@@ -33,14 +32,18 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin{
 
   @override
   Widget build(BuildContext context) {
-
-    Color expandBackgroundColor = context.isDark?Colors.black:Colors.transparent;
-    Color backgroundColor = context.isDark?Color(0xff001529):Colors.white;
+    Color expandBackgroundColor = context.isDark ? Colors.black : Colors.transparent;
+    Color backgroundColor = context.isDark ? Color(0xff001529) : Colors.white;
 
     return TolyRailMenuTree(
-      leading: SizedBox(height: 18,),
+      leading: SizedBox(
+        height: 18,
+      ),
       enableWidthChange: true,
-      builder: (node,display)=>TolyUIWidgetMenuCell(menuNode: node,display: display,),
+      builder: (node, display) => TolyUIWidgetMenuCell(
+        menuNode: node,
+        display: display,
+      ),
       maxWidth: 360,
       width: 240,
       meta: _menuMeta,
@@ -51,9 +54,9 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin{
   }
 
   void _initTreeMeta() {
-    MenuNode root = MenuNode.fromMap(widgetMenus,extParser: TolyUIMenuMetaExt.fromMap);
+    MenuNode root = MenuNode.fromMap(widgetMenus, extParser: TolyUIMenuMetaExt.fromMap);
     List<String> parts = Uri.parse(path).pathSegments;
-    String parentPath = parts.sublist(0,parts.length-1).join('/');
+    String parentPath = parts.sublist(0, parts.length - 1).join('/');
     _menuMeta = MenuTreeMeta(
       expandMenus: ['/$parentPath'],
       activeMenu: root.find(path),
@@ -62,9 +65,9 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin{
   }
 
   void _onSelect(MenuNode menu) {
-    if(menu.isLeaf){
+    if (menu.isLeaf) {
       context.go(menu.id);
-    }else{
+    } else {
       _menuMeta = _menuMeta.select(menu, singleExpand: true);
       setState(() {});
     }
@@ -72,7 +75,7 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin{
 
   @override
   void reassemble() {
-    MenuNode root = MenuNode.fromMap(widgetMenus,extParser: TolyUIMenuMetaExt.fromMap);
+    MenuNode root = MenuNode.fromMap(widgetMenus, extParser: TolyUIMenuMetaExt.fromMap);
     _menuMeta = _menuMeta.copyWith(root: root);
     super.reassemble();
   }

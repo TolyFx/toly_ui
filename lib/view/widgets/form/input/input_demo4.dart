@@ -24,16 +24,18 @@ class InputDemo4 extends StatelessWidget {
           style: style,
           // decoration: null
           decoration: InputDecoration(
-            hintText: 'Please Input',
-            hintStyle: style.copyWith(color: unFocusedColor),
-            border: border,
-            constraints: BoxConstraints.tight(Size(0, height)),
-            contentPadding: EdgeInsets.only(top: -20 + (height - 14) / 2, left: 12, right: 12),
-            focusedBorder: focusedBorder,
-            enabledBorder: border,
-            hoverColor: focusedColor,
-            // border: border,
-          ),
+              hintText: 'Please Input',
+              hintStyle: style.copyWith(color: unFocusedColor),
+              border: border,
+              // constraints: BoxConstraints.tight(Size(0, height)),
+              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              // contentPadding: EdgeInsets.only(top: -20 + (height - 14) / 2, left: 12, right: 12),
+              focusedBorder: focusedBorder,
+              enabledBorder: border,
+              hoverColor: focusedColor,
+              isDense: true
+              // border: border,
+              ),
         ));
   }
 }
@@ -55,7 +57,7 @@ class CustomBorder extends InputBorder {
 
   @override
   Path getInnerPath(Rect rect, {TextDirection? textDirection}) {
-    return Path();
+    return Path()..addRect(rect);
   }
 
   @override

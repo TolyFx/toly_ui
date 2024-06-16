@@ -28,7 +28,7 @@ Map<String, dynamic> get dataMenus => {
           // 'icon': Icons.text_fields,
         },
         {
-          'path': '/Image',
+          'path': '/image',
           'label': 'Image',
           'subtitle': '图片',
           'isFlutter': true,

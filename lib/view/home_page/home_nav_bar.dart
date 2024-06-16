@@ -86,16 +86,16 @@ class AppThemeSwitch extends StatelessWidget {
       scale: 0.85,
       child: Switch(
           value: isDark,
-          overlayColor: WidgetStateProperty.all(Colors.transparent),
-          trackOutlineWidth: WidgetStateProperty.all(px1),
+          overlayColor: MaterialStateProperty.all(Colors.transparent),
+          trackOutlineWidth: MaterialStateProperty.all(px1),
           inactiveTrackColor: const Color(0xfff2f2f2),
           activeColor: const Color(0xff2c2c2c),
-          trackOutlineColor: WidgetStateProperty.all(const Color(0xffdcdfe6)),
+          trackOutlineColor: MaterialStateProperty.all(const Color(0xffdcdfe6)),
           // thumbIcon: MaterialStateProperty.all(const Icon(
           //   Icons.light_mode,
           //   color: Color(0xff606266),
           // )),
-          thumbIcon: WidgetStateProperty.all(isDark
+          thumbIcon: MaterialStateProperty.all(isDark
               ? const Icon(
                   Icons.dark_mode,
                   color: const Color(0xff2c2c2c),
@@ -104,7 +104,7 @@ class AppThemeSwitch extends StatelessWidget {
                   Icons.light_mode,
                   color: const Color(0xff2c2c2c),
                 )),
-          thumbColor: WidgetStateProperty.all(Colors.white),
+          thumbColor: MaterialStateProperty.all(Colors.white),
           onChanged: (v) => context.read<AppLogic>().toggleThemeModel(v)),
     );
   }

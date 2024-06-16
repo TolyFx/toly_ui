@@ -32,7 +32,6 @@ class TolyUIMenuMetaExt extends MenuMateExt {
   }
 }
 
-
 class TolyUIWidgetMenuCell extends StatelessWidget {
   final MenuNode menuNode;
   final DisplayMeta display;
@@ -46,8 +45,7 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
   });
 
   MenuTreeCellStyle get effectStyle =>
-      style ??
-          (display.isDark ? MenuTreeCellStyle.dark() : MenuTreeCellStyle.light());
+      style ?? (display.isDark ? MenuTreeCellStyle.dark() : MenuTreeCellStyle.light());
 
   Color? effectForegroundColor(MenuTreeCellStyle style) {
     if (display.selected) {
@@ -78,8 +76,8 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MenuTreeCellStyle effectStyle = style ??
-        (display.isDark ? MenuTreeCellStyle.dark() : MenuTreeCellStyle.light());
+    MenuTreeCellStyle effectStyle =
+        style ?? (display.isDark ? MenuTreeCellStyle.dark() : MenuTreeCellStyle.light());
 
     Color? bgColor = backgroundColor(effectStyle);
     Color? fgColor = effectForegroundColor(effectStyle);
@@ -95,8 +93,11 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
           Expanded(
             child: Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.symmetric(
-                  horizontal: 12.0 + (28 * menuNode.depth), vertical: ext?.subtitle==null?12:8),
+              padding: EdgeInsets.only(
+                left: 12.0 + (28 * menuNode.depth),
+                top: ext?.subtitle == null ? 12 : 8,
+                bottom: ext?.subtitle == null ? 12 : 8,
+              ),
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
@@ -111,8 +112,7 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
             ),
           ),
           if (ext?.tag != null) _buildTag(ext),
-          if (menuNode.children.isNotEmpty)
-            _buildExpandIndicator(display.expanded, fgColor)
+          if (menuNode.children.isNotEmpty) _buildExpandIndicator(display.expanded, fgColor)
         ],
       ),
     );
@@ -133,24 +133,23 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
   Widget _buildTitle(Color? fgColor) {
     TextStyle subStyle = const TextStyle(fontSize: 12, color: Colors.grey);
     TextStyle titleStyle = TextStyle(color: fgColor);
-    Widget child = Text(menuNode.data.label,
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-        style: titleStyle);
-    if(ext?.isFlutter??false){
+    Widget child = Text(
+      menuNode.data.label,
+      overflow: TextOverflow.ellipsis,
+      maxLines: 1,
+      style: titleStyle,
+    );
+    if (ext?.isFlutter ?? false) {
       child = Wrap(
         spacing: 4,
         crossAxisAlignment: WrapCrossAlignment.center,
-        children: [child,FlutterLogo(size: 14,)],
+        children: [child, const FlutterLogo(size: 14)],
       );
     }
     if (ext?.subtitle != null) {
       child = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          child,
-          Text(ext!.subtitle!, style: subStyle)
-        ],
+        children: [child, Text(ext!.subtitle!, style: subStyle)],
       );
     }
     return child;
@@ -158,14 +157,14 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
 
   Widget _buildTag(TolyUIMenuMetaExt? ext) {
     TextStyle tagStyle = const TextStyle(color: Colors.white, height: 1, fontSize: 10);
-    Widget child = Text('${ext?.tag}', overflow: TextOverflow.ellipsis, maxLines: 1, style: tagStyle);
+    Widget child =
+        Text('${ext?.tag}', overflow: TextOverflow.ellipsis, maxLines: 1, style: tagStyle);
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
           decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(4)),
+              color: Colors.blue.withOpacity(0.8), borderRadius: BorderRadius.circular(4)),
           child: child),
     );
   }

@@ -1285,6 +1285,7 @@ class _TolyTabBarState extends State<TolyTabBar> {
         widget.indicatorPadding != oldWidget.indicatorPadding ||
         widget.indicator != oldWidget.indicator ||
         widget.dividerColor != oldWidget.dividerColor ||
+        widget.showIndicator != oldWidget.showIndicator ||
         widget.dividerHeight != oldWidget.dividerHeight) {
       _initIndicatorPainter();
     }

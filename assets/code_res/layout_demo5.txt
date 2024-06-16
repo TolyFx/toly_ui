@@ -7,16 +7,15 @@ class LayoutDemo5 extends StatelessWidget {
     const Color color2 = Color(0xffe5e9f2);
     return Column(
       children: RxJustify.values
-          .map((e) =>
-          Row$(
-              justify: e,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4).rx,
-              cells: [
-                Cell(span: 4.rx, child: const Box(color: color1)),
-                Cell(span: 2.rx, child: const Box(color: color2)),
-                Cell(span: 6.rx, child: const Box(color: color1)),
-                Cell(span: 6.rx, child: const Box(color: color2)),
-              ]))
+          .map((e) => Row$(
+                  justify: e,
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4).rx,
+                  cells: [
+                    Cell(span: 4.rx, child: const Box(color: color1)),
+                    Cell(span: 2.rx, child: const Box(color: color2)),
+                    Cell(span: 6.rx, child: const Box(color: color1)),
+                    Cell(span: 6.rx, child: const Box(color: color2)),
+                  ]))
           .toList(),
     );
   }
