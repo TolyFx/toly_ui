@@ -1,0 +1,23 @@
+class BlendModeImage extends StatelessWidget {
+  const BlendModeImage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const AssetImage image = AssetImage("assets/images/icon_head.webp");
+    Color color = Colors.blue.withAlpha(88);
+    return Wrap(
+      children: BlendMode.values
+          .toList()
+          .map((mode) => Column(children: [
+                Container(
+                    margin: const EdgeInsets.all(5),
+                    width: 60,
+                    height: 60,
+                    color: Colors.red,
+                    child: Image(image: image, color: color, colorBlendMode: mode)),
+                Text(mode.toString().split(".")[1])
+              ]))
+          .toList(),
+    );
+  }
+}

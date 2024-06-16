@@ -1,0 +1,45 @@
+class ActionDemo1 extends StatelessWidget {
+  const ActionDemo1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 6,
+      children: [
+        TolyAction(
+          tooltip: '设置',
+          onTap: () => $message.success(message: '打开设置行为触发!'),
+          child: Icon(
+            Icons.settings,
+            size: 20,
+          ),
+        ),
+        TolyAction(
+          tooltip: '复制',
+          onTap: () => $message.success(message: '复制行为触发!'),
+          child: Icon(
+            Icons.copy_all_outlined,
+            size: 20,
+          ),
+        ),
+        TolyAction(
+          tooltip: '查看代码',
+          onTap: () => $message.success(message: '查看代码行为触发!'),
+          child: Icon(
+            Icons.code,
+            size: 20,
+          ),
+        ),
+        TolyAction(
+          tooltip: '赞助',
+          toolTipPlacement: Placement.top,
+          onTap: () => AppRoute.sponsor.go(context),
+          child: Icon(
+            Icons.monetization_on_rounded,
+            size: 20,
+          ),
+        ),
+      ],
+    );
+  }
+}

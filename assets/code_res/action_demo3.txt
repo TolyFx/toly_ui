@@ -1,0 +1,53 @@
+class ActionDemo3 extends StatefulWidget {
+  const ActionDemo3({super.key});
+
+  @override
+  State<ActionDemo3> createState() => _ActionDemo3State();
+}
+
+class _ActionDemo3State extends State<ActionDemo3> {
+  PaintAction _currentAction = PaintAction.move;
+
+  @override
+  Widget build(BuildContext context) {
+    ActionStyle style = ActionStyle(
+      borderRadius: BorderRadius.circular(4),
+      padding: const EdgeInsets.all(4),
+      backgroundColor: Colors.blue.withOpacity(0.1),
+      border: Border.all(color: context.isDark ? Colors.blueAccent : Colors.blue),
+      selectColor: Colors.blue.withOpacity(0.2),
+    );
+
+    return Wrap(
+        spacing: 6,
+        children: PaintAction.values.map((e) {
+          return TolyAction(
+            tooltip: e.tooltip,
+            style: style,
+            selected: _currentAction == e,
+            onTap: () => onTapAction(e),
+            child: Icon(e.icon, size: 20),
+          );
+        }).toList());
+  }
+
+  void onTapAction(PaintAction action) {
+    $message.success(message: '${action.tooltip}动作已选中!');
+    setState(() {
+      _currentAction = action;
+    });
+  }
+}
+
+enum PaintAction {
+  move('移动', CupertinoIcons.move),
+  pen('画笔', CupertinoIcons.pencil_outline),
+  brush('笔刷', CupertinoIcons.paintbrush),
+  clip('魔棒', CupertinoIcons.wand_rays),
+  lock('锁定', CupertinoIcons.lock),
+  ;
+
+  final String tooltip;
+  final IconData icon;
+  const PaintAction(this.tooltip, this.icon);
+}
