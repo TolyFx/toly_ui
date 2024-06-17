@@ -10,16 +10,15 @@ Map<String, dynamic> get dataMenus => {
           'label': 'Avatar',
           'subtitle': '头像',
           'isFlutter': true,
-
-          // 'icon': Icons.text_fields,
         },
         {
-          'path': '/card',
-          'label': 'Card',
-          'subtitle': '卡片',
-          'tag': '新'
-          // 'icon': Icons.text_fields,
+          'path': '/badge',
+          'label': 'Badge',
+          'subtitle': '头像',
+          'isFlutter': true,
+          'tag': '新',
         },
+        {'path': '/card', 'label': 'Card', 'subtitle': '卡片', 'tag': '新'},
         {
           'path': '/collapse',
           'label': 'Collapse',

@@ -1,0 +1,19 @@
+class BadgeDemo2 extends StatelessWidget {
+  const BadgeDemo2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Badge(
+      backgroundColor: Colors.red,
+      label: Text('99'),
+      textStyle: TextStyle(fontSize: 8, color: Colors.red),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      largeSize: 14,
+      child: Icon(
+        Icons.message,
+        size: 36,
+        color: Colors.indigo,
+      ),
+    );
+  }
+}

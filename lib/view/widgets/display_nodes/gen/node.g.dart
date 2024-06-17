@@ -9,6 +9,7 @@ part 'layout.g.dart';
 part 'link.g.dart';
 part 'text.g.dart';
 part 'avatar.g.dart';
+part 'badge.g.dart';
 part 'card.g.dart';
 part 'collapse.g.dart';
 part 'image.g.dart';
@@ -36,6 +37,7 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "link" => _linkData,
     "text" => _textData,
     "avatar" => _avatarData,
+    "badge" => _badgeData,
     "card" => _cardData,
     "collapse" => _collapseData,
     "image" => _imageData,

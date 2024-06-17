@@ -1,4 +1,5 @@
 export 'avatar/avatar.dart';
+export 'badge/badge.dart';
 export 'card/card.dart';
 export 'collapse/collapse.dart';
 export 'image/image.dart';

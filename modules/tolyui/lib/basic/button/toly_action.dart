@@ -109,7 +109,7 @@ class ActionStyle {
     this.backgroundColor = const Color(0xffeff3f6),
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
     this.border,
-    this.selectColor,
+    this.selectColor = const Color(0xffeff3f6),
   });
 
   const ActionStyle.dark({
@@ -117,6 +117,6 @@ class ActionStyle {
     this.backgroundColor = const Color(0xff3f4042),
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
     this.border,
-    this.selectColor,
+    this.selectColor = const Color(0xff3f4042),
   });
 }

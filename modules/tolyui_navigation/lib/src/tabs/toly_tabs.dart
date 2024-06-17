@@ -80,35 +80,30 @@ class _TolyTabsState extends State<TolyTabs> with TickerProviderStateMixin {
     if (oldWidget.tabs.length != widget.tabs.length) {
       int activeIndex = widget.tabs.indexWhere((e) => e.id == widget.activeId);
       _noMatch = activeIndex == -1;
-      if(!_noMatch){
+      if (!_noMatch) {
         initController(activeIndex);
       }
     }
-    
-    if(widget.activeId!=oldWidget.activeId){
+
+    if (widget.activeId != oldWidget.activeId) {
       _updateActive();
     }
   }
 
-  void _updateActive(){
+  void _updateActive() {
     int activeIndex = widget.tabs.indexWhere((e) => e.id == widget.activeId);
-
     _noMatch = activeIndex == -1;
-    print("======_updateActive==${activeIndex}====${_noMatch}=====");
-
-    if(!_noMatch){
+    if (!_noMatch) {
       controller?.animateTo(activeIndex);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    bool showIndicator = !_noMatch&&widget.showIndicator;
-    print("======build======${showIndicator}=====");
-
+    bool showIndicator = !_noMatch && widget.showIndicator;
     bool showExt = widget.leading != null || widget.tail != null;
     Widget tab = TolyTabBar(
-        showIndicator: !_noMatch&&widget.showIndicator,
+        showIndicator: showIndicator,
         showDivider: widget.showDivider && !showExt,
         labelPadding: widget.labelPadding,
         overlayColor: WidgetStateProperty.all(Colors.transparent),
@@ -145,8 +140,7 @@ class _TolyTabsState extends State<TolyTabs> with TickerProviderStateMixin {
               if (widget.tail != null) widget.tail!,
             ],
           ),
-          if(widget.showIndicator)
-          Divider(),
+          if (widget.showIndicator) Divider(),
         ],
       );
     }
@@ -186,12 +180,11 @@ class _TabCellItemState extends State<TabCellItem> with HoverActionMix {
   @override
   Widget build(BuildContext context) {
     TabCellMeta meta = TabCellMeta(active: widget.active, hovered: hovered);
-    Widget child = widget.builder?.call(widget.menu, meta) ??
-        TolyUITabCell(menu: widget.menu, meta: meta);
+    Widget child =
+        widget.builder?.call(widget.menu, meta) ?? TolyUITabCell(menu: widget.menu, meta: meta);
 
-    MouseCursor cursor = widget.menu.enable
-        ? SystemMouseCursors.click
-        : SystemMouseCursors.forbidden;
+    MouseCursor cursor =
+        widget.menu.enable ? SystemMouseCursors.click : SystemMouseCursors.forbidden;
     return wrap(child, cursor: cursor);
   }
 }
@@ -208,13 +201,13 @@ class TolyUITabCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness==Brightness.dark;
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     Color? color;
     // FontWeight? fontWeight = widget.active ? FontWeight.bold : null;
     if (meta.active || meta.hovered) {
       color = Theme.of(context).primaryColor;
-    }else{
-      color = isDark?Colors.white:Color(0xff43474e);
+    } else {
+      color = isDark ? Colors.white : Color(0xff43474e);
     }
     if (!menu.enable) {
       color = Color(0xff8c8c8c);
