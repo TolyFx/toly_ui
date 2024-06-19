@@ -4,7 +4,7 @@ class BadgeDemo3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> info = ['默认偏移和对齐', '偏移-4,-4', '偏移-2,-2;右下角'];
-    final List<Offset?> offsets = [null, const Offset(-4, -4), const Offset(-2, -2)];
+    final List<Offset?> offsets = [null, const Offset(-4, -2), const Offset(-2, -2)];
     final List<Alignment?> alignments = [null, null, Alignment.bottomRight];
 
     return Wrap(
@@ -25,13 +25,16 @@ class BadgeDemo3 extends StatelessWidget {
       children: [
         Badge(
           backgroundColor: Colors.red,
-          label: const Text('99'),
+          label: const Text(
+            '99',
+            style: TextStyle(height: 1),
+          ),
           textStyle: const TextStyle(fontSize: 8, color: Colors.red),
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           largeSize: 14,
           offset: offset,
           alignment: alignment,
-          child: const Icon(Icons.message, size: 36, color: Colors.indigo),
+          child: const Icon(CupertinoIcons.mail, size: 36, color: Colors.indigo),
         ),
         Text(
           info,

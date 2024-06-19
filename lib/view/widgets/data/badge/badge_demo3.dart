@@ -2,16 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 
-/// create by 张风捷特烈 on 2023/01/27
-/// contact me by email 1981462002@qq.com
-/// 说明:
-//    {
-//      "widgetId": 258,
-//      "name": 'Badge 的偏移量',
-//      "priority": 3,
-//      "subtitle": "【offset】 : 标记偏移量  【Offset?】\n"
-//          "【alignment】 : 标题偏移   【AlignmentDirectional?】",
-//    }
 @DisplayNode(
   title: 'Badge 的偏移量',
   desc: 'offset 设置标记偏移量，类型为 Offset；alignment 设置标题对齐方式，类型为 AlignmentDirectional',

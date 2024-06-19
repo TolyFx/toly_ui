@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:toly_ui/incubator/components/data/collapse/switch_panel.dart';
+import 'package:toly_ui/incubator/components/data/collapse/collapse.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 
 @DisplayNode(

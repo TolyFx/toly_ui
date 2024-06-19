@@ -3,27 +3,53 @@ class BadgeDemo1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Wrap(
+    Widget child = TolyAction(
+      selected: true,
+      child: const Icon(Icons.update, size: 24, color: Colors.green),
+      onTap: () {},
+    );
+
+    return Wrap(
       spacing: 20,
       children: [
         Badge(
           backgroundColor: Colors.redAccent,
-          smallSize: 10,
-          child: Icon(
-            Icons.update,
-            size: 36,
-            color: Colors.green,
+          smallSize: 6,
+          child: child,
+        ),
+        Badge(
+          backgroundColor: Colors.orange,
+          alignment: Alignment.bottomRight,
+          smallSize: 6,
+          child: child,
+        ),
+        Badge(
+          largeSize: 14,
+          backgroundColor: Colors.transparent,
+          padding: EdgeInsets.zero,
+          offset: Offset(5, -5),
+          label: ColoredBox(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    // border: Border.all( width: 2),
+                    color: Colors.blue,
+                    shape: BoxShape.circle),
+                width: 8,
+                height: 8,
+              ),
+            ),
           ),
+          // alignment: Alignment.center,
+          child: child,
         ),
         Badge(
           backgroundColor: Colors.redAccent,
-          smallSize: 10,
+          smallSize: 6,
           isLabelVisible: false,
-          child: Icon(
-            Icons.update,
-            size: 36,
-            color: Colors.green,
-          ),
+          child: child,
         ),
       ],
     );

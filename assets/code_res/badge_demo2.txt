@@ -6,11 +6,11 @@ class BadgeDemo2 extends StatelessWidget {
     return const Badge(
       backgroundColor: Colors.red,
       label: Text('99'),
-      textStyle: TextStyle(fontSize: 8, color: Colors.red),
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      largeSize: 14,
+      textStyle: TextStyle(fontSize: 8, color: Colors.red, height: 1),
+      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      largeSize: 12,
       child: Icon(
-        Icons.message,
+        CupertinoIcons.mail,
         size: 36,
         color: Colors.indigo,
       ),

@@ -49,6 +49,8 @@ Widget widgetDisplayMap(String key){
     "BlendModeImage" => const BlendModeImage(),
     "RepeatImage" => const RepeatImage(),
     "CenterSliceImage" => const CenterSliceImage(),
+    "PaginationDemo1" => const PaginationDemo1(),
+    "PaginationDemo2" => const PaginationDemo2(),
     "SegmentedDemo1" => const SegmentedDemo1(),
     "SegmentedDemo2" => const SegmentedDemo2(),
     "StatisticsDemo" => const StatisticsDemo(),

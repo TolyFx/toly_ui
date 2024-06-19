@@ -62,6 +62,7 @@ RouteBase get widgetsRoute => ShellRoute(
                 },
                 routes: [
                   _customRoute('avatar'),
+                  _customRoute('pagination'),
                   _customRoute('badge'),
                   _customRoute('image'),
                   _customRoute('statistics'),
