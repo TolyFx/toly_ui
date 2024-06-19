@@ -69,6 +69,7 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('segmented'),
                   _customRoute('card'),
                   _customRoute('tag'),
+                  _customRoute('slideshow'),
                 ]),
             GoRoute(
                 path: 'feedback',

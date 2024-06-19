@@ -31,7 +31,7 @@ class TimelinePainter extends CustomPainter {
   }
 
   void _centerElementPaint(Canvas canvas, Size size) {
-    Paint lineStroke = new Paint()
+    Paint lineStroke =  Paint()
       ..color = lineColor
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 2.0
@@ -55,11 +55,11 @@ class TimelinePainter extends CustomPainter {
       canvas.drawLine(offsetTopCenter, renderOffset, lineStroke);
     }
 
-    Paint circleFill = new Paint()
+    Paint circleFill =  Paint()
       ..color = lineColor
       ..style = PaintingStyle.fill;
 
-    canvas.drawCircle(size.center(new Offset(0.0, -8.0)), 6.0, circleFill);
+    canvas.drawCircle(size.center( Offset(0.0, -8.0)), 6.0, circleFill);
   }
 
   @override

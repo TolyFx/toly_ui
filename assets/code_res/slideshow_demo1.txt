@@ -1,0 +1,10 @@
+class SlideshowDemo1 extends StatelessWidget {
+  const SlideshowDemo1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text("幻灯片"),
+    );
+  }
+}
