@@ -7,3 +7,4 @@ export 'pagination/pagination.dart';
 export 'segmented/segmented.dart';
 export 'statistics/statistics.dart';
 export 'tag/tag.dart';
+export 'slideshow/slideshow.dart';

@@ -83,5 +83,13 @@ Map<String, dynamic> get dataMenus => {
           'tag': '新'
           // 'icon': Icons.text_fields,
         },
+        {
+          'path': '/slideshow',
+          'label': 'Slideshow',
+          'subtitle': '幻灯片',
+          'isFlutter': true,
+          'tag': '新'
+          // 'icon': Icons.text_fields,
+        },
       ]
     };

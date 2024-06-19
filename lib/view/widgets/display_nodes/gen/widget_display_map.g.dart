@@ -53,6 +53,7 @@ Widget widgetDisplayMap(String key){
     "PaginationDemo2" => const PaginationDemo2(),
     "SegmentedDemo1" => const SegmentedDemo1(),
     "SegmentedDemo2" => const SegmentedDemo2(),
+    "SlideshowDemo1" => const SlideshowDemo1(),
     "StatisticsDemo" => const StatisticsDemo(),
     "CountdownDemo" => const CountdownDemo(),
     "TagDemo1" => const TagDemo1(),

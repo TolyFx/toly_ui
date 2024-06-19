@@ -7,7 +7,7 @@ import 'package:ac_string_ext/ac_string_ext.dart';
 
 void main(){
   var list = "6879008897097";
- print(list.separator());
+  print(list.separator());
   print(list.separator(interval: 4));
 
 }

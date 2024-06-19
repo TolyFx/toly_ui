@@ -15,6 +15,7 @@ part 'collapse.g.dart';
 part 'image.g.dart';
 part 'pagination.g.dart';
 part 'segmented.g.dart';
+part 'slideshow.g.dart';
 part 'statistics.g.dart';
 part 'tag.g.dart';
 part 'message.g.dart';
@@ -44,6 +45,7 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "image" => _imageData,
     "pagination" => _paginationData,
     "segmented" => _segmentedData,
+    "slideshow" => _slideshowData,
     "statistics" => _statisticsData,
     "tag" => _tagData,
     "message" => _messageData,

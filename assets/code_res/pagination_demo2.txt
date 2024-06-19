@@ -6,7 +6,9 @@ class PaginationDemo2 extends StatelessWidget {
     return Align(
         alignment: Alignment.centerLeft,
         child: TolyPagination(
-          total: 1000,
+          total: 10000,
+          pageSize: 10,
+          capacity: 15,
         ));
   }
 }
