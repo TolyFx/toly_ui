@@ -425,7 +425,7 @@ packages:
       path: "modules/tolyui"
       relative: true
     source: path
-    version: "0.0.2+5"
+    version: "0.0.2+7"
   tolyui_feedback:
     dependency: transitive
     description:
@@ -446,10 +446,10 @@ packages:
     dependency: transitive
     description:
       name: tolyui_navigation
-      sha256: "777685f1794b7b93c6ff901e54843feac6e24833e3f243dce40c2bdc87964cae"
+      sha256: "504055927092dab99e91140c5858527dee9b7f148bd6bb834b38e9de3b5ca4d3"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.0.8"
+    version: "0.0.8+1"
   tolyui_rx_layout:
     dependency: transitive
     description:
