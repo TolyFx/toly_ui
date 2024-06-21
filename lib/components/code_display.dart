@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:toly_ui/app/theme/code_theme.dart';
-import 'package:toly_ui/incubator/components/data/collapse/switch_panel.dart';
+import 'package:toly_ui/incubator/components/data/collapse/collapse.dart';
 import 'package:tolyui/tolyui.dart';
 
 class CodeDisplay extends StatefulWidget {

@@ -5,4 +5,4 @@
 
 part of 'node.g.dart';
 
-Map<String, dynamic> get _shortcutsData => {"CharacterActivatorExample":{"title":"Shortcuts 和 Actions 首先快捷键","desc":"基于 CallbackShortcuts 组件可以简便地使用快捷键。","code":"assets/code_res/shortcuts_demo2.txt"},"CallbackShortcutsExample":{"title":"CallbackShortcuts 组件首先快捷键","desc":"基于 CallbackShortcuts 组件可以简便地使用快捷键。","code":"assets/code_res/shortcuts_demo1.txt"}};
+Map<String, dynamic> get _shortcutsData => {"CallbackShortcutsExample":{"title":"CallbackShortcuts 组件首先快捷键","desc":"基于 CallbackShortcuts 组件可以简便地使用快捷键。","code":"assets/code_res/shortcuts_demo1.txt"},"CharacterActivatorExample":{"title":"Shortcuts 和 Actions 首先快捷键","desc":"基于 CallbackShortcuts 组件可以简便地使用快捷键。","code":"assets/code_res/shortcuts_demo2.txt"}};

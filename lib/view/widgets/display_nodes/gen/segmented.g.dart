@@ -5,4 +5,4 @@
 
 part of 'node.g.dart';
 
-Map<String, dynamic> get _segmentedData => {"SegmentedDemo2":{"title":"基础用法","desc":"设置 Segmented 的背景色和前景色：","code":"assets/code_res/segmented_demo2.txt"},"SegmentedDemo1":{"title":"基础用法","desc":"点击切换展示某个 Segmented 页签：","code":"assets/code_res/segmented_demo1.txt"}};
+Map<String, dynamic> get _segmentedData => {"SegmentedDemo1":{"title":"基础用法","desc":"点击切换展示某个 Segmented 页签：","code":"assets/code_res/segmented_demo1.txt"},"SegmentedDemo2":{"title":"基础用法","desc":"设置 Segmented 的背景色和前景色：","code":"assets/code_res/segmented_demo2.txt"}};

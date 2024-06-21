@@ -35,7 +35,7 @@ Map<String, dynamic> get dataMenus => {
           // 'icon': Icons.text_fields,
         },
         {
-          'path': '/Pagination',
+          'path': '/pagination',
           'label': 'Pagination',
           'subtitle': '分页',
           // 'icon': Icons.text_fields,

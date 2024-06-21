@@ -1,0 +1,14 @@
+class PaginationDemo2 extends StatelessWidget {
+  const PaginationDemo2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+        alignment: Alignment.centerLeft,
+        child: TolyPagination(
+          total: 10000,
+          pageSize: 10,
+          capacity: 15,
+        ));
+  }
+}
