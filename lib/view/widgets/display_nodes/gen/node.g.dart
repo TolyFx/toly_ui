@@ -24,6 +24,7 @@ part 'popover.g.dart';
 part 'shortcuts.g.dart';
 part 'tooltip.g.dart';
 part 'input.g.dart';
+part 'select.g.dart';
 part 'breadcrumb.g.dart';
 part 'drop_menu.g.dart';
 part 'rail_menu_bar.g.dart';
@@ -54,6 +55,7 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "shortcuts" => _shortcutsData,
     "tooltip" => _tooltipData,
     "input" => _inputData,
+    "select" => _selectData,
     "breadcrumb" => _breadcrumbData,
     "drop_menu" => _drop_menuData,
     "rail_menu_bar" => _rail_menu_barData,

@@ -1,0 +1,29 @@
+class SelectDemo1 extends StatefulWidget {
+  const SelectDemo1({super.key});
+
+  @override
+  State<SelectDemo1> createState() => _SelectDemo1State();
+}
+
+class _SelectDemo1State extends State<SelectDemo1> {
+  int _activeIndex = 0;
+  List<String> data = MainAxisAlignment.values.map((e) => e.name).toList();
+  @override
+  Widget build(BuildContext context) {
+    return TolySelect(
+      fontSize: 11,
+      data: data,
+      selectIndex: _activeIndex,
+      iconSize: 16,
+      height: 25,
+      width: 100,
+      onSelected: (int index) async {
+        String type = data[index];
+        $message.success(message: '已选择:$type!');
+        setState(() {
+          _activeIndex = index;
+        });
+      },
+    );
+  }
+}

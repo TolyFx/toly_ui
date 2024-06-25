@@ -33,6 +33,13 @@ Map<String, dynamic> get formMenus => {
           // 'icon': Icons.text_fields,
         },
         {
+          'path': '/select',
+          'label': 'Select',
+          'subtitle': '选择器',
+          'tag': '新',
+          // 'icon': Icons.text_fields,
+        },
+        {
           'path': '/transfer',
           'label': 'Transfer',
           'subtitle': '穿梭框',

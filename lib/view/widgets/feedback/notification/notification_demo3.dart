@@ -6,8 +6,10 @@ import '../../../debugger/debugger.dart';
 import '../../../debugger/panel/debug_display_panel.dart';
 import '../../display_nodes/display_nodes.dart';
 
-@DisplayNode(title: 'Notification 自定义内容和偏移',
-  desc: r'通过 $message.emitNotice 方法可以自定义通知内容组件，其中回调的 close 函数用于关闭通知。offset 属性可以设置提示面板偏移量。',)
+@DisplayNode(
+  title: 'Notification 自定义内容和偏移',
+  desc: r'通过 $message.emitNotice 方法可以自定义通知内容组件，其中回调的 close 函数用于关闭通知。offset 属性可以设置提示面板偏移量。',
+)
 class NotificationDemo3 extends StatelessWidget {
   const NotificationDemo3({super.key});
 
@@ -49,7 +51,7 @@ class NotificationDemo3 extends StatelessWidget {
           position: NoticePosition.bottomRight,
           offset: const Offset(24, 24),
           builder: (_, close) => DebugDisplayPanel(
-            image: 'assets/images/logo.png',
+            image: 'assets/images/plcki.jpg',
             title: 'TolyUI',
             info1: 'Flutter 全平台响应式 UI 框架',
             info2: '当前版本: V 0.1.1',
@@ -60,5 +62,3 @@ class NotificationDemo3 extends StatelessWidget {
     );
   }
 }
-
-

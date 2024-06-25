@@ -67,9 +67,15 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
     Color backgroundColor = effectStyle.backgroundColor;
     Color foregroundColor = effectStyle.foregroundColor;
     if (enable) {
-      if (hovered) {
+      if(widget.display.active){
+        foregroundColor = Theme.of(context).primaryColor;
         backgroundColor = effectStyle.hoverBackgroundColor;
+      }else{
+        if (hovered) {
+          backgroundColor = effectStyle.hoverBackgroundColor;
+        }
       }
+
     } else {
       foregroundColor = effectStyle.disableColor;
     }

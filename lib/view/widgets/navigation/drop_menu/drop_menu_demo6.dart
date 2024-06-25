@@ -44,7 +44,7 @@ class DropMenuDemo6 extends StatelessWidget {
                   router: '02',
                   label: '2nd menu item',
                   ext: MenuDisplayExt(
-                      image: AssetImage('assets/images/logo.png'), action: 'Ctrl+P')),
+                      image: AssetImage('assets/images/plcki.jpg'), action: 'Ctrl+P')),
             ),
             SubMenu(
                 const MenuMeta(

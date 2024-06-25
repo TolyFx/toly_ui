@@ -106,7 +106,7 @@ class _TolyTabsState extends State<TolyTabs> with TickerProviderStateMixin {
         showIndicator: showIndicator,
         showDivider: widget.showDivider && !showExt,
         labelPadding: widget.labelPadding,
-        overlayColor: WidgetStateProperty.all(Colors.transparent),
+        overlayColor: MaterialStateProperty.all(Colors.transparent),
         tabAlignment: widget.alignment,
         indicatorSize: widget.indicatorSize,
         indicatorWeight: widget.indicatorWeight ?? 2.0,

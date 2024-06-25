@@ -81,6 +81,7 @@ Widget widgetDisplayMap(String key){
     "InputDemo3" => const InputDemo3(),
     "InputDemo4" => const InputDemo4(),
     "InputDemo5" => const InputDemo5(),
+    "SelectDemo1" => const SelectDemo1(),
     "BreadcrumbDemo1" => const BreadcrumbDemo1(),
     "BreadcrumbDemo2" => const BreadcrumbDemo2(),
     "BreadcrumbDemo3" => const BreadcrumbDemo3(),

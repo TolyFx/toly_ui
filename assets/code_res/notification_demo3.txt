@@ -39,7 +39,7 @@ class NotificationDemo3 extends StatelessWidget {
           position: NoticePosition.bottomRight,
           offset: const Offset(24, 24),
           builder: (_, close) => DebugDisplayPanel(
-            image: 'assets/images/logo.png',
+            image: 'assets/images/plcki.jpg',
             title: 'TolyUI',
             info1: 'Flutter 全平台响应式 UI 框架',
             info2: '当前版本: V 0.1.1',
@@ -50,5 +50,3 @@ class NotificationDemo3 extends StatelessWidget {
     );
   }
 }
-
-

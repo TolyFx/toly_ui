@@ -31,6 +31,9 @@ class HoverConfig {
 class TolyDropMenu extends StatefulWidget {
   final List<MenuDisplay> menuItems;
   final TolyPopoverChildBuilder? childBuilder;
+  final PopoverController? controller;
+  final String? overlayTapRegion;
+
   final double? width;
   final double subMenuGap;
   final Widget? child;
@@ -50,10 +53,12 @@ class TolyDropMenu extends StatefulWidget {
     required this.menuItems,
     this.width,
     this.child,
+    this.overlayTapRegion,
     this.leadingBuilder,
     this.tailBuilder,
     this.style,
     this.subMenuGap = 0,
+    this.controller,
     this.placement = Placement.bottom,
     this.decorationConfig,
     this.offsetCalculator,
@@ -92,6 +97,7 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
     return TolyPopover(
       placement: widget.placement,
       maxWidth: widget.width,
+      controller: widget.controller,
       offsetCalculator: widget.offsetCalculator,
       decorationConfig: widget.decorationConfig,
       overlayBuilder: _overlayBuilder,
@@ -138,6 +144,9 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
         },
         child: panel,
       );
+    }
+    if(widget.overlayTapRegion!=null){
+      panel = TapRegion(groupId: widget.overlayTapRegion!,child: panel,);
     }
     return panel;
   }

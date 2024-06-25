@@ -15,10 +15,12 @@ sealed class MenuDisplay {
 class ActionMenu extends MenuDisplay {
   final MenuMeta menu;
   final bool enable;
+  final bool active;
 
   ActionMenu(
     this.menu, {
     this.enable = true,
+    this.active = false,
   });
 
   bool get disable => !enable;

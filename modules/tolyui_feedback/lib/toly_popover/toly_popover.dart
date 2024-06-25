@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +7,7 @@ import '../toly_tooltip/toly_tooltip.dart';
 import '../toly_tooltip/tooltip_placement.dart';
 import 'callback.dart';
 
-Offset boxOffsetCalculator(Calculator calculator) => menuOffsetCalculator(calculator,shift: 6);
+Offset boxOffsetCalculator(Calculator calculator) => menuOffsetCalculator(calculator, shift: 6);
 
 Offset menuOffsetCalculator(Calculator calculator, {double shift = 0}) {
   return switch (calculator.placement) {
@@ -75,16 +72,15 @@ class TolyPopover extends StatefulWidget {
 
 class _TolyPopoverState extends State<TolyPopover>
     with TickerProviderStateMixin, WidgetsBindingObserver {
-  final OverlayPortalController _overlayController = OverlayPortalController(
-      debugLabel: kReleaseMode ? null : 'TolyPopover controller');
+  final OverlayPortalController _overlayController =
+      OverlayPortalController(debugLabel: kReleaseMode ? null : 'TolyPopover controller');
 
   Offset? _clickPosition;
 
   bool get _isOpen => _overlayController.isShowing;
   PopoverController? _internalPopController;
 
-  PopoverController get _popController =>
-      widget.controller ?? _internalPopController!;
+  PopoverController get _popController => widget.controller ?? _internalPopController!;
 
   AnimationController? _backingController;
   ScrollPosition? _scrollPosition;
@@ -123,7 +119,8 @@ class _TolyPopoverState extends State<TolyPopover>
   void dispose() {
     if (_isOpen) {
       _close(inDispose: true);
-    }    _popController._detach(this);
+    }
+    _popController._detach(this);
 
     _internalPopController = null;
     _backingController?.dispose();
@@ -173,8 +170,7 @@ class _TolyPopoverState extends State<TolyPopover>
   }
 
   Widget _buildTooltipOverlay(BuildContext context) {
-    final OverlayState overlayState =
-        Overlay.of(context, debugRequiredFor: widget);
+    final OverlayState overlayState = Overlay.of(context, debugRequiredFor: widget);
     final RenderBox box = this.context.findRenderObject()! as RenderBox;
     Offset target = box.localToGlobal(
       box.size.center(Offset.zero),
@@ -190,14 +186,12 @@ class _TolyPopoverState extends State<TolyPopover>
       offsetCalculator: widget.offsetCalculator,
       boxSize: box.size,
       placement: widget.placement,
-      overlayDecorationBuilder:
-          widget.overlayDecorationBuilder ?? _defaultDecorationBuilder,
+      overlayDecorationBuilder: widget.overlayDecorationBuilder ?? _defaultDecorationBuilder,
       maxWidth: widget.maxWidth,
       maxHeight: widget.maxHeight ?? double.infinity,
       // padding: widget.padding,
       overlayBuilder: widget.overlayBuilder,
-      animation:
-          CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
+      animation: CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
       target: target,
       verticalOffset: widget.gap ?? 12,
     );
@@ -208,21 +202,18 @@ class _TolyPopoverState extends State<TolyPopover>
   }
 
   Decoration _defaultDecorationBuilder(PopoverDecoration decoration) {
-    bool isDark = Theme.of(context).brightness==Brightness.dark;
-    Color backgroundColor = isDark?const Color(0xff303133):Colors.white;
-    Color borderColor = isDark? const Color(0xff414243):const Color(0xffe4e7ed);
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    Color backgroundColor = isDark ? const Color(0xff303133) : Colors.white;
+    Color borderColor = isDark ? const Color(0xff414243) : const Color(0xffe4e7ed);
     DecorationConfig config = widget.decorationConfig ??
-        DecorationConfig(
-            backgroundColor: backgroundColor,
-            style: PaintingStyle.stroke,
-            shadows: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                offset: const Offset(0, 2),
-                blurRadius: 6,
-                spreadRadius: 0,
-              )
-            ]);
+        DecorationConfig(backgroundColor: backgroundColor, style: PaintingStyle.stroke, shadows: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            offset: const Offset(0, 2),
+            blurRadius: 6,
+            spreadRadius: 0,
+          )
+        ]);
     if (!config.isBubble) {
       return BoxDecoration(
         color: config.backgroundColor,
@@ -235,20 +226,19 @@ class _TolyPopoverState extends State<TolyPopover>
             spreadRadius: 0,
           )
         ],
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.all(config.radius),
       );
     }
     return BubbleDecoration(
-      shiftX: decoration.shift.dx,
-      radius: config.radius,
-      shadows: config.shadows,
-      boxSize: decoration.boxSize,
-      placement: decoration.placement,
-      color: config.backgroundColor,
-      style: config.style,
-      bubbleMeta: config.bubbleMeta,
-      borderColor: borderColor
-    );
+        shiftX: decoration.shift.dx,
+        radius: config.radius,
+        shadows: config.shadows,
+        boxSize: decoration.boxSize,
+        placement: decoration.placement,
+        color: config.backgroundColor,
+        style: config.style,
+        bubbleMeta: config.bubbleMeta,
+        borderColor: borderColor);
   }
 
   void _open({Offset? position}) {
@@ -343,9 +333,7 @@ class _PopOverlayState extends State<_PopOverlay> {
   Size? _size;
 
   Widget? get child {
-    Widget? child =
-        widget.overlayBuilder?.call(context, widget.tapRegionGroup) ??
-            widget.overlay;
+    Widget? child = widget.overlayBuilder?.call(context, widget.tapRegionGroup) ?? widget.overlay;
 
     // if(_size!=null){
     //   child = SizedBox(width: _size!.width,child:child);
@@ -360,8 +348,8 @@ class _PopOverlayState extends State<_PopOverlay> {
         child: TapRegion(
           groupId: widget.tapRegionGroup,
           child: ConstrainedBox(
-            constraints: BoxConstraints(
-                maxHeight: widget.maxHeight, maxWidth: widget.maxWidth ?? 320),
+            constraints:
+                BoxConstraints(maxHeight: widget.maxHeight, maxWidth: widget.maxWidth ?? 320),
             child: DefaultTextStyle(
               style: Theme.of(context).textTheme.bodyMedium!,
               child: Semantics(

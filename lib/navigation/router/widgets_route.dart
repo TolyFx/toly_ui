@@ -54,6 +54,7 @@ RouteBase get widgetsRoute => ShellRoute(
                 },
                 routes: [
                   _customRoute('input'),
+                  _customRoute('select'),
                 ]),
             GoRoute(
                 path: 'data',
