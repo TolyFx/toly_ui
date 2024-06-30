@@ -107,10 +107,6 @@ class BubbleBoxPainter extends BoxPainter {
     double xbs = decoration.boxSize.width / 2;
     double xbe = width - decoration.boxSize.width / 2 - spineMoveX;
 
-    double x = (width - decoration.boxSize.width) / 2 +
-        decoration.boxSize.width / 2 -
-        spineMoveX;
-
     Offset translation = switch (decoration.placement) {
       Placement.top => Offset(xb, 0),
       Placement.topStart => Offset(xbs, 0),

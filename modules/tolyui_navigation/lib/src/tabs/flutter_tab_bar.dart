@@ -1851,7 +1851,7 @@ class _TabsDefaultsM2 extends TabBarTheme {
   @override
   TabAlignment? get tabAlignment => isScrollable ? TabAlignment.start : TabAlignment.fill;
 
-  static const EdgeInsetsGeometry iconMargin = EdgeInsets.only(bottom: 10);
+  // static const EdgeInsetsGeometry iconMargin = EdgeInsets.only(bottom: 10);
 }
 
 // BEGIN GENERATED TOKEN PROPERTIES - Tabs
@@ -1937,7 +1937,7 @@ class _TabsPrimaryDefaultsM3 extends TabBarTheme {
   // TODO(davidmartos96): This value doesn't currently exist in
   // https://m3.material.io/components/tabs/specs
   // Update this when the token is available.
-  static const EdgeInsetsGeometry iconMargin = EdgeInsets.only(bottom: 2);
+  // static const EdgeInsetsGeometry iconMargin = EdgeInsets.only(bottom: 2);
 }
 
 class _TabsSecondaryDefaultsM3 extends TabBarTheme {

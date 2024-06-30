@@ -32,15 +32,19 @@ class TolyDropMenu extends StatefulWidget {
   final List<MenuDisplay> menuItems;
   final TolyPopoverChildBuilder? childBuilder;
   final PopoverController? controller;
-  final String? overlayTapRegion;
+  final Object? overlayTapRegion;
 
   final double? width;
+  final double? minOverlayWidth;
+  final bool shrinkWrapWidthOverlay;
   final double subMenuGap;
   final Widget? child;
+  final double? maxHeight;
 
   final DropMenuCellStyle? style;
   final MenuMetaBuilder? leadingBuilder;
   final MenuMetaBuilder? tailBuilder;
+  final MenuMetaBuilder? contentBuilder;
 
   final ValueChanged<MenuMeta>? onSelect;
   final HoverConfig hoverConfig;
@@ -52,12 +56,16 @@ class TolyDropMenu extends StatefulWidget {
     super.key,
     required this.menuItems,
     this.width,
+    this.maxHeight,
     this.child,
+    this.shrinkWrapWidthOverlay = true,
     this.overlayTapRegion,
     this.leadingBuilder,
+    this.contentBuilder,
     this.tailBuilder,
     this.style,
     this.subMenuGap = 0,
+    this.minOverlayWidth,
     this.controller,
     this.placement = Placement.bottom,
     this.decorationConfig,
@@ -97,20 +105,19 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
     return TolyPopover(
       placement: widget.placement,
       maxWidth: widget.width,
+      maxHeight: widget.maxHeight,
       controller: widget.controller,
       offsetCalculator: widget.offsetCalculator,
       decorationConfig: widget.decorationConfig,
-      overlayBuilder: _overlayBuilder,
+      overlayBuilder: (ctx, ctrl) => _overlayBuilder(context, ctx, ctrl),
       builder: _displayBuilder,
       child: widget.child,
     );
   }
 
-  Widget _displayBuilder(
-      BuildContext context, PopoverController ctrl, Widget? child) {
-    Widget content = widget.childBuilder?.call(context, ctrl, child) ??
-        widget.child ??
-        const SizedBox();
+  Widget _displayBuilder(BuildContext context, PopoverController ctrl, Widget? child) {
+    Widget content =
+        widget.childBuilder?.call(context, ctrl, child) ?? widget.child ?? const SizedBox();
     if (widget.hoverConfig.enterPop) {
       return MouseRegion(
         onEnter: (_) => ctrl.open(),
@@ -121,10 +128,16 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
     return content;
   }
 
-  Widget _overlayBuilder(BuildContext context, PopoverController ctrl) {
+  Widget _overlayBuilder(BuildContext target, BuildContext context, PopoverController ctrl) {
+    Size size = (target.findRenderObject() as RenderBox).size;
+    bool overSize = size.width < (widget.minOverlayWidth ?? 0);
     Widget panel = MenuListPanel(
+      scrollable: widget.maxHeight != null,
+      boxSize: size,
+      shrinkWrapWidthOverlay: widget.shrinkWrapWidthOverlay || overSize,
       tailBuilder: widget.tailBuilder,
       leadingBuilder: widget.leadingBuilder,
+      contentBuilder: widget.contentBuilder,
       style: widget.style,
       subMenuGap: widget.subMenuGap,
       decorationConfig: widget.decorationConfig,
@@ -145,8 +158,11 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
         child: panel,
       );
     }
-    if(widget.overlayTapRegion!=null){
-      panel = TapRegion(groupId: widget.overlayTapRegion!,child: panel,);
+    if (widget.overlayTapRegion != null) {
+      panel = TapRegion(
+        groupId: widget.overlayTapRegion!,
+        child: panel,
+      );
     }
     return panel;
   }
@@ -157,16 +173,24 @@ class MenuListPanel extends StatelessWidget {
   final ValueChanged<MenuMeta>? onSelect;
   final double subMenuGap;
   final DropMenuCellStyle? style;
+  final Size boxSize;
   final DecorationConfig? decorationConfig;
   final MenuMetaBuilder? leadingBuilder;
   final MenuMetaBuilder? tailBuilder;
+  final MenuMetaBuilder? contentBuilder;
+  final bool shrinkWrapWidthOverlay;
+  final bool scrollable;
 
   const MenuListPanel({
     super.key,
     required this.menus,
+    required this.scrollable,
     required this.decorationConfig,
     required this.leadingBuilder,
     required this.tailBuilder,
+    required this.contentBuilder,
+    required this.shrinkWrapWidthOverlay,
+    required this.boxSize,
     this.onSelect,
     this.style,
     required this.subMenuGap,
@@ -174,15 +198,29 @@ class MenuListPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: IntrinsicWidth(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: menus.map(_mapItem).toList(),
-        ),
-      ),
+    Widget child = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: menus.map(_mapItem).toList(),
     );
+    if (scrollable) {
+      child = SingleChildScrollView(clipBehavior: Clip.hardEdge, child: child);
+    }
+
+    if (shrinkWrapWidthOverlay) {
+      child = Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: IntrinsicWidth(
+            child: child,
+          ));
+    } else {
+      child = Container(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        width: boxSize.width,
+        child: child,
+      );
+    }
+
+    return child;
   }
 
   Widget _mapItem(MenuDisplay menu) {
@@ -190,6 +228,7 @@ class MenuListPanel extends StatelessWidget {
       ActionMenu() => ActionMenuItem(
           leadingBuilder: leadingBuilder,
           tailBuilder: tailBuilder,
+          contentBuilder: contentBuilder,
           display: menu,
           onSelect: onSelect,
           style: style,
@@ -199,8 +238,9 @@ class MenuListPanel extends StatelessWidget {
         ),
       SubMenu() => SubMenuItem(
           style: style,
-        leadingBuilder: leadingBuilder,
-        tailBuilder: tailBuilder,
+          leadingBuilder: leadingBuilder,
+          contentBuilder: contentBuilder,
+          tailBuilder: tailBuilder,
           menu: menu,
           subMenuGap: subMenuGap,
           onSelect: onSelect,

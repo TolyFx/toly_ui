@@ -16,6 +16,7 @@ class DropMenuCellStyle {
   final Color hoverBackgroundColor;
   final EdgeInsetsGeometry? padding;
   final BorderRadius? borderRadius;
+  final TextStyle? textStyle;
 
   const DropMenuCellStyle({
     required this.backgroundColor,
@@ -25,6 +26,7 @@ class DropMenuCellStyle {
     required this.hoverBackgroundColor,
     this.padding,
     this.borderRadius,
+    this.textStyle,
   });
 
   factory DropMenuCellStyle.light() => const DropMenuCellStyle(

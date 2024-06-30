@@ -35,6 +35,7 @@ class ActionMenuItem extends StatefulWidget {
   final ActionMenu display;
   final MenuMetaBuilder? leadingBuilder;
   final MenuMetaBuilder? tailBuilder;
+  final MenuMetaBuilder? contentBuilder;
   final DropMenuCellStyle? style;
   final ValueChanged<MenuMeta>? onSelect;
 
@@ -42,6 +43,7 @@ class ActionMenuItem extends StatefulWidget {
     super.key,
     required this.display,
     required this.tailBuilder,
+    required this.contentBuilder,
     this.style,
     this.onSelect,
     required this.leadingBuilder,
@@ -110,6 +112,18 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
       ),
     );
 
+    Widget? content = widget.contentBuilder?.call(
+      context,
+      widget.display.menu,
+      DropMenuDisplayMeta(
+        enable: enable,
+        hovered: hovered,
+        style: effectStyle,
+      ),
+    );
+
+    TextStyle style = effectStyle.textStyle?? const TextStyle();
+
     Widget child = Container(
       alignment: Alignment.centerLeft,
       margin: effectStyle.padding,
@@ -122,18 +136,9 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (leading != null) leading,
-          // if (widget.display.menu.icon != null)
-          //   Padding(
-          //     padding: const EdgeInsets.only(right: 8.0),
-          //     child: Icon(
-          //       widget.display.menu.icon,
-          //       size: 16,
-          //       color: foregroundColor,
-          //     ),
-          //   ),
-          Text(
+          content ?? Text(
             widget.display.menu.label,
-            style: TextStyle(color: foregroundColor),
+            style: style.copyWith(color: foregroundColor),
           ),
           // Spacer(),
           if (tail != null) tail
@@ -147,13 +152,8 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
         child: child,
       );
     }
-
     return wrap(child, cursor: cursor);
   }
-
-// Widget buildLeading(){
-//
-// }
 }
 
 class DividerMenuItem extends StatelessWidget {

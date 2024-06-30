@@ -425,18 +425,13 @@ packages:
       path: "modules/tolyui"
       relative: true
     source: path
-<<<<<<< HEAD
     version: "0.0.2+9"
-=======
-    version: "0.0.2+7"
->>>>>>> 371a29ea2a52b7c418aabfb47248a44f0b89d02a
   tolyui_feedback:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: tolyui_feedback
-      sha256: dd6b39abbf75f44b6d4df930020fffd294a1754435edb8af8aeaefd762ba26aa
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "modules/tolyui_feedback"
+      relative: true
+    source: path
     version: "0.3.4+2"
   tolyui_message:
     dependency: transitive
@@ -449,18 +444,10 @@ packages:
   tolyui_navigation:
     dependency: "direct overridden"
     description:
-<<<<<<< HEAD
       path: "modules/tolyui_navigation"
       relative: true
     source: path
     version: "0.0.8+3"
-=======
-      name: tolyui_navigation
-      sha256: "504055927092dab99e91140c5858527dee9b7f148bd6bb834b38e9de3b5ca4d3"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.0.8+1"
->>>>>>> 371a29ea2a52b7c418aabfb47248a44f0b89d02a
   tolyui_rx_layout:
     dependency: transitive
     description:

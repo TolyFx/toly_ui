@@ -41,7 +41,7 @@ class TolySlideshow extends StatefulWidget {
   //是否循环
   final bool loop;
 
-//方向
+  //方向
 
   final Direction direction;
 
@@ -49,13 +49,14 @@ class TolySlideshow extends StatefulWidget {
       {super.key,
       this.onChange,
       this.height,
+      this.interval = const Duration(seconds: 1),
+      this.autoPlay = true,
       required this.initIndex,
-      required this.autoPlay,
-      required this.interval,
       required this.showArrow,
       required this.type,
       required this.loop,
-      required this.direction, required this.indicator});
+      required this.direction,
+      required this.indicator});
 
   @override
   State<TolySlideshow> createState() => _TolySlideshowState();
@@ -64,6 +65,21 @@ class TolySlideshow extends StatefulWidget {
 class _TolySlideshowState extends State<TolySlideshow> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      height: 200,
+      child: PageView(
+        children: [
+          Container(
+            color: Colors.blue,
+          ),
+          Container(
+            color: Colors.red,
+          ),
+          Container(
+            color: Colors.yellow,
+          ),
+        ],
+      ),
+    );
   }
 }

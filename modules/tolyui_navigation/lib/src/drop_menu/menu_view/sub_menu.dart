@@ -6,8 +6,6 @@
 // CreateTime:  2024-05-20
 // Contact Me:  1981462002@qq.com
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 import '../../model/model.dart';
@@ -25,6 +23,7 @@ class SubMenuItem extends StatefulWidget {
   final DropMenuCellStyle? style;
   final DecorationConfig? decorationConfig;
   final MenuMetaBuilder? leadingBuilder;
+  final MenuMetaBuilder? contentBuilder;
   final MenuMetaBuilder? tailBuilder;
   const SubMenuItem({
     super.key,
@@ -34,6 +33,7 @@ class SubMenuItem extends StatefulWidget {
     required this.subMenuGap,
     required this.leadingBuilder,
     required this.tailBuilder,
+    required this.contentBuilder,
     required this.decorationConfig,
   });
 
@@ -85,6 +85,18 @@ class _SubMenuItemState extends State<SubMenuItem> with HoverActionMix {
       );
     }
 
+
+    Widget? body = widget.contentBuilder?.call(
+      context,
+      widget.menu.menu,
+      DropMenuDisplayMeta(
+        enable: enable,
+        hovered: hovered,
+        style: effectStyle,
+      ),
+    );
+
+
     Widget content = Container(
       alignment: Alignment.centerLeft,
       margin: effectStyle.padding,
@@ -100,7 +112,7 @@ class _SubMenuItemState extends State<SubMenuItem> with HoverActionMix {
         children: [
           if (leading != null)
             leading,
-          Text(
+          body??Text(
             widget.menu.menu.label,
             style: TextStyle(color: foregroundColor),
           ),

@@ -11,16 +11,28 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
 
+part 'select_target.dart';
+
 class TolySelect extends StatefulWidget {
+  final double width;
+  final double minWidth;
+  final double? maxHeight;
+  final bool shrinkWidth;
+  final bool shrinkWrapWidthOverlay;
+
   final List<String> data;
   final int selectIndex;
   final ValueChanged<int> onSelected;
-  final Color disableColor;
   final double iconSize;
   final double height;
-  final double width;
+  final MenuMetaBuilder? contentBuilder;
+  final DropMenuCellStyle? cellStyle;
+
+  final Color disableColor;
+
   final double fontSize;
   final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? labelPadding;
 
   const TolySelect({
     super.key,
@@ -30,9 +42,16 @@ class TolySelect extends StatefulWidget {
     this.disableColor = const Color(0xffcccccc),
     this.iconSize = 24,
     this.padding,
+    this.labelPadding,
+    this.cellStyle,
     this.height = 30,
     this.width = 200,
+    this.minWidth = 120,
     this.fontSize = 14,
+    this.maxHeight,
+    this.shrinkWrapWidthOverlay = false,
+    this.shrinkWidth = false,
+    this.contentBuilder,
   });
 
   @override
@@ -44,7 +63,8 @@ class _TolySelectState extends State<TolySelect> with SingleTickerProviderStateM
   late AnimationController _ctrl;
   late FocusAttachment _nodeAttachment;
   late FocusNode _node;
-  bool _focused = false;
+
+  bool get focused => _node.hasFocus;
   PopoverController controller = PopoverController();
 
   @override
@@ -56,145 +76,93 @@ class _TolySelectState extends State<TolySelect> with SingleTickerProviderStateM
     );
 
     animation = Tween<double>(begin: 0, end: pi).animate(_ctrl);
-    _node = FocusNode()
-      ..addListener(() {
-        print("====FocusNode#change===========");
-
-        if (_node.hasFocus != _focused) {
-          if (!_focused) {
-            _ctrl.forward();
-            controller.open();
-          } else {
-            controller.close();
-            _ctrl.reverse();
-          }
-          setState(() {
-            _focused = _node.hasFocus;
-          });
-        }
-      });
+    _node = FocusNode()..addListener(_onFocusChange);
     _nodeAttachment = _node.attach(context);
+  }
+
+  void _onFocusChange() {
+    if (focused) {
+      _ctrl.forward();
+      controller.open();
+    } else {
+      controller.close();
+      _ctrl.reverse();
+    }
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    _node.removeListener(_onFocusChange);
+    _node.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     _nodeAttachment.reparent();
     Color bgColor = context.isDark ? const Color(0xff303133) : Colors.white;
-
+    const EdgeInsets targetPadding = EdgeInsets.only(left: 6, right: 2, top: 4, bottom: 4);
     return TolyDropMenu(
+        contentBuilder: widget.contentBuilder,
+        minOverlayWidth: widget.minWidth,
+        maxHeight: widget.maxHeight,
+        style: widget.cellStyle,
+        shrinkWrapWidthOverlay: widget.shrinkWrapWidthOverlay,
         controller: controller,
-        overlayTapRegion: 'toly-select',
+        overlayTapRegion: controller,
         placement: Placement.bottomStart,
         offsetCalculator: boxOffsetCalculator,
         decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),
         onSelect: onSelect,
-        menuItems: widget.data
-            .asMap()
-            .keys
-            .map((index) => ActionMenu(
-          active: widget.selectIndex ==index,
-                  MenuMeta(router: '$index', label: widget.data[index]),
-                ))
-            .toList(),
+        menuItems: menus,
         child: TapRegion(
-            groupId: 'toly-select',
-            onTapOutside: (_) {
-              _node.unfocus();
-            },
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () {
-                print("====GestureDetector===========");
-                // ctrl.open();
-                if (_focused) {
-                  _node.unfocus();
-                } else {
-                  _node.requestFocus();
-                }
-              },
-              child: _SelectTarget(
-                constraints: BoxConstraints.tight(Size(widget.width, widget.height)),
-                focused: _focused,
-                label: widget.data.isNotEmpty ? widget.data[widget.selectIndex] : "暂无数据",
-                fontSize: widget.fontSize,
-                disableColor: widget.disableColor,
-                animation: animation,
-                iconSize: widget.iconSize,
-                padding: widget.padding ?? const EdgeInsets.only(left: 6, right: 2),
+            groupId: controller,
+            onTapOutside: (_) => _node.unfocus(),
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: _changeFocus,
+                child: _SelectTarget(
+                  constraints: constraints,
+                  focused: focused,
+                  label: widget.data.isNotEmpty ? widget.data[widget.selectIndex] : "暂无数据",
+                  fontSize: widget.fontSize,
+                  disableColor: widget.disableColor,
+                  animation: animation,
+                  shrinkWidth: widget.shrinkWidth,
+                  iconSize: widget.iconSize,
+                  padding: widget.padding ?? targetPadding,
+                  labelPadding: widget.labelPadding,
+                ),
               ),
             )));
+  }
+
+  void _changeFocus() {
+    if (focused) {
+      _node.unfocus();
+    } else {
+      _node.requestFocus();
+    }
   }
 
   void onSelect(MenuMeta value) {
     _node.unfocus();
     widget.onSelected(int.parse(value.router));
   }
-}
 
-class _SelectTarget extends StatefulWidget {
-  final BoxConstraints? constraints;
-  final EdgeInsetsGeometry? padding;
-  final bool focused;
-  final String label;
-  final double fontSize;
-  final double iconSize;
-  final Color disableColor;
-  final Animation<double> animation;
-
-  const _SelectTarget({
-    super.key,
-    this.constraints,
-    this.padding,
-    required this.focused,
-    required this.label,
-    required this.fontSize,
-    required this.disableColor,
-    required this.animation,
-    required this.iconSize,
-  });
-
-  @override
-  State<_SelectTarget> createState() => _SelectTargetState();
-}
-
-class _SelectTargetState extends State<_SelectTarget> {
-  Color get borderColor {
-    if (widget.focused) {
-      return Colors.blue;
-    }
-    return widget.disableColor;
+  List<MenuDisplay> get menus {
+    Iterable<int> indexes = widget.data.asMap().keys;
+    return indexes
+        .map((index) => ActionMenu(
+              active: widget.selectIndex == index,
+              MenuMeta(router: '$index', label: widget.data[index]),
+            ))
+        .toList();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: widget.constraints,
-      padding: widget.padding,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(
-            color: borderColor,
-          )),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            widget.label,
-            style: TextStyle(height: 1, fontSize: widget.fontSize),
-          ),
-          AnimatedBuilder(
-            animation: widget.animation,
-            builder: (_, child) => Transform.rotate(
-              angle: widget.animation.value,
-              child: child,
-            ),
-            child: Icon(
-              Icons.keyboard_arrow_down,
-              size: widget.iconSize,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  BoxConstraints? get constraints =>
+      widget.shrinkWidth ? null : BoxConstraints.tight(Size(widget.width, widget.height));
 }

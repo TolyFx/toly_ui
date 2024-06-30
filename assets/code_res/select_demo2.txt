@@ -1,20 +1,31 @@
-class SelectDemo1 extends StatefulWidget {
-  const SelectDemo1({super.key});
+class SelectDemo2 extends StatefulWidget {
+  const SelectDemo2({super.key});
 
   @override
-  State<SelectDemo1> createState() => _SelectDemo1State();
+  State<SelectDemo2> createState() => _SelectDemo2State();
 }
 
-class _SelectDemo1State extends State<SelectDemo1> {
+class _SelectDemo2State extends State<SelectDemo2> {
   int _activeIndex = 0;
   List<String> data = MainAxisAlignment.values.map((e) => e.name).toList();
   @override
   Widget build(BuildContext context) {
+    DropMenuCellStyle lightStyle = const DropMenuCellStyle(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      borderRadius: BorderRadius.all(Radius.circular(6)),
+      foregroundColor: Color(0xff1f1f1f),
+      backgroundColor: Colors.transparent,
+      disableColor: Color(0xffbfbfbf),
+      hoverBackgroundColor: Color(0xfff5f5f5),
+      hoverForegroundColor: Color(0xff1f1f1f),
+    );
+
     return Wrap(
       spacing: 6,
       children: [
         TolySelect(
           fontSize: 14,
+          cellStyle: lightStyle,
           data: data,
           selectIndex: _activeIndex,
           iconSize: 16,

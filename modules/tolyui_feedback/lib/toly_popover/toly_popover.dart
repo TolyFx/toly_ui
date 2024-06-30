@@ -217,8 +217,13 @@ class _TolyPopoverState extends State<TolyPopover>
     if (!config.isBubble) {
       return BoxDecoration(
         color: config.backgroundColor,
-        border: Border.all(color: borderColor),
         boxShadow: [
+          BoxShadow(
+            color: borderColor,
+            offset: Offset.zero,
+            blurRadius: 0,
+            spreadRadius: 0.5,
+          ),
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             offset: const Offset(0, 2),
@@ -230,15 +235,16 @@ class _TolyPopoverState extends State<TolyPopover>
       );
     }
     return BubbleDecoration(
-        shiftX: decoration.shift.dx,
-        radius: config.radius,
-        shadows: config.shadows,
-        boxSize: decoration.boxSize,
-        placement: decoration.placement,
-        color: config.backgroundColor,
-        style: config.style,
-        bubbleMeta: config.bubbleMeta,
-        borderColor: borderColor);
+      shiftX: decoration.shift.dx,
+      radius: config.radius,
+      shadows: config.shadows,
+      boxSize: decoration.boxSize,
+      placement: decoration.placement,
+      color: config.backgroundColor,
+      style: config.style,
+      bubbleMeta: config.bubbleMeta,
+      borderColor: borderColor,
+    );
   }
 
   void _open({Offset? position}) {
@@ -330,7 +336,8 @@ class _PopOverlay extends StatefulWidget {
 class _PopOverlayState extends State<_PopOverlay> {
   late Placement effectPlacement = widget.placement;
   double shiftX = 0;
-  Size? _size;
+
+  // Size? _size;
 
   Widget? get child {
     Widget? child = widget.overlayBuilder?.call(context, widget.tapRegionGroup) ?? widget.overlay;

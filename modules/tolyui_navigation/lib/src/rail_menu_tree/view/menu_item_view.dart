@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../tolyui_navigation.dart';
 
-import 'menu_theme.dart';
-
 class MenuNodeItemView extends StatefulWidget {
   final MenuNode data;
   final MenuTreeCellBuilder builder;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/incubator/components/data/slideshow/slideshow.dart';
 
 import '../../display_nodes/display_nodes.dart';
 
@@ -12,7 +13,20 @@ class SlideshowDemo1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("幻灯片"),
+      child: Column(
+        children: [
+          Text("幻灯片"),
+          TolySlideshow(
+            indicator: Container(),
+            initIndex: 1,
+            autoPlay: true,
+            showArrow: true,
+            type: ShowType.card,
+            loop: true,
+            direction: Direction.vertical,
+          )
+        ],
+      ),
     );
   }
 }
