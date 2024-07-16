@@ -33,6 +33,8 @@ class _TolyActionState extends State<TolyAction> with HoverActionMix {
         widget.style ?? (context.isDark ? const ActionStyle.dark() : const ActionStyle.light());
   }
 
+  bool get enable => widget.onTap != null;
+
   Color? get backgroundColor {
     if (widget.selected) {
       return effectStyle.selectColor;
@@ -55,12 +57,7 @@ class _TolyActionState extends State<TolyAction> with HoverActionMix {
   Widget build(BuildContext context) {
     Widget child = widget.child;
     child = GestureDetector(
-      onTap: () {
-        // if (widget.selected) {
-        //   return;
-        // }
-        widget.onTap?.call();
-      },
+      onTap: !enable ? null : widget.onTap,
       child: Container(
         padding: effectStyle.padding,
         decoration: BoxDecoration(
@@ -71,27 +68,38 @@ class _TolyActionState extends State<TolyAction> with HoverActionMix {
         child: child,
       ),
     );
-    if (widget.tooltip != null) {
+    if (widget.tooltip != null && enable) {
       child = TolyTooltip(
         message: widget.tooltip,
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         gap: 12,
         placement: widget.toolTipPlacement,
-        child: child,
         decorationConfig: DecorationConfig(
           backgroundColor: context.isDark ? Colors.white : Colors.black,
-          bubbleMeta: BubbleMeta(spineHeight: 6, angle: 80),
+          bubbleMeta: const BubbleMeta(spineHeight: 6, angle: 80),
         ),
+        child: child,
       );
     }
 
-    return wrap(child);
+    if (!enable) {
+      child = IconTheme(
+        data: IconThemeData(color: effectStyle.disableColor),
+        child: child,
+      );
+    }
+
+    return wrap(
+      cursor: enable ? SystemMouseCursors.click : SystemMouseCursors.forbidden,
+      child,
+    );
   }
 }
 
 class ActionStyle {
   final EdgeInsetsGeometry? padding;
   final Color? backgroundColor;
+  final Color? disableColor;
   final Color? selectColor;
   final BorderRadius? borderRadius;
   final Border? border;
@@ -99,6 +107,7 @@ class ActionStyle {
   const ActionStyle({
     this.padding,
     this.backgroundColor,
+    this.disableColor,
     this.selectColor,
     this.borderRadius,
     this.border,
@@ -107,6 +116,7 @@ class ActionStyle {
   const ActionStyle.light({
     this.padding = const EdgeInsets.all(4),
     this.backgroundColor = const Color(0xffeff3f6),
+    this.disableColor = Colors.grey,
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
     this.border,
     this.selectColor = const Color(0xffeff3f6),
@@ -117,6 +127,7 @@ class ActionStyle {
     this.backgroundColor = const Color(0xff3f4042),
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
     this.border,
+    this.disableColor = Colors.grey,
     this.selectColor = const Color(0xff3f4042),
   });
 }
