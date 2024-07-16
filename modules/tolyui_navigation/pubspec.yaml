@@ -1,6 +1,6 @@
 name: tolyui_navigation
 description: "Part of Toly UI: Navigation UI Widget Lib. Contains breadcrumb、drop_menu、rail_menu_tree、tabs etc..."
-version: 0.0.8+5
+version: 0.0.8+6
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui_navigation
 
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  tolyui_feedback: ^0.3.4
+  tolyui_feedback: ^0.3.4+4
 #  tolyui_feedback:
 #    path: ../tolyui_feedback
 

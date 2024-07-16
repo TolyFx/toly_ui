@@ -67,6 +67,14 @@ class ActionDemo2 extends StatelessWidget {
             size: 20,
           ),
         ),
+        TolyAction(
+          tooltip: '结构',
+          onTap: null,
+          child: Icon(
+            Icons.account_tree_sharp,
+            size: 20,
+          ),
+        ),
       ],
     );
   }

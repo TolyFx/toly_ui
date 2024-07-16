@@ -13,7 +13,7 @@ import 'package:tolyui/tolyui.dart';
 
 @DisplayNode(
   title: 'Action 基本使用',
-  desc: 'Action 可以触发事件，悬浮时有背景色和 Tooltip 提示；可以通过 toolTipPlacement 指定提示信息的位置：',
+  desc: 'Action 可以触发事件，悬浮时有背景色和 Tooltip 提示；可以通过 toolTipPlacement 指定提示信息的位置;将onTap 置为 null 可以禁用 Action:',
 )
 class ActionDemo1 extends StatelessWidget {
   const ActionDemo1({super.key});
@@ -53,6 +53,14 @@ class ActionDemo1 extends StatelessWidget {
           onTap: () => AppRoute.sponsor.go(context),
           child: Icon(
             Icons.monetization_on_rounded,
+            size: 20,
+          ),
+        ),
+        TolyAction(
+          tooltip: '结构',
+          onTap: null,
+          child: Icon(
+            Icons.account_tree_sharp,
             size: 20,
           ),
         ),
