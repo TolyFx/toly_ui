@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
         theme: light,
         darkTheme: dark,
         themeMode: mode,
-        title: 'TolyUI1',
+        title: '学无止境',
       ),
     );
   }

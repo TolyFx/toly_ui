@@ -425,14 +425,21 @@ packages:
       path: "modules/tolyui"
       relative: true
     source: path
-    version: "0.0.2+9"
+    version: "0.0.2+17"
+  tolyui_color:
+    dependency: "direct overridden"
+    description:
+      path: "modules/tolyui_color"
+      relative: true
+    source: path
+    version: "0.0.1"
   tolyui_feedback:
     dependency: "direct overridden"
     description:
       path: "modules/tolyui_feedback"
       relative: true
     source: path
-    version: "0.3.4+2"
+    version: "0.3.4+5"
   tolyui_message:
     dependency: transitive
     description:
@@ -447,7 +454,7 @@ packages:
       path: "modules/tolyui_navigation"
       relative: true
     source: path
-    version: "0.0.8+3"
+    version: "0.0.8+7"
   tolyui_rx_layout:
     dependency: transitive
     description:
@@ -476,10 +483,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_android
-      sha256: ceb2625f0c24ade6ef6778d1de0b2e44f2db71fded235eb52295247feba8c5cf
+      sha256: "17cd5e205ea615e2c6ea7a77323a11712dffa0720a8a90540db57a01347f9ad9"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "6.3.3"
+    version: "6.3.2"
   url_launcher_ios:
     dependency: transitive
     description:
@@ -580,10 +587,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: a79dbe579cb51ecd6d30b17e0cae4e0ea15e2c0e66f69ad4198f22a6789e94f4
+      sha256: "0eaf06e3446824099858367950a813472af675116bf63f008a4c2a75ae13e9cb"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "5.5.1"
+    version: "5.5.0"
   window_manager:
     dependency: transitive
     description:
@@ -608,5 +615,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.4.0 <4.0.0"
-  flutter: ">=3.22.0"
+  dart: ">=3.3.4 <4.0.0"
+  flutter: ">=3.19.0"

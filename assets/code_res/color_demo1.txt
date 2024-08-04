@@ -1,0 +1,20 @@
+class ColorDemo1 extends StatelessWidget {
+  const ColorDemo1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return      SizedBox(
+      height: 200,
+      width: 320,
+      child: TolyHuePanel(
+        initColor: Colors.red,
+        onChanged: (v) {
+          // setState(() {
+          //   _color = v;
+          // });
+          // logic.setPaintColor(v);
+        },
+      ),
+    );
+  }
+}

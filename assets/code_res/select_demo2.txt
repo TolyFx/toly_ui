@@ -5,55 +5,69 @@ class SelectDemo2 extends StatefulWidget {
   State<SelectDemo2> createState() => _SelectDemo2State();
 }
 
+const List<String> kWeekZH =  ['星期一','星期二','星期三','星期四','星期五','星期六','星期日'];
+const List<String> kWeekEN =  ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+const Map<int,List<String> > kWeekMap = {
+  0:kWeekZH,
+  1:kWeekEN,
+};
+
 class _SelectDemo2State extends State<SelectDemo2> {
-  int _activeIndex = 0;
-  List<String> data = MainAxisAlignment.values.map((e) => e.name).toList();
+  int _activeLocal = 0;
+  List<String> local = ['中文简体','English'];
+  int _activeDay = 0;
+
   @override
   Widget build(BuildContext context) {
+    List<String> days = kWeekMap[_activeLocal]!;
+
     DropMenuCellStyle lightStyle = const DropMenuCellStyle(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: EdgeInsets.symmetric(horizontal: 4,vertical: 1),
       borderRadius: BorderRadius.all(Radius.circular(6)),
       foregroundColor: Color(0xff1f1f1f),
       backgroundColor: Colors.transparent,
       disableColor: Color(0xffbfbfbf),
       hoverBackgroundColor: Color(0xfff5f5f5),
       hoverForegroundColor: Color(0xff1f1f1f),
+      // textStyle: TextStyle(fontSize: 14)
     );
 
     return Wrap(
-      spacing: 6,
+      spacing: 12,
       children: [
         TolySelect(
           fontSize: 14,
           cellStyle: lightStyle,
-          data: data,
-          selectIndex: _activeIndex,
+          data: local,
+          selectIndex: _activeLocal,
           iconSize: 16,
           height: 32,
-          width: 140,
+          width: 120,
           padding: EdgeInsets.symmetric(horizontal: 8),
           onSelected: (int index) async {
-            String type = data[index];
+            String type = local[index];
             $message.success(message: '已选择:$type!');
             setState(() {
-              _activeIndex = index;
+              _activeLocal = index;
             });
           },
         ),
         TolySelect(
           fontSize: 14,
-          data: data,
-          selectIndex: _activeIndex,
-          shrinkWidth: true,
+          cellStyle: lightStyle,
+          data: days,
+          selectIndex: _activeDay,
           iconSize: 16,
           height: 32,
-          padding: EdgeInsets.symmetric(horizontal: 8,vertical: 7),
-          labelPadding: EdgeInsets.only(right: 8),
+          width: 120,
+          maxHeight: 160,
+          padding: EdgeInsets.symmetric(horizontal: 8),
           onSelected: (int index) async {
-            String type = data[index];
+            String type = days[index];
             $message.success(message: '已选择:$type!');
             setState(() {
-              _activeIndex = index;
+              _activeDay = index;
             });
           },
         ),
@@ -61,5 +75,4 @@ class _SelectDemo2State extends State<SelectDemo2> {
     );
   }
 }
-
 

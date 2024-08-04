@@ -30,6 +30,42 @@
 
   <title>学无止境</title>
   <link rel="manifest" href="manifest.json">
+  <style>
+    body{margin:0;padding:0;}
+    #app_splash {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(45deg, #ffffff, #45d3fe);
+        font-family: Arial, sans-serif;
+        color: white;
+        text-align: center;
+    }
+
+    .loading-text {
+        font-size: 20px;
+        font-weight: bold;
+        background: linear-gradient(to right, #45d3fe, #ff6347, #59a869);
+        -webkit-background-clip: text;
+        color: transparent;
+        animation: gradientShift 1s infinite;
+    }
+    @keyframes gradientShift {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+  </style>
 
   <script>
     // The value below is injected by flutter build, do not touch.
@@ -37,22 +73,18 @@
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
+  <script src="splash.js"></script>
+
 </head>
 <body>
-  <script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
-    });
-  </script>
+<div id="app_splash" style="">
+  <div style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+    <div style="display: flex; align-items: center; justify-content: center; height: 100vh;flex-direction:column">
+      <img src="splash.gif">
+      <div style="margin-top:12px" class="loading-text" >TolyUI Loading...</div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

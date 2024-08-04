@@ -12,6 +12,10 @@ abstract class MenuMateExt{
   const MenuMateExt();
 
   T? me<T extends MenuMateExt>(){
+    return call<T>();
+  }
+
+  T? call<T extends MenuMateExt>(){
     if(this is T){
       return this as T;
     }

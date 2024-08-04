@@ -2,6 +2,7 @@
 /// Power By 张风捷特烈 --- Generated file. Do not edit.
 /// github: https://github.com/toly1994328
 /// ===================================================
+part 'color.g.dart';
 part 'action.g.dart';
 part 'button.g.dart';
 part 'icon.g.dart';
@@ -33,6 +34,7 @@ part 'tabs.g.dart';
 
 Map<String, dynamic>  queryDisplayNodes(String name){
   return switch(name){
+    "color" => _colorData,
     "action" => _actionData,
     "button" => _buttonData,
     "icon" => _iconData,

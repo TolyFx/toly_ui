@@ -2,6 +2,7 @@ library tolyui;
 
 export 'package:tolyui_feedback/tolyui_feedback.dart';
 export 'package:tolyui_navigation/tolyui_navigation.dart';
+export 'package:tolyui_color/tolyui_color.dart';
 
 export 'basic/basic.dart';
 export 'basic/layout/padding.dart';

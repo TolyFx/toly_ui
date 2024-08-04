@@ -111,12 +111,18 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
       });
     }
     if (clickPosition != null) {
-      return clickPosition!
+      Offset offset = clickPosition!
           .translate(target.dx - boxSize.width / 2, target.dy - boxSize.height / 2);
+
+      /// 底部边界检测
+      double bottom = offset.dy+childSize.height - (size.height-gap);
+      if(bottom>0){
+        offset = offset.translate(0, -bottom);
+      }
+      return offset;
     }
 
-    bool outBottom =
-        target.dy > size.height - (childSize.height + boxSize.height / 2 + gap);
+    bool outBottom = target.dy > size.height - (childSize.height + boxSize.height / 2 + gap);
     bool outTop = target.dy < childSize.height + boxSize.height / 2;
     bool outLeft = target.dx < childSize.width + boxSize.width / 2 + gap;
     bool outRight =

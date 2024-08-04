@@ -1,6 +1,6 @@
 name: tolyui_feedback
 description: "A feedback ui package for toly ui. Contains message、popover、tooltip etc..."
-version: 0.3.4+4
+version: 0.3.4+5
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui_feedback
 

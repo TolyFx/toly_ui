@@ -29,8 +29,20 @@ class _TolyActionState extends State<TolyAction> with HoverActionMix {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    updateEffectStyle();
+  }
+
+  void updateEffectStyle(){
     effectStyle =
         widget.style ?? (context.isDark ? const ActionStyle.dark() : const ActionStyle.light());
+  }
+
+  @override
+  void didUpdateWidget(TolyAction oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if(oldWidget.style!=widget.style){
+      updateEffectStyle();
+    }
   }
 
   bool get enable => widget.onTap != null;
@@ -130,4 +142,25 @@ class ActionStyle {
     this.disableColor = Colors.grey,
     this.selectColor = const Color(0xff3f4042),
   });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ActionStyle &&
+          runtimeType == other.runtimeType &&
+          padding == other.padding &&
+          backgroundColor == other.backgroundColor &&
+          disableColor == other.disableColor &&
+          selectColor == other.selectColor &&
+          borderRadius == other.borderRadius &&
+          border == other.border;
+
+  @override
+  int get hashCode =>
+      padding.hashCode ^
+      backgroundColor.hashCode ^
+      disableColor.hashCode ^
+      selectColor.hashCode ^
+      borderRadius.hashCode ^
+      border.hashCode;
 }

@@ -72,6 +72,13 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('card'),
                   _customRoute('tag'),
                   _customRoute('slideshow'),
+                ]),            GoRoute(
+                path: 'advance',
+                builder: (BuildContext context, GoRouterState state) {
+                  return EcologicalPage();
+                },
+                routes: [
+                  _customRoute('color'),
                 ]),
             GoRoute(
                 path: 'feedback',

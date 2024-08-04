@@ -8,6 +8,7 @@ import '../../widgets.dart';
 
 Widget widgetDisplayMap(String key){
   return switch(key){
+    "ColorDemo1" => const ColorDemo1(),
     "ActionDemo1" => const ActionDemo1(),
     "ActionDemo2" => const ActionDemo2(),
     "ActionDemo3" => const ActionDemo3(),

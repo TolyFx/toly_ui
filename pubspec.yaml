@@ -76,6 +76,8 @@ dependency_overrides:
     path: modules/tolyui_navigation
   tolyui_feedback:
     path: modules/tolyui_feedback
+  tolyui_color:
+    path: modules/tolyui_color
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
