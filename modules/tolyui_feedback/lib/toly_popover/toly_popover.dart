@@ -37,6 +37,7 @@ class TolyPopover extends StatefulWidget {
   final OffsetCalculator? offsetCalculator;
   final double? maxWidth;
   final double? maxHeight;
+  final bool barrierDismissible;
 
   final double? gap;
   final OverlayContentBuilder? overlayBuilder;
@@ -58,6 +59,7 @@ class TolyPopover extends StatefulWidget {
     this.reverseDuration = const Duration(milliseconds: 250),
     this.decorationConfig,
     this.maxHeight,
+    this.barrierDismissible = true,
     // this.padding,
     this.gap,
     this.builder,
@@ -148,14 +150,15 @@ class _TolyPopoverState extends State<TolyPopover>
       overlayChildBuilder: _buildTooltipOverlay,
       child: _buildContents(context),
     );
-    child = TapRegion(
-      groupId: _popController,
-      // consumeOutsideTaps: _root._isOpen && widget.consumeOutsideTap,
-      onTapOutside: (PointerDownEvent event) {
-        _close();
-      },
-      child: child,
-    );
+    if(widget.barrierDismissible){
+      child = TapRegion(
+        groupId: _popController,
+        onTapOutside: (PointerDownEvent event) {
+          _close();
+        },
+        child: child,
+      );
+    }
     return child;
   }
 

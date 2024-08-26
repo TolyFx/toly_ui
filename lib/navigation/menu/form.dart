@@ -28,9 +28,6 @@ Map<String, dynamic> get formMenus => {
           'label': 'Input',
           'subtitle': '输入框',
           'tag': '新',
-          'isFlutter': true,
-
-          // 'icon': Icons.text_fields,
         },
         {
           'path': '/select',

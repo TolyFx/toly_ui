@@ -425,7 +425,7 @@ packages:
       path: "modules/tolyui"
       relative: true
     source: path
-    version: "0.0.2+17"
+    version: "0.0.2+18"
   tolyui_color:
     dependency: "direct overridden"
     description:
@@ -439,7 +439,7 @@ packages:
       path: "modules/tolyui_feedback"
       relative: true
     source: path
-    version: "0.3.4+5"
+    version: "0.3.4+6"
   tolyui_message:
     dependency: transitive
     description:
@@ -454,7 +454,7 @@ packages:
       path: "modules/tolyui_navigation"
       relative: true
     source: path
-    version: "0.0.8+7"
+    version: "0.0.8+8"
   tolyui_rx_layout:
     dependency: transitive
     description:

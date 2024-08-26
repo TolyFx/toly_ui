@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
+import 'package:tolyui/tolyui.dart';
 
 @DisplayNode(
   title: '禁用输入',
@@ -10,41 +11,12 @@ class InputDemo2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = 32;
-    TextStyle style = TextStyle(fontSize: 14, height: 1);
-    double borderWidth = 1;
-    Color focusedColor = Colors.blue;
-    Color unFocusedColor = Color(0xffd9d9d9);
-    OutlineInputBorder focusedBorder =
-        OutlineInputBorder(borderSide: BorderSide(color: focusedColor, width: borderWidth));
-    OutlineInputBorder border =
-        OutlineInputBorder(borderSide: BorderSide(color: unFocusedColor, width: borderWidth));
-    bool enable = false;
-
-    Widget child = TextField(
-      enabled: enable,
-      cursorHeight: style.fontSize,
-      cursorWidth: 1,
-      style: style,
-      decoration: InputDecoration(
-        hintText: 'please input',
-        focusedBorder: focusedBorder,
-        isDense: true,
-        enabledBorder: border,
-        hoverColor: focusedColor,
-        border: border,
-      ),
-    );
-
-    if (!enable) {
-      child = MouseRegion(
-        cursor: SystemMouseCursors.forbidden,
-        child: IgnorePointer(child: child),
-      );
-    }
-    return SizedBox(
-      width: 250,
-      child: child,
-    );
+   return SizedBox(
+     width: 250,
+     child: const TolyInput(
+       enable: false,
+       hintText: '用户名/手机号/匠心ID',
+     ),
+   );
   }
 }

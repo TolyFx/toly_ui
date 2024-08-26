@@ -120,7 +120,7 @@ class _RenderExclusiveMouseRegion extends RenderMouseRegion {
 /// {@end-tool}
 ///
 /// {@tool dartpad}
-/// This example covers most of the attributes available in Tooltip.
+/// This example covers most of the attributes.dart available in Tooltip.
 /// `decoration` has been used to give a gradient and borderRadius to Tooltip.
 /// `height` has been used to set a specific height of the Tooltip.
 /// `preferBelow` is true; the tooltip will prefer showing below [TolyTooltip]'s child widget.

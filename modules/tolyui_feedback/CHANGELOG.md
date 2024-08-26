@@ -15,3 +15,4 @@
 ## 0.3.4
 
 [tolyui_message](https://pub.dev/packages/tolyui_message) update v0.2.1
++6 : Support TolyPopover#barrierDismissible 
