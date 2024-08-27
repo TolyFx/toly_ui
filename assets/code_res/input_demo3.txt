@@ -3,69 +3,47 @@ class InputDemo3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = 32;
-    TextStyle style = const TextStyle(fontSize: 14, height: 1);
-    double borderWidth = 1;
-    Color focusedColor = Colors.blue;
-    Color unFocusedColor = const Color(0xffd9d9d9);
-    OutlineInputBorder focusedBorder = OutlineInputBorder(
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(4),
-          bottomRight: Radius.circular(4),
-        ),
-        borderSide: BorderSide(color: focusedColor, width: borderWidth));
-    OutlineInputBorder border = OutlineInputBorder(
-        borderRadius: const BorderRadius.only(
-          bottomRight: Radius.circular(4),
-          topRight: Radius.circular(4),
-        ),
-        borderSide: BorderSide(color: unFocusedColor, width: borderWidth));
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          height: 32,
-          // width: 70,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-
-          child: const Center(
-              child: Text(
-            'Http://',
-            style: TextStyle(color: Color(0xff909399), fontSize: 14),
-          )),
-          decoration: BoxDecoration(
-              color: const Color(0xfff5f7fa),
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(4),
-                bottomLeft: Radius.circular(4),
-              ),
-              border: Border(
-                top: BorderSide(color: unFocusedColor),
-                left: BorderSide(color: unFocusedColor),
-                bottom: BorderSide(color: unFocusedColor),
-                // right: BorderSide(),
+    return SizedBox(
+      width: 300,
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 8,
+        // direction: Axis.vertical,
+        children: [
+          TolyInput(
+              hintText: '用户名/手机号/匠心ID',
+              leadingBuilder: SlotBuilder(
+                builder: (_, __) =>
+                const Text('https://', style: TextStyle(color: Color(0xff1e1e1e))),
               )),
-        ),
-        SizedBox(
-            width: 250,
-            child: TextField(
-              cursorHeight: style.fontSize,
-              cursorWidth: 1,
-              style: style,
-              decoration: InputDecoration(
-                // isDense: true,
-                hintText: 'Please Input',
-                hintStyle: style.copyWith(color: unFocusedColor),
-                constraints: BoxConstraints.tight(Size(0, height)),
-                // contentPadding: EdgeInsets.only(top: 8),
-                contentPadding: const EdgeInsets.only(top: 0, right: 12, left: 12),
-                focusedBorder: focusedBorder,
-                enabledBorder: border,
-                hoverColor: focusedColor,
-                border: border,
-              ),
-            )),
-      ],
-    );
+          TolyInput(
+            hintText: 'Server Host',
+            leadingBuilder: SlotBuilder(
+              builder: (_, __) => const Text('https://', style: TextStyle(color: Color(0xff1e1e1e))),
+            ),
+            tailingBuilder: SlotBuilder(
+              builder: (_, __) => const Text('.com', style: TextStyle(color: Color(0xff1e1e1e))),
+            ),
+          ),
+          TolyInput(
+            hintText: '选择文件夹',
+            tailingBuilder: SlotBuilder(
+              onTap: () => $message.success(message: 'Click Open Finder'),
+              builder: (_, __) => const Icon(CupertinoIcons.folder, size: 18),
+            ),
+          ),
+          TolyInput(
+            hintText: '选择文件夹',
+            tailingBuilder: SlotBuilder(
+              onTap: () => $message.success(message: 'Click Open Finder'),
+              builder: (_, hover) {
+                Color? color = hover ? Colors.blue : null;
+                return Icon(CupertinoIcons.folder, size: 18, color: color);
+              },
+            ),
+          ),
+        ],
+      ),
+    );;
   }
 }

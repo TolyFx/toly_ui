@@ -441,12 +441,11 @@ packages:
     source: path
     version: "0.3.4+6"
   tolyui_message:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: tolyui_message
-      sha256: eb611cc7ed05aac4c962d6f2af2d71e32515f9e17aafbc45b00fe6fcb60db4db
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "modules/tolyui_message"
+      relative: true
+    source: path
     version: "0.2.1"
   tolyui_navigation:
     dependency: "direct overridden"

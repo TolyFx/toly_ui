@@ -60,6 +60,8 @@ Widget widgetDisplayMap(String key){
     "TagDemo1" => const TagDemo1(),
     "TagDemo2" => const TagDemo2(),
     "TagDemo3" => const TagDemo3(),
+    "LoadingDemo1" => const LoadingDemo1(),
+    "LoadingDemo2" => const LoadingDemo2(),
     "MessageDemo1" => const MessageDemo1(),
     "MessageDemo2" => const MessageDemo2(),
     "MessageDemo3" => const MessageDemo3(),

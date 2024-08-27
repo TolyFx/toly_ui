@@ -41,19 +41,6 @@ mixin ContextAttachable {
 mixin MessageMixin on ContextAttachable {
   final MessageTaskManager _taskManager = MessageTaskManager();
 
-  // static Map<Brightness, TolyMessageStyleTheme> themeData = {
-  //   Brightness.light: TolyMessageStyleTheme.tolyuiLight(),
-  //   Brightness.dark: TolyMessageStyleTheme.tolyuiDark(),
-  // };
-  //
-  // TolyMessageStyleTheme _theme = themeData[Brightness.light]!;
-  //
-  // TolyMessageStyleTheme get theme => _theme;
-  //
-  // void changeBrightness(Brightness brightness) {
-  //   _theme = themeData[brightness]!;
-  // }
-
   void info({
     String? message,
     InlineSpan? richMessage,

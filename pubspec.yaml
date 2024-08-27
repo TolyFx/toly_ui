@@ -76,6 +76,8 @@ dependency_overrides:
     path: modules/tolyui_navigation
   tolyui_feedback:
     path: modules/tolyui_feedback
+  tolyui_message:
+    path: modules/tolyui_message
   tolyui_color:
     path: modules/tolyui_color
 

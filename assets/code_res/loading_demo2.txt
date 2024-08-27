@@ -1,0 +1,35 @@
+class LoadingDemo2 extends StatelessWidget {
+  const LoadingDemo2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 20,
+      runSpacing: 10,
+      children: [display1(), display2()],
+    );
+  }
+
+  Widget display1() {
+    return DebugDisplayButton(
+      info: 'loading',
+      onPressed: () async{
+        $message.loading();
+        await Future.delayed(Duration(seconds: 3));
+        $message.closeLoading();
+      },
+    );
+  }
+
+  Widget display2() {
+    return DebugDisplayButton(
+      info: 'loading#black',
+      onPressed: () async{
+        $message.loading(backgroundColor: Colors.black.withOpacity(0.4));
+        await Future.delayed(Duration(seconds: 3));
+        $message.closeLoading();
+      },
+    );
+  }
+}

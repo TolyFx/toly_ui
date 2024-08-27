@@ -90,6 +90,7 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('tooltip'),
                   _customRoute('message'),
                   _customRoute('notification'),
+                  _customRoute('loading'),
                   _customRoute('shortcuts'),
                 ]),
             GoRoute(

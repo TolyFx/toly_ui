@@ -16,6 +16,12 @@ Map<String, dynamic> get feedbackMenus => {
           // 'icon': Icons.calculate_outlined,
         },
         {
+          'path': '/loading',
+          'label': 'Loading 加载',
+          'tag': '新',
+          // 'icon': Icons.calculate_outlined,
+        },
+        {
           'path': '/popover',
           'label': 'Popover 弹出框',
           // 'icon': Icons.calculate_outlined,

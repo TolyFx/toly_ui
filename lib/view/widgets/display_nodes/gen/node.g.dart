@@ -19,6 +19,7 @@ part 'segmented.g.dart';
 part 'slideshow.g.dart';
 part 'statistics.g.dart';
 part 'tag.g.dart';
+part 'loading.g.dart';
 part 'message.g.dart';
 part 'notification.g.dart';
 part 'popover.g.dart';
@@ -51,6 +52,7 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "slideshow" => _slideshowData,
     "statistics" => _statisticsData,
     "tag" => _tagData,
+    "loading" => _loadingData,
     "message" => _messageData,
     "notification" => _notificationData,
     "popover" => _popoverData,

@@ -3,7 +3,7 @@ class ColorDemo1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return      SizedBox(
+    return SizedBox(
       height: 200,
       width: 320,
       child: TolyHuePanel(
