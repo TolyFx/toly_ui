@@ -1,0 +1,40 @@
+class LoadingDemo3 extends StatelessWidget {
+  const LoadingDemo3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      spacing: 20,
+      runSpacing: 10,
+      children: [display1(), display2()],
+    );
+  }
+
+  Widget display1() {
+    return DebugDisplayButton(
+      info: 'loading#task',
+      onPressed: () {
+        $message.loadingTask(task: task);
+      },
+    );
+  }
+
+  Future<void> task() async {
+    await Future.delayed(Duration(seconds: 3));
+  }
+
+  Widget display2() {
+    return DebugDisplayButton(
+      info: 'loading#timeout',
+      onPressed: () {
+        $message.loadingTask(
+            task: task,
+            timeout: const Duration(seconds: 2),
+            onError: (e, t) {
+              $message.error(message: e.toString());
+            });
+      },
+    );
+  }
+}
