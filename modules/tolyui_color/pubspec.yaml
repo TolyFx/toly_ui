@@ -1,10 +1,11 @@
 name: tolyui_color
-description: "A new Flutter package project."
+description: "Part of Toly UI: display or change color in many style."
 version: 0.0.1
-homepage:
+homepage: http://toly1994.com/ui
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui_color
 
 environment:
-  sdk: '>=3.3.4 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:

@@ -9,3 +9,7 @@
 ## 0.2.1
 
 * Fix TapRegion Bug
+* 
+## 0.2.2
+
+* Support $message.loading 

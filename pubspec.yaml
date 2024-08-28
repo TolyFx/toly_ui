@@ -33,7 +33,7 @@ dependencies:
 
   url_launcher: ^6.2.5 # url 跳转
   package_info_plus: ^8.0.0 #应用信息
-
+  two_dimensional_scrollables: ^0.3.1
   # 状态管理
   flutter_bloc: ^8.1.5
   equatable: ^2.0.5
@@ -44,16 +44,15 @@ dependencies:
 
   # toly ui
 #  toly_menu: ^0.0.5
-  toly_menu:
-    path: modules/toly_menu
-  tolyui:
-    path: modules/tolyui
+#  toly_menu:
+#    path: modules/toly_menu
+  tolyui: 0.0.2+19
 
   wrapper:
     path: modules/wrapper
 #  toly_menu_manager: ^0.0.1
-  toly_menu_manager:
-    path: modules/toly_menu_manager
+#  toly_menu_manager:
+#    path: modules/toly_menu_manager
 
   toggle_rotate: 1.0.1
   flutter_highlight: ^0.7.0
@@ -70,16 +69,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-dependency_overrides:
-  tolyui_navigation:
-    path: modules/tolyui_navigation
-  tolyui_feedback:
-    path: modules/tolyui_feedback
-  tolyui_message:
-    path: modules/tolyui_message
-  tolyui_color:
-    path: modules/tolyui_color
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

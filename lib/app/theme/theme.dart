@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:toly_menu/toly_menu.dart';
 import 'package:tolyui/tolyui.dart' hide TolyMenuTheme;
 
 import '../../navigation/router/transition/fade_page_transitions_builder.dart';
@@ -29,13 +28,6 @@ ThemeData get darkTheme {
     extensions: [
       TolyMessageStyleTheme.tolyuiDark(),
       TolyMessageShowTheme.tolyui(duration: const Duration(seconds: 3)),
-      TolyMenuTheme(
-          backgroundColor: const Color(0xff001529),
-          expandBackgroundColor: const Color(0xff0C2135),
-          unselectedLabelTextStyle: TextStyle(color: Colors.white),
-          selectedItemBackground: Color(0x22e6f7ff),
-          selectedLabelTextStyle: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold))
-
       // ReParserStrategyTheme(parserStrategy: _elementParserStrategy),
     ],
     fontFamily: '黑体',
@@ -90,12 +82,12 @@ ThemeData get lightTheme {
         // hoverColor: Colors.redAccent,
       ),
 
-      TolyMenuTheme(
-          backgroundColor: Colors.white,
-          expandBackgroundColor: Colors.white,
-          selectedItemBackground: Color(0xffe6f7ff),
-          unselectedLabelTextStyle: TextStyle(color: Color(0xff2d3a53)),
-          selectedLabelTextStyle: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
+      // TolyMenuTheme(
+      //     backgroundColor: Colors.white,
+      //     expandBackgroundColor: Colors.white,
+      //     selectedItemBackground: Color(0xffe6f7ff),
+      //     unselectedLabelTextStyle: TextStyle(color: Color(0xff2d3a53)),
+      //     selectedLabelTextStyle: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
       // ReParserStrategyTheme(parserStrategy: _elementParserStrategy),
     ],
     dividerColor: Colors.transparent,

@@ -6,14 +6,38 @@ import '../../model/task.dart';
 import '../../widget/overlay/loading_overlay.dart';
 import '../message/message_mixin.dart';
 
+typedef ErrorCallback = Function(dynamic, StackTrace?);
+
 mixin LoadingMixin on ContextAttachable {
   OverlayEntry? entry;
   Completer<bool>? _completer;
+  Timer? _timeoutTimer;
 
-  void loadingTask({Task? task}) {}
+  void loadingTask({
+    required Task task,
+    Duration timeout = const Duration(seconds: 30),
+    Color? backgroundColor,
+    Widget? body,
+    ErrorCallback? onError,
+  }) async {
+    _timeoutTimer = Timer(timeout, () {
+      closeLoading();
+      onError?.call('Task Timeout!', null);
+    });
+    try {
+      loading(backgroundColor: backgroundColor, body: body);
+      await task();
+    } catch (e, t) {
+      onError?.call(e, t);
+    }
+    closeLoading();
+    _timeoutTimer?.cancel();
+    _timeoutTimer = null;
+  }
 
   void loading({
     Color? backgroundColor,
+    Widget? body,
   }) {
     final OverlayState state = Overlay.of(context);
     _completer = Completer();
@@ -22,8 +46,8 @@ mixin LoadingMixin on ContextAttachable {
         return LoadingOverlay(
           completer: _completer!,
           color: backgroundColor,
-          child: DefaultLoading(),
-          close: ()=>entry?.remove(),
+          child: body ?? DefaultLoading(),
+          close: () => entry?.remove(),
         );
       },
     );
@@ -31,8 +55,8 @@ mixin LoadingMixin on ContextAttachable {
   }
 
   void closeLoading() {
+    if (_completer?.isCompleted ?? false) return;
     _completer?.complete(true);
-    // entry?.remove();
   }
 }
 
@@ -49,9 +73,11 @@ class DefaultLoading extends StatelessWidget {
         CircularProgressIndicator(
           strokeWidth: 2,
         ),
-        Text('Loading',style: TextStyle(color: Theme.of(context).primaryColor),)
+        Text(
+          'Loading',
+          style: TextStyle(color: Theme.of(context).primaryColor),
+        )
       ],
     );
   }
 }
-
