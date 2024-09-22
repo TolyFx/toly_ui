@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../data/cons.dart';
+import '../res/cons.dart';
 
 class DebugConstraintsDisplay extends StatelessWidget {
   final Widget? child;

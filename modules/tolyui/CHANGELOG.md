@@ -6,3 +6,6 @@
 
 * [tolyui_feedback](https://pub.dev/packages/tolyui_feedback)
 * [tolyui_message](https://pub.dev/packages/tolyui_message)
+
+## 0.0.2+20
+* +widget: TolyCollapse 

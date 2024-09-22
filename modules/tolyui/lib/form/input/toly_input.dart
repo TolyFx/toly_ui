@@ -253,11 +253,13 @@ class _TolyInputState extends State<TolyInput> {
     bool hasLeading = widget.leadingBuilder != null;
     bool hasTailing = widget.tailingBuilder != null || widget.type is NumberInput;
     Color unFocusedColor = const Color(0xffd9d9d9);
-    double pv = (constraints.maxHeight - (style.fontSize ?? 14).toDouble()) / 2;
     // TextPainter _paint = TextPainter(textDirection: TextDirection.ltr);
     // _paint.text = TextSpan(text: 'A',style: style);
     // _paint.layout();
     // print( _paint.size );
+
+    double pv = (constraints.maxHeight - (style.fontSize ?? 14).toDouble()) / 2;
+
     double paddingRight = (widget.clearable || widget.clearBuilder != null) ? 12 : 12 + 20;
     return TextField(
       focusNode: _focusNode,
