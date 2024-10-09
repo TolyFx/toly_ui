@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:toly_ui/app/theme/theme.dart';
+import 'package:toly_ui/incubator/ext/go_router/path.dart';
 
 import '../../../incubator/components/layout/grid_layout/wrap_grid_layout.dart';
 import 'display_map.dart';
@@ -29,11 +31,12 @@ class OverviewPage extends StatelessWidget {
             title: 'Basic 基础组件',
 
             items: [
-              OverviewItem(name: 'Button', label: 'Button 按钮'),
-              OverviewItem(name: 'Icon', label: 'Icon 图标'),
-              OverviewItem(name: 'Text', label: 'Text 文字'),
-              OverviewItem(name: 'Layout', label: 'Layout 布局'),
-              OverviewItem(name: 'Link', label: 'Link 链接'),
+              OverviewItem(name: 'Action', label: 'Action 动作',path: '/widgets/basic/action'),
+              OverviewItem(name: 'Button', label: 'Button 按钮',path: '/widgets/basic/button'),
+              OverviewItem(name: 'Icon', label: 'Icon 图标',path: '/widgets/basic/icon'),
+              OverviewItem(name: 'Text', label: 'Text 文字',path: '/widgets/basic/text'),
+              OverviewItem(name: 'Layout', label: 'Layout 布局',path: '/widgets/basic/layout'),
+              OverviewItem(name: 'Link', label: 'Link 链接',path: '/widgets/basic/link'),
             ],
           )
         ],
@@ -45,9 +48,11 @@ class OverviewPage extends StatelessWidget {
 class OverviewItem {
   final String name;
   final String label;
+  final String path;
 
   OverviewItem({
     required this.name,
+    required this.path,
     required this.label,
   });
 }
@@ -123,35 +128,40 @@ class _OverviewWidgetCellState extends State<OverviewWidgetCell> {
         });
       },
       cursor: SystemMouseCursors.click,
-      child: Container(
-        decoration: BoxDecoration(
-            boxShadow: shadow,
-            color: Colors.white,
-            border: Border.all(color: const Color(0xffdcdfe6),width: px1),
-            borderRadius: BorderRadius.circular(8)),
-        child: Column(
-          children: [
-            FractionallySizedBox(
-              widthFactor: 1,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
-                child: Text(widget.item.label,style: TextStyle(fontSize: 16),),
-              ),
-            ),
-            Divider(),
-            Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  child: overviewDisplayMap(widget.item.name),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(8),
-                  bottomRight: Radius.circular(8),
+      child: GestureDetector(
+        onTap: (){
+          context.go(widget.item.path);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+              boxShadow: shadow,
+              color: Colors.white,
+              border: Border.all(color: const Color(0xffdcdfe6),width: px1),
+              borderRadius: BorderRadius.circular(8)),
+          child: Column(
+            children: [
+              FractionallySizedBox(
+                widthFactor: 1,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
+                  child: Text(widget.item.label,style: TextStyle(fontSize: 16),),
                 ),
-                color: Color(0xfff5f7fa),
               ),
-            ))
-          ],
+              Divider(),
+              Expanded(
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: overviewDisplayMap(widget.item.name),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(8),
+                    bottomRight: Radius.circular(8),
+                  ),
+                  color: Color(0xfff5f7fa),
+                ),
+              ))
+            ],
+          ),
         ),
       ),
     );

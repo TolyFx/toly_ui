@@ -1,6 +1,6 @@
 name: tolyui_navigation
 description: "Part of Toly UI: Navigation UI Widget Lib. Contains breadcrumb、drop_menu、rail_menu_tree、tabs etc..."
-version: 0.0.8+9
+version: 0.0.8+10
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui_navigation
 

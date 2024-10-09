@@ -4,6 +4,7 @@ import 'basic_display.dart';
 
 Widget overviewDisplayMap(String key){
   return switch(key){
+    'Action' => ActionOverview(),
     'Button' => ButtonOverview(),
     'Icon' => IconOverview(),
     'Text' => TextOverview(),

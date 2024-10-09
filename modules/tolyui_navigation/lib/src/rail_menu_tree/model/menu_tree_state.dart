@@ -1,13 +1,12 @@
 
 import 'tree_node.dart';
 
-
 class MenuTreeMeta {
   final List<String> expandMenus;
   final MenuNode? activeMenu;
   final MenuNode root;
 
-   List<MenuNode> get items=>root.children;
+  List<MenuNode> get items => root.children;
 
   MenuTreeMeta({
     required this.expandMenus,
@@ -30,14 +29,29 @@ class MenuTreeMeta {
     return null;
   }
 
-  MenuTreeMeta selectPath(String path,{bool singleExpand=false}) {
-    MenuNode? node = queryMenuNodeByPath(root,path);
-    if(node==null) return this;
+  MenuTreeMeta selectPath(String path, {bool singleExpand = false}) {
+    MenuNode? node = queryMenuNodeByPath(root, path);
+    if (node == null) return this;
     return select(node);
   }
 
-  MenuTreeMeta select(MenuNode menu,{bool singleExpand=false}) {
-    if (menu.isLeaf) return copyWith(activeMenu: menu);
+  List<String> parentsPath(String path) {
+    List<String> parts = path.split('/');
+    List<String> menus = ['/'];
+    if (parts.isNotEmpty) {
+      for (int i = 1; i < parts.length; i++) {
+        List<String> ps =  parts.sublist(0,i);
+        String path = ps.join('/');
+        if(path.isNotEmpty){
+          menus.add(path);
+        }
+      }
+    }
+    return menus;
+  }
+
+  MenuTreeMeta select(MenuNode menu, {bool singleExpand = false}) {
+    if (menu.isLeaf) return copyWith(activeMenu: menu, expandMenus: parentsPath(menu.id));
     List<String> menus = [];
     String path = menu.id.substring(1);
     List<String> parts = path.split('/');
@@ -55,21 +69,22 @@ class MenuTreeMeta {
       // expandMenus.map((e) => null);
     }
 
-    if(!singleExpand){
-      menus.addAll(expandMenus.where((e) => e!=menu.id));
+    if (!singleExpand) {
+      menus.addAll(expandMenus.where((e) => e != menu.id));
     }
 
     return copyWith(expandMenus: menus);
   }
 
-MenuTreeMeta copyWith({
-  List<String>? expandMenus,
-  MenuNode? activeMenu,
-  MenuNode? root,
-}) {
-  return MenuTreeMeta(
-    expandMenus: expandMenus ?? this.expandMenus,
-    activeMenu: activeMenu ?? this.activeMenu,
-    root: root ?? this.root,
-  );
-}}
+  MenuTreeMeta copyWith({
+    List<String>? expandMenus,
+    MenuNode? activeMenu,
+    MenuNode? root,
+  }) {
+    return MenuTreeMeta(
+      expandMenus: expandMenus ?? this.expandMenus,
+      activeMenu: activeMenu ?? this.activeMenu,
+      root: root ?? this.root,
+    );
+  }
+}

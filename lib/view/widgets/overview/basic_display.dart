@@ -1,6 +1,44 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tolyui/basic/basic.dart';
+import 'package:tolyui/tolyui.dart';
+
+class ActionOverview extends StatelessWidget {
+  const ActionOverview({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    ActionStyle style = ActionStyle(
+      borderRadius: BorderRadius.circular(4),
+      padding: const EdgeInsets.all(4),
+      backgroundColor: Colors.blue.withOpacity(0.1),
+      border: Border.all(color: context.isDark ? Colors.blueAccent : Colors.blue),
+      selectColor: Colors.blue.withOpacity(0.2),
+    );
+    return IgnorePointer(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+        child: Wrap(
+          spacing: 4,
+          children: [
+            TolyAction(
+              onTap: () {  },
+              child: Icon( CupertinoIcons.wand_rays ),
+            ),
+            TolyAction(
+              selected: true,
+              style: style,
+              onTap: () {  },
+              child: Icon(CupertinoIcons.move  ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 
 class ButtonOverview extends StatelessWidget {
   const ButtonOverview({super.key});
@@ -8,17 +46,14 @@ class ButtonOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
       decoration: BoxDecoration(
           color: Colors.blue,
           borderRadius: BorderRadius.circular(4),
           boxShadow: [
-            BoxShadow(
-                color: Colors.blue.withOpacity(0.2),
-                spreadRadius: 1,
-                blurRadius: 6)
+            BoxShadow(color: Colors.blue.withOpacity(0.2), spreadRadius: 1, blurRadius: 6)
           ]),
-      child: Text(
+      child: const Text(
         'Event',
         style: TextStyle(color: Colors.white),
       ),
@@ -35,33 +70,27 @@ class IconOverview extends StatelessWidget {
       spacing: 12,
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           decoration: BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.circular(4),
               boxShadow: [
-                BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 1,
-                    blurRadius: 6)
+                BoxShadow(color: Colors.black.withOpacity(0.2), spreadRadius: 1, blurRadius: 6)
               ]),
-          child: Icon(
+          child: const Icon(
             Icons.pages_outlined,
             color: Colors.white,
           ),
         ),
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(4),
               boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 1,
-                    blurRadius: 6)
+                BoxShadow(color: Colors.grey.withOpacity(0.2), spreadRadius: 1, blurRadius: 6)
               ]),
-          child: Icon(
+          child: const Icon(
             Icons.insights,
             color: Colors.black,
           ),
@@ -76,22 +105,17 @@ class TextOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
+    return const Wrap(
       spacing: 12,
       crossAxisAlignment: WrapCrossAlignment.end,
       children: [
         Text(
           'Toly',
-          style: TextStyle(
-              fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
         ),
         Text(
           'UI',
-          style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-              color: Colors.red,
-              height: 1),
+          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.red, height: 1),
         ),
         Text(
           'Design',
@@ -111,17 +135,15 @@ class LinkOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-        Text(
-          'Link Widget',
-          style: TextStyle(
-              fontSize: 24,
-              color: Colors.blue,
-              fontWeight: FontWeight.bold,
-              decorationColor: Colors.blue,
-              // color: Colors.grey,
-              decoration: TextDecoration.underline),
-
+    return const Text(
+      'https://',
+      style: TextStyle(
+          fontSize: 24,
+          color: Colors.blue,
+          fontWeight: FontWeight.bold,
+          decorationColor: Colors.blue,
+          // color: Colors.grey,
+          decoration: TextDecoration.underline),
     );
   }
 }
@@ -131,18 +153,14 @@ class LayoutOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = Color(0xffd4d7de);
+    Color color = const Color(0xffd4d7de);
     Color bg = Colors.white;
-    Color tiledColor = Color(0xffe4e7ed);
+    Color tiledColor = const Color(0xffe4e7ed);
 
     Widget box2 = Container(
       width: 40,
       height: 14,
-
-      decoration: BoxDecoration(
-        color: tiledColor,
-        borderRadius: BorderRadius.circular(2)
-      ),
+      decoration: BoxDecoration(color: tiledColor, borderRadius: BorderRadius.circular(2)),
     );
     return Wrap(
       spacing: 12,
@@ -154,10 +172,7 @@ class LayoutOverview extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(4),
               boxShadow: [
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    spreadRadius: 1,
-                    blurRadius: 6)
+                BoxShadow(color: Colors.grey.withOpacity(0.2), spreadRadius: 1, blurRadius: 6)
               ]),
           child: Column(
             children: [
@@ -165,7 +180,7 @@ class LayoutOverview extends StatelessWidget {
                 height: 16,
                 decoration: BoxDecoration(
                   color: color,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(4),
                     topRight: Radius.circular(4),
                   ),
@@ -175,12 +190,12 @@ class LayoutOverview extends StatelessWidget {
                 height: 64,
                 decoration: BoxDecoration(
                   color: bg,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(4),
                     bottomLeft: Radius.circular(4),
                   ),
                 ),
-                padding: EdgeInsets.all(6),
+                padding: const EdgeInsets.all(6),
                 child: Row(
                   children: [
                     Column(
@@ -191,21 +206,27 @@ class LayoutOverview extends StatelessWidget {
                             color: tiledColor,
                           ),
                         ),
-                        const SizedBox(height: 4,),
+                        const SizedBox(
+                          height: 4,
+                        ),
                         Expanded(
                           child: Container(
                             width: 20,
                             color: tiledColor,
                           ),
                         ),
-                        const SizedBox(height: 4,),
+                        const SizedBox(
+                          height: 4,
+                        ),
                         Expanded(
                           child: Container(
                             width: 20,
                             color: tiledColor,
                           ),
                         ),
-                        const SizedBox(height: 4,),
+                        const SizedBox(
+                          height: 4,
+                        ),
                         Expanded(
                           child: Container(
                             width: 20,
@@ -214,8 +235,9 @@ class LayoutOverview extends StatelessWidget {
                         ),
                       ],
                     ),
-                    VerticalDivider(width: 12,),
-
+                    const VerticalDivider(
+                      width: 12,
+                    ),
                     Expanded(
                       child: Center(
                         child: Wrap(

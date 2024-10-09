@@ -13,3 +13,4 @@
 
 * ## 0.0.8
 * Support Widget: [TolyTabs]
+* +10: fix select path expands
