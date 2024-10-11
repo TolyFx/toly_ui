@@ -15,11 +15,13 @@ class Wrap$ extends StatelessWidget {
   final ExpandType expandType;
   final EdgeInsetsGeometry? padding;
   final List<Widget> children;
+  final AlignmentGeometry alignment;
 
   const Wrap$({
     super.key,
     required this.maxWidth,
     required this.height,
+    this.alignment = Alignment.center,
     this.spacing = 0,
     this.expandType = ExpandType.width,
     this.padding,
@@ -29,7 +31,8 @@ class Wrap$ extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Align(
+      alignment: alignment,
       child: Padding(
         padding: padding ?? EdgeInsets.symmetric(horizontal: spacing),
         child: LayoutBuilder(

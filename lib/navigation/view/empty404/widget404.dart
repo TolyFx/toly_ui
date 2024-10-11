@@ -13,7 +13,6 @@ class Widget404 extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             SvgPicture.asset('assets/images/programming.svg',width: 300),
-
             Text("正在设计研发中",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
             const SizedBox(height: 4,),
             Wrap(

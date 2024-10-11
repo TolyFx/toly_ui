@@ -135,15 +135,20 @@ class LinkOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'https://',
-      style: TextStyle(
-          fontSize: 24,
-          color: Colors.blue,
-          fontWeight: FontWeight.bold,
-          decorationColor: Colors.blue,
-          // color: Colors.grey,
-          decoration: TextDecoration.underline),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Text(
+          'TOLY LINK',
+          style: TextStyle(
+              fontSize: 20,
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+              decorationColor: Colors.blue,
+              // color: Colors.grey,
+              decoration: TextDecoration.underline),
+        ),
+      ],
     );
   }
 }
