@@ -7,34 +7,45 @@ Map<String, dynamic> get feedbackMenus => {
       'children': [
         {
           'path': '/message',
-          'label': 'Message 消息提示',
+          'label': 'Message',
+          'subtitle': '消息提示'
           // 'icon': Icons.calculate_outlined,
         },
         {
           'path': '/notification',
           'label': 'Notification  通知',
+          'subtitle': '消息提示'
+
           // 'icon': Icons.calculate_outlined,
         },
         {
           'path': '/loading',
-          'label': 'Loading 加载',
+          'label': 'Loading',
           'tag': '新',
+          'subtitle': '加载'
+
           // 'icon': Icons.calculate_outlined,
         },
         {
           'path': '/popover',
-          'label': 'Popover 弹出框',
+          'label': 'Popover',
+          'subtitle': '弹出框'
+
           // 'icon': Icons.calculate_outlined,
         },
         {
           'path': '/shortcuts',
-          'label': 'Shortcuts 快捷键',
+          'label': 'Shortcuts',
           'tag': '新',
           'isFlutter': true,
+          'subtitle': '快捷键'
+
         },
         {
           'path': '/tooltip',
-          'label': 'Tooltip 文字提示',
+          'label': 'Tooltip',
+          'subtitle': '文字提示'
+
         },
       ]
     };

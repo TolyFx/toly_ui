@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tolyui/tolyui.dart';
 
+import 'advance.dart';
 import 'basic_display.dart';
+import 'data.dart';
 import 'form_display.dart';
 import 'navigation_display.dart';
 
@@ -15,10 +17,7 @@ Widget overviewDisplayMap(String key){
     'Layout' => LayoutOverview(),
     'Link' => LinkOverview(),
     'Autocomplete' => AutocompleteDisplay(),
-    'ColorPicker' => Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24,vertical: 12.0),
-      child: TolyHuePanel(initColor: Colors.red, onChanged: (Color value) {  },),
-    ),
+    'ColorPicker' => ColorDisplay(),
     'DatePicker' => DatePickerDisplay(),
     'Input' => InputDisplay(),
     'Select' => SelectDisplay(),
@@ -29,6 +28,16 @@ Widget overviewDisplayMap(String key){
     'RailMenuBar' => RailMenuBarDisplay(),
     'Tabs' => TabsDisplay(),
     'Steps' => StepsDisplay(),
+
+    'Avatar' => AvatarDisplay(),
+    'Badge' => BadgeDisplay(),
+    'Card' => CardDisplay(),
+    'Collapse' =>  CollapseDisplay(),
+    'Image' =>  ImageDisplay(),
+    'Pagination' =>  PaginationDisplay(),
+    'Progress' =>  ProgressDisplay(),
+
+    'Color' => ColorDisplay(),
 
     _ => ToDoDisplay()
   };

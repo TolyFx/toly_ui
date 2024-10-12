@@ -3,6 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:toly_ui/app/theme/theme.dart';
 import 'package:toly_ui/incubator/components/data/tag/tag.dart';
 import 'package:toly_ui/incubator/ext/go_router/path.dart';
+import 'package:toly_ui/navigation/menu/advance.dart';
+import 'package:toly_ui/navigation/menu/basic.dart';
+import 'package:toly_ui/navigation/menu/data.dart';
+import 'package:toly_ui/navigation/menu/feedback.dart';
+import 'package:toly_ui/navigation/menu/form.dart';
+import 'package:toly_ui/navigation/menu/navigation.dart';
 
 import '../../../incubator/components/layout/grid_layout/wrap_grid_layout.dart';
 import 'display_map.dart';
@@ -29,50 +35,33 @@ class OverviewPage extends StatelessWidget {
               '将在面板中通过 Flutter Logo示意。',
               style: TextStyle(fontSize: 16)),
           const SizedBox(height: 24),
-
-          OverviewCell(
-            title: 'Basic 基础组件',
-            items: [
-              OverviewItem(name: 'Action', label: 'Action 动作', path: '/widgets/basic/action'),
-              OverviewItem(name: 'Button', label: 'Button 按钮', path: '/widgets/basic/button'),
-              OverviewItem(name: 'Icon', label: 'Icon 图标', path: '/widgets/basic/icon'),
-              OverviewItem(name: 'Text', label: 'Text 文字', path: '/widgets/basic/text'),
-              OverviewItem(name: 'Layout', label: 'Layout 布局', path: '/widgets/basic/layout'),
-              OverviewItem(name: 'Link', label: 'Link 链接', path: '/widgets/basic/link'),
-            ],
-          ),
+          // buildByMenuNode(dataMenus),
+          buildByMenuNode(basicMenus),
           const SizedBox(height: 24),
-          OverviewCell(
-            title: 'Form 表单组件',
-            items: [
-              OverviewItem(name: 'Autocomplete', label: 'Autocomplete 自动补全', path: '/widgets/form/Autocomplete'),
-              OverviewItem(name: 'ColorPicker', label: 'ColorPicker 颜色选择', path: '/widgets/form/ColorPicker'),
-              OverviewItem(name: 'DatePicker', label: 'DatePicker 日期选择器', path: '/widgets/form/DatePicker'),
-              OverviewItem(name: 'Input', label: 'Input 输入框', path: '/widgets/form/input'),
-              OverviewItem(name: 'Select', label: 'Select 选择器', path: '/widgets/form/select'),
-              OverviewItem(name: 'Transfer', label: 'Transfer 穿梭框', path: '/widgets/form/transfer'),
-            ],
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          OverviewCell(
-            title: 'Navigation 导航组件',
-            items: [
-              OverviewItem(name: 'Anchor', label: 'Anchor 锚点', path: '/widgets/navigation/Anchor'),
-              OverviewItem(name: 'Breadcrumb', label: 'Breadcrumb 面包屑', path: '/widgets/navigation/breadcrumb'),
-              OverviewItem(name: 'DropMenu', label: 'DropMenu 下拉菜单', path: '/widgets/navigation/drop_menu'),
-              OverviewItem(name: 'RailMenuTree', label: 'RailMenuTree 树形菜单', path: '/widgets/navigation/input'),
-              OverviewItem(name: 'RailMenuBar', label: 'RailMenuBar 侧栏菜单', path: '/widgets/navigation/rail_menu_bar'),
-              OverviewItem(name: 'Tabs', label: 'Tabs 标签页', path: '/widgets/navigation/tabs'),
-              OverviewItem(name: 'Steps', label: 'Steps 步骤条', path: '/widgets/navigation/steps'),
-            ],
-          ),
-
+          buildByMenuNode(formMenus),
           const SizedBox(height: 24),
-
+          buildByMenuNode(navigationMenus),
+          const SizedBox(height: 24),
+          buildByMenuNode(dataMenus),
+          const SizedBox(height: 24),
+          buildByMenuNode(feedbackMenus),
+          const SizedBox(height: 24),
+          buildByMenuNode(advanceMenus),
+          const SizedBox(height: 24),
         ],
       ),
+    );
+  }
+
+  Widget buildByMenuNode(Map<String, dynamic> menu) {
+    return OverviewCell(
+      title: menu['label'],
+      items: menu['children']
+          .map<OverviewItem>((e) => OverviewItem(
+              name: e['label'],
+              label: '${e['label']} ${e['subtitle']}',
+              path: '${menu['path']}${e['path']}'))
+          .toList(),
     );
   }
 }
@@ -112,14 +101,17 @@ class OverviewCell extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             TolyTag(
-              tagText: '${items.length}',padding: EdgeInsets.symmetric(horizontal: 8),radius: 6,)
+              tagText: '${items.length}',
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              radius: 6,
+            )
           ],
         ),
         const SizedBox(
           height: 16,
         ),
         Wrap$(
-          alignment: Alignment.centerLeft,
+            alignment: Alignment.centerLeft,
             padding: EdgeInsets.symmetric(),
             maxWidth: 300,
             height: 180,
@@ -193,18 +185,18 @@ class _OverviewWidgetCellState extends State<OverviewWidgetCell> {
               Divider(),
               Expanded(
                   child: IgnorePointer(
-                    child: Container(
-                                    alignment: Alignment.center,
-                                    child: overviewDisplayMap(widget.item.name),
-                                    decoration: BoxDecoration(
+                child: Container(
+                  alignment: Alignment.center,
+                  child: overviewDisplayMap(widget.item.name),
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(8),
                       bottomRight: Radius.circular(8),
                     ),
                     color: Color(0xfff5f7fa),
-                                    ),
-                                  ),
-                  ))
+                  ),
+                ),
+              ))
             ],
           ),
         ),

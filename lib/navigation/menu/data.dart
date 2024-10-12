@@ -14,7 +14,7 @@ Map<String, dynamic> get dataMenus => {
         {
           'path': '/badge',
           'label': 'Badge',
-          'subtitle': '头像',
+          'subtitle': '标记',
           'isFlutter': true,
           'tag': '新',
         },

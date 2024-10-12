@@ -23,7 +23,7 @@ Map<String, dynamic> get widgetMenus => {
         formMenus,
         navigationMenus,
         dataMenus,
-        advanceMenus,
         feedbackMenus,
+        advanceMenus,
       ],
     };
