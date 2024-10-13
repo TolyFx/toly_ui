@@ -214,8 +214,6 @@ class RailMenuTreeDisplay extends StatelessWidget {
   }
 }
 
-
-
 class RailMenuBarDisplay extends StatelessWidget {
   const RailMenuBarDisplay({super.key});
 
@@ -284,7 +282,6 @@ class RailMenuBarDisplay extends StatelessWidget {
   }
 }
 
-
 class AnchorDisplay extends StatelessWidget {
   const AnchorDisplay({super.key});
 
@@ -310,11 +307,14 @@ class AnchorDisplay extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(width: 16,),
+        const SizedBox(
+          width: 16,
+        ),
         Container(
           width: 96,
           margin: const EdgeInsets.only(top: 12, bottom: 12),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DisplayTiled(
                 active: false,
@@ -338,48 +338,57 @@ class AnchorDisplay extends StatelessWidget {
   }
 }
 
-
 class DisplayTiled extends StatelessWidget {
   final double height;
   final bool active;
+  final bool min;
   final double depth;
   final double grow;
   final double width;
   final Widget? tailing;
+  final Widget? leading;
   final Color? color;
+  final Color? backgroundColor;
   final BorderRadiusGeometry? borderRadius;
 
-  const DisplayTiled(
-      {super.key,
-      this.active = false,
-      this.height = 18,
-      this.width = 32,
-      this.depth = 1,
-      this.grow = 1,
-      this.color,
-      this.borderRadius,
-      this.tailing});
+  const DisplayTiled({
+    super.key,
+    this.active = false,
+    this.height = 18,
+    this.width = 32,
+    this.depth = 1,
+    this.grow = 1,
+    this.color,
+    this.min = false,
+    this.borderRadius,
+    this.backgroundColor,
+    this.tailing,
+    this.leading,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      decoration:
-          BoxDecoration(color: active ? activeColor : Colors.white, borderRadius: borderRadius),
+      decoration: BoxDecoration(
+          color: backgroundColor ?? (active ? activeColor : Colors.white),
+          borderRadius: borderRadius),
       child: Row(
+        mainAxisSize: min ? MainAxisSize.min : MainAxisSize.max,
         children: [
           SizedBox(
             width: 12 * depth,
           ),
+          if (leading != null) leading!,
           Container(
             height: 6,
-            width: 32*grow,
+            width: 32 * grow,
             decoration: BoxDecoration(
-              color: color??(active ? Colors.white : hitColor),
+              color: color ?? (active ? Colors.white : hitColor),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
-          Spacer(),
+          if (tailing != null) Spacer(),
           if (tailing != null) tailing!
         ],
       ),
@@ -406,7 +415,8 @@ class TabsDisplay extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: Column(
+              Expanded(
+                  child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
@@ -420,7 +430,8 @@ class TabsDisplay extends StatelessWidget {
                   ),
                 ],
               )),
-              Expanded(child: Column(
+              Expanded(
+                  child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
@@ -433,7 +444,8 @@ class TabsDisplay extends StatelessWidget {
                   ),
                 ],
               )),
-              Expanded(child: Column(
+              Expanded(
+                  child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
@@ -448,16 +460,28 @@ class TabsDisplay extends StatelessWidget {
               )),
             ],
           ),
-          LinearProgressIndicator(value: 1/3,minHeight: 1,color: activeColor,),
-          const SizedBox(height: 8,),
+          LinearProgressIndicator(
+            value: 1 / 3,
+            minHeight: 1,
+            color: activeColor,
+          ),
+          const SizedBox(
+            height: 8,
+          ),
           DisplayTiled(depth: 1),
-          DisplayTiled(grow: 2,),
-          DisplayTiled(depth: 1,grow: 1.5,),
+          DisplayTiled(
+            grow: 2,
+          ),
+          DisplayTiled(
+            depth: 1,
+            grow: 1.5,
+          ),
         ],
       ),
     );
   }
 }
+
 class StepsDisplay extends StatelessWidget {
   const StepsDisplay({super.key});
 
@@ -467,102 +491,128 @@ class StepsDisplay extends StatelessWidget {
       width: 136,
       alignment: Alignment.center,
       margin: const EdgeInsets.only(top: 12, bottom: 12),
-
-      child:
-          Column(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+              child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(child: Row(
-                mainAxisSize: MainAxisSize.min,
+              Column(
                 children: [
-                  Column(
-                    children: [
-                      Container(
-                        height: 16,
-                        width: 16,
-                        decoration: BoxDecoration(
-                          color: activeColor.withOpacity(0.2),
-                          shape: BoxShape.circle
-                        ),
-                        child: Icon(Icons.check,size: 10,color: activeColor,),
-                      ),
-                      Expanded(child: VerticalDivider(indent: 2,endIndent: 2,))
-                    ],
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Step1",style: TextStyle(fontSize: 12),),
-                      Text("description",style: TextStyle(fontSize: 10,color: Colors.grey),),
-                    ],
-                  )
-                ],
-              )),
-              Expanded(child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        height: 16,
-                        alignment: Alignment.center,
-                        width: 16,
-                        decoration: BoxDecoration(
-                            color: activeColor,
-                            shape: BoxShape.circle
-                        ),
-                        child: Text('2',style: TextStyle(height: 1,fontSize: 10,color: Colors.white),),
-                      ),
-                      Expanded(child: VerticalDivider(indent: 2,endIndent: 2,))
-                    ],
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Step2",style: TextStyle(fontSize: 12),),
-                      Text("description",style: TextStyle(fontSize: 10,color: Colors.grey),),
-                    ],
-                  )
-                ],
-              )),
-              Expanded(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          height: 16,
-                          alignment: Alignment.center,
-                          width: 16,
-                          decoration: BoxDecoration(
-                              color: hitColor,
-                              shape: BoxShape.circle
-                          ),
-                          child: Text('3',style: TextStyle(height: 1,fontSize: 10,color: Colors.grey),),
-
-                        ),
-                      ],
+                  Container(
+                    height: 16,
+                    width: 16,
+                    decoration:
+                        BoxDecoration(color: activeColor.withOpacity(0.2), shape: BoxShape.circle),
+                    child: Icon(
+                      Icons.check,
+                      size: 10,
+                      color: activeColor,
                     ),
-                    const SizedBox(width: 8),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Step3",style: TextStyle(fontSize: 12),),
-                        Text("description",style: TextStyle(fontSize: 10,color: Colors.grey),),
-                      ],
-                    )
+                  ),
+                  Expanded(
+                      child: VerticalDivider(
+                    indent: 2,
+                    endIndent: 2,
+                  ))
+                ],
+              ),
+              const SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Step1",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  Text(
+                    "description",
+                    style: TextStyle(fontSize: 10, color: Colors.grey),
+                  ),
+                ],
+              )
+            ],
+          )),
+          Expanded(
+              child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                children: [
+                  Container(
+                    height: 16,
+                    alignment: Alignment.center,
+                    width: 16,
+                    decoration: BoxDecoration(color: activeColor, shape: BoxShape.circle),
+                    child: Text(
+                      '2',
+                      style: TextStyle(height: 1, fontSize: 10, color: Colors.white),
+                    ),
+                  ),
+                  Expanded(
+                      child: VerticalDivider(
+                    indent: 2,
+                    endIndent: 2,
+                  ))
+                ],
+              ),
+              const SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Step2",
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  Text(
+                    "description",
+                    style: TextStyle(fontSize: 10, color: Colors.grey),
+                  ),
+                ],
+              )
+            ],
+          )),
+          Expanded(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      height: 16,
+                      alignment: Alignment.center,
+                      width: 16,
+                      decoration: BoxDecoration(color: hitColor, shape: BoxShape.circle),
+                      child: Text(
+                        '3',
+                        style: TextStyle(height: 1, fontSize: 10, color: Colors.grey),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
+                const SizedBox(width: 8),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Step3",
+                      style: TextStyle(fontSize: 12),
+                    ),
+                    Text(
+                      "description",
+                      style: TextStyle(fontSize: 10, color: Colors.grey),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
+        ],
+      ),
     );
   }
 }
-
 
 Color get activeColor => Color(0xff2196f3);
 

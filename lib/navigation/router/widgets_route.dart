@@ -8,6 +8,7 @@ import '../../view/widgets/overview/overview_page.dart';
 import '../../view/widgets/widgets_page.dart';
 import '../view/empty404/widget404.dart';
 
+
 RouteBase get widgetsRoute => ShellRoute(
         builder: (BuildContext context, GoRouterState state, Widget child) {
           return WidgetNavigationScope(
@@ -72,7 +73,8 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('card'),
                   _customRoute('tag'),
                   _customRoute('slideshow'),
-                ]),            GoRoute(
+                ]),
+            GoRoute(
                 path: 'advance',
                 builder: (BuildContext context, GoRouterState state) {
                   return EcologicalPage();

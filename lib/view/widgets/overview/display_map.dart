@@ -36,6 +36,11 @@ Widget overviewDisplayMap(String key){
     'Image' =>  ImageDisplay(),
     'Pagination' =>  PaginationDisplay(),
     'Progress' =>  ProgressDisplay(),
+    'Tag' =>  TagOverview(),
+    'Skeleton' =>  SkeletonOverview(),
+    'Tree' =>  TreeDisplay(),
+    'Segmented' =>  SegmentedDisplay(),
+    'Statistics' =>  StatisticsDisplay(),
 
     'Color' => ColorDisplay(),
 

@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 
 enum ExpandType {
   spacing,
-  width,
+  width, // 宽度延伸
+  limitWidth, // 限制最大宽度为 measureWidth
 }
 
 class Wrap$ extends StatelessWidget {
-  final double maxWidth;
+  final double measureWidth;
   final double height;
   final double spacing;
   final double runSpacing;
@@ -19,7 +20,7 @@ class Wrap$ extends StatelessWidget {
 
   const Wrap$({
     super.key,
-    required this.maxWidth,
+    required this.measureWidth,
     required this.height,
     this.alignment = Alignment.center,
     this.spacing = 0,
@@ -37,17 +38,23 @@ class Wrap$ extends StatelessWidget {
         padding: padding ?? EdgeInsets.symmetric(horizontal: spacing),
         child: LayoutBuilder(
           builder: (ctx, cts) {
-            int count = (cts.maxWidth + spacing) ~/ maxWidth;
+
+            int count = (cts.maxWidth + spacing) ~/ measureWidth;
             double effectSpacing = spacing;
-            count = min(count, children.length);
-            double width = (cts.maxWidth / count) - spacing * (count - 1);
-            if (expandType == ExpandType.width) {
-              width = min(width, maxWidth);
+            if(expandType!=ExpandType.width){
+              count = min(count, children.length);
+
+            }
+            // double width = (cts.maxWidth / count) - spacing * (count - 1);
+            double width = (cts.maxWidth-spacing * (count - 1))/count ;
+            if (expandType == ExpandType.limitWidth) {
+              width = min(width, measureWidth);
             }
             if (expandType == ExpandType.spacing) {
-              width = maxWidth;
+              width = measureWidth;
               effectSpacing = (cts.maxWidth - width * count) / (count);
             }
+
             return Wrap(
               runSpacing: runSpacing,
               spacing: effectSpacing,
@@ -64,4 +71,14 @@ class Wrap$ extends StatelessWidget {
       ),
     );
   }
+
+  /// 以 [measureWidth] 度量，得到每行承载的个数
+  ///
+  // (double,double) calcSize(double layoutWidth){
+  //   int count = (layoutWidth + spacing) ~/ measureWidth;
+  //   double effectSpacing = spacing;
+  //   count = min(count, children.length);
+  //   double width = (layoutWidth / count) - spacing * (count - 1);
+  // }
+
 }
