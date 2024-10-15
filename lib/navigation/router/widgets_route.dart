@@ -56,6 +56,7 @@ RouteBase get widgetsRoute => ShellRoute(
                 routes: [
                   _customRoute('input'),
                   _customRoute('select'),
+                  _customRoute('checkbox'),
                 ]),
             GoRoute(
                 path: 'data',

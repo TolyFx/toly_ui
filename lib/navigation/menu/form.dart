@@ -19,6 +19,11 @@ Map<String, dynamic> get formMenus => {
           'subtitle': '取色器',
         },
         {
+          'path': '/checkbox',
+          'label': 'Checkbox',
+          'subtitle': '多选框',
+        },
+        {
           'path': '/DatePicker',
           'label': 'DatePicker',
           'subtitle': '日期选择器',
