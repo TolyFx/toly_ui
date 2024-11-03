@@ -14,7 +14,15 @@ mixin HoverActionMix<T extends StatefulWidget> on State<T> {
 
   bool get hovered => _hovered;
 
-  Widget wrap(Widget child, {MouseCursor? cursor}) {
+  Widget wrap(Widget child, {MouseCursor? cursor, VoidCallback? onTap}) {
+
+    if (onTap != null) {
+      child = GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: child,
+      );
+    }
     return MouseRegion(
       cursor: cursor ?? SystemMouseCursors.click,
       onEnter: _onEnter,

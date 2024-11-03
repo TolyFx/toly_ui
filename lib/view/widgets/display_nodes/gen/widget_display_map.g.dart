@@ -80,6 +80,8 @@ Widget widgetDisplayMap(String key){
     "TooltipDemo1" => const TooltipDemo1(),
     "TooltipDemo2" => const TooltipDemo2(),
     "TooltipDemo3" => const TooltipDemo3(),
+    "AutocompleteDemo1" => const AutocompleteDemo1(),
+    "AutocompleteDemo2" => const AutocompleteDemo2(),
     "CheckboxDemo1" => const CheckboxDemo1(),
     "CheckboxDemo2" => const CheckboxDemo2(),
     "CheckboxDemo3" => const CheckboxDemo3(),

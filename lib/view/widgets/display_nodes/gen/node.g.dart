@@ -25,6 +25,7 @@ part 'notification.g.dart';
 part 'popover.g.dart';
 part 'shortcuts.g.dart';
 part 'tooltip.g.dart';
+part 'autocomplete.g.dart';
 part 'checkbox.g.dart';
 part 'input.g.dart';
 part 'select.g.dart';
@@ -59,6 +60,7 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "popover" => _popoverData,
     "shortcuts" => _shortcutsData,
     "tooltip" => _tooltipData,
+    "autocomplete" => _autocompleteData,
     "checkbox" => _checkboxData,
     "input" => _inputData,
     "select" => _selectData,

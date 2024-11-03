@@ -8,7 +8,7 @@ Map<String, dynamic> get formMenus => {
       'label': 'Form 表单组件',
       'children': [
         {
-          'path': '/Autocomplete',
+          'path': '/autocomplete',
           'label': 'Autocomplete',
           'subtitle': '自动补全',
           // 'icon': Icons.calculate_outlined,

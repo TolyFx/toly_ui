@@ -54,6 +54,7 @@ RouteBase get widgetsRoute => ShellRoute(
                   return EcologicalPage();
                 },
                 routes: [
+                  _customRoute('autocomplete'),
                   _customRoute('input'),
                   _customRoute('select'),
                   _customRoute('checkbox'),

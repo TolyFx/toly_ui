@@ -9,3 +9,4 @@ export 'input/slot/button_slot.dart';
 export 'input/slot/number_slot.dart';
 export 'input/slot/slot_decoration.dart';
 export 'input/slot/option_slot_decoration.dart';
+export 'autocomplete/toly_autocomplete.dart';

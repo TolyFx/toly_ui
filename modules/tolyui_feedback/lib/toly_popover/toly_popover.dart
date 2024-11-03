@@ -179,9 +179,7 @@ class _TolyPopoverState extends State<TolyPopover>
       box.size.center(Offset.zero),
       ancestor: overlayState.context.findRenderObject(),
     );
-    // if(_clickPosition!=null){
-    //   target = _clickPosition!.translate(0, box.size.height);
-    // }
+
     final Widget overlayChild = _PopOverlay(
       overlay: widget.overlay,
       tapRegionGroup: _popController,
