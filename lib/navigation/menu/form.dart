@@ -24,7 +24,7 @@ Map<String, dynamic> get formMenus => {
           'subtitle': '多选框',
         },
         {
-          'path': '/DatePicker',
+          'path': '/date_picker',
           'label': 'DatePicker',
           'subtitle': '日期选择器',
         },

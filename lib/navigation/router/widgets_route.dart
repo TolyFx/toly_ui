@@ -58,6 +58,7 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('input'),
                   _customRoute('select'),
                   _customRoute('checkbox'),
+                  _customRoute('date_picker'),
                 ]),
             GoRoute(
                 path: 'data',

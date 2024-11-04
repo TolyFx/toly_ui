@@ -27,6 +27,7 @@ part 'shortcuts.g.dart';
 part 'tooltip.g.dart';
 part 'autocomplete.g.dart';
 part 'checkbox.g.dart';
+part 'date_picker.g.dart';
 part 'input.g.dart';
 part 'select.g.dart';
 part 'breadcrumb.g.dart';
@@ -62,6 +63,7 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "tooltip" => _tooltipData,
     "autocomplete" => _autocompleteData,
     "checkbox" => _checkboxData,
+    "date_picker" => _date_pickerData,
     "input" => _inputData,
     "select" => _selectData,
     "breadcrumb" => _breadcrumbData,

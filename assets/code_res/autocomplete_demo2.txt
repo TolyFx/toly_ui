@@ -55,12 +55,21 @@ class AutocompleteDemo2 extends StatelessWidget {
     return TolyInput(
       focusNode: focusNode,
       controller: textEditingController,
-      hintText: 'search',
+      hintText: 'search(eg. to)',
     );
   }
 
-  Widget _itemBuilder(BuildContext context,TextEditingController textEditingController, User data,) {
-    return UserMenuItem(user: data,args: textEditingController.text,);
+  Widget _itemBuilder(
+    BuildContext context,
+    TextEditingController textEditingController,
+    User data,
+    SelectEvent event,
+  ) {
+    return UserMenuItem(
+      onTap: () => event(() => data.name),
+      user: data,
+      args: textEditingController.text,
+    );
   }
 }
 
@@ -74,7 +83,8 @@ class UserMenuItem extends StatefulWidget {
     super.key,
     required this.user,
     this.selected = false,
-    this.onTap, required this.args,
+    this.onTap,
+    required this.args,
   });
 
   @override
@@ -100,9 +110,9 @@ class _UserMenuItemState extends State<UserMenuItem> with HoverActionMix {
         child: Row(
           children: [
             CircleAvatar(
+              radius: 16,
               foregroundColor: Colors.transparent,
-              backgroundImage:
-              AssetImage('assets/images/head_icon/${widget.user.image}'),
+              backgroundImage: AssetImage('assets/images/head_icon/${widget.user.image}'),
             ),
             const SizedBox(width: 20),
             Column(

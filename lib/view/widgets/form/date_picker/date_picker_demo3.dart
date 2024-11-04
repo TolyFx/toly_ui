@@ -1,0 +1,53 @@
+import 'package:flutter/material.dart';
+
+import '../../display_nodes/display_nodes.dart';
+import 'package:intl/intl.dart';
+
+@DisplayNode(
+  title: '选择时间',
+  desc: 'showTimePicker 方法打开时间选择对话框。',
+)
+class DatePickerDemo3 extends StatefulWidget {
+  const DatePickerDemo3({super.key});
+
+  @override
+  State<DatePickerDemo3> createState() => _DatePickerDemo3State();
+}
+
+class _DatePickerDemo3State extends State<DatePickerDemo3> {
+  TimeOfDay? _selectTime;
+  DateFormat format = DateFormat('yyyy/MM/dd');
+
+  String get result {
+    if (_selectTime == null) {
+      return '';
+    }
+    return _selectTime.toString();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ElevatedButton(
+            onPressed: () {
+              _show(context);
+            },
+            child: Text('选择时间')),
+        const SizedBox(height: 4),
+        Text('选择结果: $result')
+      ],
+    );
+  }
+
+  void _show(BuildContext context) async {
+    TimeOfDay first = const TimeOfDay(hour: 0, minute: 0);
+    _selectTime = await showTimePicker(
+      context: context,
+      initialTime: first,
+    );
+    if (_selectTime != null) {
+      setState(() {});
+    }
+  }
+}
