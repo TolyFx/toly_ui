@@ -30,6 +30,7 @@ part 'checkbox.g.dart';
 part 'date_picker.g.dart';
 part 'input.g.dart';
 part 'select.g.dart';
+part 'transfer.g.dart';
 part 'breadcrumb.g.dart';
 part 'drop_menu.g.dart';
 part 'rail_menu_bar.g.dart';
@@ -66,6 +67,7 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "date_picker" => _date_pickerData,
     "input" => _inputData,
     "select" => _selectData,
+    "transfer" => _transferData,
     "breadcrumb" => _breadcrumbData,
     "drop_menu" => _drop_menuData,
     "rail_menu_bar" => _rail_menu_barData,

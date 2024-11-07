@@ -44,7 +44,7 @@ class _DatePickerDemo2State extends State<DatePickerDemo2> {
     if (range != null) {
       setState(() {
         _dateRange =
-        "${format.format(range.start)} ~ ${format.format(range.end)}";
+        "${format.format(range.start)} - ${format.format(range.end)}";
       });
     }
   }

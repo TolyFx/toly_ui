@@ -1,0 +1,18 @@
+class TransferDemo1 extends StatelessWidget {
+  const TransferDemo1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      children: [
+        SizedBox(
+            width: 480,
+            height: 320,
+            child: TolyTransfer(
+              dataSource: [],
+            )),
+      ],
+    );
+  }
+
+}
