@@ -5,10 +5,14 @@ import 'package:tolyui/form/checkbox/toly_check_box.dart';
 
 class TolyTransfer extends StatefulWidget {
   final List<TransferItem> dataSource;
+  final List<String> targetKeys;
+  final List<String> selectedKeys;
 
   const TolyTransfer({
     super.key,
     required this.dataSource,
+    required this.targetKeys,
+    required this.selectedKeys,
   });
 
   @override
@@ -18,31 +22,39 @@ class TolyTransfer extends StatefulWidget {
 class _TolyTransferState extends State<TolyTransfer> {
   @override
   Widget build(BuildContext context) {
+    List<TransferItem> targets = widget.dataSource.where((e)=>widget.targetKeys.contains(e.key)).toList();
+    List<TransferItem> selectes = widget.dataSource.where((e)=>widget.selectedKeys.contains(e.key)).toList();
     return Row(
       children: [
         Expanded(
             child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: Color(0xffd9d9d9)   ,   width: 0.5,),
+            border: Border.all(
+              color: Color(0xffd9d9d9),
+              width: 0.5,
+            ),
           ),
-              child: ListView.builder(
-                  itemCount: widget.dataSource.length,
-                  itemBuilder: (_,index){
-                TransferItem item = widget.dataSource[index];
+          child: ListView.builder(
+              itemCount: targets.length,
+              itemBuilder: (_, index) {
+                TransferItem item = targets[index];
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12,vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   child: Row(
-                  children: [
-                    TolyCheckBox(value: index%2==0, onChanged: (_){}),
-                    const SizedBox(width: 6,),
-                    Text(item.title)
-                  ],
-                                ),
-                );}),
+                    children: [
+                      TolyCheckBox(value: index % 2 == 0, onChanged: (_) {}),
+                      const SizedBox(
+                        width: 6,
+                      ),
+                      Text(item.title)
+                    ],
+                  ),
+                );
+              }),
         )),
         Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -52,7 +64,7 @@ class _TolyTransferState extends State<TolyTransfer> {
                       selectColor: Colors.blue,
                       // backgroundColor: Colors.blue.withOpacity(0.6),
                       borderRadius: BorderRadius.circular(4),
-                      padding: EdgeInsets.all(2)),
+                      padding: EdgeInsets.all(1)),
                   child: Icon(
                     Icons.navigate_next,
                     color: Colors.white,
@@ -60,7 +72,7 @@ class _TolyTransferState extends State<TolyTransfer> {
                   ),
                   onTap: _doTransfer),
               const SizedBox(
-                height: 6,
+                height: 8,
               ),
               TolyAction(
                   selected: true,
@@ -68,7 +80,7 @@ class _TolyTransferState extends State<TolyTransfer> {
                       selectColor: Color(0xfff5f5f5),
                       disableColor: Color(0xfff5f5f5),
                       borderRadius: BorderRadius.circular(4),
-                      padding: EdgeInsets.all(2)),
+                      padding: EdgeInsets.all(1)),
                   child: Icon(
                     Icons.navigate_before,
                     color: Color(0xffb8b8b8),
@@ -80,24 +92,26 @@ class _TolyTransferState extends State<TolyTransfer> {
         ),
         Expanded(
             child: Container(
-              child: ListView.builder(
-                  itemCount: widget.dataSource.length,
-                  itemBuilder: (_,index){
-                    TransferItem item = widget.dataSource[index];
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12,vertical: 4),
-                      child: Row(
-                        children: [
-                          TolyCheckBox(value: index%2==1, onChanged: (_){}),
-                          const SizedBox(width: 6,),
-                          Text(item.title)
-                        ],
+          child: ListView.builder(
+              itemCount: selectes.length,
+              itemBuilder: (_, index) {
+                TransferItem item = selectes[index];
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  child: Row(
+                    children: [
+                      TolyCheckBox(value: index % 2 == 1, onChanged: (_) {}),
+                      const SizedBox(
+                        width: 6,
                       ),
-                    );}),
+                      Text(item.title)
+                    ],
+                  ),
+                );
+              }),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4), border: Border.all(
-              width: 0.5,
-              color: Color(0xffd9d9d9))),
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(width: 0.5, color: Color(0xffd9d9d9))),
         )),
       ],
     );

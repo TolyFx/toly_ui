@@ -1,8 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:toly_ui/example/tolyui_rx_layout/tolyui_rx_layout.dart';
-import 'package:tolyui/tolyui.dart';
-
 import 'navigation_display.dart';
 
 class AvatarDisplay extends StatelessWidget {

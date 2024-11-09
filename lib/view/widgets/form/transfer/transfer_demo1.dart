@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/form/transfer/toly_transfer.dart';
 
@@ -21,11 +20,13 @@ class TransferDemo1 extends StatelessWidget {
             height: 260,
             child: TolyTransfer(
               dataSource: [
-                ...List.generate(12, (index)=>TransferItem(key: '$index', title: 'content#$index'))
+                ...List.generate(
+                    20, (index) => TransferItem(key: '$index', title: 'content#$index'))
               ],
+              targetKeys: List.generate(10,(i) =>'$i'),
+              selectedKeys: List.generate(10,(i) =>'${i+10}'),
             )),
       ],
     );
   }
-
 }
