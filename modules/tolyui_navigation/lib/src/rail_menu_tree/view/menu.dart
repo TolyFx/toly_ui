@@ -52,18 +52,22 @@ class TolyRailMenuTree extends StatelessWidget {
       color: backgroundColor ??
           tolyMenuTheme?.backgroundColor ??
           Colors.transparent,
-      child: ListView.builder(
-        itemCount: meta.items.length,
-        itemBuilder: (_, index) => MenuNodeItemView(
-          builder: effectBuilder,
-          onSelect: onSelect,
-          data: meta.items[index],
-          activeMenu: meta.activeMenu?.id,
-          expandMenus: meta.expandMenus,
-          expandBackgroundColor: expandBackgroundColor ??
-              tolyMenuTheme?.expandBackgroundColor ??
-              Colors.transparent,
-          animationConfig: animationConfig,
+      child: MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: ListView.builder(
+          itemCount: meta.items.length,
+          itemBuilder: (_, index) => MenuNodeItemView(
+            builder: effectBuilder,
+            onSelect: onSelect,
+            data: meta.items[index],
+            activeMenu: meta.activeMenu?.id,
+            expandMenus: meta.expandMenus,
+            expandBackgroundColor: expandBackgroundColor ??
+                tolyMenuTheme?.expandBackgroundColor ??
+                Colors.transparent,
+            animationConfig: animationConfig,
+          ),
         ),
       ),
     );
