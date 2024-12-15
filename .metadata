@@ -4,8 +4,8 @@
 # This file should be version controlled and should not be manually edited.
 
 version:
-  revision: "300451adae589accbece3490f4396f10bdf15e6e"
-  channel: "stable"
+  revision: "c44cfb3a15b27abcfd6056ff447d6256cde7bc19"
+  channel: "oh-3.22.0"
 
 project_type: app
 
@@ -13,26 +13,29 @@ project_type: app
 migration:
   platforms:
     - platform: root
-      create_revision: 300451adae589accbece3490f4396f10bdf15e6e
-      base_revision: 300451adae589accbece3490f4396f10bdf15e6e
+      create_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
+      base_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
     - platform: android
-      create_revision: 300451adae589accbece3490f4396f10bdf15e6e
-      base_revision: 300451adae589accbece3490f4396f10bdf15e6e
+      create_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
+      base_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
     - platform: ios
-      create_revision: 300451adae589accbece3490f4396f10bdf15e6e
-      base_revision: 300451adae589accbece3490f4396f10bdf15e6e
+      create_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
+      base_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
     - platform: linux
-      create_revision: 300451adae589accbece3490f4396f10bdf15e6e
-      base_revision: 300451adae589accbece3490f4396f10bdf15e6e
+      create_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
+      base_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
     - platform: macos
-      create_revision: 300451adae589accbece3490f4396f10bdf15e6e
-      base_revision: 300451adae589accbece3490f4396f10bdf15e6e
+      create_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
+      base_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
     - platform: web
-      create_revision: 300451adae589accbece3490f4396f10bdf15e6e
-      base_revision: 300451adae589accbece3490f4396f10bdf15e6e
+      create_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
+      base_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
     - platform: windows
-      create_revision: 300451adae589accbece3490f4396f10bdf15e6e
-      base_revision: 300451adae589accbece3490f4396f10bdf15e6e
+      create_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
+      base_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
+    - platform: ohos
+      create_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
+      base_revision: c44cfb3a15b27abcfd6056ff447d6256cde7bc19
 
   # User provided section
 
