@@ -28,7 +28,6 @@ class WindowRespondBuilder extends StatelessWidget {
   }
 }
 
-@immutable
 class ReParserStrategyTheme extends ThemeExtension<ReParserStrategyTheme> {
   const ReParserStrategyTheme({required this.parserStrategy});
 

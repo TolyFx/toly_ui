@@ -237,7 +237,7 @@ class TolyTooltip extends StatefulWidget {
   /// If this property is null, then [TooltipThemeData.margin] is used.
   /// If [TooltipThemeData.margin] is also null, the default margin is
   /// 0.0 logical pixels on all sides.
-  final EdgeInsetsGeometry? margin;
+  final EdgeInsets? margin;
 
   /// The gap between the widget and the displayed tooltip.
   final double? gap;
@@ -412,7 +412,7 @@ class TolyTooltip extends StatefulWidget {
 class TolyTooltipState extends State<TolyTooltip>
     with SingleTickerProviderStateMixin {
   static const double _defaultVerticalOffset = 24.0;
-  static const EdgeInsetsGeometry _defaultMargin = EdgeInsets.zero;
+  static const EdgeInsets _defaultMargin = EdgeInsets.zero;
   static const Duration _fadeInDuration = Duration(milliseconds: 150);
   static const Duration _fadeOutDuration = Duration(milliseconds: 75);
   static const Duration _defaultShowDuration = Duration(milliseconds: 1500);
@@ -845,7 +845,7 @@ class TolyTooltipState extends State<TolyTooltip>
       richMessage: widget.richMessage ?? TextSpan(text: widget.message),
       maxHeight: widget.height??double.infinity,
       padding: widget.padding ?? tooltipTheme.padding ?? _getDefaultPadding(),
-      margin: widget.margin ?? tooltipTheme.margin ?? _defaultMargin,
+      margin: widget.margin ?? _defaultMargin,
       onEnter: _handleMouseEnter,
       onExit: _handleMouseExit,
       decoration: widget.decorationConfig ?? DecorationConfig(),
@@ -944,7 +944,7 @@ class _TooltipOverlay extends StatefulWidget {
   final double maxHeight;
   final double? maxWidth;
   final EdgeInsetsGeometry? padding;
-  final EdgeInsetsGeometry? margin;
+  final EdgeInsets? margin;
   final DecorationConfig decoration;
   final TextStyle? textStyle;
   final TextAlign? textAlign;
@@ -1054,8 +1054,9 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
       child: CustomSingleChildLayout(
         delegate: PopoverPositionDelegate(
           clickPosition: null,
+          margin: widget.margin,
           onPlacementShift: _onPlacementShift,
-          target: widget.target,
+          position: widget.target,
           placement: widget.placement,
           gap: widget.verticalOffset,
           boxSize: widget.boxSize,

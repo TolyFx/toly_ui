@@ -5,30 +5,32 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:tolyui_feedback/toly_tooltip/tooltip_placement.dart';
 
-import '../toly_popover/callback.dart';
-import '../toly_popover/toly_popover.dart';
+import '../toly_popover/model/callback.dart';
+import '../toly_popover/logic/placement_handler.dart';
 
 /// A delegate for computing the layout of a tooltip to be displayed above or
 /// below a target specified in the global coordinate system.
 class PopoverPositionDelegate extends SingleChildLayoutDelegate {
   /// Creates a delegate for computing the layout of a tooltip.
   PopoverPositionDelegate({
-    required this.target,
+    required this.position,
     required this.boxSize,
     required this.clickPosition,
     this.offsetCalculator,
     this.onSizeFind,
     required this.gap,
+    required this.margin,
     required this.placement,
     required this.onPlacementShift,
   });
 
   /// The offset of the target the tooltip is positioned near in the global
   /// coordinate system.
-  final Offset target;
+  final Offset position;
   final Placement placement;
   final OffsetCalculator? offsetCalculator;
   final Offset? clickPosition;
+  final EdgeInsets? margin;
 
   final ValueChanged<PlacementShift> onPlacementShift;
   final ValueChanged<Size>? onSizeFind;
@@ -104,6 +106,9 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
 
   @override
   Offset getPositionForChild(Size size, Size childSize) {
+    // print("===${size}=====${childSize}===${boxSize}==${position}===");
+
+    // return handleOffset(size, childSize);
     // onSizeFind?.call(childSize);
     if (onSizeFind != null) {
       scheduleMicrotask(() {
@@ -111,28 +116,40 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
       });
     }
     if (clickPosition != null) {
-      Offset offset = clickPosition!
-          .translate(target.dx - boxSize.width / 2, target.dy - boxSize.height / 2);
-
-      /// 底部边界检测
-      double bottom = offset.dy+childSize.height - (size.height-gap);
-      if(bottom>0){
-        offset = offset.translate(0, -bottom);
-      }
-      return offset;
+      return clickOffset(childSize.height, size.height);
     }
 
-    bool outBottom = target.dy > size.height - (childSize.height + boxSize.height / 2 + gap);
-    bool outTop = target.dy < childSize.height + boxSize.height / 2;
-    bool outLeft = target.dx < childSize.width + boxSize.width / 2 + gap;
+    bool outBottom = position.dy >
+        size.height - (childSize.height + boxSize.height / 2 + gap);
+    bool outTop = position.dy < childSize.height + boxSize.height / 2;
+    bool outLeft = position.dx < childSize.width + boxSize.width / 2 + gap;
     bool outRight =
-        target.dx > size.width - (childSize.width + boxSize.width / 2 + gap);
+        position.dx > size.width - (childSize.width + boxSize.width / 2 + gap);
 
     Placement effectPlacement =
         shiftPlacement(outTop, outBottom, outLeft, outRight);
 
+    OverflowMap overflowMap =
+        _calcEdgeOverflow(size, boxSize, childSize, position);
+
     Offset center =
-        target.translate(-childSize.width / 2, -childSize.height / 2);
+        position.translate(-childSize.width / 2, -childSize.height / 2);
+
+    if (overflowMap[Placement.overflow] == true) {
+      return Offset(size.width / 2 - childSize.width / 2,
+          size.height / 2 - childSize.height / 2);
+    }
+
+    if (placement.isTop && overflowMap[Placement.top] == true) {
+      /// 上边界溢出
+      effectPlacement = placement.shift;
+    }
+
+    if (placement.isBottom && overflowMap[Placement.bottom] == true) {
+      /// 上边界溢出
+      effectPlacement = placement.shift;
+    }
+
     double halfWidth = (childSize.width - boxSize.width) / 2;
     double halfLeftWidth = (childSize.width + boxSize.width) / 2 + gap;
     double halfHeight = (childSize.height - boxSize.height) / 2;
@@ -152,6 +169,7 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
       Placement.right => Offset(halfLeftWidth, 0),
       Placement.rightStart => Offset(halfLeftWidth, halfHeight),
       Placement.rightEnd => Offset(halfLeftWidth, -halfHeight),
+      Placement.overflow => Offset.zero,
     };
     Offset result = center + translation;
 
@@ -187,9 +205,52 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
 
   @override
   bool shouldRelayout(PopoverPositionDelegate oldDelegate) {
-    return target != oldDelegate.target ||
+    return position != oldDelegate.position ||
         gap != oldDelegate.gap ||
         placement != oldDelegate.placement ||
         boxSize != oldDelegate.boxSize;
   }
+
+  Offset clickOffset(double childHeight, double areaHeight) {
+    Offset offset = clickPosition!.translate(
+        position.dx - boxSize.width / 2, position.dy - boxSize.height / 2);
+
+    /// 底部边界检测
+    double bottom = offset.dy + childHeight - (areaHeight - gap);
+    if (bottom > 0) {
+      offset = offset.translate(0, -bottom);
+    }
+    return offset;
+  }
+
+  /// 检测边界溢出
+  /// [area] 区域尺寸
+  /// [target] 目标尺寸
+  /// [center] 目标的中心坐标
+  /// [overlay] 浮层尺寸
+  OverflowMap _calcEdgeOverflow(
+    Size area,
+    Size target,
+    Size overlay,
+    Offset center,
+  ) {
+    double marginTop = margin?.top ?? 0;
+    double marginBottom = margin?.bottom ?? 0;
+    double overflowTop =
+        target.height / 2 + overlay.height + gap + marginTop - position.dy;
+    double overflowBottom = position.dy -
+        (area.height -
+            (target.height / 2 + overlay.height + gap + marginBottom));
+
+    if (overflowTop > 0 && overflowBottom > 0) {
+      return {Placement.overflow: true};
+    }
+
+    return {
+      Placement.top: overflowTop > 0,
+      Placement.bottom: overflowBottom > 0,
+    };
+  }
 }
+
+typedef OverflowMap = Map<Placement, bool>;

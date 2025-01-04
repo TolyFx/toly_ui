@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'dash_outline_shape_border.dart';
 
 double _kDisableOpacity = 0.7;
+
 class Palette {
   final Color hover;
   final Color normal;
@@ -55,9 +56,8 @@ class FillButtonPalette extends ButtonPalette {
 
   @override
   ButtonStyle get style {
-
     Color? getColor(Set<MaterialState> states) {
-      Color color= backgroundPalette.normal;
+      Color color = backgroundPalette.normal;
       if (states.contains(MaterialState.pressed)) {
         color = backgroundPalette.pressed;
       } else {
@@ -74,7 +74,7 @@ class FillButtonPalette extends ButtonPalette {
     }
 
     Color? getForegroundColorColor(Set<MaterialState> states) {
-      Color color= foregroundPalette.normal;
+      Color color = foregroundPalette.normal;
       if (states.contains(MaterialState.pressed)) {
         color = foregroundPalette.pressed;
       } else {
@@ -96,24 +96,22 @@ class FillButtonPalette extends ButtonPalette {
       return color;
     }
 
-
     return ButtonStyle(
       elevation: MaterialStatePropertyAll(elevation),
       overlayColor: MaterialStateProperty.resolveWith(getColor),
       foregroundColor: MaterialStateProperty.resolveWith(getForegroundColorColor),
       backgroundColor: MaterialStateProperty.resolveWith(getBackgroundColor),
-      shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(borderRadius: borderRadius)),
+      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: borderRadius)),
       padding: MaterialStateProperty.all(padding),
     );
   }
 }
 
-
 class OutlineButtonPalette extends ButtonPalette {
   final Palette borderPalette;
   final double borderWidth;
-  final double dashGap;
+  final double step;
+  final double? span;
 
   OutlineButtonPalette({
     required super.backgroundPalette,
@@ -122,17 +120,18 @@ class OutlineButtonPalette extends ButtonPalette {
     super.padding = const EdgeInsets.symmetric(horizontal: 16),
     required this.borderPalette,
     this.borderWidth = 1,
-    this.dashGap = 0,
+    this.step = 0,
+    this.span,
     required super.foregroundPalette,
   });
 
   @override
   ButtonStyle get style {
     Color? getColor(Set<MaterialState> states) {
-      if(disable){
+      if (disable) {
         return backgroundPalette.normal.withOpacity(_kDisableOpacity);
       }
-      Color color= backgroundPalette.normal;
+      Color color = backgroundPalette.normal;
       if (states.contains(MaterialState.pressed)) {
         color = backgroundPalette.pressed;
       } else {
@@ -144,14 +143,13 @@ class OutlineButtonPalette extends ButtonPalette {
           color = backgroundPalette.hover;
         }
       }
-      if(disable){
+      if (disable) {
         color = color.withOpacity(_kDisableOpacity);
       }
       return color;
     }
 
     Color? getForegroundColor(Set<MaterialState> states) {
-
       Color color = foregroundPalette.normal;
       if (states.contains(MaterialState.pressed)) {
         color = foregroundPalette.pressed;
@@ -164,15 +162,13 @@ class OutlineButtonPalette extends ButtonPalette {
           color = foregroundPalette.hover;
         }
       }
-      if(disable){
+      if (disable) {
         color = color.withOpacity(_kDisableOpacity);
       }
       return color;
-
     }
 
     OutlinedBorder? getOutlineColor(Set<MaterialState> states) {
-
       Color color = borderPalette.normal;
 
       if (states.contains(MaterialState.pressed)) {
@@ -186,18 +182,20 @@ class OutlineButtonPalette extends ButtonPalette {
           color = borderPalette.hover;
         }
       }
-      if(disable){
+      if (disable) {
         color = color.withOpacity(_kDisableOpacity);
       }
 
-      if (dashGap == 0) {
+      if (step == 0) {
         return RoundedRectangleBorder(
-            borderRadius: borderRadius,
-            side: BorderSide(width: borderWidth, color: color));
+          borderRadius: borderRadius,
+          side: BorderSide(width: borderWidth, color: color),
+        );
       }
 
       return DashOutlineShapeBorder(
-          dashGap: dashGap,
+          step: step,
+          span: span ?? step,
           borderRadius: borderRadius,
           side: BorderSide(width: borderWidth, color: color));
     }
@@ -213,5 +211,3 @@ class OutlineButtonPalette extends ButtonPalette {
     );
   }
 }
-
-

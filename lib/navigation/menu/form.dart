@@ -4,6 +4,7 @@ Map<String, dynamic> get formMenus => {
       'path': '/widgets/form',
       // 'icon': FxIcon.icon_paint,
       'icon': Icons.calculate_rounded,
+  'tag': '新',
 
       'label': 'Form 表单组件',
       'children': [
@@ -32,7 +33,6 @@ Map<String, dynamic> get formMenus => {
           'path': '/input',
           'label': 'Input',
           'subtitle': '输入框',
-          'tag': '新',
         },
         {
           'path': '/select',
@@ -45,6 +45,7 @@ Map<String, dynamic> get formMenus => {
           'path': '/transfer',
           'label': 'Transfer',
           'subtitle': '穿梭框',
+          'tag': '新',
           // 'icon': Icons.text_fields,
         },
       ]

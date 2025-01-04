@@ -10,3 +10,5 @@ export 'input/slot/number_slot.dart';
 export 'input/slot/slot_decoration.dart';
 export 'input/slot/option_slot_decoration.dart';
 export 'autocomplete/toly_autocomplete.dart';
+
+export 'transfer/transfer.dart';

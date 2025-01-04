@@ -1,14 +1,24 @@
-class TransferDemo1 extends StatefulWidget {
-  const TransferDemo1({super.key});
+import 'package:flutter/material.dart';
+import 'package:tolyui/tolyui.dart';
+
+import '../../display_nodes/display_nodes.dart';
+
+@DisplayNode(
+  title: '禁用条目选项',
+  desc:
+      '数据中 TransferItem#disabled 可以控制条目是否可用。',
+)
+class TransferDemo2 extends StatefulWidget {
+  const TransferDemo2({super.key});
 
   @override
-  State<TransferDemo1> createState() => _TransferDemo1State();
+  State<TransferDemo2> createState() => _TransferDemo2State();
 }
 
-class _TransferDemo1State extends State<TransferDemo1> {
+class _TransferDemo2State extends State<TransferDemo2> {
   List<TransferItem> data =
-      List.generate(20, (index) => TransferItem(key: '$index', title: 'content#$index'));
-  List<String> targetKeys = List.generate(10, (i) => '${10 + i}');
+      List.generate(20, (index) => TransferItem(key: '$index', title: 'content#$index',disabled: index % 3 < 1));
+  List<String> targetKeys = [];
   List<String> selectedKeys = [];
 
   @override

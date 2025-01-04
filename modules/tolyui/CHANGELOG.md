@@ -11,5 +11,6 @@
 * +21: tolyui_navigation: 0.0.8+10
 
 ## 0.0.3
-* +1: [⭐️+widget⭐️]: TolyAutocomplete 
-
+* +1: [⭐️+widget⭐️]: TolyAutocomplete
+  +4: tolyui_feedback 0.3.5
+  +5: tolyui_feedback 0.3.5+1

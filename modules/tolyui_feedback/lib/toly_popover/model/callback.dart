@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../tolyui_feedback.dart';
-import 'toly_popover.dart';
+import '../../tolyui_feedback.dart';
+import '../toly_popover.dart';
+
+
 
 typedef TolyPopoverChildBuilder = Widget Function(
   BuildContext context,
@@ -37,10 +39,14 @@ class PopoverDecoration {
   final Placement placement;
   final Offset shift;
   final Size boxSize;
+  final bool darkTheme;
+  final DecorationConfig? config;
 
   PopoverDecoration({
     required this.placement,
     required this.shift,
     required this.boxSize,
+    required this.darkTheme,
+    required this.config,
   });
 }

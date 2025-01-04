@@ -31,14 +31,15 @@ class ButtonDemo2 extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () {},
-          child: Text("Cancel"),
           style: OutlineButtonPalette(
             borderPalette: border,
             foregroundPalette: foreground,
-            borderRadius: BorderRadius.circular(40),
-            dashGap: 2,
+            borderRadius: BorderRadius.circular(20),
+            step: 2,
+            span: 2,
             backgroundPalette: bg,
           ).style,
+          child: Text("Cancel"),
         ),
       ],
     );

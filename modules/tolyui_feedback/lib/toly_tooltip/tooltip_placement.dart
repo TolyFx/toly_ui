@@ -1,8 +1,6 @@
-// 'top' | 'top-start' | 'top-end' |
-// 'bottom' | 'bottom-start' |'bottom-end' |
-// 'left' | 'left-start' | 'left-end' |
-// 'right' | 'right-start' | 'right-end'
 
+/// [overflow] 目标过大，任何方位都无法兼容
+/// 会将弹框放置在屏幕中间
 enum Placement {
   top,
   topStart,
@@ -15,7 +13,10 @@ enum Placement {
   leftEnd,
   right,
   rightStart,
-  rightEnd;
+  rightEnd,
+  overflow
+  ;
+
 
   bool get isTop => index >= 0 && index <= 2;
 

@@ -73,7 +73,7 @@ class ButtonDemo3 extends StatelessWidget {
               pressed: Color(0xfff56c6c),
             ),
             borderRadius: BorderRadius.circular(40),
-            dashGap: 2,
+            step: 2,
             backgroundPalette: const Palette.all(Colors.white),
           ).style,
         ),

@@ -207,12 +207,15 @@ class _MenuItemState extends State<MenuItem> with HoverActionMix {
   @override
   Widget build(BuildContext context) {
     return wrap(
-      Container(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-        decoration: BoxDecoration(color: color, borderRadius: const BorderRadius.all(Radius.circular(4))),
-        child: Text(widget.text),
+      GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: widget.onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+          decoration: BoxDecoration(color: color, borderRadius: const BorderRadius.all(Radius.circular(4))),
+          child: Text(widget.text),
+        ),
       ),
-      onTap: widget.onTap,
     );
   }
 }

@@ -132,6 +132,7 @@ class BubbleBoxPainter extends BoxPainter {
         Offset(0, decoration.boxSize.height / 2 - spineMoveX),
       Placement.rightEnd =>
         Offset(0, height - decoration.boxSize.height / 2 - spineMoveX),
+      Placement.overflow => Offset.zero,
     };
 
     var spineMoveY = spineHeight;
