@@ -14,3 +14,7 @@
 * +1: [⭐️+widget⭐️]: TolyAutocomplete
   +4: tolyui_feedback 0.3.5
   +5: tolyui_feedback 0.3.5+1
+
+* ## 0.0.4+1
+* Update Support Flutter SDK: 3.24.x -> 3.27.3
+* +1: add data widgets

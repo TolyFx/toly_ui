@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toly_ui/app/theme/theme.dart';
-import 'package:toly_ui/incubator/components/data/tag/tag.dart';
-import 'package:toly_ui/incubator/ext/go_router/path.dart';
 import 'package:toly_ui/navigation/menu/advance.dart';
 import 'package:toly_ui/navigation/menu/basic.dart';
 import 'package:toly_ui/navigation/menu/data.dart';
 import 'package:toly_ui/navigation/menu/feedback.dart';
 import 'package:toly_ui/navigation/menu/form.dart';
 import 'package:toly_ui/navigation/menu/navigation.dart';
+import 'package:tolyui/tolyui.dart';
 
 import '../../../incubator/components/layout/grid_layout/wrap_grid_layout.dart';
 import 'display_map.dart';

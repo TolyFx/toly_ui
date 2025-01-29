@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:toly_ui/incubator/components/data/card/card.dart';
 import 'package:toly_ui/view/debugger/display/debug_display_tile.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
+import 'package:tolyui/tolyui.dart';
 
 @DisplayNode(
   title: '基础用法',

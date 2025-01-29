@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:toly_ui/incubator/components/data/pagination/pagination.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
+import 'package:tolyui/tolyui.dart';
 
 @DisplayNode(
   title: '数据总量和页码容量',

@@ -16,3 +16,6 @@
 * +10: fix select path expands
 * +11:  update: tolyui_feedback 0.3.5
 * +12:  update: tolyui_feedback 0.3.5+1
+
+* ## 0.1.0
+* Update Support Flutter SDK: 3.24.x -> 3.27.3
