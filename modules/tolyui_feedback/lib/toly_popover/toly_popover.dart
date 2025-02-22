@@ -101,10 +101,11 @@ class _TolyPopoverState extends State<TolyPopover>
 
   AnimationController get _controller {
     return _backingController ??= AnimationController(
-      duration: widget.animDuration,
+      duration: widget.animDuration ,
       reverseDuration: widget.reverseDuration,
       vsync: this,
     )..addStatusListener(_handleStatusChanged);
+
   }
 
   @override
@@ -129,7 +130,7 @@ class _TolyPopoverState extends State<TolyPopover>
   }
 
   void _close({bool inDispose = false}) {
-    _clickPosition = null;
+    if(!_overlayController.isShowing) return;
     _controller.reverse();
   }
 
@@ -153,7 +154,12 @@ class _TolyPopoverState extends State<TolyPopover>
         child: child,
       );
     }
-    return child;
+    return NotificationListener<ScrollNotification>(
+        onNotification: (v){
+          print("=================onNotification==================");
+          return true;
+        },
+        child: child);
   }
 
   Widget _buildTooltipOverlay(BuildContext context) {
@@ -195,6 +201,7 @@ class _TolyPopoverState extends State<TolyPopover>
 
   void _open({Offset? position}) {
     if (_isOpen) return;
+    recordScrollPosition();
     _clickPosition = position;
     _controller.forward();
     _overlayController.show();
@@ -202,7 +209,7 @@ class _TolyPopoverState extends State<TolyPopover>
   }
 
   void _handleStatusChanged(AnimationStatus status) {
-    if (status == AnimationStatus.dismissed) {
+    if (status.isDismissed) {
       if (_isOpen) {
         _overlayController.hide();
         widget.onClose?.call();
