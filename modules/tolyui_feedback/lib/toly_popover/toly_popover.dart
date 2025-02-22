@@ -30,7 +30,6 @@ Offset menuOffsetCalculator(Calculator calculator, {double shift = 0}) {
     Placement.rightStart => Offset(-calculator.gap + shift, 0),
     Placement.right => Offset(-calculator.gap + shift, 0),
     Placement.rightEnd => Offset(-calculator.gap + shift, 0),
-    Placement.overflow => Offset.zero,
   };
 }
 
@@ -136,7 +135,7 @@ class _TolyPopoverState extends State<TolyPopover>
 
   @override
   Widget build(BuildContext context) {
-    Widget child = OverlayPortal(
+    Widget child = Tooltip(
       controller: _overlayController,
       overlayChildBuilder: _buildTooltipOverlay,
       child: Builder(

@@ -22,3 +22,4 @@
 * Support TolyPopover#marge check overflow
 * Support overflow all position, display at center
 * +1: fix scroll hide
+* +2: update tolyui_message->0.2.3

@@ -134,6 +134,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -411,7 +416,7 @@ packages:
       path: "modules/tolyui"
       relative: true
     source: path
-    version: "0.0.3+5"
+    version: "0.0.4+1"
   tolyui_color:
     dependency: "direct overridden"
     description:
@@ -425,21 +430,21 @@ packages:
       path: "modules/tolyui_feedback"
       relative: true
     source: path
-    version: "0.3.5+1"
+    version: "0.3.5+2"
   tolyui_message:
     dependency: "direct overridden"
     description:
       path: "modules/tolyui_message"
       relative: true
     source: path
-    version: "0.2.2"
+    version: "0.2.3"
   tolyui_navigation:
     dependency: "direct overridden"
     description:
       path: "modules/tolyui_navigation"
       relative: true
     source: path
-    version: "0.0.8+12"
+    version: "0.1.0+1"
   tolyui_rx_layout:
     dependency: transitive
     description:

@@ -10,12 +10,14 @@ class TolyMessage extends StatefulWidget {
   final ThemeMode? themeMode;
   final Locale? locale;
   final Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates;
+  final Iterable<Locale> supportedLocales;
 
   const TolyMessage({
     super.key,
     required this.child,
     this.handler,
     this.theme,
+    this.supportedLocales = const <Locale>[Locale('en', 'US')],
     this.localizationsDelegates = const [],
     this.locale,
     this.darkTheme,
@@ -49,12 +51,13 @@ class TolyMessageState extends State<TolyMessage> {
       darkTheme: widget.darkTheme,
       themeMode: widget.themeMode,
       locale: widget.locale,
+      supportedLocales: widget.supportedLocales,
       localizationsDelegates: widget.localizationsDelegates,
       home: Builder(
-        builder: (context) {
-          handler.attach(context);
-          return widget.child;
-        }
+          builder: (context) {
+            handler.attach(context);
+            return widget.child;
+          }
       ),
     );
   }

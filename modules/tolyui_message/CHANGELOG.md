@@ -13,3 +13,7 @@
 ## 0.2.2
 
 * Support $message.loading 
+* 
+## 0.2.3
+
+* Support TolyMessage#supportedLocales
