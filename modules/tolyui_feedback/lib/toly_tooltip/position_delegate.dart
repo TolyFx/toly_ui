@@ -7,6 +7,7 @@ import 'package:tolyui_feedback/toly_tooltip/tooltip_placement.dart';
 
 import '../toly_popover/model/callback.dart';
 import '../toly_popover/logic/placement_handler.dart';
+import 'algorithm.dart';
 
 /// A delegate for computing the layout of a tooltip to be displayed above or
 /// below a target specified in the global coordinate system.
@@ -18,6 +19,7 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
     required this.clickPosition,
     this.offsetCalculator,
     this.onSizeFind,
+    this.overflowAlgorithm,
     required this.gap,
     required this.margin,
     required this.placement,
@@ -31,6 +33,7 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
   final OffsetCalculator? offsetCalculator;
   final Offset? clickPosition;
   final EdgeInsets? margin;
+  final OverflowAlgorithm? overflowAlgorithm;
 
   final ValueChanged<PlacementShift> onPlacementShift;
   final ValueChanged<Size>? onSizeFind;
@@ -47,114 +50,53 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) =>
       constraints.loosen();
 
-  Placement shiftPlacement(
-    bool outTop,
-    bool outBottom,
-    bool outLeft,
-    bool outRight,
-  ) {
-    Placement effectPlacement = placement;
-
-    Placement shiftToVertical() {
-      if (outTop) return Placement.bottom;
-      return Placement.top;
-    }
-
-    if (outLeft && outRight) {
-      return shiftToVertical();
-    }
-
-    /// TODO: ::边界响应策略:: 可以将转换策略作为函数参数，使用者来自定义。
-    // if(placement.isHorizontal&&(outTop||outBottom)){
-    //   return shiftToVertical();
-    // }
-    switch (placement) {
-      case Placement.left:
-        if (outLeft) return Placement.right;
-        if (outBottom) return Placement.leftEnd;
-        if (outTop) return Placement.leftStart;
-        break;
-      case Placement.leftStart:
-        if (outBottom) return Placement.leftEnd;
-        if (outLeft) return Placement.rightStart;
-        break;
-      case Placement.leftEnd:
-        if (outTop) return Placement.leftStart;
-        if (outLeft) return Placement.rightEnd;
-        break;
-      case Placement.right:
-        if (outRight) return Placement.left;
-        if (outBottom) return Placement.rightEnd;
-        if (outTop) return Placement.rightStart;
-
-        break;
-      case Placement.rightStart:
-        if (outBottom) return Placement.rightEnd;
-        if (outRight) return Placement.leftStart;
-        break;
-      case Placement.rightEnd:
-        if (outTop) return Placement.rightStart;
-        if (outRight) return Placement.leftEnd;
-        break;
-      default:
-        if (outBottom && placement.isBottom || outTop && placement.isTop) {
-          return placement.shift;
-        }
-    }
-    return effectPlacement;
-  }
-
+  /// [areaSize] 容器尺寸
+  /// [overlaySize] 浮层尺寸
+  /// [boxSize] 目标组件尺寸
+  /// [position] 目标组件中心的坐标
   @override
-  Offset getPositionForChild(Size size, Size childSize) {
-    // print("===${size}=====${childSize}===${boxSize}==${position}===");
+  Offset getPositionForChild(Size areaSize, Size overlaySize) {
+    // print("===${areaSize}=====${overlaySize}===${boxSize}==${position}===");
 
-    // return handleOffset(size, childSize);
-    // onSizeFind?.call(childSize);
     if (onSizeFind != null) {
       scheduleMicrotask(() {
-        onSizeFind!(childSize);
+        onSizeFind!(overlaySize);
       });
     }
     if (clickPosition != null) {
-      return clickOffset(childSize.height, size.height);
+      return clickOffset(overlaySize.height, areaSize.height);
     }
 
-    bool outBottom = position.dy >
-        size.height - (childSize.height + boxSize.height / 2 + gap);
-    bool outTop = position.dy < childSize.height + boxSize.height / 2;
-    bool outLeft = position.dx < childSize.width + boxSize.width / 2 + gap;
-    bool outRight =
-        position.dx > size.width - (childSize.width + boxSize.width / 2 + gap);
+    /// 计算溢出情况
+    double y = position.dy;
+    double x = position.dx;
+    double capacityH = overlaySize.height + boxSize.height / 2 + gap;
+    double capacityW = overlaySize.width + boxSize.width / 2 + gap;
 
-    Placement effectPlacement =
-        shiftPlacement(outTop, outBottom, outLeft, outRight);
+    final OverflowEdge edge = OverflowEdge(
+      left: x - capacityW < 0,
+      top: y - capacityH < 0,
+      right: x + capacityW > areaSize.width,
+      bottom: y + capacityH > areaSize.height,
+    );
+    OverflowAlgorithm? algo = overflowAlgorithm ?? defaultOverflowAlgorithm;
+    Placement effectPlacement = algo(edge, placement);
 
-    OverflowMap overflowMap =
-        _calcEdgeOverflow(size, boxSize, childSize, position);
+    if (edge.overflowAll) {
+      return Offset(
+        areaSize.width / 2 - overlaySize.width / 2,
+        areaSize.height / 2 - overlaySize.height / 2,
+      );
+    }
 
     Offset center =
-        position.translate(-childSize.width / 2, -childSize.height / 2);
+    position.translate(-overlaySize.width / 2, -overlaySize.height / 2);
 
-    if (overflowMap[Placement.overflow] == true) {
-      return Offset(size.width / 2 - childSize.width / 2,
-          size.height / 2 - childSize.height / 2);
-    }
+    double halfWidth = (overlaySize.width - boxSize.width) / 2;
+    double halfLeftWidth = (overlaySize.width + boxSize.width) / 2 + gap;
+    double halfHeight = (overlaySize.height - boxSize.height) / 2;
 
-    if (placement.isTop && overflowMap[Placement.top] == true) {
-      /// 上边界溢出
-      effectPlacement = placement.shift;
-    }
-
-    if (placement.isBottom && overflowMap[Placement.bottom] == true) {
-      /// 上边界溢出
-      effectPlacement = placement.shift;
-    }
-
-    double halfWidth = (childSize.width - boxSize.width) / 2;
-    double halfLeftWidth = (childSize.width + boxSize.width) / 2 + gap;
-    double halfHeight = (childSize.height - boxSize.height) / 2;
-
-    double verticalHeight = (childSize.height + boxSize.height) / 2 + gap;
+    double verticalHeight = (overlaySize.height + boxSize.height) / 2 + gap;
 
     Offset translation = switch (effectPlacement) {
       Placement.top => Offset(0, -verticalHeight),
@@ -169,12 +111,11 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
       Placement.right => Offset(halfLeftWidth, 0),
       Placement.rightStart => Offset(halfLeftWidth, halfHeight),
       Placement.rightEnd => Offset(halfLeftWidth, -halfHeight),
-      Placement.overflow => Offset.zero,
     };
     Offset result = center + translation;
 
     double dx = 0;
-    double endEdgeDx = result.dx + childSize.width - size.width;
+    double endEdgeDx = result.dx + overlaySize.width - areaSize.width;
     if (endEdgeDx > 0) {
       result = result.translate(-endEdgeDx, 0);
       dx = -endEdgeDx;
@@ -186,11 +127,10 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
     }
 
     if (offsetCalculator != null) {
-      // effectPlacement,boxSize,childSize,gap
       result += offsetCalculator!(Calculator(
           placement: effectPlacement,
           boxSize: boxSize,
-          overlaySize: childSize,
+          overlaySize: overlaySize,
           gap: gap));
     }
 
@@ -223,34 +163,5 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
     return offset;
   }
 
-  /// 检测边界溢出
-  /// [area] 区域尺寸
-  /// [target] 目标尺寸
-  /// [center] 目标的中心坐标
-  /// [overlay] 浮层尺寸
-  OverflowMap _calcEdgeOverflow(
-    Size area,
-    Size target,
-    Size overlay,
-    Offset center,
-  ) {
-    double marginTop = margin?.top ?? 0;
-    double marginBottom = margin?.bottom ?? 0;
-    double overflowTop =
-        target.height / 2 + overlay.height + gap + marginTop - position.dy;
-    double overflowBottom = position.dy -
-        (area.height -
-            (target.height / 2 + overlay.height + gap + marginBottom));
-
-    if (overflowTop > 0 && overflowBottom > 0) {
-      return {Placement.overflow: true};
-    }
-
-    return {
-      Placement.top: overflowTop > 0,
-      Placement.bottom: overflowBottom > 0,
-    };
-  }
 }
 
-typedef OverflowMap = Map<Placement, bool>;

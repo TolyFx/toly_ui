@@ -430,14 +430,14 @@ packages:
       path: "modules/tolyui_feedback"
       relative: true
     source: path
-    version: "0.3.5+1"
+    version: "0.3.5+2"
   tolyui_message:
     dependency: "direct overridden"
     description:
       path: "modules/tolyui_message"
       relative: true
     source: path
-    version: "0.2.2"
+    version: "0.2.3"
   tolyui_navigation:
     dependency: "direct overridden"
     description:
