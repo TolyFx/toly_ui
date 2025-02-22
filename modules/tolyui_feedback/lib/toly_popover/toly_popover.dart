@@ -135,7 +135,7 @@ class _TolyPopoverState extends State<TolyPopover>
 
   @override
   Widget build(BuildContext context) {
-    Widget child = Tooltip(
+    Widget child = OverlayPortal(
       controller: _overlayController,
       overlayChildBuilder: _buildTooltipOverlay,
       child: Builder(
