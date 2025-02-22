@@ -6,12 +6,19 @@ mixin PopHideMixin<T extends StatefulWidget> on State<T> , WidgetsBindingObserve
 
   ScrollPosition? _scrollPosition;
 
+  double offset = 0;
+
+  void recordScrollPosition(){
+    offset = _scrollPosition?.pixels??0;
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _scrollPosition?.isScrollingNotifier.removeListener(_handleScroll);
     _scrollPosition = Scrollable.maybeOf(context)?.position;
     _scrollPosition?.isScrollingNotifier.addListener(_handleScroll);
+    recordScrollPosition();
   }
 
   @override
@@ -35,7 +42,12 @@ mixin PopHideMixin<T extends StatefulWidget> on State<T> , WidgetsBindingObserve
   }
 
   void _handleScroll() {
-    if (mounted) onHide();
+    if (mounted) {
+      /// 过滤不必要的滑动变化监听
+      if(offset!=_scrollPosition?.pixels){
+        onHide();
+      }
+    }
   }
 
   void onHide();

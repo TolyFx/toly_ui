@@ -11,9 +11,11 @@ class DropMenuDemo7 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return RightClickAnimation();
     Color bgColor = context.isDark ? const Color(0xff303133) : Colors.white;
     return TolyDropMenu(
       onSelect: onSelect,
+
       decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),
       placement: Placement.topStart,
       menuItems: [
@@ -40,7 +42,8 @@ class DropMenuDemo7 extends StatelessWidget {
       ctrl.close();
       await Future.delayed(const Duration(milliseconds: 280));
     }
-    ctrl.open(position: details.localPosition);
+    ctrl.open(position:details.localPosition);
+    // ctrl.openAt(details.localPosition);
   }
 
   Widget _childBuilder(_, PopoverController ctrl, __) {
@@ -52,6 +55,38 @@ class DropMenuDemo7 extends StatelessWidget {
         alignment: Alignment.center,
         height: 180,
         child: const Text('Right Click on here'),
+      ),
+    );
+  }
+}
+
+
+class RightClickAnimation extends StatefulWidget{
+  const RightClickAnimation({super.key});
+
+  @override
+  State<RightClickAnimation> createState() => _RightClickAnimationState();
+}
+
+class _RightClickAnimationState extends State<RightClickAnimation>  with SingleTickerProviderStateMixin{
+
+  late AnimationController _backingController = AnimationController(
+  duration: Duration(seconds: 2),
+  reverseDuration:  Duration(seconds: 2),
+  vsync: this,
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onSecondaryTapUp: (d){
+        _backingController.forward(from: 0);
+      },
+      child: Container(
+        color: Colors.red,
+        child: FadeTransition(
+            opacity: _backingController,
+            child: FlutterLogo()),
       ),
     );
   }

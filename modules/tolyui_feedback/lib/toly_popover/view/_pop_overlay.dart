@@ -63,25 +63,29 @@ class _PopOverlayState extends State<_PopOverlay> {
       config: widget.config,
     );
 
-    Widget result = FadeTransition(
-        opacity: widget.animation,
-        child: TapRegion(
-          groupId: widget.tapRegionGroup,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-                maxHeight: widget.maxHeight, maxWidth: widget.maxWidth ?? 320),
-            child: DefaultTextStyle(
-              style: Theme.of(context).textTheme.bodyMedium!,
-              child: Semantics(
-                container: true,
-                child: Container(
-                  decoration: widget.overlayDecorationBuilder(decoration),
-                  child: child,
-                ),
-              ),
+    Widget result = TapRegion(
+      groupId: widget.tapRegionGroup,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+            maxHeight: widget.maxHeight, maxWidth: widget.maxWidth ?? 320),
+        child: DefaultTextStyle(
+          style: Theme.of(context).textTheme.bodyMedium!,
+          child: Semantics(
+            container: true,
+            child: Container(
+              decoration: widget.overlayDecorationBuilder(decoration),
+              child: child,
             ),
           ),
-        ));
+        ),
+      ),
+    );
+    if(true){
+       result = FadeTransition(
+          opacity: widget.animation,
+          child: result);
+    }
+
     return Positioned.fill(
       bottom: 0.0,
       child: CustomSingleChildLayout(

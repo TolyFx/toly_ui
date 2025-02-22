@@ -101,7 +101,7 @@ Widget widgetDisplayMap(String key){
     "BreadcrumbDemo2" => const BreadcrumbDemo2(),
     "BreadcrumbDemo3" => const BreadcrumbDemo3(),
     "BreadcrumbDemo4" => const BreadcrumbDemo4(),
-    "DropMenuDemo1" => const DropMenuDemo1(),
+    "DropMenuDemo1" => const DropMenuDemo7(),
     "DropMenuDemo2" => const DropMenuDemo2(),
     "DropMenuDemo3" => const DropMenuDemo3(),
     "DropMenuDemo4" => const DropMenuDemo4(),
