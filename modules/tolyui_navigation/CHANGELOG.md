@@ -19,3 +19,4 @@
 
 * ## 0.1.0
 * Update Support Flutter SDK: 3.24.x -> 3.27.3
+* +1: tolyui_feedback: 0.3.5+2
