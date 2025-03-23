@@ -7,6 +7,7 @@
 // Contact Me:  1981462002@qq.com
 
 import 'package:flutter/material.dart';
+import 'package:tolyui_meta/tolyui_meta.dart';
 
 import '../../model/model.dart';
 import '../mixin/hover_action_mixin.dart';
@@ -91,12 +92,16 @@ class _ActionMenuItemState extends State<ActionMenuItem> with HoverActionMix {
         style: effectStyle,
       ),
     );
-
-    if (widget.display.menu.icon != null && leading == null) {
+    MenuMeta menu = widget.display.menu;
+    IconData? icon;
+    if (menu is IconMenu) {
+      icon = menu.icon;
+    }
+    if (icon != null && leading == null) {
       leading = Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: Icon(
-          widget.display.menu.icon!,
+          icon,
           size: 20,
         ),
       );

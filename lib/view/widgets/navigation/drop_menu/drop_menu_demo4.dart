@@ -70,11 +70,11 @@ class DropMenuDemo4 extends StatelessWidget {
             decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),
             offsetCalculator: (c) => menuOffsetCalculator(c, shift: 6),
             menuItems: [
-              ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
-              ActionMenu(const MenuMeta(router: '02', label: '2nd menu item'), enable: false),
-              ActionMenu(const MenuMeta(router: '03', label: '3rd menu item')),
+              ActionMenu(const MenuMeta(route: '01', label: '1st menu item')),
+              ActionMenu(const MenuMeta(route: '02', label: '2nd menu item'), enable: false),
+              ActionMenu(const MenuMeta(route: '03', label: '3rd menu item')),
               const DividerMenu(),
-              ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
+              ActionMenu(const MenuMeta(route: '04', label: '4ur menu item')),
             ],
             width: 140,
             childBuilder: (_, ctrl, __) {

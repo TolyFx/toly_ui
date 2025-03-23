@@ -7,6 +7,7 @@
 // Contact Me:  1981462002@qq.com
 
 import 'package:flutter/material.dart';
+import 'package:tolyui_meta/tolyui_meta.dart';
 
 import '../../model/display_meta.dart';
 import '../../model/menu_meta.dart';
@@ -35,7 +36,6 @@ class MenuCellStyle {
     this.height = 60,
     this.heightLarge = 46,
   });
-
 }
 
 class TolyUiMenuCell extends StatelessWidget {
@@ -47,10 +47,11 @@ class TolyUiMenuCell extends StatelessWidget {
     super.key,
     required this.menu,
     required this.display,
-    required this.style ,
+    required this.style,
   });
 
-  Color get hoverC => style.hoverColor ?? style.foregroundColor.withOpacity(0.1);
+  Color get hoverC =>
+      style.hoverColor ?? style.foregroundColor.withOpacity(0.1);
 
   ColorTween get backgroundTween =>
       ColorTween(begin: inActiveBackgroundColor, end: activeBackgroundColor);
@@ -93,12 +94,20 @@ class TolyUiMenuCell extends StatelessWidget {
   Widget build(BuildContext context) {
     bool largeWidth = display.widthType == MenuWidthType.large;
 
-    bool showLabel =
-        !display.selected || display.playing || largeWidth || !style.hideActiveText;
+    bool showLabel = !display.selected ||
+        display.playing ||
+        largeWidth ||
+        !style.hideActiveText;
+
+    IconData? icon;
+    if (menu is IconMenu) {
+      icon = (menu as IconMenu).icon;
+    }
+
     Widget cell = VerticalMenuCell(
       backgroundColor: backgroundColor,
       icon: Icon(
-        menu.icon,
+        icon,
         color: effectForegroundColor,
         size: style.iconSize,
       ),
@@ -109,7 +118,8 @@ class TolyUiMenuCell extends StatelessWidget {
         menu.label,
         style: TextStyle(
             color: effectForegroundColor,
-            fontSize: largeWidth ? 14 : 12 * (style.hideActiveText ? (1 - anim) : 1)),
+            fontSize:
+                largeWidth ? 14 : 12 * (style.hideActiveText ? (1 - anim) : 1)),
       ),
     );
     if (selectOrPlaying && style.showIndicator) {

@@ -17,10 +17,10 @@ class BreadcrumbDemo1 extends StatelessWidget {
     return TolyBreadcrumb(
       onSelect: context.go,
       items: const [
-        MenuMeta(label: 'Home', router: '/'),
-        MenuMeta(label: 'Widget', router: '/widgets'),
-        MenuMeta(label: 'Navigation'),
-        MenuMeta(label: 'Breadcrumb'),
+        MenuMeta(label: 'Home', route: '/'),
+        MenuMeta(label: 'Widget', route: '/widgets'),
+        MenuMeta(label: 'Navigation',route: ''),
+        MenuMeta(label: 'Breadcrumb',route: ''),
       ],
     );
   }

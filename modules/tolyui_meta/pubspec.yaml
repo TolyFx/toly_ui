@@ -1,0 +1,20 @@
+name: tolyui_meta
+description: "pure data for tolyui."
+version: 0.0.2+1
+homepage: http://toly1994.com/ui
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui_meta
+
+environment:
+  sdk: '>=3.3.3 <4.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:

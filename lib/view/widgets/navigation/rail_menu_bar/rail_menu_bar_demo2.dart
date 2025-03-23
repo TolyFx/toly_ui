@@ -18,11 +18,11 @@ class RailMenuBarDemo2 extends StatefulWidget {
 class _RailMenuBarDemo2State extends State<RailMenuBarDemo2> {
   String activeId = '/guide/start';
 
-  List<MenuMeta> navMenus = const [
-    MenuMeta(icon: Icons.real_estate_agent_rounded, label: "开始使用", router: '/guide/start'),
-    MenuMeta(icon: Icons.account_tree, label: "模块树", router: '/guide/modules'),
-    MenuMeta(icon: Icons.privacy_tip, label: "设计原则", router: '/guide/principle'),
-    MenuMeta(icon: Icons.note_alt, label: "更新日志", router: '/guide/update_log'),
+  List<MenuMeta> navMenus =  [
+    IconMenu( Icons.real_estate_agent_rounded, label: "开始使用", route: '/guide/start'),
+    IconMenu( Icons.account_tree, label: "模块树", route: '/guide/modules'),
+    IconMenu( Icons.privacy_tip, label: "设计原则", route: '/guide/principle'),
+    IconMenu( Icons.note_alt, label: "更新日志", route: '/guide/update_log'),
   ];
 
   Color get backgroundColor {
@@ -160,6 +160,10 @@ class QiWeiMenuCell extends StatelessWidget {
     bool largeWidth = display.widthType == MenuWidthType.large;
     TextStyle style = TextStyle(color: foregroundColor, fontSize: largeWidth ? 14 : 11);
     BorderRadius br = const BorderRadius.all(Radius.circular(6));
+    IconData? icon;
+    if(menu is IconMenu){
+      icon = (menu as IconMenu).icon;
+    }
     return Container(
       alignment: largeWidth ? Alignment.centerLeft : Alignment.center,
       padding: largeWidth ? const EdgeInsets.symmetric(horizontal: 12) : null,
@@ -170,7 +174,7 @@ class QiWeiMenuCell extends StatelessWidget {
         direction: largeWidth ? Axis.horizontal : Axis.vertical,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          Icon(menu.icon, color: foregroundColor, size: 18),
+          Icon(icon, color: foregroundColor, size: 18),
           Text(menu.label, style: style),
         ],
       ),
@@ -204,6 +208,10 @@ class BilibliMenuCell extends StatelessWidget {
   Widget build(BuildContext context) {
     bool largeWidth = display.widthType == MenuWidthType.large;
     TextStyle style = TextStyle(color: textColor, fontSize: 12);
+    IconData? icon;
+    if(menu is IconMenu){
+      icon = (menu as IconMenu).icon;
+    }
     return Container(
       alignment: largeWidth ? Alignment.centerLeft : Alignment.center,
       height: 64,
@@ -212,7 +220,7 @@ class BilibliMenuCell extends StatelessWidget {
         direction: largeWidth ? Axis.horizontal : Axis.vertical,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          Icon(menu.icon, color: foregroundColor, size: 24),
+          Icon(icon, color: foregroundColor, size: 24),
           Text(menu.label, style: style),
         ],
       ),

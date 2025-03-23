@@ -7,6 +7,7 @@
 // Contact Me:  1981462002@qq.com
 
 import 'package:flutter/material.dart';
+import 'package:tolyui_meta/tolyui_meta.dart';
 import 'package:tolyui_navigation/src/tabs/flutter_tab_bar.dart';
 
 import '../../tolyui_navigation.dart';
@@ -219,12 +220,15 @@ class TolyUITabCell extends StatelessWidget {
         color: color,
       ),
     );
-
-    if (menu.icon != null) {
+    IconData? icon;
+    if (menu is IconMenu) {
+      icon = (menu as IconMenu).icon;
+    }
+    if (icon != null) {
       child = Wrap(
         spacing: 4,
         crossAxisAlignment: WrapCrossAlignment.center,
-        children: [Icon(menu.icon, color: color, size: 18), child],
+        children: [Icon(icon, color: color, size: 18), child],
       );
     }
     return child;

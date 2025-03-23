@@ -1,5 +1,6 @@
-import 'package:ac_string_ext/ac_string_ext.dart';
+
 import 'package:flutter/material.dart';
+import 'package:fx_string/fx_string.dart';
 
 /// create by 星星 on 2024/5/24
 /// contact me by email 1395723441@qq.com

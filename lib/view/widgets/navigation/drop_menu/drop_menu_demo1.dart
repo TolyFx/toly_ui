@@ -26,12 +26,12 @@ class DropMenuDemo1 extends StatelessWidget {
             decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),
             onSelect: onSelect,
             menuItems: [
-              ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
-              ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
+              ActionMenu(const MenuMeta(route: '01', label: '1st menu item')),
+              ActionMenu(const MenuMeta(route: '02', label: '2nd menu item')),
               ActionMenu(
-                const MenuMeta(router: '03', label: '3rd menu item'),
+                const MenuMeta(route: '03', label: '3rd menu item'),
               ),
-              ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
+              ActionMenu(const MenuMeta(route: '04', label: '4ur menu item')),
             ],
             childBuilder: (_, ctrl, __) {
               return DebugDisplayButton(
@@ -52,10 +52,10 @@ class DropMenuDemo1 extends StatelessWidget {
       hoverConfig: const HoverConfig(enterPop: true, exitClose: true),
       onSelect: onSelect,
       menuItems: [
-        ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
-        ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
-        ActionMenu(const MenuMeta(router: '03', label: '3rd menu item')),
-        ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
+        ActionMenu(const MenuMeta(route: '01', label: '1st menu item')),
+        ActionMenu(const MenuMeta(route: '02', label: '2nd menu item')),
+        ActionMenu(const MenuMeta(route: '03', label: '3rd menu item')),
+        ActionMenu(const MenuMeta(route: '04', label: '4ur menu item')),
       ],
       // width: 140,
       child: DebugDisplayButton(
@@ -72,10 +72,10 @@ class DropMenuDemo1 extends StatelessWidget {
         decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),
         onSelect: onSelect,
         menuItems: [
-          ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
-          ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
-          ActionMenu(const MenuMeta(router: '03', label: '3rd menu item')),
-          ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
+          ActionMenu(const MenuMeta(route: '01', label: '1st menu item')),
+          ActionMenu(const MenuMeta(route: '02', label: '2nd menu item')),
+          ActionMenu(const MenuMeta(route: '03', label: '3rd menu item')),
+          ActionMenu(const MenuMeta(route: '04', label: '4ur menu item')),
         ],
         childBuilder: (_, ctrl, __) {
           return DebugDisplayButton(

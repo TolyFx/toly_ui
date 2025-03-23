@@ -1,0 +1,40 @@
+{
+  "versions": {
+    "0.2.5": {
+      "changes": [
+        "修复一些 bug"
+      ],
+      "timestamp": "2025-03-09T09:32:01.315861"
+    },
+    "0.2.3": {
+      "changes": [
+        "* Support TolyMessage#supportedLocales"
+      ],
+      "timestamp": "2025-03-09T08:42:45.823217"
+    },
+    "0.2.2": {
+      "changes": [
+        "* Support $message.loading"
+      ],
+      "timestamp": "2025-03-09T08:42:45.823217"
+    },
+    "0.2.1": {
+      "changes": [
+        "* Fix TapRegion Bug"
+      ],
+      "timestamp": "2025-03-09T08:42:45.823217"
+    },
+    "0.2.0": {
+      "changes": [
+        "* Support [TolyMessageShowTheme] and [TolyMessageStyleTheme] to set default Theme"
+      ],
+      "timestamp": "2025-03-09T08:42:45.823217"
+    },
+    "0.1.0": {
+      "changes": [
+        "* $message toast Message and Notification"
+      ],
+      "timestamp": "2025-03-09T08:42:45.822217"
+    }
+  }
+}

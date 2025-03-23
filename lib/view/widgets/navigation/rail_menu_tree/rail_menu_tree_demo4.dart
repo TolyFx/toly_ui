@@ -78,7 +78,7 @@ class _RailMenuTreeDemo4State extends State<RailMenuTreeDemo4> {
   }
 }
 
-class PlckiMenuMetaExt extends MenuMateExt {
+class PlckiMenuMetaExt extends Extra {
   final String? subtitle;
   final String? tag;
 
@@ -145,12 +145,17 @@ class PlckiTreeMenuCell extends StatelessWidget {
     Color? bgColor = backgroundColor(effectStyle);
     Color? fgColor = effectForegroundColor(effectStyle);
     EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 2);
-
+    MenuMeta menu = menuNode.data;
+    IconData? icon;
+    if(menu is IconMenu){
+      icon = menu.icon;
+    }
     Widget cell = DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
         color: bgColor,
       ),
+
       child: Row(
         children: [
           Expanded(
@@ -160,10 +165,10 @@ class PlckiTreeMenuCell extends StatelessWidget {
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  if (menuNode.data.icon != null)
+                  if (icon != null)
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
-                      child: Icon(menuNode.data.icon, size: 20, color: fgColor),
+                      child: Icon(icon, size: 20, color: fgColor),
                     ),
                   _buildTitle(fgColor)
                 ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toly_ui/incubator/ext/go_router/path.dart';
+import 'package:tolyui/app/toly_ui.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
 import 'app/logic/app_state/app_logic.dart';
@@ -41,18 +42,13 @@ class _MyAppState extends State<MyApp> {
     ThemeData light = lightTheme;
     ThemeData dark = darkTheme;
     ThemeMode mode = state.themeMode;
-    return TolyMessage(
-      theme: light,
-      darkTheme: dark,
-      themeMode: mode,
-      child: MaterialApp.router(
+    return TolyUiApp.router(
         routerConfig: _router,
         debugShowCheckedModeBanner: false,
         theme: light,
         darkTheme: dark,
         themeMode: mode,
         title: '学无止境',
-      ),
     );
   }
 

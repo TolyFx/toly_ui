@@ -10,6 +10,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tolyui_meta/tolyui_meta.dart';
 
 import '../../../tolyui_navigation.dart';
 
@@ -104,6 +105,12 @@ class TolyUITreeMenuCell extends StatelessWidget {
     Color? bgColor = backgroundColor(effectStyle);
     Color? fgColor = effectForegroundColor(effectStyle);
 
+    MenuMeta menu = menuNode.data;
+    IconData? icon;
+    if (menu is IconMenu) {
+      icon = menu.icon;
+    }
+
     Widget cell = DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
@@ -119,10 +126,10 @@ class TolyUITreeMenuCell extends StatelessWidget {
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  if (menuNode.data.icon != null)
+                  if (icon != null)
                     Padding(
                       padding: const EdgeInsets.only(right: 8.0),
-                      child: Icon(menuNode.data.icon, size: 18, color: fgColor),
+                      child: Icon(icon, size: 18, color: fgColor),
                     ),
                   Text(menuNode.data.label,
                       overflow: TextOverflow.ellipsis,
@@ -159,4 +166,3 @@ class TolyUITreeMenuCell extends StatelessWidget {
             child: Icon(CupertinoIcons.chevron_down, size: 16, color: color)));
   }
 }
-

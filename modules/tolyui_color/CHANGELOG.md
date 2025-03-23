@@ -1,3 +1,6 @@
-## 0.0.1
+## 0.0.2
 
-* TODO: Describe initial release.
+优化颜色选择器
+* 优化颜色选择器
+
+

@@ -15,11 +15,11 @@ class BreadcrumbDemo2 extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 8),
         child: Text('>', style: TextStyle(color: Colors.grey)),
       ),
-      items: const [
-        MenuMeta(label: 'Home', router: '/', icon: Icons.add_home_work_rounded),
-        MenuMeta(label: 'Widget', router: '/widgets', icon: Icons.widgets),
-        MenuMeta(label: 'Navigation'),
-        MenuMeta(label: 'Breadcrumb'),
+      items:  [
+        IconMenu(Icons.add_home_work_rounded,label: 'Home', route: '/'),
+        IconMenu(Icons.widgets,label: 'Widget', route: '/widgets'),
+        MenuMeta(label: 'Navigation',route: ''),
+        MenuMeta(label: 'Breadcrumb',route: ''),
       ],
     );
   }

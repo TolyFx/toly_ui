@@ -19,14 +19,14 @@ class DropMenuDemo7 extends StatelessWidget {
       decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),
       placement: Placement.topStart,
       menuItems: [
-        ActionMenu(const MenuMeta(router: '01', label: '1st menu item')),
-        ActionMenu(const MenuMeta(router: '02', label: '2nd menu item')),
-        SubMenu(const MenuMeta(router: '03', label: 'export image'), menus: [
-          ActionMenu(const MenuMeta(router: 'png', label: 'sub out .png')),
-          ActionMenu(const MenuMeta(router: 'jpeg', label: 'sub out .jpeg')),
-          ActionMenu(const MenuMeta(router: 'svg', label: 'sub out .svg')),
+        ActionMenu(const MenuMeta(route: '01', label: '1st menu item')),
+        ActionMenu(const MenuMeta(route: '02', label: '2nd menu item')),
+        SubMenu(const MenuMeta(route: '03', label: 'export image'), menus: [
+          ActionMenu(const MenuMeta(route: 'png', label: 'sub out .png')),
+          ActionMenu(const MenuMeta(route: 'jpeg', label: 'sub out .jpeg')),
+          ActionMenu(const MenuMeta(route: 'svg', label: 'sub out .svg')),
         ]),
-        ActionMenu(const MenuMeta(router: '04', label: '4ur menu item')),
+        ActionMenu(const MenuMeta(route: '04', label: '4ur menu item')),
       ],
       // width: 140,
       childBuilder: _childBuilder,

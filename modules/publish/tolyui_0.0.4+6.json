@@ -1,0 +1,42 @@
+{
+  "name": "tolyui",
+  "version": "0.0.4+6",
+  "description": "A responsive ui library for Flutter. Help developer build app easier.",
+  "changLog": "",
+  "children": [
+    {
+      "name": "tolyui_rx_layout",
+      "version": "1.0.0",
+      "description": "tolyui responsive layout.",
+      "changLog": ""
+    },
+    {
+      "name": "tolyui_color",
+      "version": "0.0.1",
+      "description": "Part of Toly UI: display or change color in many style.",
+      "changLog": ""
+    },
+    {
+      "name": "tolyui_navigation",
+      "version": "0.1.0+3",
+      "description": "Part of Toly UI: Navigation UI Widget Lib. Contains breadcrumb、drop_menu、rail_menu_tree、tabs etc...",
+      "changLog": "",
+      "children": [
+        {
+          "name": "tolyui_feedback",
+          "version": "0.3.6+1",
+          "description": "A feedback ui package for toly ui. Contains message、popover、tooltip etc...",
+          "changLog": "",
+          "children": [
+            {
+              "name": "tolyui_message",
+              "version": "0.2.4",
+              "description": "Part of Toly UI: Toast Message and Notification in Global of App ",
+              "changLog": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

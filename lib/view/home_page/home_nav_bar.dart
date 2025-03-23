@@ -121,10 +121,10 @@ class _AppNavMenusState extends State<AppNavMenus> with RouterChangeListenerMixi
   String _activeId = '';
 
   List<MenuMeta> items = const [
-    MenuMeta(label: '指南', router: '/guide'),
-    MenuMeta(label: '组件', router: '/widgets'),
-    MenuMeta(label: '生态', router: '/ecological'),
-    MenuMeta(label: '赞助', router: '/sponsor'),
+    MenuMeta(label: '指南', route: '/guide'),
+    MenuMeta(label: '组件', route: '/widgets'),
+    MenuMeta(label: '生态', route: '/ecological'),
+    MenuMeta(label: '赞助', route: '/sponsor'),
   ];
 
   @override

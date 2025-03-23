@@ -1,19 +1,30 @@
-## 0.1.0
+## 0.2.5
 
-* $message toast Message and Notification
+修复一些 bug
+
+
+## 0.2.3
+
+* Support TolyMessage#supportedLocales
+
+
+## 0.2.2
+
+* Support $message.loading
+
+
+## 0.2.1
+
+* Fix TapRegion Bug
+
 
 ## 0.2.0
 
 * Support [TolyMessageShowTheme] and [TolyMessageStyleTheme] to set default Theme
 
-## 0.2.1
 
-* Fix TapRegion Bug
-* 
-## 0.2.2
+## 0.1.0
 
-* Support $message.loading 
-* 
-## 0.2.3
+* $message toast Message and Notification
 
-* Support TolyMessage#supportedLocales
+

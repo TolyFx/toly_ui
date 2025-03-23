@@ -135,7 +135,7 @@ class _OptionSlotDecorationState<T> extends State<OptionSlotDecoration<T>> {
             .keys
             .map((int index) => ActionMenu(
                 active: index == widget.slot.activeIndex,
-                MenuMeta(router: '$index', label: options[index].toString())))
+                MenuMeta(route: '$index', label: options[index].toString())))
             .toList(),
         childBuilder: (_, ctrl, __) {
           return GestureDetector(onTap: ctrl.open, child: child);
@@ -143,6 +143,6 @@ class _OptionSlotDecorationState<T> extends State<OptionSlotDecoration<T>> {
   }
 
   void onSelect(MenuMeta value) {
-    widget.slot.onSelect(int.tryParse(value.router) ?? -1);
+    widget.slot.onSelect(int.tryParse(value.route) ?? -1);
   }
 }

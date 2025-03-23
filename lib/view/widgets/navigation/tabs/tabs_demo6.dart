@@ -15,10 +15,10 @@ class TabsDemo6 extends StatefulWidget {
 
 class _TabsDemo6State extends State<TabsDemo6> with TickerProviderStateMixin {
   List<MenuMeta> items = const [
-    MenuMeta(label: 'Tab1', router: 'tab1'),
-    MenuMeta(label: 'Tab2', router: 'tab2'),
-    MenuMeta(label: 'Tab3', router: 'tab3'),
-    MenuMeta(label: 'Tab4', router: 'tab4'),
+    MenuMeta(label: 'Tab1', route: 'tab1'),
+    MenuMeta(label: 'Tab2', route: 'tab2'),
+    MenuMeta(label: 'Tab3', route: 'tab3'),
+    MenuMeta(label: 'Tab4', route: 'tab4'),
   ];
 
   String activeId = 'tab1';
@@ -64,10 +64,10 @@ class _TabsDemo6State extends State<TabsDemo6> with TickerProviderStateMixin {
       ...items,
       MenuMeta(
         label: 'Tab${items.length + 1}',
-        router: 'tab_${DateTime.now().millisecondsSinceEpoch}',
+        route: 'tab_${DateTime.now().millisecondsSinceEpoch}',
       ),
     ];
-    activeId = items.last.router;
+    activeId = items.last.route;
     setState(() {});
   }
 
@@ -130,8 +130,12 @@ class CloseableTabCell extends StatelessWidget {
       ),
     );
     List<Widget> content = [child];
-    if (menu.icon != null) {
-      content.insert(0, Icon(menu.icon, color: color, size: 18));
+    IconData? icon;
+    if(menu is IconMenu){
+      icon = (menu as IconMenu).icon;
+    }
+    if (icon != null) {
+      content.insert(0, Icon(icon, color: color, size: 18));
     }
     content.add(GestureDetector(
         onTap: () {

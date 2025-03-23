@@ -58,7 +58,8 @@ class TolySelect extends StatefulWidget {
   State<TolySelect> createState() => _TolySelectState();
 }
 
-class _TolySelectState extends State<TolySelect> with SingleTickerProviderStateMixin {
+class _TolySelectState extends State<TolySelect>
+    with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController _ctrl;
   late FocusAttachment _nodeAttachment;
@@ -102,7 +103,8 @@ class _TolySelectState extends State<TolySelect> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     _nodeAttachment.reparent();
     Color bgColor = context.isDark ? const Color(0xff303133) : Colors.white;
-    const EdgeInsets targetPadding = EdgeInsets.only(left: 6, right: 2, top: 4, bottom: 4);
+    const EdgeInsets targetPadding =
+        EdgeInsets.only(left: 6, right: 2, top: 4, bottom: 4);
     return TolyDropMenu(
         contentBuilder: widget.contentBuilder,
         minOverlayWidth: widget.minWidth,
@@ -113,7 +115,8 @@ class _TolySelectState extends State<TolySelect> with SingleTickerProviderStateM
         overlayTapRegion: controller,
         placement: Placement.bottomStart,
         offsetCalculator: boxOffsetCalculator,
-        decorationConfig: DecorationConfig(isBubble: false, backgroundColor: bgColor),
+        decorationConfig:
+            DecorationConfig(isBubble: false, backgroundColor: bgColor),
         onSelect: onSelect,
         menuItems: menus,
         child: TapRegion(
@@ -127,7 +130,9 @@ class _TolySelectState extends State<TolySelect> with SingleTickerProviderStateM
                 child: _SelectTarget(
                   constraints: constraints,
                   focused: focused,
-                  label: widget.data.isNotEmpty ? widget.data[widget.selectIndex] : "暂无数据",
+                  label: widget.data.isNotEmpty
+                      ? widget.data[widget.selectIndex]
+                      : "暂无数据",
                   fontSize: widget.fontSize,
                   disableColor: widget.disableColor,
                   animation: animation,
@@ -150,7 +155,7 @@ class _TolySelectState extends State<TolySelect> with SingleTickerProviderStateM
 
   void onSelect(MenuMeta value) {
     _node.unfocus();
-    widget.onSelected(int.parse(value.router));
+    widget.onSelected(int.parse(value.route));
   }
 
   List<MenuDisplay> get menus {
@@ -158,11 +163,12 @@ class _TolySelectState extends State<TolySelect> with SingleTickerProviderStateM
     return indexes
         .map((index) => ActionMenu(
               active: widget.selectIndex == index,
-              MenuMeta(router: '$index', label: widget.data[index]),
+              MenuMeta(route: '$index', label: widget.data[index]),
             ))
         .toList();
   }
 
-  BoxConstraints? get constraints =>
-      widget.shrinkWidth ? null : BoxConstraints.tight(Size(widget.width, widget.height));
+  BoxConstraints? get constraints => widget.shrinkWidth
+      ? null
+      : BoxConstraints.tight(Size(widget.width, widget.height));
 }

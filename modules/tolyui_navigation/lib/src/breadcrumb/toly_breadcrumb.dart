@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:tolyui_meta/tolyui_meta.dart';
 
 import '../model/model.dart';
 
@@ -146,7 +147,7 @@ class _TolyBreadcrumbItemState extends State<TolyBreadcrumbItem> {
   Widget build(BuildContext context) {
     BreadcrumbMeta display = BreadcrumbMeta(
       isLast: widget.last,
-      enable: widget.item.router.isNotEmpty,
+      enable: widget.item.route.isNotEmpty,
       hovered: _hover,
       fountSize: widget.fontSize,
     );
@@ -166,7 +167,7 @@ class _TolyBreadcrumbItemState extends State<TolyBreadcrumbItem> {
         onEnter: _onEnter,
         onExit: _onExit,
         child: GestureDetector(
-          onTap: () => widget.onTapItem?.call(widget.item.router),
+          onTap: () => widget.onTapItem?.call(widget.item.route),
           child: child,
         ),
       );
@@ -206,7 +207,7 @@ class TolyUIBreadcrumbCell extends StatelessWidget {
             ? BreadcrumbCellStyle.dark()
             : BreadcrumbCellStyle.light());
 
-    bool hasTarget = (menu.router.isNotEmpty);
+    bool hasTarget = (menu.route.isNotEmpty);
     Color? color;
     if (hasTarget) {
       color = display.hovered ? effectStyle.hoverCellColor : effectStyle.enableCellColor;
@@ -222,12 +223,13 @@ class TolyUIBreadcrumbCell extends StatelessWidget {
         fontWeight: hasTarget ? FontWeight.bold : null,
         color: color);
     Widget child = Text(menu.label, style: style);
-    if (menu.icon != null) {
+
+    if(menu is IconMenu){
       child = Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Icon(
-            menu.icon!,
+            (menu as IconMenu).icon,
             size: 18,
             color: color,
           ),
@@ -238,6 +240,7 @@ class TolyUIBreadcrumbCell extends StatelessWidget {
         ],
       );
     }
+
 
     if (effectStyle.hoverBackgroundStyle != null) {
       child = Container(

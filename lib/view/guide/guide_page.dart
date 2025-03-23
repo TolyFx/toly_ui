@@ -21,11 +21,11 @@ class _GuideNavigationState extends State<GuideNavigation> with RouterChangeList
 
   @override
   Widget build(BuildContext context) {
-    const List<MenuMeta> navMenus = [
-      MenuMeta(icon: Icons.real_estate_agent_rounded, label: "开始使用", router: '/guide/start'),
-      MenuMeta(icon: Icons.account_tree, label: "模块树", router: '/guide/modules'),
-      MenuMeta(icon: Icons.privacy_tip, label: "设计原则", router: '/guide/principle'),
-      MenuMeta(icon: Icons.note_alt, label: "更新日志", router: '/guide/update_log'),
+     List<IconMenu> navMenus = [
+      IconMenu(Icons.real_estate_agent_rounded, label: "开始使用", route: '/guide/start'),
+      IconMenu( Icons.account_tree, label: "模块树", route: '/guide/modules'),
+      IconMenu( Icons.privacy_tip, label: "设计原则", route: '/guide/principle'),
+      IconMenu( Icons.note_alt, label: "更新日志", route: '/guide/update_log'),
     ];
     return Scaffold(
         body: Row(

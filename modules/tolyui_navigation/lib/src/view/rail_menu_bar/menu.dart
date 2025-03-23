@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tolyui_meta/tolyui_meta.dart';
 import '../../model/display_meta.dart';
 import '../../model/menu_meta.dart';
 import '../view.dart';
@@ -53,8 +54,8 @@ class RailMenu extends StatelessWidget {
       animationConfig: animationConfig,
       builder: builder,
       item: items[index],
-      selected: items[index].router == activeId,
-      onTap: () => onTapItem.call(items[index].router),
+      selected: items[index].route == activeId,
+      onTap: () => onTapItem.call(items[index].route),
     );
   }
 }

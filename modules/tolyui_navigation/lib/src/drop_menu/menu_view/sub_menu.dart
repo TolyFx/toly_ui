@@ -8,6 +8,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
+import 'package:tolyui_meta/tolyui_meta.dart';
 import '../../model/model.dart';
 import '../core/drop_menu.dart';
 import '../drop_menu.dart';
@@ -74,12 +75,16 @@ class _SubMenuItemState extends State<SubMenuItem> with HoverActionMix {
         style: effectStyle,
       ),
     );
-
-    if (widget.menu.menu.icon != null&&leading==null) {
+    MenuMeta menu = widget.menu.menu;
+    IconData? icon;
+    if (menu is IconMenu) {
+      icon = menu.icon;
+    }
+    if (icon != null&&leading==null) {
       leading = Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: Icon(
-          widget.menu.menu.icon!,
+          icon,
           size: 18,
         ),
       );

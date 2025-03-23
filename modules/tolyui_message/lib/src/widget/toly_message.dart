@@ -43,22 +43,56 @@ class TolyMessageState extends State<TolyMessage> {
     super.dispose();
   }
 
+  late Overlay overlay = Overlay(
+    initialEntries: <OverlayEntry>[
+      OverlayEntry(
+        builder: (BuildContext ctx) {
+          handler.attach(ctx);
+          return widget.child;
+        },
+      ),
+    ],
+  );
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: widget.theme,
-      darkTheme: widget.darkTheme,
-      themeMode: widget.themeMode,
-      locale: widget.locale,
-      supportedLocales: widget.supportedLocales,
-      localizationsDelegates: widget.localizationsDelegates,
-      home: Builder(
-          builder: (context) {
-            handler.attach(context);
-            return widget.child;
-          }
+    Widget result = Directionality(
+      textDirection: TextDirection.ltr,
+      child: overlay,
+    );
+
+    Locale? locale = widget.locale;
+    List<Locale> locales = WidgetsBinding.instance.platformDispatcher.locales;
+    if (locale == null && locales.isNotEmpty) {
+      locale = locales.first;
+    }
+
+    return TapRegionSurface(
+      child: Localizations(
+        locale: widget.locale ?? const Locale('zh'),
+        delegates: widget.localizationsDelegates?.toList() ?? [],
+        child: Theme(
+          data: _themeBuilder(context),
+          child: Material(
+            color: Colors.transparent,
+            child: result,
+          ),
+        ),
       ),
     );
+  }
+
+  ThemeData _themeBuilder(BuildContext context) {
+    ThemeData? theme;
+    final ThemeMode mode = widget.themeMode ?? ThemeMode.system;
+    final Brightness platformBrightness =
+        MediaQuery.platformBrightnessOf(context);
+    final bool useDarkTheme = mode == ThemeMode.dark ||
+        (mode == ThemeMode.system && platformBrightness == Brightness.dark);
+    if (useDarkTheme && widget.darkTheme != null) {
+      theme = widget.darkTheme;
+    }
+    theme ??= widget.theme ?? ThemeData.light();
+    return theme;
   }
 }
