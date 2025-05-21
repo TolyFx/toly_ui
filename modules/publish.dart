@@ -3,23 +3,21 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 
 void main() async {
-
-    String oldPath =
+  String oldPath =
       'd:/Projects/Flutter/Fx/toly_ui/modules/publish/tolyui_0.0.4+6.json';
   String newPath =
       'd:/Projects/Flutter/Fx/toly_ui/modules/publish/tolyui_0.0.4+7.json';
   List<String> updates = await collect(oldPath, newPath);
 
-    publishModule('tolyui');
+  publishModule('tolyui_navigation');
 
   // for(String module in updates){
   //   await publishModule( module);
   //   await Future.delayed(Duration(minutes: 3));
   // }
-
 }
 
-Future<void> publishModule(String name) async{
+Future<void> publishModule(String name) async {
   Directory dir = Directory.current;
   String path = p.join(dir.path, 'modules', name);
   print(path);

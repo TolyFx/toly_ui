@@ -15,8 +15,6 @@ import '../drop_menu.dart';
 import '../mixin/hover_action_mixin.dart';
 import 'menu_item_display.dart';
 
-
-
 class SubMenuItem extends StatefulWidget {
   final SubMenu menu;
   final ValueChanged<MenuMeta>? onSelect;
@@ -26,10 +24,13 @@ class SubMenuItem extends StatefulWidget {
   final MenuMetaBuilder? leadingBuilder;
   final MenuMetaBuilder? contentBuilder;
   final MenuMetaBuilder? tailBuilder;
+  final double? maxHeight;
+
   const SubMenuItem({
     super.key,
     required this.menu,
     required this.style,
+    required this.maxHeight,
     required this.onSelect,
     required this.subMenuGap,
     required this.leadingBuilder,
@@ -43,12 +44,11 @@ class SubMenuItem extends StatefulWidget {
 }
 
 class _SubMenuItemState extends State<SubMenuItem> with HoverActionMix {
-
   DropMenuCellStyle get effectStyle =>
       widget.style ??
-          (Theme.of(context).brightness == Brightness.dark
-              ? DropMenuCellStyle.dark()
-              : DropMenuCellStyle.light());
+      (Theme.of(context).brightness == Brightness.dark
+          ? DropMenuCellStyle.dark()
+          : DropMenuCellStyle.light());
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class _SubMenuItemState extends State<SubMenuItem> with HoverActionMix {
     if (menu is IconMenu) {
       icon = menu.icon;
     }
-    if (icon != null&&leading==null) {
+    if (icon != null && leading == null) {
       leading = Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: Icon(
@@ -89,7 +89,6 @@ class _SubMenuItemState extends State<SubMenuItem> with HoverActionMix {
         ),
       );
     }
-
 
     Widget? body = widget.contentBuilder?.call(
       context,
@@ -100,7 +99,6 @@ class _SubMenuItemState extends State<SubMenuItem> with HoverActionMix {
         style: effectStyle,
       ),
     );
-
 
     Widget content = Container(
       alignment: Alignment.centerLeft,
@@ -115,14 +113,14 @@ class _SubMenuItemState extends State<SubMenuItem> with HoverActionMix {
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         // crossAxisAlignment: WrapCrossAlignment.e,
         children: [
-          if (leading != null)
-            leading,
-          body??Text(
-            widget.menu.menu.label,
-            style: TextStyle(color: foregroundColor),
-          ),
-          // Spacer(),
-          const SizedBox(width: 20),
+          if (leading != null) leading,
+          body ??
+              Text(
+                widget.menu.menu.label,
+                style: TextStyle(color: foregroundColor),
+              ),
+          const Spacer(),
+          // const SizedBox(width: 20),
           Icon(
             Icons.navigate_next,
             size: 18,
@@ -133,10 +131,10 @@ class _SubMenuItemState extends State<SubMenuItem> with HoverActionMix {
     );
 
     content = wrap(content, cursor: cursor);
-
     return TolyDropMenu(
       onSelect: widget.onSelect,
       style: widget.style,
+      maxHeight: widget.menu.maxHeight ?? widget.maxHeight,
       leadingBuilder: widget.leadingBuilder,
       tailBuilder: widget.tailBuilder,
       placement: Placement.rightStart,

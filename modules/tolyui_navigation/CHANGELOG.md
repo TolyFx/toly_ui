@@ -1,4 +1,5 @@
 ## 0.2.0
+* 0.2.0+1: sub menu style
 split menu data to [tolyui_meta](https://pub.dev/packages/tolyui_meta)
 
 

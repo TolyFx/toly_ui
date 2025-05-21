@@ -41,6 +41,7 @@ class TolyDropMenu extends StatefulWidget {
   final double subMenuGap;
   final Widget? child;
   final double? maxHeight;
+  final double? subMaxHeight;
 
   final DropMenuCellStyle? style;
   final MenuMetaBuilder? leadingBuilder;
@@ -58,6 +59,7 @@ class TolyDropMenu extends StatefulWidget {
     required this.menuItems,
     this.width,
     this.maxHeight,
+    this.subMaxHeight,
     this.child,
     this.shrinkWrapWidthOverlay = true,
     this.overlayTapRegion,
@@ -116,9 +118,11 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
     );
   }
 
-  Widget _displayBuilder(BuildContext context, PopoverController ctrl, Widget? child) {
-    Widget content =
-        widget.childBuilder?.call(context, ctrl, child) ?? widget.child ?? const SizedBox();
+  Widget _displayBuilder(
+      BuildContext context, PopoverController ctrl, Widget? child) {
+    Widget content = widget.childBuilder?.call(context, ctrl, child) ??
+        widget.child ??
+        const SizedBox();
     if (widget.hoverConfig.enterPop) {
       return MouseRegion(
         onEnter: (_) => ctrl.open(),
@@ -129,10 +133,12 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
     return content;
   }
 
-  Widget _overlayBuilder(BuildContext target, BuildContext context, PopoverController ctrl) {
+  Widget _overlayBuilder(
+      BuildContext target, BuildContext context, PopoverController ctrl) {
     Size size = (target.findRenderObject() as RenderBox).size;
     bool overSize = size.width < (widget.minOverlayWidth ?? 0);
     Widget panel = MenuListPanel(
+      maxHeight: widget.subMaxHeight,
       scrollable: widget.maxHeight != null,
       boxSize: size,
       shrinkWrapWidthOverlay: widget.shrinkWrapWidthOverlay || overSize,
@@ -181,11 +187,13 @@ class MenuListPanel extends StatelessWidget {
   final MenuMetaBuilder? contentBuilder;
   final bool shrinkWrapWidthOverlay;
   final bool scrollable;
+  final double? maxHeight;
 
   const MenuListPanel({
     super.key,
     required this.menus,
     required this.scrollable,
+    required this.maxHeight,
     required this.decorationConfig,
     required this.leadingBuilder,
     required this.tailBuilder,
@@ -239,6 +247,7 @@ class MenuListPanel extends StatelessWidget {
         ),
       SubMenu() => SubMenuItem(
           style: style,
+          maxHeight: maxHeight,
           leadingBuilder: leadingBuilder,
           contentBuilder: contentBuilder,
           tailBuilder: tailBuilder,

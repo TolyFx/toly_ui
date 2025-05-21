@@ -32,15 +32,15 @@ class _TolyActionState extends State<TolyAction> with HoverActionMix {
     updateEffectStyle();
   }
 
-  void updateEffectStyle(){
-    effectStyle =
-        widget.style ?? (context.isDark ? const ActionStyle.dark() : const ActionStyle.light());
+  void updateEffectStyle() {
+    effectStyle = widget.style ??
+        (context.isDark ? const ActionStyle.dark() : const ActionStyle.light());
   }
 
   @override
   void didUpdateWidget(TolyAction oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if(oldWidget.style!=widget.style){
+    if (oldWidget.style != widget.style) {
       updateEffectStyle();
     }
   }
@@ -58,10 +58,16 @@ class _TolyActionState extends State<TolyAction> with HoverActionMix {
   }
 
   Border? get border {
+    Border? ret = effectStyle.border;
     if (hovered || widget.selected) {
-      return effectStyle.border;
+      return ret;
     }
-
+    if (ret != null) {
+      return Border.all(
+        color: Colors.transparent,
+        width: ret.top.width,
+      );
+    }
     return null;
   }
 

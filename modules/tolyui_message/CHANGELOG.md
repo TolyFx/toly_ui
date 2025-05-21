@@ -1,6 +1,12 @@
+## 0.2.6
+
+* 0.2.6+1: loadingTask return Future
+* didUpdateWidget update overlay
+
+
 ## 0.2.5
 
-修复一些 bug
+*修复一些 bug
 
 
 ## 0.2.3

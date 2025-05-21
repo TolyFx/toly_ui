@@ -83,7 +83,6 @@ class TolyPopover extends StatefulWidget {
 
 class _TolyPopoverState extends State<TolyPopover>
     with TickerProviderStateMixin, WidgetsBindingObserver, PopHideMixin {
-
   final OverlayPortalController _overlayController = OverlayPortalController(
     debugLabel: kReleaseMode ? null : 'TolyPopover controller',
   );
@@ -101,11 +100,10 @@ class _TolyPopoverState extends State<TolyPopover>
 
   AnimationController get _controller {
     return _backingController ??= AnimationController(
-      duration: widget.animDuration ,
+      duration: widget.animDuration,
       reverseDuration: widget.reverseDuration,
       vsync: this,
     )..addStatusListener(_handleStatusChanged);
-
   }
 
   @override
@@ -130,7 +128,7 @@ class _TolyPopoverState extends State<TolyPopover>
   }
 
   void _close({bool inDispose = false}) {
-    if(!_overlayController.isShowing) return;
+    if (!_overlayController.isShowing) return;
     _controller.reverse();
   }
 
@@ -155,8 +153,7 @@ class _TolyPopoverState extends State<TolyPopover>
       );
     }
     return NotificationListener<ScrollNotification>(
-        onNotification: (v){
-          print("=================onNotification==================");
+        onNotification: (v) {
           return true;
         },
         child: child);

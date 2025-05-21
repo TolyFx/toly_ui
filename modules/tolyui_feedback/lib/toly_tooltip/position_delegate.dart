@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:tolyui_feedback/toly_tooltip/tooltip_placement.dart';
 
 import '../toly_popover/model/callback.dart';
-import '../toly_popover/logic/placement_handler.dart';
 import 'algorithm.dart';
 
 /// A delegate for computing the layout of a tooltip to be displayed above or
@@ -74,8 +73,8 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
     double capacityW = overlaySize.width + boxSize.width / 2 + gap;
 
     final OverflowEdge edge = OverflowEdge(
-      left: x - capacityW < 0,
-      top: y - capacityH < 0,
+      left: x - capacityW < (margin?.left ?? 0),
+      top: y - capacityH < (margin?.top ?? 0),
       right: x + capacityW > areaSize.width,
       bottom: y + capacityH > areaSize.height,
     );
@@ -90,7 +89,7 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
     }
 
     Offset center =
-    position.translate(-overlaySize.width / 2, -overlaySize.height / 2);
+        position.translate(-overlaySize.width / 2, -overlaySize.height / 2);
 
     double halfWidth = (overlaySize.width - boxSize.width) / 2;
     double halfLeftWidth = (overlaySize.width + boxSize.width) / 2 + gap;
@@ -162,6 +161,4 @@ class PopoverPositionDelegate extends SingleChildLayoutDelegate {
     }
     return offset;
   }
-
 }
-

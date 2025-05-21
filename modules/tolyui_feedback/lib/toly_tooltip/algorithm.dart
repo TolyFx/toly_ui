@@ -22,6 +22,7 @@ class OverflowEdge {
   }
 
   bool get overflowAll => top && bottom && right && left;
+  bool get noOverflow => !(top && bottom && right && left);
 }
 
 typedef OverflowAlgorithm = Placement Function(
@@ -38,7 +39,7 @@ Placement defaultOverflowAlgorithm(
   bool outLeft = edge.left;
   bool outRight = edge.right;
 
-  // print("edge:$edge, input:${input}");
+  if (edge.noOverflow) return input;
 
   if (!outBottom && input.isBottom) {
     return Placement.bottom;

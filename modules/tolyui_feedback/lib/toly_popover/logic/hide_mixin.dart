@@ -2,14 +2,16 @@ part of '../toly_popover.dart';
 
 /// 辅助功能
 /// 分离滑动和尺寸变化监听逻辑
-mixin PopHideMixin<T extends StatefulWidget> on State<T> , WidgetsBindingObserver{
-
+mixin PopHideMixin<T extends StatefulWidget>
+    on State<T>, WidgetsBindingObserver {
   ScrollPosition? _scrollPosition;
 
   double offset = 0;
 
-  void recordScrollPosition(){
-    offset = _scrollPosition?.pixels??0;
+  void recordScrollPosition() {
+    bool hasPixels = _scrollPosition?.hasPixels ?? false;
+    if (!hasPixels) return;
+    offset = _scrollPosition?.pixels ?? 0;
   }
 
   @override
@@ -44,7 +46,7 @@ mixin PopHideMixin<T extends StatefulWidget> on State<T> , WidgetsBindingObserve
   void _handleScroll() {
     if (mounted) {
       /// 过滤不必要的滑动变化监听
-      if(offset!=_scrollPosition?.pixels){
+      if (offset != _scrollPosition?.pixels) {
         onHide();
       }
     }

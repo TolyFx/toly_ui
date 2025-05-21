@@ -32,10 +32,12 @@ class SubMenu extends MenuDisplay {
   final List<MenuDisplay> menus;
   final MenuMeta menu;
   final bool enable;
+  final double? maxHeight;
 
   SubMenu(
     this.menu, {
     this.enable = true,
+    this.maxHeight,
     required this.menus,
   });
 

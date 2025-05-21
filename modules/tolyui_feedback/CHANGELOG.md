@@ -1,5 +1,6 @@
 ## 0.3.6
 
+* 0.3.6+4: handle scrollPosition#pixels error
 * 0.3.6+2: tolyui_message -> 0.2.5
 
 * 0.3.6+1: tolyui_message-> 0.2.4

@@ -43,6 +43,23 @@ class TolyMessageState extends State<TolyMessage> {
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(TolyMessage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.theme != widget.theme || oldWidget.locale != widget.locale) {
+      overlay = Overlay(
+        initialEntries: <OverlayEntry>[
+          OverlayEntry(
+            builder: (BuildContext ctx) {
+              handler.attach(ctx);
+              return widget.child;
+            },
+          ),
+        ],
+      );
+    }
+  }
+
   late Overlay overlay = Overlay(
     initialEntries: <OverlayEntry>[
       OverlayEntry(

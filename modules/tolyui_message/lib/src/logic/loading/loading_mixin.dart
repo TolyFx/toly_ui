@@ -13,7 +13,7 @@ mixin LoadingMixin on ContextAttachable {
   Completer<bool>? _completer;
   Timer? _timeoutTimer;
 
-  void loadingTask({
+  Future<void> loadingTask({
     required Task task,
     Duration timeout = const Duration(seconds: 30),
     Color? backgroundColor,
