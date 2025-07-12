@@ -13,26 +13,28 @@ mixin LoadingMixin on ContextAttachable {
   Completer<bool>? _completer;
   Timer? _timeoutTimer;
 
-  Future<void> loadingTask({
-    required Task task,
-    Duration timeout = const Duration(seconds: 30),
+  Future<T?> loadingTask<T>({
+    required Task<T> task,
+    Duration timeout = const Duration(seconds: 10),
     Color? backgroundColor,
     Widget? body,
     ErrorCallback? onError,
   }) async {
+    T? result;
     _timeoutTimer = Timer(timeout, () {
       closeLoading();
       onError?.call('Task Timeout!', null);
     });
     try {
       loading(backgroundColor: backgroundColor, body: body);
-      await task();
+      result = await task();
     } catch (e, t) {
       onError?.call(e, t);
     }
     closeLoading();
     _timeoutTimer?.cancel();
     _timeoutTimer = null;
+    return result;
   }
 
   void loading({

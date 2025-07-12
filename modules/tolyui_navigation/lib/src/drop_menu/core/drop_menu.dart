@@ -34,6 +34,7 @@ class TolyDropMenu extends StatefulWidget {
   final TolyPopoverChildBuilder? childBuilder;
   final PopoverController? controller;
   final Object? overlayTapRegion;
+  final ValueChanged<bool>? onSubMenuEnter;
 
   final double? width;
   final double? minOverlayWidth;
@@ -54,10 +55,16 @@ class TolyDropMenu extends StatefulWidget {
   final DecorationConfig? decorationConfig;
   final OffsetCalculator? offsetCalculator;
 
+  final VoidCallback? onClose;
+  final ValueChanged<String>? onCloseSubMeu;
+
   const TolyDropMenu({
     super.key,
+    this.onClose,
+    this.onCloseSubMeu,
     required this.menuItems,
     this.width,
+    this.onSubMenuEnter,
     this.maxHeight,
     this.subMaxHeight,
     this.child,
@@ -115,6 +122,7 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
       overlayBuilder: (ctx, ctrl) => _overlayBuilder(context, ctx, ctrl),
       builder: _displayBuilder,
       child: widget.child,
+      onClose: widget.onClose,
     );
   }
 
@@ -125,7 +133,9 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
         const SizedBox();
     if (widget.hoverConfig.enterPop) {
       return MouseRegion(
-        onEnter: (_) => ctrl.open(),
+        onEnter: (_) {
+          ctrl.open();
+        },
         onExit: (_) => _startExitTimer(ctrl),
         child: content,
       );
@@ -138,9 +148,13 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
     Size size = (target.findRenderObject() as RenderBox).size;
     bool overSize = size.width < (widget.minOverlayWidth ?? 0);
     Widget panel = MenuListPanel(
+      onCloseSubMeu: widget.onCloseSubMeu,
       maxHeight: widget.subMaxHeight,
       scrollable: widget.maxHeight != null,
       boxSize: size,
+      onSubMenuEnter: (bool value) {
+        enterSub = value;
+      },
       shrinkWrapWidthOverlay: widget.shrinkWrapWidthOverlay || overSize,
       tailBuilder: widget.tailBuilder,
       leadingBuilder: widget.leadingBuilder,
@@ -156,10 +170,17 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
     );
     if (widget.hoverConfig.enterPop) {
       panel = MouseRegion(
-        onEnter: (_) => _closeTimer(),
-        onExit: (_) {
+        onEnter: (_) {
+          widget.onSubMenuEnter?.call(true);
+          _closeTimer();
+        },
+        onExit: (_) async {
+          widget.onSubMenuEnter?.call(false);
           if (widget.hoverConfig.exitClose) {
-            ctrl.close();
+            await Future.delayed(Duration(milliseconds: 200));
+            if (!enterSub) {
+              ctrl.close();
+            }
           }
         },
         child: panel,
@@ -173,6 +194,8 @@ class _TolyDropMenuState extends State<TolyDropMenu> {
     }
     return panel;
   }
+
+  bool enterSub = false;
 }
 
 class MenuListPanel extends StatelessWidget {
@@ -188,6 +211,8 @@ class MenuListPanel extends StatelessWidget {
   final bool shrinkWrapWidthOverlay;
   final bool scrollable;
   final double? maxHeight;
+  final ValueChanged<bool>? onSubMenuEnter;
+  final ValueChanged<String>? onCloseSubMeu;
 
   const MenuListPanel({
     super.key,
@@ -200,7 +225,9 @@ class MenuListPanel extends StatelessWidget {
     required this.contentBuilder,
     required this.shrinkWrapWidthOverlay,
     required this.boxSize,
+    required this.onCloseSubMeu,
     this.onSelect,
+    this.onSubMenuEnter,
     this.style,
     required this.subMenuGap,
   });
@@ -247,10 +274,12 @@ class MenuListPanel extends StatelessWidget {
         ),
       SubMenu() => SubMenuItem(
           style: style,
+          onCloseSubMeu: onCloseSubMeu,
           maxHeight: maxHeight,
           leadingBuilder: leadingBuilder,
           contentBuilder: contentBuilder,
           tailBuilder: tailBuilder,
+          onSubMenuEnter: onSubMenuEnter,
           menu: menu,
           subMenuGap: subMenuGap,
           onSelect: onSelect,

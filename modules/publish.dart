@@ -3,13 +3,15 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 
 void main() async {
-  String oldPath =
-      'd:/Projects/Flutter/Fx/toly_ui/modules/publish/tolyui_0.0.4+6.json';
-  String newPath =
-      'd:/Projects/Flutter/Fx/toly_ui/modules/publish/tolyui_0.0.4+7.json';
-  List<String> updates = await collect(oldPath, newPath);
+  // String oldPath =
+  //     'd:/Projects/Flutter/Fx/toly_ui/modules/publish/tolyui_0.0.4+6.json';
+  // String newPath =
+  //     'd:/Projects/Flutter/Fx/toly_ui/modules/publish/tolyui_0.0.4+7.json';
+  // List<String> updates = await collect(oldPath, newPath);
 
-  publishModule('tolyui_navigation');
+  publishModule('tolyui_refresh');
+  // publishModule('tolyui_feedback');
+  // publishModule('tolyui_feedback');
 
   // for(String module in updates){
   //   await publishModule( module);

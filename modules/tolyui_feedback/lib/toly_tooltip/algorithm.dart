@@ -22,7 +22,7 @@ class OverflowEdge {
   }
 
   bool get overflowAll => top && bottom && right && left;
-  bool get noOverflow => !(top && bottom && right && left);
+  bool get noOverflow => !top && !bottom && !right && !left;
 }
 
 typedef OverflowAlgorithm = Placement Function(

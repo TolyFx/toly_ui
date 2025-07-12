@@ -4,7 +4,7 @@ import '../../tolyui_message.dart';
 import '../widget/overlay/message_overlay.dart';
 import '../widget/overlay/notice_overlay.dart';
 
-typedef Task = Future<void> Function();
+typedef Task<T> = Future<T> Function();
 
 /// 消息任务栈
 class MessageTask {

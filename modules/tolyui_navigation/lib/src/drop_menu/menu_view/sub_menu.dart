@@ -18,6 +18,7 @@ import 'menu_item_display.dart';
 class SubMenuItem extends StatefulWidget {
   final SubMenu menu;
   final ValueChanged<MenuMeta>? onSelect;
+  final ValueChanged<bool>? onSubMenuEnter;
   final double subMenuGap;
   final DropMenuCellStyle? style;
   final DecorationConfig? decorationConfig;
@@ -25,16 +26,19 @@ class SubMenuItem extends StatefulWidget {
   final MenuMetaBuilder? contentBuilder;
   final MenuMetaBuilder? tailBuilder;
   final double? maxHeight;
+  final ValueChanged<String>? onCloseSubMeu;
 
   const SubMenuItem({
     super.key,
     required this.menu,
     required this.style,
+    required this.onSubMenuEnter,
     required this.maxHeight,
     required this.onSelect,
     required this.subMenuGap,
     required this.leadingBuilder,
     required this.tailBuilder,
+    required this.onCloseSubMeu,
     required this.contentBuilder,
     required this.decorationConfig,
   });
@@ -134,11 +138,15 @@ class _SubMenuItemState extends State<SubMenuItem> with HoverActionMix {
     return TolyDropMenu(
       onSelect: widget.onSelect,
       style: widget.style,
+      onClose: () {
+        widget.onCloseSubMeu?.call(widget.menu.menu.route);
+      },
       maxHeight: widget.menu.maxHeight ?? widget.maxHeight,
       leadingBuilder: widget.leadingBuilder,
       tailBuilder: widget.tailBuilder,
       placement: Placement.rightStart,
       subMenuGap: widget.subMenuGap,
+      onSubMenuEnter: widget.onSubMenuEnter,
       hoverConfig: const HoverConfig(enterPop: true, exitClose: false),
       decorationConfig: widget.decorationConfig,
       offsetCalculator: (c) =>

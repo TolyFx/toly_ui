@@ -27,8 +27,15 @@ class DropMenuDemo3 extends StatelessWidget {
 
     return TolyDropMenu(
         onSelect: onSelect,
+        onClose: () {
+          print("=====onClose========");
+        },
+        onCloseSubMeu: (route) {
+          print("=====onCloseSubMeu:${route}========");
+        },
         subMenuGap: gap,
         placement: Placement.bottomStart,
+        hoverConfig: HoverConfig(enterPop: true),
         decorationConfig:
             DecorationConfig(isBubble: false, backgroundColor: bgColor),
         offsetCalculator: boxOffsetCalculator,

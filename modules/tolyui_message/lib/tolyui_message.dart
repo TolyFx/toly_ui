@@ -8,3 +8,4 @@ export 'src/widget/theme/toly_message_show_theme.dart';
 export 'src/widget/theme/toly_message_style_theme.dart';
 
 export 'src/logic/logic.dart';
+export 'src/model/task.dart';
