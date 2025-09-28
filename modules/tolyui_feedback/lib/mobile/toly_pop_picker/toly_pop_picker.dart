@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'toly_pop_picker_theme.dart';
 
 /// create by 张风捷特烈 on 2021/1/11
 /// contact me by email 1981462002@qq.com
@@ -23,34 +24,46 @@ class TolyPopItem {
 class TolyPopPicker extends StatelessWidget {
   final List<TolyPopItem> tasks;
   final VoidCallback? onCancel;
-  final String? message;
   final Widget? title;
   final String cancelText;
+  final TolyPopPickerTheme? theme;
 
   const TolyPopPicker({
     super.key,
     this.title,
     required this.tasks,
-    this.message,
     this.onCancel,
     this.cancelText = "取消",
+    this.theme,
   });
 
   @override
   Widget build(BuildContext context) {
+    final effectiveTheme = theme ?? TolyPopPickerTheme.of(context);
     return Material(
+      borderRadius: BorderRadius.vertical(
+          top: Radius.circular(effectiveTheme.borderRadius)),
       child: Container(
-          color: Colors.white,
+          decoration: BoxDecoration(
+            color: effectiveTheme.backgroundColor,
+            borderRadius: BorderRadius.vertical(
+                top: Radius.circular(effectiveTheme.borderRadius)),
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (message != null || title != null) _buildMessage(context, message),
-              ...tasks.asMap().keys.map((index) => buildItem(index, context)).toList(),
+              if (title != null)
+                _buildMessage(context, effectiveTheme),
+              ...tasks
+                  .asMap()
+                  .keys
+                  .map((index) => buildItem(index, context, effectiveTheme)),
               Container(
-                color: const Color(0xffE5E3E4).withOpacity(0.3),
-                height: 10,
+                color: effectiveTheme.separatorColor.withOpacity(0.3),
+                height: effectiveTheme.separatorHeight,
               ),
-              buildCancel(context)
+              buildCancel(context, effectiveTheme),
+              SizedBox(height: MediaQuery.of(context).padding.bottom),
             ],
           )),
     );
@@ -64,65 +77,132 @@ class TolyPopPicker extends StatelessWidget {
     Navigator.of(context).pop();
   }
 
-  Widget buildCancel(BuildContext context) {
+  Widget buildCancel(BuildContext context, TolyPopPickerTheme theme) {
+    Radius radius = Radius.circular(theme.borderRadius);
+    TextStyle? cancelStyle = theme.cancelTextStyle;
     return Material(
+      borderRadius: BorderRadius.vertical(bottom: radius),
       child: InkWell(
+        borderRadius: BorderRadius.vertical(bottom: radius),
         onTap: () => _cancelTap(context),
         child: Ink(
           width: MediaQuery.of(context).size.width,
-          height: 50,
-          color: Colors.white,
-          child: Center(
-              child: Text(
-            cancelText,
-            style: TextStyle(fontSize: 17, color: Colors.black, fontWeight: FontWeight.bold),
-          )),
+          height: theme.cancelHeight,
+          decoration: BoxDecoration(
+            color: theme.backgroundColor,
+            borderRadius: BorderRadius.vertical(bottom: radius),
+          ),
+          child: Center(child: Text(cancelText, style: cancelStyle)),
         ),
       ),
     );
   }
 
-  Widget buildItem(int index, BuildContext context) {
+  Widget buildItem(int index, BuildContext context, TolyPopPickerTheme theme) {
+    bool disable = tasks[index].task == null;
+    TextStyle? itemStyle =
+        disable ? theme.disabledItemTextStyle : theme.itemTextStyle;
     return Material(
       child: InkWell(
-          onTap: tasks[index].task == null
+          onTap: disable
               ? null
               : () async {
                   _cancelTap(context);
-                  if (tasks[index].task != null) await tasks[index].task?.call();
+                  if (tasks[index].task != null) {
+                    await tasks[index].task?.call();
+                  }
                 },
           child: Ink(
-            height: 52,
+            height: theme.itemHeight,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: theme.backgroundColor,
                 border: Border(
                     bottom: index != tasks.length - 1
-                        ? BorderSide(color: Colors.grey.withOpacity(0.2), width: 0.5)
+                        ? BorderSide(
+                            color: Colors.grey.withOpacity(0.2), width: 0.5)
                         : BorderSide.none)),
-            child: Center(
-              child: tasks[index].content ?? Text(
+            child: Container(
+              padding: theme.itemPadding,
+              child: Center(
+                child: tasks[index].content ??
+                    Text(
                       tasks[index].info,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: tasks[index].task == null ? Colors.grey : Colors.black,
-                      ),
+                      style: itemStyle,
                     ),
+              ),
             ),
           )),
     );
   }
 
-  Widget _buildMessage(BuildContext context, String? message) {
+  Widget _buildMessage(BuildContext context, TolyPopPickerTheme theme) {
+    Widget? child;
+    if (title != null) {
+      child = DefaultTextStyle(
+        style: theme.titleTextStyle ?? const TextStyle(),
+        child: title!,
+      );
+    }
     return Container(
       alignment: Alignment.center,
-      constraints: BoxConstraints(maxHeight: 52),
+      constraints: const BoxConstraints(maxHeight: 52),
       width: MediaQuery.of(context).size.width,
+      padding: theme.titlePadding,
       decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.grey.withOpacity(0.2), width: 0.5))),
-      child: title != null
-          ? title!
-          : Text('${message}', style: TextStyle(fontSize: 15, color: Colors.grey)),
+          borderRadius:
+              BorderRadius.vertical(top: Radius.circular(theme.borderRadius)),
+          border: Border(
+              bottom:
+                  BorderSide(color: Colors.grey.withOpacity(0.2), width: 0.5))),
+      child: child,
     );
   }
+}
+
+Future<T?> showTolyPopPicker<T>({
+  required BuildContext context,
+  required List<TolyPopItem> tasks,
+  Widget? title,
+  VoidCallback? onCancel,
+  String cancelText = "取消",
+  TolyPopPickerTheme? theme,
+  bool isDismissible = true,
+  bool enableDrag = true,
+  bool isScrollControlled = false,
+  bool useRootNavigator = false,
+  Color? backgroundColor,
+  double? elevation,
+  Clip? clipBehavior,
+  BoxConstraints? constraints,
+  Color? barrierColor,
+  String? barrierLabel,
+  AnimationController? transitionAnimationController,
+}) {
+  final effectiveTheme = theme ?? TolyPopPickerTheme.of(context);
+  return showModalBottomSheet<T>(
+    context: context,
+    isDismissible: isDismissible,
+    enableDrag: enableDrag,
+    isScrollControlled: isScrollControlled,
+    useRootNavigator: useRootNavigator,
+    backgroundColor: backgroundColor,
+    elevation: elevation,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+          top: Radius.circular(effectiveTheme.borderRadius)),
+    ),
+    clipBehavior: clipBehavior,
+    constraints: constraints,
+    barrierColor: barrierColor,
+    barrierLabel: barrierLabel,
+    transitionAnimationController: transitionAnimationController,
+    builder: (context) => TolyPopPicker(
+      tasks: tasks,
+      title: title,
+      onCancel: onCancel,
+      cancelText: cancelText,
+      theme: theme,
+    ),
+  );
 }
