@@ -4,35 +4,51 @@ import 'package:flutter/material.dart';
 import 'status.dart';
 
 typedef Task<T> = FutureOr<T> Function();
+typedef CancellableTask<T> = FutureOr<T> Function(CancelToken token);
+
+class CancelToken {
+  bool _cancelled = false;
+  bool get isCancelled => _cancelled;
+  void cancel() => _cancelled = true;
+}
 
 extension TaskExe<T> on Task<T> {
   Future<T?> execute({
     Duration? duration,
     OnStatusChange<T>? onStatusChange,
   }) {
-    Duration duration = Duration(seconds: 5);
-    return doTask(duration, onStatusChange).timeout(
+    duration ??= Duration(seconds: 5);
+    final cancelToken = CancelToken();
+    
+    return doTask(cancelToken, onStatusChange).timeout(
       duration,
       onTimeout: () {
-        onStatusChange?.call(Timeout(duration));
+        cancelToken.cancel();
+        onStatusChange?.call(Timeout(duration!));
         return null;
       },
     );
   }
 
   Future<T?> doTask(
-    Duration? duration,
+    CancelToken cancelToken,
     OnStatusChange<T>? onStatusChange,
   ) async {
+    if (cancelToken.isCancelled) return null;
+    
     T? data;
     onStatusChange?.call(const Loading());
     try {
       data = await call();
-      onStatusChange?.call(Success(data));
+      if (!cancelToken.isCancelled) {
+        onStatusChange?.call(Success(data));
+      }
     } catch (e, s) {
-      onStatusChange?.call(Failure(e, s));
+      if (!cancelToken.isCancelled) {
+        onStatusChange?.call(Failure(e, s));
+      }
     }
-    return data;
+    return cancelToken.isCancelled ? null : data;
   }
 }
 

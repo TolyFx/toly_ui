@@ -63,29 +63,29 @@ class _PopMenuActionState<T> extends State<PopMenuAction<T>> {
     );
   }
 
-  Future<T?> doTask(Task task) async {
-    T? data;
-    widget.onStatusChange?.call(const Loading(), widget.item);
-    try {
-      data = await task.call();
-      widget.onStatusChange?.call(Success(data), widget.item);
-    } catch (e, s) {
-      widget.onStatusChange?.call(Failure(e, s), widget.item);
-    } finally {
-      setState(() {
-        _loading = false;
-      });
-    }
-    return data;
-  }
-
-  Future<T?> doTaskWithTimeout(Task task) async {
-    Duration duration = Duration(seconds: 5);
-    return doTask(task).timeout(duration, onTimeout: () {
-      widget.onStatusChange?.call(Timeout(duration), widget.item);
-      return null;
-    });
-  }
+  // Future<T?> doTask(Task task) async {
+  //   T? data;
+  //   widget.onStatusChange?.call(const Loading(), widget.item);
+  //   try {
+  //     data = await task.call();
+  //     widget.onStatusChange?.call(Success(data), widget.item);
+  //   } catch (e, s) {
+  //     widget.onStatusChange?.call(Failure(e, s), widget.item);
+  //   } finally {
+  //     setState(() {
+  //       _loading = false;
+  //     });
+  //   }
+  //   return data;
+  // }
+  //
+  // Future<T?> doTaskWithTimeout(Task task) async {
+  //   Duration duration = Duration(seconds: 5);
+  //   return doTask(task).timeout(duration, onTimeout: () {
+  //     widget.onStatusChange?.call(Timeout(duration), widget.item);
+  //     return null;
+  //   });
+  // }
 
   void _handleTask(BuildContext context, TolyMenuItem<T> item) async {
     Task? task = item.task;
@@ -100,11 +100,11 @@ class _PopMenuActionState<T> extends State<PopMenuAction<T>> {
       return;
     }
 
-    await task.execute(
+    T? data = await task.execute(
       duration: duration,
       onStatusChange: _onStatusChange,
     );
-    _pop(context);
+    _pop(context, data);
   }
 
   void _pop(BuildContext context, [T? result]) {

@@ -9,7 +9,7 @@ void showAsyncStatusPicker(
     context: context,
     tasks: [
       TolyMenuItem<String>(
-        info: '拍照(模拟超时)',
+        info: '同步数据(模拟 5s 超时)',
         popBeforeTask: true,
         task: () async {
           // 模拟异步任务
@@ -18,7 +18,7 @@ void showAsyncStatusPicker(
         },
       ),
       TolyMenuItem<String>(
-        info: '从相册选择',
+        info: '保存设置(成功)',
         popBeforeTask: true,
         task: () async {
           // 模拟异步任务
@@ -27,11 +27,12 @@ void showAsyncStatusPicker(
         },
       ),
       TolyMenuItem<String>(
-        info: '白板绘制',
+        info: '发送消息(异常)',
         popBeforeTask: true,
         task: () async {
           // 模拟异步任务
           await Future.delayed(Duration(milliseconds: 1000));
+          throw "处理异常，请稍后重试";
           return 'root/temp/painter';
         },
       ),
@@ -43,6 +44,8 @@ void showAsyncStatusPicker(
 }
 
 void onStatusChange(TaskStatus status, TolyMenuItem<String> item) {
+  print("=====${status.runtimeType}==========");
+
   switch (status) {
     case Loading():
       $message.loading();
@@ -58,11 +61,9 @@ void onStatusChange(TaskStatus status, TolyMenuItem<String> item) {
     $message.error(message: '任务执行失败');
   }
   if (status is Timeout) {
-    $message.error(message: '任务执行超时');
+    $message.warning(message: '任务执行超时');
   }
-
   if (status is Success) {
     $message.success(message: '任务执行成功!');
   }
-  print("=====${status.runtimeType}==========");
 }
