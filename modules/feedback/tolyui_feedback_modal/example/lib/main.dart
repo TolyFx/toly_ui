@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui_feedback_modal/tolyui_feedback_modal.dart';
+import 'package:tolyui_message/tolyui_message.dart';
+
+part '01_basic.dart';
+
+part '02_async_task.dart';
+
+part '03_async_task_status.dart';
+
+typedef DebugValueSetter = void Function(String value);
 
 void main() {
   runApp(const MyApp());
@@ -10,21 +19,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'TolyPopPicker Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        dividerTheme: DividerThemeData(
-          color: Color(0xffefefef),
-          thickness: 0.5,
-          space: 0.5,
+    return TolyMessage(
+      child: MaterialApp(
+        title: 'TolyPopPicker Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          dividerTheme: DividerThemeData(
+            color: Color(0xffefefef),
+            thickness: 0.5,
+            space: 0.5,
+          ),
+          useMaterial3: true,
+          extensions: const [
+            TolyPopPickerTheme(),
+          ],
         ),
-        useMaterial3: true,
-        extensions: const [
-          TolyPopPickerTheme(),
-        ],
+        home: const PopPickerDemo(),
       ),
-      home: const PopPickerDemo(),
     );
   }
 }
@@ -39,61 +50,9 @@ class PopPickerDemo extends StatefulWidget {
 class _PopPickerDemoState extends State<PopPickerDemo> {
   String _selectedAction = '未选择';
 
-  void _showBasicPicker() {
-    showTolyPopPicker(
-      context: context,
-      tasks: [
-        TolyMenuItem(
-          info: '拍照',
-          task: () {
-            setState(() => _selectedAction = '拍照');
-          },
-        ),
-        TolyMenuItem(
-          info: '从相册选择',
-          task: () {
-            setState(() => _selectedAction = '拍照');
-          },
-        ),
-      ],
-    );
-  }
-
-  void _showAsyncPicker() async {
-    String? filePath = await showTolyPopPicker<String>(
-      context: context,
-      tasks: [
-
-        TolyMenuItem<String>(
-          info: '拍照',
-          task: () async {
-            // 模拟异步任务
-            await Future.delayed(Duration(milliseconds: 1000));
-            return 'root/temp/foo';
-          },
-        ),
-        TolyMenuItem<String>(
-          info: '从相册选择',
-          task: () async {
-            // 模拟异步任务
-            await Future.delayed(Duration(milliseconds: 1000));
-            return 'root/temp/foo/2';
-          },
-        ),
-        TolyMenuItem<String>(
-          info: '白板绘制',
-          popBeforeTask: true,
-          task: () async {
-            // 模拟异步任务
-            await Future.delayed(Duration(milliseconds: 1000));
-            return 'root/temp/painter';
-          },
-        ),
-      ],
-    );
-    if (filePath != null) {
-      setState(() => _selectedAction = filePath);
-    }
+  void setValue(String value) {
+    _selectedAction = value;
+    setState(() {});
   }
 
   void _showPickerWithTitle() {
@@ -270,13 +229,18 @@ class _PopPickerDemoState extends State<PopPickerDemo> {
             ),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: _showBasicPicker,
+              onPressed: () => showBasicPicker(context, setValue),
               child: const Text('基础选择器'),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
-              onPressed: _showAsyncPicker,
+              onPressed: () => showAsyncPicker(context, setValue),
               child: const Text('异步选择器(有结果)'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () => showAsyncStatusPicker(context, setValue),
+              child: const Text('异步+状态监听'),
             ),
             const SizedBox(height: 12),
             ElevatedButton(

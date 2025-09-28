@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../logic/message.dart';
 
@@ -83,11 +84,19 @@ class TolyMessageState extends State<TolyMessage> {
     if (locale == null && locales.isNotEmpty) {
       locale = locales.first;
     }
-
+    List<LocalizationsDelegate<dynamic>> delegates =
+        widget.localizationsDelegates?.toList() ?? [];
+    if (delegates.isEmpty) {
+      delegates = [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+    }
     return TapRegionSurface(
       child: Localizations(
         locale: widget.locale ?? const Locale('zh'),
-        delegates: widget.localizationsDelegates?.toList() ?? [],
+        delegates: delegates,
         child: Theme(
           data: _themeBuilder(context),
           child: Material(

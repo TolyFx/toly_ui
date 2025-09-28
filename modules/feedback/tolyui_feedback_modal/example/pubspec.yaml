@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.6.2
+  sdk: ^3.6.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -36,7 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   tolyui_feedback_modal:
     path: ../
-
+  tolyui_message:
+    path: ../../../tolyui_message
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../../tolyui_feedback_modal.dart';
+import '../model/status.dart';
 import 'mobile/toly_pop_picker.dart';
 
 Future<T?> showTolyPopPicker<T>({
   required BuildContext context,
-  required List<TolyMenuItem> tasks,
+  required List<TolyMenuItem<T>> tasks,
+  OnStateChange<T>? onStatusChange,
   Widget? title,
   String cancelText = "取消",
   String? message,
@@ -43,12 +45,13 @@ Future<T?> showTolyPopPicker<T>({
     barrierColor: barrierColor,
     barrierLabel: barrierLabel,
     transitionAnimationController: transitionAnimationController,
-    builder: (context) => TolyPopPicker(
+    builder: (context) => TolyPopPicker<T>(
       tasks: tasks,
       title: title,
       cancelText: cancelText,
       theme: theme,
       message: message,
+      onStatusChange: onStatusChange,
     ),
   );
 }

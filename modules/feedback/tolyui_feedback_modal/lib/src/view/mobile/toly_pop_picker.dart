@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:tolyui_feedback_modal/src/model/status.dart';
 
 import '../../../tolyui_feedback_modal.dart';
 
@@ -10,6 +11,7 @@ import '../../../tolyui_feedback_modal.dart';
 
 class TolyPopPicker<T> extends StatelessWidget {
   final List<TolyMenuItem<T>> tasks;
+  final OnStateChange<T>? onStatusChange;
   final Widget? title;
   final String? message;
   final String cancelText;
@@ -22,6 +24,7 @@ class TolyPopPicker<T> extends StatelessWidget {
     required this.tasks,
     this.cancelText = "取消",
     this.theme,
+    this.onStatusChange,
   });
 
   @override
@@ -51,7 +54,11 @@ class TolyPopPicker<T> extends StatelessWidget {
     }
 
     for (int i = 0; i < tasks.length; i++) {
-      Widget menu = PopMenuAction(theme: theme, item: tasks[i],);
+      Widget menu = PopMenuAction(
+        theme: theme,
+        item: tasks[i],
+        onStatusChange: onStatusChange,
+      );
       children.add(menu);
       if (i != tasks.length - 1) {
         children.add(Divider());
@@ -91,7 +98,7 @@ class TolyPopPicker<T> extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildTitleTiled(Widget title, TolyPopPickerTheme theme) {
     Widget child = DefaultTextStyle(
       style: theme.titleTextStyle ?? const TextStyle(),
