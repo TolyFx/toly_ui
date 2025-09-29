@@ -1,5 +1,5 @@
 name: tolyui_feedback_modal
-description: "A new Flutter package project."
+description: "A powerful Flutter bottom sheet picker with async task support, status monitoring, timeout cancellation and theme customization."
 version: 0.0.1
 homepage:
 

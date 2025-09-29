@@ -32,9 +32,11 @@ class _PopMenuActionState<T> extends State<PopMenuAction<T>> {
 
     Widget? loadingView;
     if (_loading) {
+      bool isDark = Theme.of(context).brightness == Brightness.dark;
       loadingView = widget.item.loadingBuilder?.call(context) ??
           CupertinoActivityIndicator(
             radius: 8,
+            color: isDark ? Colors.white : null,
           );
     }
 

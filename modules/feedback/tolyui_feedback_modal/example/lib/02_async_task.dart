@@ -25,7 +25,6 @@ void showAsyncPicker(
       ),
       TolyMenuItem<String>(
         info: '白板绘制',
-        popBeforeTask: true,
         task: () async {
           // 模拟异步任务
           await Future.delayed(Duration(milliseconds: 1000));

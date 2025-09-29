@@ -9,7 +9,8 @@ void main() async {
   //     'd:/Projects/Flutter/Fx/toly_ui/modules/publish/tolyui_0.0.4+7.json';
   // List<String> updates = await collect(oldPath, newPath);
 
-  publishModule('tolyui_feedback');
+  // publishModule('tolyui_feedback');
+  publishModule(folder: 'feedback', 'tolyui_feedback_modal');
   // publishModule('tolyui_feedback');
   // publishModule('tolyui_feedback');
 
@@ -19,9 +20,12 @@ void main() async {
   // }
 }
 
-Future<void> publishModule(String name) async {
+Future<void> publishModule(String name, {String? folder}) async {
   Directory dir = Directory.current;
   String path = p.join(dir.path, 'modules', name);
+  if (folder != null) {
+    path = p.join(dir.path, 'modules', folder, name);
+  }
   print(path);
   await publish(path, port: 7890);
 }

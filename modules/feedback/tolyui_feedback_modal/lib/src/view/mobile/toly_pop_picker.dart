@@ -30,9 +30,9 @@ class TolyPopPicker<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TolyPopPickerTheme effectTheme = theme ?? TolyPopPickerTheme.of(context);
-    Color background = effectTheme.backgroundColor;
+    Color? background = effectTheme.backgroundColor;
     BorderRadius radius = BorderRadius.vertical(
-      top: Radius.circular(effectTheme.borderRadius),
+      top: Radius.circular(effectTheme.borderRadius ?? 0),
     );
 
     List<Widget> children = buildItems(context, effectTheme);
@@ -67,7 +67,7 @@ class TolyPopPicker<T> extends StatelessWidget {
 
     children.add(
       Container(
-        color: theme.separatorColor.withOpacity(0.3),
+        color: theme.separatorColor?.withOpacity(0.3),
         height: theme.separatorHeight,
       ),
     );
@@ -79,7 +79,7 @@ class TolyPopPicker<T> extends StatelessWidget {
   }
 
   Widget buildCancel(BuildContext context, TolyPopPickerTheme theme) {
-    Radius radius = Radius.circular(theme.borderRadius);
+    Radius radius = Radius.circular(theme.borderRadius ?? 0);
     TextStyle? cancelStyle = theme.cancelTextStyle;
     return Material(
       borderRadius: BorderRadius.vertical(bottom: radius),
@@ -111,7 +111,7 @@ class TolyPopPicker<T> extends StatelessWidget {
       );
     }
     BorderRadius radius = BorderRadius.vertical(
-      top: Radius.circular(theme.borderRadius),
+      top: Radius.circular(theme.borderRadius ?? 0),
     );
     Border border = Border(
       bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.2), width: 0.5),

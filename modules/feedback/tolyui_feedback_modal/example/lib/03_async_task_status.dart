@@ -5,7 +5,7 @@ void showAsyncStatusPicker(
   DebugValueSetter setter,
 ) async {
   String? filePath = await showTolyPopPicker<String>(
-    onStatusChange: onStatusChange,
+    onStatusChange: _onStatusChange,
     context: context,
     tasks: [
       TolyMenuItem<String>(
@@ -43,7 +43,7 @@ void showAsyncStatusPicker(
   }
 }
 
-void onStatusChange(TaskStatus status, TolyMenuItem<String> item) {
+void _onStatusChange(TaskStatus status, TolyMenuItem<String> item) {
   print("=====${status.runtimeType}==========");
 
   switch (status) {

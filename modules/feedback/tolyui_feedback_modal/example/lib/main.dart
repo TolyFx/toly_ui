@@ -8,10 +8,30 @@ part '02_async_task.dart';
 
 part '03_async_task_status.dart';
 
+part '04_has_title.dart';
+
+part '05_title_with_message.dart';
+
+part '06_theme_style.dart';
+
+part '07_global_theme_style.dart';
+
+part '05_desktop_modal.dart';
+
 typedef DebugValueSetter = void Function(String value);
 
 void main() {
   runApp(const MyApp());
+}
+
+ValueNotifier<ThemeMode> themeMode = ValueNotifier(ThemeMode.light);
+
+void toggleThemeMode() {
+  if (themeMode.value == ThemeMode.light) {
+    themeMode.value = ThemeMode.dark;
+  } else {
+    themeMode.value = ThemeMode.light;
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -20,21 +40,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TolyMessage(
-      child: MaterialApp(
-        title: 'TolyPopPicker Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          dividerTheme: DividerThemeData(
-            color: Color(0xffefefef),
-            thickness: 0.5,
-            space: 0.5,
+      child: ValueListenableBuilder<ThemeMode>(
+        valueListenable: themeMode,
+        builder: (_, value, __) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'TolyPopPicker Demo',
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            dividerTheme: DividerThemeData(
+              color: Color(0xff222222),
+              thickness: 0.5,
+              space: 0.5,
+            ),
           ),
-          useMaterial3: true,
-          extensions: const [
-            TolyPopPickerTheme(),
-          ],
+          themeMode: value,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            dividerTheme: DividerThemeData(
+              color: Color(0xffefefef),
+              thickness: 0.5,
+              space: 0.5,
+            ),
+            useMaterial3: true,
+          ),
+          home: const PopPickerDemo(),
         ),
-        home: const PopPickerDemo(),
       ),
     );
   }
@@ -55,154 +85,25 @@ class _PopPickerDemoState extends State<PopPickerDemo> {
     setState(() {});
   }
 
-  void _showPickerWithTitle() {
-    showTolyPopPicker(
-      context: context,
-      title: const Text('选择操作',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-      tasks: [
-        TolyMenuItem(
-          info: '编辑',
-          task: () {
-            setState(() => _selectedAction = '编辑');
-          },
-        ),
-        TolyMenuItem(
-          info: '删除',
-          task: () {
-            setState(() => _selectedAction = '删除');
-          },
-        ),
-        TolyMenuItem(
-          info: '分享',
-          task: () {
-            setState(() => _selectedAction = '分享');
-          },
-        ),
-      ],
-    );
-  }
-
-  void _showPickerWithMessage() {
-    showTolyPopPicker(
-      context: context,
-      title: Text(
-        '请选择您要执行的操作',
-        style: TextStyle(color: Colors.grey, fontWeight: FontWeight.normal),
-      ),
-      cancelText: '关闭',
-      tasks: [
-        TolyMenuItem(
-          info: '保存到本地',
-          task: () {
-            setState(() => _selectedAction = '保存到本地');
-          },
-        ),
-        TolyMenuItem(
-          info: '发送给朋友',
-          task: () {
-            setState(() => _selectedAction = '发送给朋友');
-          },
-        ),
-        TolyMenuItem(
-          info: '复制链接',
-          task: () {
-            setState(() => _selectedAction = '复制链接');
-          },
-        ),
-      ],
-    );
-  }
-
-  void _showPickerWithCustomRadius() {
-    showTolyPopPicker(
-      context: context,
-      title: const Text('选中应用语言'),
-      message: '选中的语言将会影响应用程序表现',
-      theme: const TolyPopPickerTheme(
-          borderRadius: 20.0,
-          separatorHeight: 8,
-          itemHeight: 54,
-          titlePadding: EdgeInsets.symmetric(vertical: 12),
-          titleTextStyle: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
-            color: Colors.black,
-          ),
-          itemTextStyle: TextStyle(
-            color: Colors.indigo,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-          cancelTextStyle: TextStyle(
-            color: Colors.blueAccent,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          )),
-      tasks: ['简体中文', 'English']
-          .map((e) => TolyMenuItem(
-                info: e,
-                task: () => setState(() => _selectedAction = e),
-              ))
-          .toList(),
-    );
-  }
-
-  void _showPickerWithCustomTheme() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Theme(
-          data: Theme.of(context).copyWith(
-            extensions: [
-              const TolyPopPickerTheme(
-                borderRadius: 16.0,
-                backgroundColor: Color(0xFFF5F5F5),
-                separatorColor: Colors.blue,
-                itemHeight: 60.0,
-                itemTextStyle: TextStyle(
-                    fontSize: 18,
-                    color: Colors.blue,
-                    fontWeight: FontWeight.w500),
-                cancelTextStyle: TextStyle(fontSize: 16, color: Colors.red),
-              ),
-            ],
-          ),
-          child: Scaffold(
-            appBar: AppBar(title: const Text('自定义主题页面')),
-            body: Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  showTolyPopPicker(
-                    context: context,
-                    title: const Text('自定义主题'),
-                    tasks: [
-                      TolyMenuItem(
-                        info: '蓝色主题',
-                        task: () => setState(() => _selectedAction = '蓝色主题'),
-                      ),
-                      TolyMenuItem(
-                        info: '自定义样式',
-                        task: () => setState(() => _selectedAction = '自定义样式'),
-                      ),
-                    ],
-                  );
-                },
-                child: const Text('显示主题选择器'),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('TolyPopPicker 示例'),
+        actions: [
+          ValueListenableBuilder<ThemeMode>(
+            valueListenable: themeMode,
+            builder: (_, value, __) {
+              return IconButton(
+                onPressed: toggleThemeMode,
+                icon: Icon(value == ThemeMode.light
+                    ? Icons.dark_mode
+                    : Icons.light_mode),
+              );
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -240,27 +141,27 @@ class _PopPickerDemoState extends State<PopPickerDemo> {
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () => showAsyncStatusPicker(context, setValue),
-              child: const Text('异步+状态监听'),
+              child: const Text('异步/状态监听'),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
-              onPressed: _showPickerWithTitle,
-              child: const Text('带标题的选择器'),
+              onPressed: () => showHasTitlePicker(context, setValue),
+              child: const Text('标题/圆角'),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
-              onPressed: _showPickerWithMessage,
-              child: const Text('带消息的选择器'),
-            ),
-            const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: _showPickerWithCustomRadius,
+              onPressed: () => showThemeStylePicker(context, setValue),
               child: const Text('选中语言(指定主题)'),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
-              onPressed: _showPickerWithCustomTheme,
-              child: const Text('ThemeExtension 自定义'),
+              onPressed: () => showGlobalThemeStylePicker(context, setValue),
+              child: const Text('全局主题'),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () => showDesktopModalPicker(context, setValue),
+              child: const Text('桌面端模态框'),
             ),
           ],
         ),
