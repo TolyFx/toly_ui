@@ -1,7 +1,6 @@
-import 'dart:async';
+import 'package:flutter/services.dart';
 
 import 'package:flutter/material.dart';
-import 'package:tolyui_feedback_modal/src/model/status.dart';
 
 import '../../../tolyui_feedback_modal.dart';
 
@@ -30,27 +29,29 @@ class TolyPopPicker<T> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TolyPopPickerTheme effectTheme = theme ?? TolyPopPickerTheme.of(context);
-    Color background = effectTheme.backgroundColor;
+    Color? background = effectTheme.backgroundColor;
     BorderRadius radius = BorderRadius.vertical(
-      top: Radius.circular(effectTheme.borderRadius),
+      top: Radius.circular(effectTheme.borderRadius ?? 0),
     );
 
     List<Widget> children = buildItems(context, effectTheme);
 
-    return Material(
-      borderRadius: radius,
-      child: Container(
-        width: MediaQuery.sizeOf(context).width,
-        decoration: BoxDecoration(color: background, borderRadius: radius),
-        child: Column(mainAxisSize: MainAxisSize.min, children: children),
-      ),
-    );
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(systemNavigationBarColor: background),
+        child: Material(
+          borderRadius: radius,
+          child: Container(
+            width: MediaQuery.sizeOf(context).width,
+            decoration: BoxDecoration(color: background, borderRadius: radius),
+            child: Column(mainAxisSize: MainAxisSize.min, children: children),
+          ),
+        ));
   }
 
   List<Widget> buildItems(BuildContext context, TolyPopPickerTheme theme) {
     List<Widget> children = [];
-    if (title != null) {
-      children.add(_buildTitleTiled(title!, theme));
+    if (title != null || message != null) {
+      children.add(_buildTitleTiled(title, theme));
     }
 
     for (int i = 0; i < tasks.length; i++) {
@@ -79,7 +80,7 @@ class TolyPopPicker<T> extends StatelessWidget {
   }
 
   Widget buildCancel(BuildContext context, TolyPopPickerTheme theme) {
-    Radius radius = Radius.circular(theme.borderRadius);
+    Radius radius = Radius.circular(theme.borderRadius ?? 0);
     TextStyle? cancelStyle = theme.cancelTextStyle;
     return Material(
       borderRadius: BorderRadius.vertical(bottom: radius),
@@ -99,19 +100,26 @@ class TolyPopPicker<T> extends StatelessWidget {
     );
   }
 
-  Widget _buildTitleTiled(Widget title, TolyPopPickerTheme theme) {
-    Widget child = DefaultTextStyle(
-      style: theme.titleTextStyle ?? const TextStyle(),
-      child: title,
-    );
+  Widget _buildTitleTiled(Widget? title, TolyPopPickerTheme theme) {
+    Widget? child;
+    if (title != null) {
+      child = DefaultTextStyle(
+        style: theme.titleTextStyle ?? const TextStyle(),
+        child: title,
+      );
+    }
+
     if (message != null) {
       child = Column(
         mainAxisSize: MainAxisSize.min,
-        children: [child, Text(message!, style: theme.messageStyle)],
+        children: [
+          if (child != null) child,
+          Text(message!, style: theme.messageStyle)
+        ],
       );
     }
     BorderRadius radius = BorderRadius.vertical(
-      top: Radius.circular(theme.borderRadius),
+      top: Radius.circular(theme.borderRadius ?? 0),
     );
     Border border = Border(
       bottom: BorderSide(color: Colors.grey.withValues(alpha: 0.2), width: 0.5),
