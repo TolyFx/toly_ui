@@ -126,7 +126,9 @@ class TolyPopPicker<T> extends StatelessWidget {
     );
     return Container(
       alignment: Alignment.center,
-      constraints: message != null ? null : BoxConstraints(maxHeight: 52),
+      constraints: (message != null && title != null)
+          ? null
+          : BoxConstraints(maxHeight: 52),
       padding: theme.titlePadding,
       decoration: BoxDecoration(borderRadius: radius, border: border),
       child: child,
