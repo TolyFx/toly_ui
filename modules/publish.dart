@@ -10,8 +10,8 @@ void main() async {
   // List<String> updates = await collect(oldPath, newPath);
 
   // publishModule('tolyui_feedback');
-  publishModule(folder: 'feedback', 'tolyui_feedback_modal');
-  // publishModule('tolyui_feedback');
+  // publishModule(folder: 'feedback', 'tolyui_feedback_modal');
+  publishModule('tolyui_image');
   // publishModule('tolyui_feedback');
 
   // for(String module in updates){
