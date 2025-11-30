@@ -25,7 +25,7 @@ class ExtendedImageEditor extends StatefulWidget {
   ExtendedImageEditor({required this.extendedImageState, Key? key})
       : assert(extendedImageState.imageWidget.fit == BoxFit.contain,
             'Make sure the image is all painted to crop,the fit of image must be BoxFit.contain'),
-        assert(extendedImageState.imageWidget.image is ExtendedImageProvider,
+        assert(extendedImageState.imageWidget.image is FxImageProvider,
             'Make sure the image provider is ExtendedImageProvider, we will get raw image data from it'),
         super(key: key);
   final ExtendedImageState extendedImageState;
@@ -489,12 +489,12 @@ class ExtendedImageEditorState extends State<ExtendedImageEditor>
 
   Uint8List get rawImageData {
     assert(
-        widget.extendedImageState.imageWidget.image is ExtendedImageProvider);
+        widget.extendedImageState.imageWidget.image is FxImageProvider);
 
-    final ExtendedImageProvider<dynamic> extendedImageProvider =
+    final FxImageProvider<dynamic> extendedImageProvider =
         widget.extendedImageState.imageWidget.image
             // ignore: always_specify_types
-            as ExtendedImageProvider<dynamic>;
+            as FxImageProvider<dynamic>;
     return extendedImageProvider.rawImageData;
   }
 

@@ -7,10 +7,10 @@ class TabsDemo1 extends StatefulWidget {
 
 class _TabsDemo1State extends State<TabsDemo1> with TickerProviderStateMixin {
   List<MenuMeta> items = const [
-    MenuMeta(label: 'Tab1', router: 'tab1'),
-    MenuMeta(label: 'Tab2', router: 'tab2'),
-    MenuMeta(label: 'Tab3', router: 'tab3'),
-    MenuMeta(label: 'Tab4', router: 'tab4'),
+    MenuMeta(label: 'Tab1', route: 'tab1'),
+    MenuMeta(label: 'Tab2', route: 'tab2'),
+    MenuMeta(label: 'Tab3', route: 'tab3'),
+    MenuMeta(label: 'Tab4', route: 'tab4'),
   ];
 
   String activeId = 'tab1';

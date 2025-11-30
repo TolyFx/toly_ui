@@ -2,18 +2,18 @@ import 'dart:async';
 // ignore: unnecessary_import
 import 'dart:typed_data';
 import 'dart:ui' as ui show Codec, ImmutableBuffer;
-import 'extended_resize_image_provider.dart';
+import 'resize.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart' hide imageCache;
 
 /// The cached raw image data
-Map<ExtendedImageProvider<dynamic>, Uint8List> rawImageDataMap =
-    <ExtendedImageProvider<dynamic>, Uint8List>{};
+Map<FxImageProvider<dynamic>, Uint8List> rawImageDataMap =
+    <FxImageProvider<dynamic>, Uint8List>{};
 
 /// The imageCaches to store custom ImageCache
 Map<String, ImageCache> imageCaches = <String, ImageCache>{};
 
-mixin ExtendedImageProvider<T extends Object> on ImageProvider<T> {
+mixin FxImageProvider<T extends Object> on ImageProvider<T> {
   /// Whether cache raw data if you need to get raw data directly.
   /// For example, we need raw image data to edit,
   /// but [ui.Image.toByteData()] is very slow. So we cache the image
@@ -39,8 +39,8 @@ mixin ExtendedImageProvider<T extends Object> on ImageProvider<T> {
         'you should set [ExtendedImageProvider.cacheRawData] to true, if you want to get rawImageData from provider.');
 
     ImageProvider<Object> provider = this;
-    if (this is ExtendedResizeImage) {
-      provider = (this as ExtendedResizeImage).imageProvider;
+    if (this is FxResizeImage) {
+      provider = (this as FxResizeImage).imageProvider;
     }
 
     assert(

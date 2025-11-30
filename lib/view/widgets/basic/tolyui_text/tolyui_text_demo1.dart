@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+import 'package:tolyui_text/tolyui_text.dart';
+import 'package:tolyui/form/checkbox/toly_check_box.dart';
+
+import '../../display_nodes/display_nodes.dart';
+
+@DisplayNode(
+  title: '搜索关键字文本高亮',
+  desc:
+      '展示 HighlightText 组件的交互式功能：支持动态输入高亮关键词、切换大小写敏感性、选择不同的高亮样式。集成 TolyCheckBox 组件和 ToggleButtons 实现丰富的用户交互体验。',
+)
+class TolyuiTextDemo1 extends StatefulWidget {
+  const TolyuiTextDemo1({super.key});
+
+  @override
+  State<TolyuiTextDemo1> createState() => _TolyuiTextDemo1State();
+}
+
+class _TolyuiTextDemo1State extends State<TolyuiTextDemo1> {
+  final TextEditingController _controller = TextEditingController(text: 'UI');
+  String _highlightText = 'UI';
+  bool _caseSensitive = false;
+  int _selectedStyleIndex = 0;
+
+  final List<TextStyle> _highlightStyles = [
+    const TextStyle(
+      backgroundColor: Colors.yellow,
+      fontWeight: FontWeight.bold,
+      color: Colors.red,
+    ),
+    const TextStyle(
+      fontWeight: FontWeight.bold,
+      color: Colors.red,
+    ),
+    const TextStyle(
+      fontWeight: FontWeight.w600,
+      color: Colors.blue,
+      decoration: TextDecoration.underline,
+      decorationColor: Colors.blue
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    String msg =
+        'TolyUI is a Flutter cross-platform application development UI framework created by toly. It features four key characteristics: full-platform support, componentization, open-source code, and responsiveness. It provides a large number of commonly used components beyond those included in the Flutter framework, helping developers quickly build responsive applications for all platforms.';
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // 输入框控制高亮文本
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _controller,
+                decoration: const InputDecoration(
+                  labelText: '输入要高亮的文本',
+                  border: OutlineInputBorder(),
+                  suffixIcon: Icon(Icons.search),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    _highlightText = value;
+                  });
+                },
+              ),
+            ),
+            const SizedBox(width: 16),
+            TolyCheckBox(
+              size: 18,
+              value: _caseSensitive,
+              label: const Text('区分大小写'),
+              onChanged: (value) {
+                setState(() {
+                  _caseSensitive = value;
+                });
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        
+        // 动态高亮展示
+        HighlightText.withArg(
+          msg,
+          caseSensitive: _caseSensitive,
+          arg: _highlightText,
+          highlightStyle: _highlightStyles[_selectedStyleIndex],
+        ),
+        
+        const SizedBox(height: 20),
+        const Text('高亮样式:', style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
+        
+        // 高亮样式切换
+        ToggleButtons(
+          borderRadius: BorderRadius.circular(8),
+          constraints: const BoxConstraints(
+            maxHeight: 36,
+            minHeight: 36
+          ),
+          isSelected: [0, 1, 2].map((i) => i == _selectedStyleIndex).toList(),
+          onPressed: (index) {
+            setState(() {
+              _selectedStyleIndex = index;
+            });
+          },
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text('黄色背景'),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text('红色文字'),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text('蓝色+下划线'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+}

@@ -7,19 +7,19 @@ import '../io/platform.dart';
 
 part 'image_operation.dart';
 
-abstract class TolyPlugin<T> {
+abstract class FxPlugin<T> {
   Future<void> mount({T? res});
 }
 
-class TolyImagePlugin
+class FxImagePlugin
     with ImageOperation, ImageOperationImpl
-    implements TolyPlugin<Directory?> {
-  TolyImagePlugin._();
+    implements FxPlugin<Directory?> {
+  FxImagePlugin._();
 
-  static TolyImagePlugin? _instance;
+  static FxImagePlugin? _instance;
 
-  factory TolyImagePlugin() {
-    _instance ??= TolyImagePlugin._();
+  factory FxImagePlugin() {
+    _instance ??= FxImagePlugin._();
     return _instance!;
   }
 

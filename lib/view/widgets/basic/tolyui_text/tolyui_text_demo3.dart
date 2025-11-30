@@ -1,0 +1,54 @@
+import 'package:flutter/material.dart';
+import 'package:tolyui/tolyui.dart';
+import 'package:tolyui_text/tolyui_text.dart';
+
+import '../../display_nodes/display_nodes.dart';
+
+@DisplayNode(
+  title: '多模式智能识别',
+  desc: '展示多种正则模式同时工作的效果，包括数字、邮箱、微信号等不同类型的文本识别。每种模式都有独特的样式和点击交互。',
+)
+class TolyuiTextDemo3 extends StatelessWidget {
+  const TolyuiTextDemo3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const TextStyle emailStyle = TextStyle(
+        color: Colors.purple,
+        decoration: TextDecoration.underline,
+        decorationColor: Colors.purple);
+
+    const TextStyle numStyle = TextStyle(
+      color: Colors.blue,
+      decoration: TextDecoration.underline,
+      decorationColor: Colors.blue,
+    );
+    const TextStyle weiChatStyle = TextStyle(
+        color: Color(0xff01e16e),
+        decoration: TextDecoration.underline,
+        decorationColor: Color(0xff01e16e),
+        fontWeight: FontWeight.bold);
+
+    return HighlightText(
+      "大家好，我是张风捷特烈，1994年3月28日出生。\n\n如果您对TolyUI有任何问题或建议，欢迎通过以下方式联系我：\n• 邮箱：1981462002@qq.com\n• 微信：zdl1994328\n• QQ群：1046304516\n\n感谢你的支持！",
+      rules: {
+        Rule(
+          RegExp(r'\d+'),
+          onTap: (match) =>
+              $message.success(message: '点击了数字: ${match.matchedText}'),
+        ): numStyle,
+        Rule(
+          RegExp(r'\S+@\S+\.\S+'),
+          onTap: (match) => print('点击了邮箱: ${match.matchedText}'),
+        ): emailStyle,
+        Rule(
+          'zdl1994328',
+          onTap: (match) {
+            $message.success(message: '点击了微信号: ${match.matchedText}');
+          },
+        ): weiChatStyle,
+      },
+      style: const TextStyle(fontSize: 16),
+    );
+  }
+}

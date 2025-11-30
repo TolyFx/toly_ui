@@ -7,6 +7,8 @@ class TolyCheckBox extends StatefulWidget {
   final Widget? label;
   final bool indeterminate;
   final double labelSpacing;
+  final double size;
+  final BorderRadius? borderRadius;
   final ValueChanged<bool> onChanged;
 
   const TolyCheckBox({
@@ -15,6 +17,8 @@ class TolyCheckBox extends StatefulWidget {
     this.indeterminate = false,
     this.label,
     this.labelSpacing = 6,
+    this.size = 16,
+    this.borderRadius,
     required this.onChanged,
   });
 
@@ -51,8 +55,8 @@ class _TolyCheckBoxState extends State<TolyCheckBox> {
 
   Widget select() {
     return Container(
-      width: 16,
-      height: 16,
+      width: widget.size,
+      height: widget.size,
       alignment: Alignment.center,
       decoration: BoxDecoration(
           color: widget.indeterminate ? Colors.white : Colors.blue,
@@ -61,10 +65,10 @@ class _TolyCheckBoxState extends State<TolyCheckBox> {
                   color: _hover ? Colors.blue : Color(0xffdcdfe6),
                   width: 1 / window.devicePixelRatio)
               : null,
-          borderRadius: BorderRadius.circular(2)),
+          borderRadius: widget.borderRadius ?? BorderRadius.circular(widget.size * 0.125)),
       child: Icon(
         Icons.check,
-        size: 12,
+        size: widget.size * 0.75,
         color: widget.indeterminate ? Colors.blue : Colors.white,
       ),
     );
@@ -72,12 +76,12 @@ class _TolyCheckBoxState extends State<TolyCheckBox> {
 
   Widget unselect() {
     return Container(
-      width: 16,
-      height: 16,
+      width: widget.size,
+      height: widget.size,
       decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: _hover ? Colors.blue : Color(0xffdcdfe6), width: 1),
-          borderRadius: BorderRadius.circular(2)),
+          borderRadius: widget.borderRadius ?? BorderRadius.circular(widget.size * 0.125)),
     );
   }
 }

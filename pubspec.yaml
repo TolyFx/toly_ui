@@ -48,7 +48,8 @@ dependencies:
 #  toly_menu:
 #    path: modules/toly_menu
   tolyui: 0.0.2+19
-
+  tolyui_text:
+    path: modules/tolyui_text
   wrapper:
     path: modules/wrapper
 #  toly_menu_manager: ^0.0.1

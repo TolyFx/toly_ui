@@ -6,11 +6,11 @@ class TabsDemo4 extends StatefulWidget {
 }
 
 class _TabsDemo4State extends State<TabsDemo4> with TickerProviderStateMixin {
-  List<MenuMeta> items = const [
-    MenuMeta(label: 'Tab1', router: 'tab1', icon: Icons.anchor),
-    MenuMeta(label: 'Tab2', router: 'tab2', icon: Icons.ramp_right),
-    MenuMeta(label: 'Tab3', router: 'tab3', icon: Icons.cable),
-    MenuMeta(label: 'Tab4', router: 'tab4', icon: Icons.account_box_rounded),
+  List<MenuMeta> items = [
+    IconMenu( Icons.anchor,label: 'Tab1', route: 'tab1'),
+    IconMenu( Icons.ramp_right,label: 'Tab2', route: 'tab2'),
+    IconMenu( Icons.cable,label: 'Tab3', route: 'tab3'),
+    IconMenu( Icons.account_box_rounded,label: 'Tab4', route: 'tab4'),
   ];
 
   String activeId = 'tab1';

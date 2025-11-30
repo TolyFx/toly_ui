@@ -11,8 +11,9 @@ void main() async {
 
   // publishModule('tolyui_feedback');
   // publishModule(folder: 'feedback', 'tolyui_feedback_modal');
-  publishModule('tolyui_image');
-  // publishModule('tolyui_feedback');
+  // publishModule('tolyui_image');
+  // publishModule('tolyui_text');
+  publishModule('tolyui');
 
   // for(String module in updates){
   //   await publishModule( module);

@@ -95,13 +95,13 @@ class HighlightText extends StatelessWidget {
 
     for (final MapEntry<Rule, TextStyle> entry in rules.entries) {
       final Iterable<Match> matches = entry.key.allMatches(src);
-
+      int i =0;
       for (final Match match in matches) {
         final HighlightMatch highlightMatch = HighlightMatch(
             entry.key.pattern.toString(),
             match.group(0)!,
             match.start,
-            match.end);
+            match.end,i);
         parts.add(_Highlight(
             match.start,
             match.group(0)!,
@@ -109,6 +109,7 @@ class HighlightText extends StatelessWidget {
             entry.key.onTap != null
                 ? () => entry.key.onTap!(highlightMatch)
                 : null));
+        i++;
       }
     }
 
@@ -131,28 +132,54 @@ class HighlightText extends StatelessWidget {
   }
 
   InlineSpan _formSpan(List<_Highlight> parts) {
-    parts.sort((a, b) => a.start.compareTo(b.start));
+    // 排序并解决重叠冲突
+    parts.sort((a, b) {
+      int startCompare = a.start.compareTo(b.start);
+      if (startCompare != 0) return startCompare;
+      // 如果起始位置相同，优先选择更长的匹配
+      return b.text.length.compareTo(a.text.length);
+    });
+
+    // 过滤重叠的匹配
+    List<_Highlight> filteredParts = [];
+    for (final highlight in parts) {
+      bool hasOverlap = false;
+      for (final existing in filteredParts) {
+        int existingEnd = existing.start + existing.text.length;
+        int highlightEnd = highlight.start + highlight.text.length;
+        
+        // 检查是否有重叠
+        if (!(highlight.start >= existingEnd || highlightEnd <= existing.start)) {
+          hasOverlap = true;
+          break;
+        }
+      }
+      if (!hasOverlap) {
+        filteredParts.add(highlight);
+      }
+    }
+
+    // 按起始位置重新排序
+    filteredParts.sort((a, b) => a.start.compareTo(b.start));
 
     List<TextSpan> spans = [];
     int start = 0;
 
-    for (final highlight in parts) {
-      if (highlight.start >= start) {
-        if (highlight.start > start) {
-          spans.add(TextSpan(
-            text: src.substring(start, highlight.start),
-            style: style,
-          ));
-        }
+    for (final highlight in filteredParts) {
+      if (highlight.start > start) {
         spans.add(TextSpan(
-          text: highlight.text,
-          style: highlight.style,
-          recognizer: highlight.onTap != null
-              ? (TapGestureRecognizer()..onTap = highlight.onTap)
-              : null,
+          text: src.substring(start, highlight.start),
+          style: style,
         ));
-        start = highlight.start + highlight.text.length;
       }
+      spans.add(TextSpan(
+        text: highlight.text,
+        style: highlight.style,
+        recognizer: highlight.onTap != null
+            ? (TapGestureRecognizer()..onTap = highlight.onTap)
+            : null,
+      ));
+      start = highlight.start + highlight.text.length;
     }
 
     if (start < src.length) {

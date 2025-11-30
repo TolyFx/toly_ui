@@ -59,7 +59,7 @@ mixin ImageOperationImpl on ImageOperation {
   Future<File?> find(String url, {String? cacheKey}) async {
     try {
       final String key = cacheKey ?? keyToMd5(url);
-      Directory dir = TolyImagePlugin().imageSaveDir;
+      Directory dir = FxImagePlugin().imageSaveDir;
       File file = File(p.join(dir.path, key));
       if (await file.exists()) {
         return file;
@@ -74,7 +74,7 @@ mixin ImageOperationImpl on ImageOperation {
   File? findSync(String url, {String? cacheKey}) {
     try {
       final String key = cacheKey ?? keyToMd5(url);
-      Directory dir = TolyImagePlugin().imageSaveDir;
+      Directory dir = FxImagePlugin().imageSaveDir;
       File file = File(p.join(dir.path, key));
       if (file.existsSync()) {
         return file;

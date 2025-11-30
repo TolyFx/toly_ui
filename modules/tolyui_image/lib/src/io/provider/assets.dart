@@ -4,18 +4,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-import 'extended_image_provider.dart';
+import 'fx_image_provider.dart';
 
-class ExtendedExactAssetImageProvider extends ExactAssetImage
-    with ExtendedImageProvider<AssetBundleImageKey> {
-  const ExtendedExactAssetImageProvider(
-    String assetName, {
-    AssetBundle? bundle,
-    String? package,
-    double scale = 1.0,
+class FxAssetImageProvider extends ExactAssetImage
+    with FxImageProvider<AssetBundleImageKey> {
+  const FxAssetImageProvider(
+    super.assetName, {
+    super.bundle,
+    super.package,
+    super.scale,
     this.cacheRawData = false,
     this.imageCacheName,
-  }) : super(assetName, bundle: bundle, package: package, scale: scale);
+  });
 
   /// Whether cache raw data if you need to get raw data directly.
   /// For example, we need raw image data to edit,
@@ -75,7 +75,7 @@ class ExtendedExactAssetImageProvider extends ExactAssetImage
 }
 
 class ExtendedAssetImageProvider extends AssetImage
-    with ExtendedImageProvider<AssetBundleImageKey> {
+    with FxImageProvider<AssetBundleImageKey> {
   const ExtendedAssetImageProvider(
     String assetName, {
     AssetBundle? bundle,

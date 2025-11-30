@@ -461,6 +461,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.0"
+  tolyui_text:
+    dependency: "direct main"
+    description:
+      path: "modules/tolyui_text"
+      relative: true
+    source: path
+    version: "0.0.1+4"
   two_dimensional_scrollables:
     dependency: "direct main"
     description:

@@ -47,6 +47,7 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('layout'),
                   _customRoute('link'),
                   _customRoute('text'),
+                  _customRoute('tolyui_text'),
                 ]),
             GoRoute(
                 path: 'form',

@@ -1,16 +1,16 @@
 import 'dart:typed_data';
 import 'dart:ui' as ui show Codec;
-import 'toly_image_io.dart';
+import '../toly_image_io.dart';
 import 'package:flutter/widgets.dart';
 
-class ExtendedMemoryImageProvider extends MemoryImage
-    with ExtendedImageProvider<MemoryImage> {
-  const ExtendedMemoryImageProvider(
-    Uint8List bytes, {
-    double scale = 1.0,
+class FxMemoryImageProvider extends MemoryImage
+    with FxImageProvider<MemoryImage> {
+  const FxMemoryImageProvider(
+    super.bytes, {
+    super.scale,
     this.cacheRawData = false,
     this.imageCacheName,
-  }) : super(bytes, scale: scale);
+  });
 
   /// Whether cache raw data if you need to get raw data directly.
   /// For example, we need raw image data to edit,
@@ -44,7 +44,7 @@ class ExtendedMemoryImageProvider extends MemoryImage
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    return other is ExtendedMemoryImageProvider &&
+    return other is FxMemoryImageProvider &&
         other.bytes == bytes &&
         other.scale == scale &&
         cacheRawData == other.cacheRawData &&

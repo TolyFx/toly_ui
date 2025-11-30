@@ -238,9 +238,9 @@ class TolyImage extends StatefulWidget {
     this.layoutInsets = EdgeInsets.zero,
   })  : assert(cacheWidth == null || cacheWidth > 0),
         assert(cacheHeight == null || cacheHeight > 0),
-        image = ExtendedResizeImage.resizeIfNeeded(
+        image = FxResizeImage.resizeIfNeeded(
           provider: scale != null
-              ? ExtendedExactAssetImageProvider(
+              ? FxAssetImageProvider(
                   name,
                   bundle: bundle,
                   scale: scale,
@@ -341,8 +341,8 @@ class TolyImage extends StatefulWidget {
         ),
         assert(cacheWidth == null || cacheWidth > 0),
         assert(cacheHeight == null || cacheHeight > 0),
-        image = ExtendedResizeImage.resizeIfNeeded(
-          provider: ExtendedFileImageProvider(
+        image = FxResizeImage.resizeIfNeeded(
+          provider: FxFileImageProvider(
             file,
             scale: scale,
             cacheRawData: cacheRawData,
@@ -424,8 +424,8 @@ class TolyImage extends StatefulWidget {
     this.layoutInsets = EdgeInsets.zero,
   })  : assert(cacheWidth == null || cacheWidth > 0),
         assert(cacheHeight == null || cacheHeight > 0),
-        image = ExtendedResizeImage.resizeIfNeeded(
-          provider: ExtendedMemoryImageProvider(
+        image = FxResizeImage.resizeIfNeeded(
+          provider: FxMemoryImageProvider(
             bytes,
             scale: scale,
             cacheRawData: cacheRawData,
@@ -502,8 +502,8 @@ class TolyImage extends StatefulWidget {
     this.layoutInsets = EdgeInsets.zero,
   })  : assert(cacheWidth == null || cacheWidth > 0),
         assert(cacheHeight == null || cacheHeight > 0),
-        image = ExtendedResizeImage.resizeIfNeeded(
-          provider: TolyNetworkImageProvider(
+        image = FxResizeImage.resizeIfNeeded(
+          provider: FxNetworkImageProvider(
             url,
             scale: scale,
             headers: headers,

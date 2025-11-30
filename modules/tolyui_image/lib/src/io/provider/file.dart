@@ -1,18 +1,17 @@
 import 'dart:ui' as ui show Codec, ImmutableBuffer;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart' hide FileImage;
-import 'extended_image_provider.dart';
-import 'platform.dart';
+import 'fx_image_provider.dart';
+import '../platform.dart';
 
-class ExtendedFileImageProvider extends FileImage
-    with ExtendedImageProvider<FileImage> {
-  const ExtendedFileImageProvider(
-    File file, {
-    double scale = 1.0,
+class FxFileImageProvider extends FileImage
+    with FxImageProvider<FileImage> {
+  const FxFileImageProvider(
+    super.file, {
+    super.scale,
     this.cacheRawData = false,
     this.imageCacheName,
-  })  : assert(!kIsWeb, 'not support on web'),
-        super(file, scale: scale);
+  })  : assert(!kIsWeb, 'not support on web');
 
   /// Whether cache raw data if you need to get raw data directly.
   /// For example, we need raw image data to edit,
@@ -70,7 +69,7 @@ class ExtendedFileImageProvider extends FileImage
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    return other is ExtendedFileImageProvider &&
+    return other is FxFileImageProvider &&
         file.path == other.file.path &&
         scale == other.scale &&
         cacheRawData == other.cacheRawData &&

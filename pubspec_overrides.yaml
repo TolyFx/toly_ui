@@ -11,3 +11,5 @@ dependency_overrides:
     path: modules/tolyui_message
   tolyui_color:
     path: modules/tolyui_color
+  tolyui_text:
+    path: modules/tolyui_text

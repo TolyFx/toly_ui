@@ -4,7 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'extended_image_provider.dart';
+import 'fx_image_provider.dart';
 
 /// Instructs Flutter to decode the image at the specified dimensions
 /// instead of at its native size.
@@ -14,9 +14,9 @@ import 'extended_image_provider.dart';
 ///
 /// The decoded image may still be displayed at sizes other than the
 /// cached size provided here.
-class ExtendedResizeImage extends ImageProvider<_SizeAwareCacheKey>
-    with ExtendedImageProvider<_SizeAwareCacheKey> {
-  const ExtendedResizeImage(
+class FxResizeImage extends ImageProvider<_SizeAwareCacheKey>
+    with FxImageProvider<_SizeAwareCacheKey> {
+  const FxResizeImage(
     this.imageProvider, {
     this.compressionRatio,
     this.maxBytes = 50 << 10,
@@ -37,7 +37,7 @@ class ExtendedResizeImage extends ImageProvider<_SizeAwareCacheKey>
   /// The [ImageProvider] that this class wraps.
   final ImageProvider imageProvider;
 
-  /// [ExtendedResizeImage] will compress the image to a size
+  /// [FxResizeImage] will compress the image to a size
   /// that is smaller than [maxBytes]. The default size is 50KB.
   /// It's actual bytes of Image, not decode bytes
   /// it's not supported on web
@@ -103,7 +103,7 @@ class ExtendedResizeImage extends ImageProvider<_SizeAwareCacheKey>
         (maxBytes != null && maxBytes > 0) ||
         cacheWidth != null ||
         cacheHeight != null) {
-      return ExtendedResizeImage(
+      return FxResizeImage(
         provider,
         width: cacheWidth,
         height: cacheHeight,
@@ -303,7 +303,7 @@ class ExtendedResizeImage extends ImageProvider<_SizeAwareCacheKey>
     if (other.runtimeType != runtimeType) {
       return false;
     }
-    return other is ExtendedResizeImage &&
+    return other is FxResizeImage &&
         imageProvider == other.imageProvider &&
         compressionRatio == other.compressionRatio &&
         maxBytes == other.maxBytes &&

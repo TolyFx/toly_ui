@@ -34,6 +34,12 @@ Map<String, dynamic> get basicMenus => {
           // 'icon': Icons.text_fields,
         },
         {
+          'path': '/tolyui_text',
+          'label': 'TolyuiText',
+          'subtitle': '高亮文本'
+          // 'icon': Icons.text_fields,
+        },
+        {
           'path': '/layout',
           'label': 'Layout',
           'subtitle': '布局',

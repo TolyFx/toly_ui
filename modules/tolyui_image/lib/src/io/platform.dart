@@ -5,8 +5,7 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'toly_image_io.dart';
 import 'package:flutter/widgets.dart';
-
-export '_platform_io.dart' if (dart.library.js_interop) '_platform_web.dart';
+export 'adapter/platform/platform_io.dart';
 
 const String cacheImageFolderName = 'toly_image_cache';
 
@@ -44,7 +43,7 @@ Future<Uint8List?> getNetworkImageData(
   bool useCache = true,
   StreamController<ImageChunkEvent>? chunkEvents,
 }) async {
-  return TolyNetworkImageProvider(url, cache: useCache).getNetworkImageData(
+  return FxNetworkImageProvider(url, cache: useCache).getNetworkImageData(
     chunkEvents: chunkEvents,
   );
 }

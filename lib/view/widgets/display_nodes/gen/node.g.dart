@@ -9,6 +9,7 @@ part 'icon.g.dart';
 part 'layout.g.dart';
 part 'link.g.dart';
 part 'text.g.dart';
+part 'tolyui_text.g.dart';
 part 'avatar.g.dart';
 part 'badge.g.dart';
 part 'card.g.dart';
@@ -46,6 +47,7 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "layout" => _layoutData,
     "link" => _linkData,
     "text" => _textData,
+    "tolyui_text" => _tolyui_textData,
     "avatar" => _avatarData,
     "badge" => _badgeData,
     "card" => _cardData,
