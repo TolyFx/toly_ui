@@ -1,0 +1,28 @@
+class TolyuiTextDemo2 extends StatelessWidget {
+  const TolyuiTextDemo2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const String agreementText = '我已阅读并同意《用户协议》和《隐私政策》。';
+    const TextStyle style =
+        TextStyle(color: Colors.blue, fontWeight: FontWeight.w500);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        HighlightText(
+          agreementText,
+          rules: {
+            Rule(RegExp(r'《[^\u300b]+》'), onTap: onTapMatch): style,
+          },
+          style: const TextStyle(fontSize: 16),
+        ),
+      ],
+    );
+  }
+
+  void onTapMatch(HighlightMatch match) {
+    $message.success(
+      message: '点击的是第:${match.matchIndex} 个:${match.matchedText}',
+    );
+  }
+}
