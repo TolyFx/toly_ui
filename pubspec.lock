@@ -416,7 +416,7 @@ packages:
       path: "modules/tolyui"
       relative: true
     source: path
-    version: "0.0.4+11"
+    version: "0.0.4+12"
   tolyui_color:
     dependency: "direct overridden"
     description:
@@ -462,9 +462,17 @@ packages:
     source: hosted
     version: "1.0.0"
   tolyui_statistic:
-    dependency: "direct main"
+    dependency: transitive
     description:
-      path: "modules/data/tolyui_statistic"
+      name: tolyui_statistic
+      sha256: "4134a3fa7b79e891ff475cff2f2f8bd01ce85bde0469a3d355c78aadef7c824c"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1"
+  tolyui_tag:
+    dependency: transitive
+    description:
+      path: "modules/data/tolyui_tag"
       relative: true
     source: path
     version: "0.0.1"

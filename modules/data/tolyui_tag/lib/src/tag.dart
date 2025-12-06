@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'types.dart';
 
@@ -16,7 +19,7 @@ class Tag extends StatefulWidget {
   final TagTheme? theme;
 
   const Tag({
-    Key? key,
+    super.key,
     this.className,
     this.color,
     this.variant = TagVariant.filled,
@@ -29,7 +32,7 @@ class Tag extends StatefulWidget {
     this.onTap,
     this.child,
     this.theme,
-  }) : super(key: key);
+  });
 
   @override
   State<Tag> createState() => _TagState();
@@ -69,7 +72,7 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
 
   void _handleClose() {
     if (widget.disabled) return;
-    
+
     widget.onClose?.call();
     _controller.reverse().then((_) {
       if (mounted) {
@@ -80,11 +83,11 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
 
   Color get textColor {
     final theme = widget.theme ?? Theme.of(context).extension<TagTheme>() ?? TagTheme.defaultTheme();
-    
+
     if (widget.disabled) {
       return theme.colorTextDisabled;
     }
-    
+
     if (widget.color != null) {
       if (widget.variant == TagVariant.solid) {
         return theme.solidTextColor;
@@ -92,50 +95,45 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
         return widget.color!;
       }
     }
-    
+
     if (widget.variant == TagVariant.solid) {
       return theme.colorTextLightSolid;
     }
-    
+
     return theme.defaultColor;
   }
 
   BoxDecoration _buildDecoration() {
     final theme = widget.theme ?? Theme.of(context).extension<TagTheme>() ?? TagTheme.defaultTheme();
-    
+
     Color bgColor = theme.defaultBg;
-    Color borderColor = theme.colorBorder;
-    Color? textColor = theme.defaultColor;
+    Color finalBorderColor = theme.colorBorder;
 
     if (widget.disabled) {
       bgColor = theme.colorBgContainerDisabled;
-      textColor = theme.colorTextDisabled;
-      borderColor = theme.colorBorderDisabled;
+      finalBorderColor = theme.colorBorderDisabled;
     } else if (widget.color != null) {
       if (widget.variant == TagVariant.solid) {
         bgColor = widget.color!;
-        textColor = theme.solidTextColor;
-        borderColor = widget.color!;
-      } else if (widget.variant == TagVariant.outlined) {
+        finalBorderColor = widget.color!;
+      } else if (widget.variant == TagVariant.outlined || widget.variant == TagVariant.dashed) {
         bgColor = widget.color!.withOpacity(0.05);
-        textColor = widget.color;
-        borderColor = widget.color!;
-      } else {
+        finalBorderColor = widget.color!;
+      } else { // filled
         bgColor = widget.color!.withOpacity(0.1);
-        textColor = widget.color;
-        borderColor = Colors.transparent;
+        finalBorderColor = Colors.transparent;
       }
-    } else {
+    } else { // no color provided
       if (widget.variant == TagVariant.solid) {
         bgColor = theme.colorBgSolid;
-        textColor = theme.colorTextLightSolid;
-        borderColor = Colors.transparent;
+        finalBorderColor = Colors.transparent;
       } else if (widget.variant == TagVariant.filled) {
-        borderColor = Colors.transparent;
+        finalBorderColor = Colors.transparent;
+      } else if (widget.variant == TagVariant.outlined || widget.variant == TagVariant.dashed) {
+        finalBorderColor = theme.colorBorder;
       }
     }
 
-    // 悬浮时的背景颜色渐变
     if (widget.onTap != null && !widget.disabled && _hoverAnimation.value > 0) {
       Color hoverBgColor;
       if (widget.color != null) {
@@ -148,7 +146,7 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
 
     return BoxDecoration(
       color: bgColor,
-      border: Border.all(color: borderColor, width: theme.borderWidth),
+      border: widget.variant == TagVariant.dashed ? null : Border.all(color: finalBorderColor, width: theme.borderWidth),
       borderRadius: BorderRadius.circular(theme.borderRadius),
     );
   }
@@ -158,7 +156,7 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
     if (!_visible) return const SizedBox.shrink();
 
     final theme = widget.theme ?? Theme.of(context).extension<TagTheme>() ?? TagTheme.defaultTheme();
-    
+
     return FadeTransition(
       opacity: _animation,
       child: MouseRegion(
@@ -172,9 +170,8 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
         } : null,
         child: AnimatedBuilder(
           animation: _hoverAnimation,
-          builder: (context, child) => GestureDetector(
-            onTap: widget.disabled ? null : widget.onTap,
-            child: Container(
+          builder: (context, child) {
+            Widget tagContent = Container(
               decoration: _buildDecoration(),
               padding: EdgeInsets.symmetric(
                 horizontal: theme.paddingHorizontal,
@@ -192,7 +189,8 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
                     DefaultTextStyle(
                       style: TextStyle(
                         fontSize: theme.fontSize,
-                        height: 1.0,
+                        leadingDistribution: TextLeadingDistribution.even,
+                        // height: 1.0,
                         color: textColor,
                       ),
                       child: widget.child!,
@@ -208,9 +206,9 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
                             Icon(
                               Icons.close,
                               size: theme.iconSize,
-                              color: widget.disabled 
-                                ? theme.colorTextDisabled 
-                                : _isCloseHovered
+                              color: widget.disabled
+                                  ? theme.colorTextDisabled
+                                  : _isCloseHovered
                                   ? Colors.red
                                   : theme.colorIcon,
                             ),
@@ -219,10 +217,82 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
                   ],
                 ],
               ),
-            ),
-          ),
+            );
+
+            if (widget.variant == TagVariant.dashed) {
+              Color borderColor;
+              if (widget.disabled) {
+                borderColor = theme.colorBorderDisabled;
+              } else {
+                borderColor = widget.color ?? theme.colorBorder;
+              }
+
+              tagContent = CustomPaint(
+                painter: _DashedRectPainter(
+                  color: borderColor,
+                  strokeWidth: theme.borderWidth,
+                  radius: theme.borderRadius,
+                  gap: 3,
+                ),
+                child: tagContent,
+              );
+            }
+
+            return GestureDetector(
+              onTap: widget.disabled ? null : widget.onTap,
+              child: tagContent,
+            );
+          },
         ),
       ),
     );
   }
+}
+
+class _DashedRectPainter extends CustomPainter {
+  final Color color;
+  final double strokeWidth;
+  final double gap;
+  final double radius;
+
+  _DashedRectPainter({
+    this.color = Colors.black,
+    this.strokeWidth = 1.0,
+    this.gap = 5.0,
+    this.radius = 0,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = color
+      ..strokeWidth = strokeWidth
+      ..style = PaintingStyle.stroke;
+
+    Path path = Path();
+    path.addRRect(RRect.fromRectAndRadius(Rect.fromLTWH(0, 0, size.width, size.height), Radius.circular(radius)));
+
+    Path dashPath = Path();
+    double dashWidth = 5.0;
+
+    for (PathMetric pathMetric in path.computeMetrics()) {
+      double distance = 0.0;
+      while (distance < pathMetric.length) {
+        double drawLength = min(dashWidth, pathMetric.length - distance);
+        dashPath.addPath(
+          pathMetric.extractPath(distance, distance + drawLength),
+          Offset.zero,
+        );
+        distance += dashWidth + gap;
+      }
+    }
+    canvas.drawPath(dashPath, paint);
+  }
+
+  @override
+  bool shouldRepaint(_DashedRectPainter oldDelegate) =>
+      oldDelegate.color != color ||
+      oldDelegate.strokeWidth != strokeWidth ||
+      oldDelegate.gap != gap ||
+      oldDelegate.radius != radius;
 }

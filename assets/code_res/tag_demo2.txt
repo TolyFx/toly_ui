@@ -7,52 +7,142 @@ class TagDemo2 extends StatefulWidget {
 
 class _TagDemo2State extends State<TagDemo2> {
   List<String> tags = ['上进', '努力', '成功', '创新'];
+  bool _isAdding = false;
+  final TextEditingController _tagInputController = TextEditingController();
+  final FocusNode _tagInputFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _tagInputFocusNode.addListener(() {
+      if (!_tagInputFocusNode.hasFocus) {
+        // 输入框失去焦点时，提交内容
+        _handleSubmitted(_tagInputController.text);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _tagInputController.dispose();
+    _tagInputFocusNode.dispose();
+    super.dispose();
+  }
+
+  void _handleSubmitted(String value) {
+    setState(() {
+      final newTag = value.trim();
+      if (newTag.isNotEmpty && !tags.contains(newTag)) {
+        tags.add(newTag);
+      }
+      _isAdding = false;
+      _tagInputController.clear();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            Tag(
-              closable: true,
-              onClose: () => print('标签已关闭'),
-              child: const Text('可关闭'),
-            ),
-            Tag(
-              closable: true,
-              icon: const Icon(Icons.star, size: 12),
-              color: Colors.orange,
-              child: const Text('带图标'),
-            ),
-            Tag(
-              disabled: true,
-              closable: true,
-              child: const Text('禁用状态'),
-            ),
-          ],
-        ),
+        _buildStaticTags(),
         const SizedBox(height: 16),
-        const Text('动态标签列表：'),
+        _buildDynamicTags(),
+      ],
+    );
+  }
+
+  Widget _buildStaticTags() {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        Tag(
+          variant: TagVariant.outlined,
+          closable: true,
+          onClose: () => print('标签已关闭'),
+          child: const Text('编程技术'),
+        ),
+        Tag(
+          closable: true,
+          icon: const Icon(
+            Icons.camera,
+            size: 14,
+            color: Colors.black,
+          ),
+          color: Colors.green,
+          child: const Text(
+            '拍摄影像',
+          ),
+        ),
+        Tag(
+          variant: TagVariant.filled,
+          disabled: true,
+          closable: true,
+          child: const Text('禁用状态'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDynamicTags() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('动态标签列表(支持添加和删除)：'),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: tags.map((tag) {
-            return Tag(
-              closable: true,
-              color: Colors.blue,
-              onClose: () {
-                setState(() {
-                  tags.remove(tag);
-                });
-              },
-              child: Text(tag),
-            );
-          }).toList(),
+          children: [
+            ...tags.map((tag) {
+              return Tag(
+                theme: TagTheme.tolyui(colorIcon: Colors.blue),
+                key: ValueKey(tag),
+                closable: true,
+                color: Colors.blue,
+                onClose: () {
+                  setState(() {
+                    tags.remove(tag);
+                  });
+                },
+                child: Text(tag),
+              );
+            }).toList(),
+            if (_isAdding)
+              SizedBox(
+                width: 90,
+                height: 24,
+                child: TextField(
+                  controller: _tagInputController,
+                  focusNode: _tagInputFocusNode,
+                  style: const TextStyle(fontSize: 12),
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    border: OutlineInputBorder(),
+                  ),
+                  onSubmitted: _handleSubmitted,
+                ),
+              )
+            else
+              Tag(
+                variant: TagVariant.dashed,
+                onTap: () {
+                  setState(() {
+                    _isAdding = true;
+                  });
+                  _tagInputFocusNode.requestFocus();
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.add, size: 14),
+                    SizedBox(width: 4),
+                    Text('添加标签'),
+                  ],
+                ),
+              ),
+          ],
         ),
       ],
     );

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
-import 'package:tolyui/data/tags/src/tag.dart';
-import 'package:tolyui/data/tags/src/types.dart';
-
+import 'package:tolyui/tolyui.dart';
 @DisplayNode(
   title: '基础标签',
   desc: '最基本的标签用法，支持不同颜色和变体样式。包括填充、边框、实心三种视觉风格，适用于分类标记、状态展示等场景。',

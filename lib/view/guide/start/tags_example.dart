@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tolyui/data/tags/src/checkable_tag_group.dart';
-import 'package:tolyui/data/tags/src/tag.dart';
-import 'package:tolyui/data/tags/src/types.dart';
+import 'package:tolyui/tolyui.dart';
+
 
 class TagDemo extends StatefulWidget {
   const TagDemo({Key? key}) : super(key: key);

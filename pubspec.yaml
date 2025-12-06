@@ -50,8 +50,7 @@ dependencies:
   tolyui: 0.0.2+19
   tolyui_text:
     path: modules/tolyui_text
-  tolyui_statistic:
-    path: modules/data/tolyui_statistic
+
   wrapper:
     path: modules/wrapper
 #  toly_menu_manager: ^0.0.1

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui/data/data.dart';
-import 'package:tolyui/data/tags/src/tag.dart';
+import 'package:tolyui/tolyui.dart';
 
 @DisplayNode(
   title: '可关闭标签',
@@ -15,62 +15,36 @@ class TagDemo2 extends StatefulWidget {
 }
 
 class _TagDemo2State extends State<TagDemo2> {
-  List<String> tags = ['上进', '努力', '成功', '创新'];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
       children: [
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            Tag(
-              variant: TagVariant.outlined,
-              closable: true,
-              onClose: () => print('标签已关闭'),
-              child: const Text('编程技术'),
-            ),
-            Tag(
-              closable: true,
-              icon: const Icon(
-                Icons.camera,
-                size: 14,
-                color: Colors.black,
-              ),
-              color: Colors.green,
-              child: const Text(
-                '拍摄影像',
-              ),
-            ),
-            Tag(
-              variant: TagVariant.filled,
-              disabled: true,
-              closable: true,
-              child: const Text('禁用状态'),
-            ),
-          ],
+        Tag(
+          variant: TagVariant.outlined,
+          closable: true,
+          onClose: () => print('标签已关闭'),
+          child: const Text('编程技术'),
         ),
-        const SizedBox(height: 16),
-        const Text('动态标签列表：'),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: tags.map((tag) {
-            return Tag(
-              key: ValueKey(tag),
-              closable: true,
-              color: Colors.blue,
-              onClose: () {
-                setState(() {
-                  tags.remove(tag);
-                });
-              },
-              child: Text(tag),
-            );
-          }).toList(),
+        Tag(
+          closable: true,
+          icon: const Icon(
+            Icons.camera,
+            size: 14,
+            color: Colors.black,
+          ),
+          color: Colors.green,
+          child: const Text(
+            '拍摄影像',
+          ),
+        ),
+        Tag(
+          variant: TagVariant.filled,
+          disabled: true,
+          closable: true,
+          child: const Text('禁用状态'),
         ),
       ],
     );

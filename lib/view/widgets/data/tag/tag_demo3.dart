@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
-import 'package:tolyui/data/tags/src/checkable_tag_group.dart';
+import 'package:tolyui/data/data.dart';
+import 'package:tolyui/tolyui.dart';
 
 @DisplayNode(
-  title: '可选择标签',
-  desc: '支持单选和多选的标签组，适用于筛选器、分类选择、标签管理等场景。支持状态管理和回调处理，提供直观的选择反馈。',
+  title: '可关闭标签',
+  desc: '带有关闭按钮的标签，支持动态删除和图标装饰。适用于标签管理、筛选条件、关键词编辑等交互场景，提供直观的删除操作。',
 )
 class TagDemo3 extends StatefulWidget {
   const TagDemo3({super.key});
@@ -14,45 +15,100 @@ class TagDemo3 extends StatefulWidget {
 }
 
 class _TagDemo3State extends State<TagDemo3> {
-  String? selectedCategory;
-  List<String> selectedTags = [];
+  List<String> tags = ['上进', '努力', '成功', '创新'];
+  bool _isAdding = false;
+  final TextEditingController _tagInputController = TextEditingController();
+  final FocusNode _tagInputFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _tagInputFocusNode.addListener(() {
+      if (!_tagInputFocusNode.hasFocus) {
+        // 输入框失去焦点时，提交内容
+        _handleSubmitted(_tagInputController.text);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _tagInputController.dispose();
+    _tagInputFocusNode.dispose();
+    super.dispose();
+  }
+
+  void _handleSubmitted(String value) {
+    setState(() {
+      final newTag = value.trim();
+      if (newTag.isNotEmpty && !tags.contains(newTag)) {
+        tags.add(newTag);
+      }
+      _isAdding = false;
+      _tagInputController.clear();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('单选模式：'),
+        const Text('动态标签列表(支持添加和删除)：'),
         const SizedBox(height: 8),
-        CheckableTagGroup<String>(
-          options: const [
-            CheckableTagOption(value: 'frontend', label: Text('前端')),
-            CheckableTagOption(value: 'backend', label: Text('后端')),
-            CheckableTagOption(value: 'mobile', label: Text('移动端')),
-            CheckableTagOption(value: 'ai', label: Text('人工智能')),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ...tags.map((tag) {
+              return Tag(
+                theme: TagTheme.tolyui(colorIcon: Colors.blue),
+                key: ValueKey(tag),
+                closable: true,
+                color: Colors.blue,
+                onClose: () {
+                  setState(() {
+                    tags.remove(tag);
+                  });
+                },
+                child: Text(tag),
+              );
+            }).toList(),
+            if (_isAdding)
+              SizedBox(
+                width: 90,
+                height: 24,
+                child: TextField(
+                  controller: _tagInputController,
+                  focusNode: _tagInputFocusNode,
+                  style: const TextStyle(fontSize: 12),
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                    border: OutlineInputBorder(),
+                  ),
+                  onSubmitted: _handleSubmitted,
+                ),
+              )
+            else
+              Tag(
+                variant: TagVariant.dashed,
+                onTap: () {
+                  setState(() {
+                    _isAdding = true;
+                  });
+                  _tagInputFocusNode.requestFocus();
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.add, size: 14),
+                    SizedBox(width: 4),
+                    Text('添加标签'),
+                  ],
+                ),
+              ),
           ],
-          value: selectedCategory,
-          onChange: (value) => setState(() => selectedCategory = value),
         ),
-        const SizedBox(height: 8),
-        Text('已选择：${selectedCategory ?? "无"}'),
-        const SizedBox(height: 24),
-        const Text('多选模式：'),
-        const SizedBox(height: 8),
-        CheckableTagGroup<String>(
-          multiple: true,
-          options: const [
-            CheckableTagOption(value: 'flutter', label: Text('Flutter')),
-            CheckableTagOption(value: 'react', label: Text('React')),
-            CheckableTagOption(value: 'vue', label: Text('Vue')),
-            CheckableTagOption(value: 'angular', label: Text('Angular')),
-            CheckableTagOption(value: 'nodejs', label: Text('Node.js')),
-          ],
-          values: selectedTags,
-          onChangeMultiple: (values) => setState(() => selectedTags = values),
-        ),
-        const SizedBox(height: 8),
-        Text('已选择：${selectedTags.isEmpty ? "无" : selectedTags.join(", ")}'),
       ],
     );
   }

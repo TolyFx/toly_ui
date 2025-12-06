@@ -6,6 +6,7 @@ enum TagVariant {
   filled,
   solid,
   outlined,
+  dashed,
 }
 
 /// Preset color types

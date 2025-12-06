@@ -21,7 +21,7 @@ class StatisticsDemo3 extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: TolyStatisticTimer(
                   type: TimerType.countdown,
-                  title: 'Countdown',
+                  title: '倒计时',
                   value: deadline,
                   onFinish: () {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -35,7 +35,7 @@ class StatisticsDemo3 extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: TolyStatisticTimer(
                   type: TimerType.countdown,
-                  title: 'Million Seconds',
+                  title: '倒计时-毫秒',
                   value: deadline,
                   format: 'HH:mm:ss:SSS',
                 ),
@@ -51,7 +51,7 @@ class StatisticsDemo3 extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: TolyStatisticTimer(
                   type: TimerType.countup,
-                  title: 'Count Up',
+                  title: '正计时',
                   value: before,
                   format: 'HH:mm:ss',
                 ),
@@ -61,9 +61,9 @@ class StatisticsDemo3 extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: TolyStatisticTimer(
                   type: TimerType.countdown,
-                  title: 'Day Level Countdown',
+                  title: '天数级倒计时',
                   value: deadline,
-                  format: 'D 天 H 时 m 分 s 秒',
+                  format: 'D天 H时 m分 s秒',
                 ),
               ),
             ],

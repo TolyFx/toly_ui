@@ -3,49 +3,59 @@ class CountdownDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const padding = EdgeInsets.all(16.0);
+
     return Wrap(
       spacing: 40,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TolyStatistic(
-            title: '安装人数',
-            value: 6.33,
-            prefix: Icon(
-              Icons.arrow_upward,
-              color: Colors.redAccent,
-            ),
-            suffix: const Text('%',
-                style: TextStyle(color: Colors.redAccent, fontSize: 24)),
-            valueStyle: const TextStyle(color: Colors.redAccent, fontSize: 24),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TolyStatistic(
-            title: '详情页转化率',
-            value: 9.3,
-            prefix: Icon(
-              Icons.arrow_downward,
-              color: Colors.green,
-            ),
-            suffix: const Text('%',
-                style: TextStyle(color: Colors.green, fontSize: 24)),
-            valueStyle: const TextStyle(color: Colors.green, fontSize: 24),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: TolyStatistic(
-            title: '用户评价',
-            value: 12562,
-            prefix: Icon(
-              CupertinoIcons.text_bubble_fill,
-              color: Color(0xff1f1f1f),
-            ),
-          ),
-        ),
+        Padding(padding: padding, child: buildInstallStatistic()),
+        Padding(padding: padding, child: buildConversionStatistic()),
+        Padding(padding: padding, child: buildReviewStatistic()),
       ],
+    );
+  }
+
+  Widget buildInstallStatistic() {
+    const redColor = Colors.redAccent;
+    const textStyle = TextStyle(color: redColor, fontSize: 24);
+
+    return const TolyStatistic(
+      title: '安装人数',
+      value: 6.33,
+      prefix: Icon(Icons.arrow_upward, color: redColor),
+      suffix: Text('%', style: textStyle),
+      valueStyle: textStyle,
+    );
+  }
+
+  Widget buildConversionStatistic() {
+    const greenColor = Colors.green;
+    const textStyle = TextStyle(color: greenColor, fontSize: 24);
+
+    return const TolyStatistic(
+      title: '详情页转化率',
+      value: 9.3,
+      prefix: Icon(
+        Icons.arrow_downward,
+        color: greenColor,
+      ),
+      suffix: Text('%', style: textStyle),
+      valueStyle: textStyle,
+    );
+  }
+
+  Widget buildReviewStatistic() {
+    const Color color = Color(0xff1f1f1f);
+    return const TolyStatistic(
+      titleSuffix: TolyTooltip(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        message: '该框架用户的所有评论数',
+        placement: Placement.top,
+        child: Icon(CupertinoIcons.question_circle, size: 20, color: color),
+      ),
+      title: '用户评价',
+      value: 12562,
+      prefix: Icon(CupertinoIcons.text_bubble_fill, color: color),
     );
   }
 }
