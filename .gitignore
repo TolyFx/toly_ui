@@ -46,4 +46,4 @@ app.*.map.json
 /android/app/release
 /assets/hide
 /test/build_center
-
+/doc/articles

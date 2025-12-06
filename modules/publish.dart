@@ -9,11 +9,13 @@ void main() async {
   //     'd:/Projects/Flutter/Fx/toly_ui/modules/publish/tolyui_0.0.4+7.json';
   // List<String> updates = await collect(oldPath, newPath);
 
+  publishModule('tolyui');
   // publishModule('tolyui_feedback');
   // publishModule(folder: 'feedback', 'tolyui_feedback_modal');
+  // publishModule(folder: 'data', 'tolyui_statistic');
   // publishModule('tolyui_image');
   // publishModule('tolyui_text');
-  publishModule('tolyui');
+  // publishModule('tolyui');
 
   // for(String module in updates){
   //   await publishModule( module);

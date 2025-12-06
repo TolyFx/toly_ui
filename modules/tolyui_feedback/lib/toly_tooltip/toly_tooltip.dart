@@ -242,7 +242,6 @@ class TolyTooltip extends StatefulWidget {
   /// The gap between the widget and the displayed tooltip.
   final double? gap;
 
-
   /// Whether the tooltip's [message] or [richMessage] should be excluded from
   /// the semantics tree.
   ///
@@ -383,8 +382,7 @@ class TolyTooltip extends StatefulWidget {
         defaultValue: null));
     properties.add(DiagnosticsProperty<EdgeInsetsGeometry>('margin', margin,
         defaultValue: null));
-    properties.add(
-        DoubleProperty('vertical offset', gap, defaultValue: null));
+    properties.add(DoubleProperty('vertical offset', gap, defaultValue: null));
     // properties.add(FlagProperty('position',
     //     value: placement, ifTrue: 'below', ifFalse: 'above', showName: true));
     properties.add(FlagProperty('semantics',
@@ -411,7 +409,7 @@ class TolyTooltip extends StatefulWidget {
 /// [ensureTooltipVisible] method.
 class TolyTooltipState extends State<TolyTooltip>
     with SingleTickerProviderStateMixin {
-  static const double _defaultVerticalOffset = 24.0;
+  static const double _defaultVerticalOffset = 10.0;
   static const EdgeInsets _defaultMargin = EdgeInsets.zero;
   static const Duration _fadeInDuration = Duration(milliseconds: 150);
   static const Duration _fadeOutDuration = Duration(milliseconds: 75);
@@ -843,7 +841,7 @@ class TolyTooltipState extends State<TolyTooltip>
       placement: widget.placement,
       maxWidth: widget.maxWidth,
       richMessage: widget.richMessage ?? TextSpan(text: widget.message),
-      maxHeight: widget.height??double.infinity,
+      maxHeight: widget.height ?? double.infinity,
       padding: widget.padding ?? tooltipTheme.padding ?? _getDefaultPadding(),
       margin: widget.margin ?? _defaultMargin,
       onEnter: _handleMouseEnter,
@@ -855,9 +853,8 @@ class TolyTooltipState extends State<TolyTooltip>
       animation:
           CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
       target: target,
-      verticalOffset: widget.gap ??
-          tooltipTheme.verticalOffset ??
-          _defaultVerticalOffset,
+      verticalOffset:
+          widget.gap ?? tooltipTheme.verticalOffset ?? _defaultVerticalOffset,
     );
 
     return SelectionContainer.maybeOf(context) == null
@@ -970,7 +967,7 @@ class DecorationConfig {
 
   const DecorationConfig({
     this.style = PaintingStyle.fill,
-    this.backgroundColor= const Color(0xff303133),
+    this.backgroundColor = const Color(0xff303133),
     this.textColor,
     this.shadows,
     this.radius = const Radius.circular(4),
@@ -993,21 +990,20 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
         boxSize: widget.boxSize,
         placement: effectPlacement,
         color: config.backgroundColor,
-          style: config.style,
+        style: config.style,
         bubbleMeta: config.bubbleMeta,
       );
     }
     return BoxDecoration(
-      color: config.backgroundColor,
-      borderRadius: BorderRadius.all(config.radius),
-      border: config.style==PaintingStyle.stroke?Border.all(
-        color: Color(0xffe4e7ed)
-      ):null
-    );
+        color: config.backgroundColor,
+        borderRadius: BorderRadius.all(config.radius),
+        border: config.style == PaintingStyle.stroke
+            ? Border.all(color: Color(0xffe4e7ed))
+            : null);
   }
 
   TextStyle? get effectTextStyle {
-    return  widget.textStyle?.copyWith(color: widget.decoration.textColor);
+    return widget.textStyle?.copyWith(color: widget.decoration.textColor);
   }
 
   @override
@@ -1016,8 +1012,7 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
       opacity: widget.animation,
       child: ConstrainedBox(
         constraints: BoxConstraints(
-            maxHeight: widget.maxHeight,
-            maxWidth: widget.maxWidth ?? 320),
+            maxHeight: widget.maxHeight, maxWidth: widget.maxWidth ?? 320),
         child: DefaultTextStyle(
           style: Theme.of(context).textTheme.bodyMedium!,
           child: Semantics(
@@ -1029,7 +1024,7 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
               // margin: margin,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: widget.padding??EdgeInsets.zero,
+                  padding: widget.padding ?? EdgeInsets.zero,
                   child: Text.rich(
                     widget.richMessage,
                     style: effectTextStyle,

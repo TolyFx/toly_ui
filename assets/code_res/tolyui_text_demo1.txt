@@ -12,16 +12,16 @@ class _TolyuiTextDemo1State extends State<TolyuiTextDemo1> {
   int _selectedStyleIndex = 0;
 
   final List<TextStyle> _highlightStyles = [
-    TextStyle(
+    const TextStyle(
       backgroundColor: Colors.yellow,
       fontWeight: FontWeight.bold,
       color: Colors.red,
     ),
-    TextStyle(
+    const TextStyle(
       fontWeight: FontWeight.bold,
       color: Colors.red,
     ),
-    TextStyle(
+    const TextStyle(
       fontWeight: FontWeight.w600,
       color: Colors.blue,
       decoration: TextDecoration.underline,
@@ -43,7 +43,7 @@ class _TolyuiTextDemo1State extends State<TolyuiTextDemo1> {
             Expanded(
               child: TextField(
                 controller: _controller,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: '输入要高亮的文本',
                   border: OutlineInputBorder(),
                   suffixIcon: Icon(Icons.search),
@@ -55,11 +55,11 @@ class _TolyuiTextDemo1State extends State<TolyuiTextDemo1> {
                 },
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             TolyCheckBox(
               size: 18,
               value: _caseSensitive,
-              label: Text('区分大小写'),
+              label: const Text('区分大小写'),
               onChanged: (value) {
                 setState(() {
                   _caseSensitive = value;
@@ -68,7 +68,7 @@ class _TolyuiTextDemo1State extends State<TolyuiTextDemo1> {
             ),
           ],
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         
         // 动态高亮展示
         HighlightText.withArg(
@@ -78,14 +78,14 @@ class _TolyuiTextDemo1State extends State<TolyuiTextDemo1> {
           highlightStyle: _highlightStyles[_selectedStyleIndex],
         ),
         
-        SizedBox(height: 20),
-        Text('高亮样式:', style: TextStyle(fontWeight: FontWeight.bold)),
-        SizedBox(height: 8),
+        const SizedBox(height: 20),
+        const Text('高亮样式:', style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
         
         // 高亮样式切换
         ToggleButtons(
           borderRadius: BorderRadius.circular(8),
-          constraints: BoxConstraints(
+          constraints: const BoxConstraints(
             maxHeight: 36,
             minHeight: 36
           ),
@@ -96,15 +96,15 @@ class _TolyuiTextDemo1State extends State<TolyuiTextDemo1> {
             });
           },
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text('黄色背景'),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text('红色文字'),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Text('蓝色+下划线'),
             ),

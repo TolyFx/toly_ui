@@ -4,4 +4,5 @@ export 'card/card.dart';
 export 'slideshow/slideshow.dart';
 export 'statistics/countdown.dart';
 export 'statistics/statistics.dart';
-export 'tag/tag.dart';
+export 'tags/tags.dart';
+export 'flutter_timeline/lib/ant_timeline.dart';

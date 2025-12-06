@@ -1,36 +1,50 @@
-class TagDemo3 extends StatelessWidget {
+class TagDemo3 extends StatefulWidget {
   const TagDemo3({super.key});
 
   @override
+  State<TagDemo3> createState() => _TagDemo3State();
+}
+
+class _TagDemo3State extends State<TagDemo3> {
+  String? selectedCategory;
+  List<String> selectedTags = [];
+
+  @override
   Widget build(BuildContext context) {
-    TextStyle style = const TextStyle(color: Colors.white, fontSize: 16);
-    return Wrap(
-      spacing: 20,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TolyTag(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-          hasBorder: false,
-          radius: 12,
-          tagText: "喜欢",
-          tagBgColor: Colors.cyanAccent,
-          tagStyle: style,
+        const Text('单选模式：'),
+        const SizedBox(height: 8),
+        CheckableTagGroup<String>(
+          options: const [
+            CheckableTagOption(value: 'frontend', label: Text('前端')),
+            CheckableTagOption(value: 'backend', label: Text('后端')),
+            CheckableTagOption(value: 'mobile', label: Text('移动端')),
+            CheckableTagOption(value: 'ai', label: Text('人工智能')),
+          ],
+          value: selectedCategory,
+          onChange: (value) => setState(() => selectedCategory = value),
         ),
-        TolyTag(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-          hasBorder: false,
-          radius: 0,
-          tagText: "讨厌",
-          tagBgColor: Colors.deepPurpleAccent,
-          tagStyle: style,
+        const SizedBox(height: 8),
+        Text('已选择：${selectedCategory ?? "无"}'),
+        const SizedBox(height: 24),
+        const Text('多选模式：'),
+        const SizedBox(height: 8),
+        CheckableTagGroup<String>(
+          multiple: true,
+          options: const [
+            CheckableTagOption(value: 'flutter', label: Text('Flutter')),
+            CheckableTagOption(value: 'react', label: Text('React')),
+            CheckableTagOption(value: 'vue', label: Text('Vue')),
+            CheckableTagOption(value: 'angular', label: Text('Angular')),
+            CheckableTagOption(value: 'nodejs', label: Text('Node.js')),
+          ],
+          values: selectedTags,
+          onChangeMultiple: (values) => setState(() => selectedTags = values),
         ),
-        TolyTag(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-          hasBorder: false,
-          radius: 15,
-          tagText: "依恋",
-          tagBgColor: Colors.green,
-          tagStyle: style,
-        ),
+        const SizedBox(height: 8),
+        Text('已选择：${selectedTags.isEmpty ? "无" : selectedTags.join(", ")}'),
       ],
     );
   }

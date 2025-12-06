@@ -4,18 +4,32 @@ class TagDemo1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Wrap(
-      spacing: 20,
+      spacing: 12,
+      runSpacing: 8,
       children: [
-        TolyTag(
-          tagBgColor: Colors.transparent,
+        Tag(child: Text('默认')),
+        Tag(
+          variant: TagVariant.filled,
+          color: Colors.blue,
+          child: Text('填充'),
         ),
-        TolyTag(
-          tagText: "正常",
-          tagStyle: TextStyle(color: Colors.cyan),
+        Tag(
+          variant: TagVariant.outlined,
+          color: Colors.green,
+          child: Text('边框'),
         ),
-        TolyTag(
-          tagText: "紧急",
-          tagStyle: TextStyle(color: Colors.red),
+        Tag(
+          variant: TagVariant.solid,
+          color: Colors.orange,
+          child: Text('实心'),
+        ),
+        Tag(
+          color: Colors.red,
+          child: Text('红色'),
+        ),
+        Tag(
+          color: Colors.purple,
+          child: Text('紫色'),
         ),
       ],
     );

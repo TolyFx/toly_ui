@@ -6,35 +6,55 @@ class TagDemo2 extends StatefulWidget {
 }
 
 class _TagDemo2State extends State<TagDemo2> {
-  List<TagModel> tags = [
-    TagModel("上进", Colors.deepPurpleAccent),
-    TagModel("努力", Colors.greenAccent),
-    TagModel("成功", Colors.deepOrange)
-  ];
+  List<String> tags = ['上进', '努力', '成功', '创新'];
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 20,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ...List.generate(tags.length, (i) {
-          return TolyTag(
-            tagText: tags[i].title,
-            tagStyle: TextStyle(color: tags[i].color),
-            close: () {
-              tags.removeAt(i);
-              setState(() {});
-            },
-          );
-        })
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            Tag(
+              closable: true,
+              onClose: () => print('标签已关闭'),
+              child: const Text('可关闭'),
+            ),
+            Tag(
+              closable: true,
+              icon: const Icon(Icons.star, size: 12),
+              color: Colors.orange,
+              child: const Text('带图标'),
+            ),
+            Tag(
+              disabled: true,
+              closable: true,
+              child: const Text('禁用状态'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        const Text('动态标签列表：'),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: tags.map((tag) {
+            return Tag(
+              closable: true,
+              color: Colors.blue,
+              onClose: () {
+                setState(() {
+                  tags.remove(tag);
+                });
+              },
+              child: Text(tag),
+            );
+          }).toList(),
+        ),
       ],
     );
   }
-}
-
-class TagModel {
-  String title;
-  Color color;
-
-  TagModel(this.title, this.color);
 }

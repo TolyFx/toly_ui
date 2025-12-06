@@ -6,16 +6,18 @@
 // CreateTime:  2024-05-14
 // Contact Me:  1981462002@qq.com
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toly_ui/view/guide/start/tags_example.dart';
+
+import 'time_line_demo.dart';
 
 class StartUsePage extends StatelessWidget {
   const StartUsePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-        color: Colors.white,
-
-        child:Center(child: Text('开始使用',style: TextStyle(fontSize: 24),)));
+    return Material(color: Colors.white, child: TagDemo());
+    // return Material(color: Colors.white, child: TimelineDemoPage());
   }
 }

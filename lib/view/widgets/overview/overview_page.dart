@@ -115,11 +115,11 @@ class OverviewCell extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(width: 12),
-            TolyTag(
-              tagText: '${items.length}',
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              radius: 6,
-            )
+            // Tag(
+            //   tagText: '${items.length}',
+            //   padding: EdgeInsets.symmetric(horizontal: 8),
+            //   radius: 6,
+            // )
           ],
         ),
         const SizedBox(
@@ -191,7 +191,8 @@ class _OverviewWidgetCellState extends State<OverviewWidgetCell> {
               FractionallySizedBox(
                 widthFactor: 1,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                   child: Text(
                     widget.item.label,
                     style: TextStyle(fontSize: 16),
