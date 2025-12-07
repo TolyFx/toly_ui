@@ -50,8 +50,8 @@ Map<String, dynamic> get navigationMenus => {
 
         },
         {
-          'path': '/Steps',
-          'label': 'Steps',
+          'path': '/stepper',
+          'label': 'Stepper',
           'subtitle': '步骤条',
         },
       ]

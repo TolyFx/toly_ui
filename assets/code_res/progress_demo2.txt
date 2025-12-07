@@ -1,0 +1,15 @@
+class ProgressDemo2 extends StatelessWidget {
+  const ProgressDemo2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        CircularProgressIndicator(value: 0.25),
+        CircularProgressIndicator(value: 0.5),
+        CircularProgressIndicator(value: 0.75),
+      ],
+    );
+  }
+}

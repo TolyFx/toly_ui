@@ -7,32 +7,32 @@ class TagDemo5 extends StatelessWidget {
       spacing: 12,
       runSpacing: 8,
       children: [
-        Tag(
+        TolyTag(
           icon: Icon(Icons.check_circle, size: 12, color: Colors.green),
           color: Colors.green,
           child: Text('成功'),
         ),
-        Tag(
+        TolyTag(
           icon: Icon(Icons.error, size: 12, color: Colors.red),
           color: Colors.red,
           child: Text('错误'),
         ),
-        Tag(
+        TolyTag(
           icon: Icon(Icons.warning, size: 12, color: Colors.orange),
           color: Colors.orange,
           child: Text('警告'),
         ),
-        Tag(
+        TolyTag(
           icon: Icon(Icons.info, size: 12, color: Colors.blue),
           color: Colors.blue,
           child: Text('信息'),
         ),
-        Tag(
+        TolyTag(
           icon: Icon(Icons.schedule, size: 12, color: Colors.grey),
           color: Colors.grey,
           child: Text('等待中'),
         ),
-        Tag(
+        TolyTag(
           icon: CupertinoActivityIndicator(
             color: Colors.purple,
             radius: 6,

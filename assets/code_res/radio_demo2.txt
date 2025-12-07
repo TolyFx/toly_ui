@@ -1,0 +1,53 @@
+class RadioDemo2 extends StatefulWidget {
+  const RadioDemo2({super.key});
+
+  @override
+  State<RadioDemo2> createState() => _RadioDemo2State();
+}
+
+class _RadioDemo2State extends State<RadioDemo2> {
+  int _value = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 16,
+      runSpacing: 8,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Radio<int>(
+              value: 1,
+              groupValue: _value,
+              onChanged: (value) => setState(() => _value = value!),
+            ),
+            const Text('可用选项'),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Radio<int>(
+              value: 2,
+              groupValue: _value,
+              onChanged: null,
+            ),
+            const Text('禁用未选中'),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Radio<int>(
+              value: 3,
+              groupValue: 3,
+              onChanged: null,
+            ),
+            const Text('禁用已选中'),
+          ],
+        ),
+      ],
+    );
+  }
+}

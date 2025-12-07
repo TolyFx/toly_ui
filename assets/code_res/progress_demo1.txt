@@ -1,0 +1,16 @@
+class ProgressDemo1 extends StatelessWidget {
+  const ProgressDemo1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        LinearProgressIndicator(value: 0.3),
+        SizedBox(height: 16),
+        LinearProgressIndicator(value: 0.6),
+        SizedBox(height: 16),
+        LinearProgressIndicator(value: 0.9),
+      ],
+    );
+  }
+}

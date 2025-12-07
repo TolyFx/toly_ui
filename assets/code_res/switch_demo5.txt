@@ -1,0 +1,173 @@
+class SwitchDemo5 extends StatefulWidget {
+  const SwitchDemo5({super.key});
+
+  @override
+  State<SwitchDemo5> createState() => _SwitchDemo5State();
+}
+
+class _SwitchDemo5State extends State<SwitchDemo5> {
+  bool _value1 = true;
+  bool _value2 = false;
+  bool _value3 = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            CustomSwitch(
+              value: _value1,
+              onChanged: (value) => setState(() => _value1 = value),
+              activeColor: Colors.blue,
+              inactiveColor: Colors.grey.shade300,
+            ),
+            const SizedBox(width: 16),
+            const Text('带图标'),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            CustomSwitch(
+              value: _value2,
+              onChanged: (value) => setState(() => _value2 = value),
+              activeColor: Colors.green,
+              inactiveColor: Colors.grey.shade300,
+              width: 60,
+              height: 30,
+            ),
+            const SizedBox(width: 16),
+            const Text('大尺寸'),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            GradientSwitch(
+              value: _value3,
+              onChanged: (value) => setState(() => _value3 = value),
+            ),
+            const SizedBox(width: 16),
+            const Text('渐变色'),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class CustomSwitch extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool> onChanged;
+  final Color activeColor;
+  final Color inactiveColor;
+  final double width;
+  final double height;
+
+  const CustomSwitch({
+    super.key,
+    required this.value,
+    required this.onChanged,
+    this.activeColor = Colors.blue,
+    this.inactiveColor = Colors.grey,
+    this.width = 50,
+    this.height = 26,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => onChanged(!value),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: value ? activeColor : inactiveColor,
+          borderRadius: BorderRadius.circular(height / 2),
+        ),
+        child: Stack(
+          children: [
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 200),
+              left: value ? width - height + 2 : 2,
+              top: 2,
+              child: Container(
+                width: height - 4,
+                height: height - 4,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  value ? Icons.check : Icons.close,
+                  size: height - 12,
+                  color: value ? activeColor : inactiveColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class GradientSwitch extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  const GradientSwitch({
+    super.key,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => onChanged(!value),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: 50,
+        height: 26,
+        decoration: BoxDecoration(
+          gradient: value
+              ? const LinearGradient(
+                  colors: [Colors.purple, Colors.pink],
+                )
+              : LinearGradient(
+                  colors: [Colors.grey.shade300, Colors.grey.shade400],
+                ),
+          borderRadius: BorderRadius.circular(13),
+        ),
+        child: Stack(
+          children: [
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 200),
+              left: value ? 26 : 2,
+              top: 2,
+              child: Container(
+                width: 22,
+                height: 22,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

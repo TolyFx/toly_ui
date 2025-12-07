@@ -24,7 +24,7 @@ class ButtonDemo3 extends StatelessWidget {
             spacing: 6,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-            Icon(Icons.search,size: 16,),
+            Icon(Icons.search,size: 16,color: Colors.white,),
             Text("Search"),
           ],),
           style: FillButtonPalette(

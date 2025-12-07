@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'types.dart';
 
-class Tag extends StatefulWidget {
+class TolyTag extends StatefulWidget {
   final String? className;
   final Color? color;
   final TagVariant variant;
@@ -18,7 +18,7 @@ class Tag extends StatefulWidget {
   final Widget? child;
   final TagTheme? theme;
 
-  const Tag({
+  const TolyTag({
     super.key,
     this.className,
     this.color,
@@ -35,13 +35,11 @@ class Tag extends StatefulWidget {
   });
 
   @override
-  State<Tag> createState() => _TagState();
+  State<TolyTag> createState() => _TolyTagState();
 }
 
-class _TagState extends State<Tag> with TickerProviderStateMixin {
-  bool _visible = true;
+class _TolyTagState extends State<TolyTag> with TickerProviderStateMixin {
   bool _isCloseHovered = false;
-  bool _isHovered = false;
   late AnimationController _controller;
   late AnimationController _hoverController;
   late Animation<double> _animation;
@@ -74,11 +72,6 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
     if (widget.disabled) return;
 
     widget.onClose?.call();
-    _controller.reverse().then((_) {
-      if (mounted) {
-        setState(() => _visible = false);
-      }
-    });
   }
 
   Color get textColor {
@@ -153,30 +146,17 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (!_visible) return const SizedBox.shrink();
 
     final theme = widget.theme ?? Theme.of(context).extension<TagTheme>() ?? TagTheme.defaultTheme();
 
     return FadeTransition(
       opacity: _animation,
-      child: MouseRegion(
-        onEnter: widget.onTap != null && !widget.disabled ? (_) {
-          setState(() => _isHovered = true);
-          _hoverController.forward();
-        } : null,
-        onExit: widget.onTap != null && !widget.disabled ? (_) {
-          setState(() => _isHovered = false);
-          _hoverController.reverse();
-        } : null,
-        child: AnimatedBuilder(
+      child:  AnimatedBuilder(
           animation: _hoverAnimation,
           builder: (context, child) {
             Widget tagContent = Container(
               decoration: _buildDecoration(),
-              padding: EdgeInsets.symmetric(
-                horizontal: theme.paddingHorizontal,
-                vertical: 4,
-              ),
+              padding: theme.padding,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -243,8 +223,7 @@ class _TagState extends State<Tag> with TickerProviderStateMixin {
               child: tagContent,
             );
           },
-        ),
-      ),
+        )
     );
   }
 }

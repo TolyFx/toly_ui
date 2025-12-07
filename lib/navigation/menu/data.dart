@@ -41,11 +41,10 @@ Map<String, dynamic> get dataMenus => {
           // 'icon': Icons.text_fields,
         },
         {
-          'path': '/Progress',
+          'path': '/progress',
           'label': 'Progress',
           'subtitle': '进度条',
-
-          // 'icon': Icons.text_fields,
+          'isFlutter': true,
         },
         {
           'path': '/Skeleton',

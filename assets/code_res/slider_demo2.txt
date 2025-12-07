@@ -1,0 +1,52 @@
+class SliderDemo2 extends StatefulWidget {
+  const SliderDemo2({super.key});
+
+  @override
+  State<SliderDemo2> createState() => _SliderDemo2State();
+}
+
+class _SliderDemo2State extends State<SliderDemo2> {
+  RangeValues _values1 = const RangeValues(20, 80);
+  RangeValues _values2 = const RangeValues(30, 70);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Text('基础范围', style: TextStyle(fontWeight: FontWeight.bold)),
+            const Spacer(),
+            Text('${_values1.start.toInt()} - ${_values1.end.toInt()}'),
+          ],
+        ),
+        RangeSlider(
+          values: _values1,
+          min: 0,
+          max: 100,
+          onChanged: (values) => setState(() => _values1 = values),
+        ),
+        const SizedBox(height: 24),
+        Row(
+          children: [
+            const Text('带标签分段', style: TextStyle(fontWeight: FontWeight.bold)),
+            const Spacer(),
+            Text('${_values2.start.toInt()} - ${_values2.end.toInt()}'),
+          ],
+        ),
+        RangeSlider(
+          values: _values2,
+          min: 0,
+          max: 100,
+          divisions: 10,
+          labels: RangeLabels(
+            _values2.start.toInt().toString(),
+            _values2.end.toInt().toString(),
+          ),
+          onChanged: (values) => setState(() => _values2 = values),
+        ),
+      ],
+    );
+  }
+}

@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui/tolyui.dart';
+
 import '../../display_nodes/display_nodes.dart';
 
 @DisplayNode(
   title: '禁用按钮',
-  desc:'按钮的 onPressed 回调为 null 时，表示禁用按钮。',
+  desc: '按钮的 onPressed 回调为 null 时，表示禁用按钮。',
 )
 class ButtonDemo4 extends StatelessWidget {
   const ButtonDemo4({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Palette foreground = const Palette(normal: Color(0xff606266), hover: Color(0xff096dd9), pressed: Color(0xff096dd9));
-    Palette border = const Palette(normal: Color(0xffd9d9d9), hover: Color(0x44409eff), pressed: Color(0xff096dd9));
-    Palette bg = const Palette(normal: Color(0xff1890ff), hover: Color(0xffecf5ff), pressed: Color(0xffecf5ff));
+    Palette foreground = const Palette(
+        normal: Color(0xff606266),
+        hover: Color(0xff096dd9),
+        pressed: Color(0xff096dd9));
+    Palette border = const Palette(
+        normal: Color(0xffd9d9d9),
+        hover: Color(0x44409eff),
+        pressed: Color(0xff096dd9));
+    Palette bg = const Palette(
+        normal: Color(0xff1890ff),
+        hover: Color(0xffecf5ff),
+        pressed: Color(0xffecf5ff));
 
     return Wrap(
       spacing: 20,
@@ -24,9 +34,10 @@ class ButtonDemo4 extends StatelessWidget {
             spacing: 6,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-            Icon(Icons.search,size: 16,),
-            Text("Search"),
-          ],),
+              Icon(Icons.search, size: 16, color: Colors.white),
+              Text("Search"),
+            ],
+          ),
           style: FillButtonPalette(
             disable: true,
             foregroundPalette: Palette.all(Colors.white),
@@ -44,8 +55,12 @@ class ButtonDemo4 extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text("Upload"),
-              Icon(Icons.upload_outlined,size: 16,),
-            ],),
+              Icon(
+                Icons.upload_outlined,
+                size: 16,
+              ),
+            ],
+          ),
           style: OutlineButtonPalette(
             borderPalette: border,
             disable: true,
@@ -61,8 +76,12 @@ class ButtonDemo4 extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text("Delete"),
-              Icon(Icons.delete,size: 16,),
-            ],),
+              Icon(
+                Icons.delete,
+                size: 16,
+              ),
+            ],
+          ),
           style: OutlineButtonPalette(
             disable: true,
             borderPalette: const Palette(

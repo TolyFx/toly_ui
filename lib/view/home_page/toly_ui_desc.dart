@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wrapper/wrapper.dart';
 
 import '../../app/res/toly_icon.dart';
@@ -59,7 +60,9 @@ class TolyUIDesc extends StatelessWidget {
                         ),
                         icon: const RotatedBox(
                             quarterTurns: 2, child: Icon(Icons.transit_enterexit,size: 20,)),
-                        onPressed: () {},
+                        onPressed: () {
+                          context.go('/guide/start');
+                        },
                         label: const Text('开始使用')),
                   ),
                   Wrap(

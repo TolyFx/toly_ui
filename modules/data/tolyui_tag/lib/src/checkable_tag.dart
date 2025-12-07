@@ -106,10 +106,7 @@ class _CheckableTagState extends State<CheckableTag> with SingleTickerProviderSt
                 border: Border.all(color: borderColor, width: theme.borderWidth),
                 borderRadius: BorderRadius.circular(theme.borderRadius),
               ),
-              padding: EdgeInsets.symmetric(
-                horizontal: theme.paddingHorizontal,
-                vertical: 4,
-              ),
+              padding: theme.padding,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -123,6 +120,7 @@ class _CheckableTagState extends State<CheckableTag> with SingleTickerProviderSt
                       style: TextStyle(
                         fontSize: theme.fontSize,
                         height: 1.0,
+                        leadingDistribution: TextLeadingDistribution.even,
                         color: textColor,
                       ),
                       child: widget.child!,

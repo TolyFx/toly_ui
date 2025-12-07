@@ -1,0 +1,43 @@
+class SwitchDemo1 extends StatefulWidget {
+  const SwitchDemo1({super.key});
+
+  @override
+  State<SwitchDemo1> createState() => _SwitchDemo1State();
+}
+
+class _SwitchDemo1State extends State<SwitchDemo1> {
+  bool _materialValue = true;
+  bool _cupertinoValue = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 24,
+      runSpacing: 16,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Switch(
+              value: _materialValue,
+              onChanged: (value) => setState(() => _materialValue = value),
+            ),
+            const SizedBox(width: 8),
+            const Text('Material 风格'),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CupertinoSwitch(
+              value: _cupertinoValue,
+              onChanged: (value) => setState(() => _cupertinoValue = value),
+            ),
+            const SizedBox(width: 8),
+            const Text('Cupertino 风格'),
+          ],
+        ),
+      ],
+    );
+  }
+}

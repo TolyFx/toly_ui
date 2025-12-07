@@ -1,0 +1,17 @@
+class SwitchDemo2 extends StatelessWidget {
+  const SwitchDemo2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Wrap(
+      spacing: 16,
+      runSpacing: 16,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Switch(value: false, onChanged: null),
+        Switch(value: true, onChanged: null),
+        Text('禁用状态'),
+      ],
+    );
+  }
+}

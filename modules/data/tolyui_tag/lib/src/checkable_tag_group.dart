@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'checkable_tag.dart';
 import 'types.dart';
 
-class CheckableTagOption<T> {
+class TagOption<T> {
   final T value;
   final Widget label;
 
-  const CheckableTagOption({
+  const TagOption({
     required this.value,
     required this.label,
   });
 }
 
-class CheckableTagGroup<T> extends StatefulWidget {
-  final List<CheckableTagOption<T>> options;
+class TolyTagGroup<T> extends StatefulWidget {
+  final List<TagOption<T>> options;
   final T? value;
   final List<T>? values;
   final ValueChanged<T?>? onChange;
@@ -23,7 +23,7 @@ class CheckableTagGroup<T> extends StatefulWidget {
   final double gap;
   final TagTheme? theme;
 
-  const CheckableTagGroup({
+  const TolyTagGroup({
     Key? key,
     required this.options,
     this.value,
@@ -37,10 +37,10 @@ class CheckableTagGroup<T> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CheckableTagGroup<T>> createState() => _CheckableTagGroupState<T>();
+  State<TolyTagGroup<T>> createState() => _TolyTagGroupState<T>();
 }
 
-class _CheckableTagGroupState<T> extends State<CheckableTagGroup<T>> {
+class _TolyTagGroupState<T> extends State<TolyTagGroup<T>> {
   late T? _singleValue;
   late List<T> _multipleValues;
 
@@ -52,7 +52,7 @@ class _CheckableTagGroupState<T> extends State<CheckableTagGroup<T>> {
   }
 
   @override
-  void didUpdateWidget(CheckableTagGroup<T> oldWidget) {
+  void didUpdateWidget(TolyTagGroup<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.value != oldWidget.value) {
       _singleValue = widget.value;
@@ -62,7 +62,7 @@ class _CheckableTagGroupState<T> extends State<CheckableTagGroup<T>> {
     }
   }
 
-  void _handleChange(bool checked, CheckableTagOption<T> option) {
+  void _handleChange(bool checked, TagOption<T> option) {
     if (widget.multiple) {
       final newValues = List<T>.from(_multipleValues);
       if (checked) {
@@ -79,7 +79,7 @@ class _CheckableTagGroupState<T> extends State<CheckableTagGroup<T>> {
     }
   }
 
-  bool _isChecked(CheckableTagOption<T> option) {
+  bool _isChecked(TagOption<T> option) {
     if (widget.multiple) {
       return _multipleValues.contains(option.value);
     }

@@ -6,145 +6,96 @@ class TagDemo2 extends StatefulWidget {
 }
 
 class _TagDemo2State extends State<TagDemo2> {
-  List<String> tags = ['上进', '努力', '成功', '创新'];
-  bool _isAdding = false;
-  final TextEditingController _tagInputController = TextEditingController();
-  final FocusNode _tagInputFocusNode = FocusNode();
+  final List<TagData> _initialTags = [
+    TagData(
+      label: '编程技术',
+      variant: TagVariant.outlined,
+    ),
+    TagData(
+      label: '拍摄影像',
+      icon: Icons.camera,
+      color: Colors.green,
+    ),
+    TagData(
+      label: 'Dart语言',
+      icon: Icons.code,
+      variant: TagVariant.outlined,
+    ),
+    TagData(
+      label: '禁用状态',
+      variant: TagVariant.filled,
+      disabled: true,
+    ),
+  ];
+
+  late List<TagData> tags;
 
   @override
   void initState() {
     super.initState();
-    _tagInputFocusNode.addListener(() {
-      if (!_tagInputFocusNode.hasFocus) {
-        // 输入框失去焦点时，提交内容
-        _handleSubmitted(_tagInputController.text);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _tagInputController.dispose();
-    _tagInputFocusNode.dispose();
-    super.dispose();
-  }
-
-  void _handleSubmitted(String value) {
-    setState(() {
-      final newTag = value.trim();
-      if (newTag.isNotEmpty && !tags.contains(newTag)) {
-        tags.add(newTag);
-      }
-      _isAdding = false;
-      _tagInputController.clear();
-    });
+    tags = List.from(_initialTags);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildStaticTags(),
-        const SizedBox(height: 16),
-        _buildDynamicTags(),
-      ],
-    );
-  }
-
-  Widget _buildStaticTags() {
     return Wrap(
       spacing: 8,
       runSpacing: 8,
       children: [
-        Tag(
-          variant: TagVariant.outlined,
-          closable: true,
-          onClose: () => print('标签已关闭'),
-          child: const Text('编程技术'),
-        ),
-        Tag(
-          closable: true,
-          icon: const Icon(
-            Icons.camera,
-            size: 14,
-            color: Colors.black,
+        ...tags.map((tag) {
+          return TolyTag(
+            variant: tag.variant,
+            closable: true,
+            disabled: tag.disabled,
+            color: tag.color,
+            icon: tag.icon != null
+                ? Icon(
+                    tag.icon,
+                    size: 14,
+                    color: tag.color != null ? Colors.black : null,
+                  )
+                : null,
+            onClose: () {
+              setState(() {
+                tags.remove(tag);
+              });
+              $message.success(message: '已删除: ${tag.label}');
+            },
+            child: Text(tag.label),
+          );
+        }),
+        if (tags.length < _initialTags.length)
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                tags = List.from(_initialTags);
+              });
+              $message.success(message: '已重置所有标签');
+            },
+            child: TolyTag(
+              variant: TagVariant.filled,
+              color: Colors.blue,
+              icon: Icon(Icons.refresh, size: 14,color: Colors.blue),
+              child: Text('重置'),
+            ),
           ),
-          color: Colors.green,
-          child: const Text(
-            '拍摄影像',
-          ),
-        ),
-        Tag(
-          variant: TagVariant.filled,
-          disabled: true,
-          closable: true,
-          child: const Text('禁用状态'),
-        ),
       ],
     );
   }
+}
 
-  Widget _buildDynamicTags() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('动态标签列表(支持添加和删除)：'),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            ...tags.map((tag) {
-              return Tag(
-                theme: TagTheme.tolyui(colorIcon: Colors.blue),
-                key: ValueKey(tag),
-                closable: true,
-                color: Colors.blue,
-                onClose: () {
-                  setState(() {
-                    tags.remove(tag);
-                  });
-                },
-                child: Text(tag),
-              );
-            }).toList(),
-            if (_isAdding)
-              SizedBox(
-                width: 90,
-                height: 24,
-                child: TextField(
-                  controller: _tagInputController,
-                  focusNode: _tagInputFocusNode,
-                  style: const TextStyle(fontSize: 12),
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                    border: OutlineInputBorder(),
-                  ),
-                  onSubmitted: _handleSubmitted,
-                ),
-              )
-            else
-              Tag(
-                variant: TagVariant.dashed,
-                onTap: () {
-                  setState(() {
-                    _isAdding = true;
-                  });
-                  _tagInputFocusNode.requestFocus();
-                },
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.add, size: 14),
-                    SizedBox(width: 4),
-                    Text('添加标签'),
-                  ],
-                ),
-              ),
-          ],
-        ),
-      ],
-    );
-  }
+class TagData {
+  final String label;
+  final TagVariant variant;
+  final IconData? icon;
+  final Color? color;
+  final bool disabled;
+
+  TagData({
+    required this.label,
+    this.variant = TagVariant.filled,
+    this.icon,
+    this.color,
+    this.disabled = false,
+  });
 }

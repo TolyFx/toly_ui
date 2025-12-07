@@ -1,0 +1,47 @@
+class SliderDemo1 extends StatefulWidget {
+  const SliderDemo1({super.key});
+
+  @override
+  State<SliderDemo1> createState() => _SliderDemo1State();
+}
+
+class _SliderDemo1State extends State<SliderDemo1> {
+  double _materialValue = 50;
+  double _cupertinoValue = 50;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Text('Material 风格', style: TextStyle(fontWeight: FontWeight.bold)),
+            const Spacer(),
+            Text('${_materialValue.toInt()}', style: TextStyle(color: Theme.of(context).primaryColor)),
+          ],
+        ),
+        Slider(
+          value: _materialValue,
+          min: 0,
+          max: 100,
+          onChanged: (value) => setState(() => _materialValue = value),
+        ),
+        const SizedBox(height: 24),
+        Row(
+          children: [
+            const Text('Cupertino 风格', style: TextStyle(fontWeight: FontWeight.bold)),
+            const Spacer(),
+            Text('${_cupertinoValue.toInt()}', style: const TextStyle(color: CupertinoColors.activeBlue)),
+          ],
+        ),
+        CupertinoSlider(
+          value: _cupertinoValue,
+          min: 0,
+          max: 100,
+          onChanged: (value) => setState(() => _cupertinoValue = value),
+        ),
+      ],
+    );
+  }
+}

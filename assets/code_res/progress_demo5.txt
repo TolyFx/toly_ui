@@ -1,0 +1,45 @@
+class ProgressDemo5 extends StatefulWidget {
+  const ProgressDemo5({super.key});
+
+  @override
+  State<ProgressDemo5> createState() => _ProgressDemo5State();
+}
+
+class _ProgressDemo5State extends State<ProgressDemo5> {
+  double _progress = 0.0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startProgress();
+  }
+
+  void _startProgress() {
+    _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      setState(() {
+        _progress += 0.01;
+        if (_progress >= 1.0) {
+          _progress = 0.0;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        LinearProgressIndicator(value: _progress),
+        const SizedBox(height: 16),
+        Text('${(_progress * 100).toInt()}%'),
+      ],
+    );
+  }
+}

@@ -6,7 +6,7 @@ class TagDemo3 extends StatefulWidget {
 }
 
 class _TagDemo3State extends State<TagDemo3> {
-  List<String> tags = ['上进', '努力', '成功', '创新'];
+  List<String> tags = ['上进', '努力', '成功', '创新', '热情'];
   bool _isAdding = false;
   final TextEditingController _tagInputController = TextEditingController();
   final FocusNode _tagInputFocusNode = FocusNode();
@@ -45,14 +45,14 @@ class _TagDemo3State extends State<TagDemo3> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('动态标签列表(支持添加和删除)：'),
+        const Text('你的性格特点：'),
         const SizedBox(height: 8),
         Wrap(
           spacing: 8,
           runSpacing: 8,
           children: [
             ...tags.map((tag) {
-              return Tag(
+              return TolyTag(
                 theme: TagTheme.tolyui(colorIcon: Colors.blue),
                 key: ValueKey(tag),
                 closable: true,
@@ -81,7 +81,7 @@ class _TagDemo3State extends State<TagDemo3> {
                 ),
               )
             else
-              Tag(
+              TolyTag(
                 variant: TagVariant.dashed,
                 onTap: () {
                   setState(() {

@@ -52,7 +52,7 @@ class TagTheme extends ThemeExtension<TagTheme> {
   final double fontSize;
   final double lineHeight;
   final double iconSize;
-  final double paddingHorizontal;
+  final EdgeInsetsGeometry padding;
   final double borderWidth;
   final double borderRadius;
   final Duration animationDuration;
@@ -76,7 +76,7 @@ class TagTheme extends ThemeExtension<TagTheme> {
     this.fontSize = 12.0,
     this.lineHeight = 20.0,
     this.iconSize = 12.0,
-    this.paddingHorizontal = 8.0,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
     this.borderWidth = 1.0,
     this.borderRadius = 4.0,
     this.animationDuration = const Duration(milliseconds: 200),
@@ -101,7 +101,7 @@ class TagTheme extends ThemeExtension<TagTheme> {
     this.fontSize = 12.0,
     this.lineHeight = 20.0,
     this.iconSize = 12.0,
-    this.paddingHorizontal = 8.0,
+    this.padding = const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
     this.borderWidth = 1.0,
     this.borderRadius = 4.0,
     this.animationDuration = const Duration(milliseconds: 200),
@@ -127,7 +127,7 @@ class TagTheme extends ThemeExtension<TagTheme> {
     double? fontSize,
     double? lineHeight,
     double? iconSize,
-    double? paddingHorizontal,
+    EdgeInsetsGeometry? padding,
     double? borderWidth,
     double? borderRadius,
     Duration? animationDuration,
@@ -151,7 +151,7 @@ class TagTheme extends ThemeExtension<TagTheme> {
       fontSize: fontSize ?? this.fontSize,
       lineHeight: lineHeight ?? this.lineHeight,
       iconSize: iconSize ?? this.iconSize,
-      paddingHorizontal: paddingHorizontal ?? this.paddingHorizontal,
+      padding: padding ?? this.padding,
       borderWidth: borderWidth ?? this.borderWidth,
       borderRadius: borderRadius ?? this.borderRadius,
       animationDuration: animationDuration ?? this.animationDuration,
@@ -180,7 +180,7 @@ class TagTheme extends ThemeExtension<TagTheme> {
       fontSize: lerpDouble(fontSize, other.fontSize, t) ?? fontSize,
       lineHeight: lerpDouble(lineHeight, other.lineHeight, t) ?? lineHeight,
       iconSize: lerpDouble(iconSize, other.iconSize, t) ?? iconSize,
-      paddingHorizontal: lerpDouble(paddingHorizontal, other.paddingHorizontal, t) ?? paddingHorizontal,
+      padding: EdgeInsetsGeometry.lerp(padding, other.padding, t) ?? padding,
       borderWidth: lerpDouble(borderWidth, other.borderWidth, t) ?? borderWidth,
       borderRadius: lerpDouble(borderRadius, other.borderRadius, t) ?? borderRadius,
       animationDuration: t < 0.5 ? animationDuration : other.animationDuration,

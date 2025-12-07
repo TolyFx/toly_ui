@@ -42,6 +42,24 @@ Map<String, dynamic> get formMenus => {
           // 'icon': Icons.text_fields,
         },
         {
+          'path': '/slider',
+          'label': 'Slider',
+          'subtitle': '滑块',
+          'isFlutter': true,
+        },
+        {
+          'path': '/switch',
+          'label': 'Switch',
+          'subtitle': '开关',
+          'isFlutter': true,
+        },
+        {
+          'path': '/radio',
+          'label': 'Radio',
+          'subtitle': '单选按钮',
+          'isFlutter': true,
+        },
+        {
           'path': '/transfer',
           'label': 'Transfer',
           'subtitle': '穿梭框',

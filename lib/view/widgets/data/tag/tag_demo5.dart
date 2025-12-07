@@ -6,7 +6,7 @@ import 'package:tolyui/tolyui.dart';
 
 @DisplayNode(
   title: '状态标签',
-  desc: '带有图标和状态指示的标签，通过颜色和图标传达不同的状态信息。适用于任务状态、审核结果、系统通知等需要明确状态表达的场景。',
+  desc: '展示带有状态指示的标签组合，通过不同的颜色和图标传达明确的状态信息。示例包含六种常见状态,每个状态都采用了符合直觉的颜色和图标搭配，特别是处理中状态使用了动态的加载指示器，提供更生动的视觉反馈。这种模式广泛应用于任务状态跟踪、审批流程、订单状态、系统通知等需要明确状态表达的场景。',
 )
 class TagDemo5 extends StatelessWidget {
   const TagDemo5({super.key});
@@ -17,32 +17,32 @@ class TagDemo5 extends StatelessWidget {
       spacing: 12,
       runSpacing: 8,
       children: [
-        Tag(
+        TolyTag(
           icon: Icon(Icons.check_circle, size: 12, color: Colors.green),
           color: Colors.green,
           child: Text('成功'),
         ),
-        Tag(
+        TolyTag(
           icon: Icon(Icons.error, size: 12, color: Colors.red),
           color: Colors.red,
           child: Text('错误'),
         ),
-        Tag(
+        TolyTag(
           icon: Icon(Icons.warning, size: 12, color: Colors.orange),
           color: Colors.orange,
           child: Text('警告'),
         ),
-        Tag(
+        TolyTag(
           icon: Icon(Icons.info, size: 12, color: Colors.blue),
           color: Colors.blue,
           child: Text('信息'),
         ),
-        Tag(
+        TolyTag(
           icon: Icon(Icons.schedule, size: 12, color: Colors.grey),
           color: Colors.grey,
           child: Text('等待中'),
         ),
-        Tag(
+        TolyTag(
           icon: CupertinoActivityIndicator(
             color: Colors.purple,
             radius: 6,

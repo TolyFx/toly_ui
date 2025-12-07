@@ -45,7 +45,8 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
   });
 
   MenuTreeCellStyle get effectStyle =>
-      style ?? (display.isDark ? MenuTreeCellStyle.dark() : MenuTreeCellStyle.light());
+      style ??
+      (display.isDark ? MenuTreeCellStyle.dark() : MenuTreeCellStyle.light());
 
   Color? effectForegroundColor(MenuTreeCellStyle style) {
     if (display.selected) {
@@ -76,15 +77,15 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MenuTreeCellStyle effectStyle =
-        style ?? (display.isDark ? MenuTreeCellStyle.dark() : MenuTreeCellStyle.light());
+    MenuTreeCellStyle effectStyle = style ??
+        (display.isDark ? MenuTreeCellStyle.dark() : MenuTreeCellStyle.light());
 
     Color? bgColor = backgroundColor(effectStyle);
     Color? fgColor = effectForegroundColor(effectStyle);
     EdgeInsets padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 2);
     MenuMeta menu = menuNode.data;
     IconData? icon;
-    if(menu is IconMenu){
+    if (menu is IconMenu) {
       icon = menu.icon;
     }
     Widget cell = DecoratedBox(
@@ -116,7 +117,8 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
             ),
           ),
           if (ext?.tag != null) _buildTag(ext),
-          if (menuNode.children.isNotEmpty) _buildExpandIndicator(display.expanded, fgColor)
+          if (menuNode.children.isNotEmpty)
+            _buildExpandIndicator(display.expanded, fgColor)
         ],
       ),
     );
@@ -160,16 +162,15 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
   }
 
   Widget _buildTag(TolyUIMenuMetaExt? ext) {
-    TextStyle tagStyle = const TextStyle(color: Colors.white, height: 1, fontSize: 10);
-    Widget child =
-        Text('${ext?.tag}', overflow: TextOverflow.ellipsis, maxLines: 1, style: tagStyle);
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
-      child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-          decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.8), borderRadius: BorderRadius.circular(4)),
-          child: child),
+      child: TolyTag(
+        theme: TagTheme.tolyui(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        ),
+        color: Colors.blue,
+        child: Text('${ext?.tag}'),
+      ),
     );
   }
 
