@@ -1,7 +1,8 @@
 name: tolyui_tag
-description: "A new Flutter package project."
+description: "tag for tolyui"
 version: 0.0.1
-homepage:
+homepage: https://github.com/TolyFx/toly_ui
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/data/tolyui_tag
 
 environment:
   sdk: ^3.6.0

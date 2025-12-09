@@ -1,4 +1,5 @@
 ## 0.0.4
+* 0.0.4+13: add tolyui_tag: 0.0.1
 * 0.0.4+12: add tolyui_statistic: 0.0.1
 * 0.0.4+11: add tolyui_text
 * 0.0.4+9: tolyui_navigation -> 0.2.0

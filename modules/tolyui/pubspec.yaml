@@ -1,6 +1,6 @@
 name: tolyui
 description: "A responsive ui library for Flutter. Help developer build app easier."
-version: 0.0.4+12
+version: 0.0.4+13
 homepage: http://toly1994.com/ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui
 
@@ -19,8 +19,7 @@ dependencies:
   tolyui_navigation: 0.2.0+3
   fx_string: 0.0.1
   tolyui_text: 0.0.1+5
-  tolyui_tag:
-    path: ../data/tolyui_tag
+  tolyui_tag: 0.0.1
   tolyui_statistic: 0.0.1
 
 dev_dependencies:

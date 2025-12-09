@@ -13,6 +13,7 @@ void main() async {
   // publishModule('tolyui_feedback');
   // publishModule(folder: 'feedback', 'tolyui_feedback_modal');
   // publishModule(folder: 'data', 'tolyui_statistic');
+  // publishModule(folder: 'data', 'tolyui_tag');
   // publishModule('tolyui_image');
   // publishModule('tolyui_text');
   // publishModule('tolyui');
