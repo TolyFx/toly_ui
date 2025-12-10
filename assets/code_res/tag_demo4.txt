@@ -2,10 +2,10 @@ class TagDemo4 extends StatefulWidget {
   const TagDemo4({super.key});
 
   @override
-  State<TagDemo4> createState() => _TagDemo3State();
+  State<TagDemo4> createState() => _TagDemo4State();
 }
 
-class _TagDemo3State extends State<TagDemo4> {
+class _TagDemo4State extends State<TagDemo4> {
   String? selectedCategory;
   List<String> selectedTags = [];
 
@@ -24,7 +24,6 @@ class _TagDemo3State extends State<TagDemo4> {
           ],
         ),
         const SizedBox(height: 8),
-
         TolyTagGroup<String>(
           options: const [
             TagOption(value: 'frontend', label: Text('前端')),

@@ -1,0 +1,81 @@
+class TreeDemo2 extends StatefulWidget {
+  const TreeDemo2({super.key});
+
+  @override
+  State<TreeDemo2> createState() => _TreeDemo2State();
+}
+
+class _TreeDemo2State extends State<TreeDemo2> {
+  final List<TreeNode<String>> _nodes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _nodes.addAll(_buildSampleData());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('已选择: ${_getSelectedNodes().map((n) => n.data).join(", ")}'),
+        const SizedBox(height: 16),
+        TolyTree<String>(
+          nodes: _nodes,
+          nodeBuilder: (node) => Row(
+            children: [
+              Checkbox(
+                value: node.isSelected,
+                onChanged: (value) => _toggleSelection(node),
+              ),
+              const SizedBox(width: 8),
+              Expanded(child: Text(node.data)),
+            ],
+          ),
+          onTap: (node) => _toggleSelection(node),
+        ),
+      ],
+    );
+  }
+
+  void _toggleSelection(TreeNode<String> node) {
+    setState(() {
+      node.isSelected = !node.isSelected;
+    });
+  }
+
+  List<TreeNode<String>> _getSelectedNodes() {
+    List<TreeNode<String>> selected = [];
+    void collectSelected(List<TreeNode<String>> nodes) {
+      for (var node in nodes) {
+        if (node.isSelected) selected.add(node);
+        collectSelected(node.children);
+      }
+    }
+    collectSelected(_nodes);
+    return selected;
+  }
+
+  List<TreeNode<String>> _buildSampleData() {
+    return [
+      TreeNode(
+        id: '1',
+        data: '系统管理',
+        children: [
+          TreeNode(id: '1-1', data: '用户管理'),
+          TreeNode(id: '1-2', data: '角色管理'),
+          TreeNode(id: '1-3', data: '权限管理'),
+        ],
+      ),
+      TreeNode(
+        id: '2',
+        data: '内容管理',
+        children: [
+          TreeNode(id: '2-1', data: '文章管理'),
+          TreeNode(id: '2-2', data: '分类管理'),
+        ],
+      ),
+    ];
+  }
+}

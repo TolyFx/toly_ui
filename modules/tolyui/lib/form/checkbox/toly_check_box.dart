@@ -31,7 +31,14 @@ class _TolyCheckBoxState extends State<TolyCheckBox> {
 
   @override
   Widget build(BuildContext context) {
-    Widget child = widget.value ? select() : unselect();
+    Widget child;
+    if (widget.indeterminate) {
+      child = indeterminateState();
+    } else if (widget.value) {
+      child = select();
+    } else {
+      child = unselect();
+    }
 
     if (widget.label != null) {
       child = Wrap(
@@ -59,17 +66,28 @@ class _TolyCheckBoxState extends State<TolyCheckBox> {
       height: widget.size,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-          color: widget.indeterminate ? Colors.white : Colors.blue,
-          border: widget.indeterminate
-              ? Border.all(
-                  color: _hover ? Colors.blue : Color(0xffdcdfe6),
-                  width: 1 / window.devicePixelRatio)
-              : null,
+          color: Colors.blue,
           borderRadius: widget.borderRadius ?? BorderRadius.circular(widget.size * 0.125)),
       child: Icon(
         Icons.check,
         size: widget.size * 0.75,
-        color: widget.indeterminate ? Colors.blue : Colors.white,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  Widget indeterminateState() {
+    return Container(
+      width: widget.size,
+      height: widget.size,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          color: Colors.blue,
+          borderRadius: widget.borderRadius ?? BorderRadius.circular(widget.size * 0.125)),
+      child: Container(
+        width: widget.size * 0.5,
+        height: 2,
+        color: Colors.white,
       ),
     );
   }

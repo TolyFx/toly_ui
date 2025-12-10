@@ -1,0 +1,48 @@
+class TreeDemo1 extends StatelessWidget {
+  const TreeDemo1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TolyTree<String>(
+      nodes: _buildSampleData(),
+      nodeBuilder: (node) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Text(node.data),
+      ),
+    );
+  }
+
+  List<TreeNode<String>> _buildSampleData() {
+    return [
+      TreeNode(
+        id: '1',
+        data: '根目录',
+        children: [
+          TreeNode(
+            id: '1-1',
+            data: '文档',
+            children: [
+              TreeNode(id: '1-1-1', data: '工作文档.docx'),
+              TreeNode(id: '1-1-2', data: '个人笔记.txt'),
+            ],
+          ),
+          TreeNode(
+            id: '1-2',
+            data: '图片',
+            children: [
+              TreeNode(id: '1-2-1', data: '照片1.jpg'),
+              TreeNode(id: '1-2-2', data: '照片2.png'),
+            ],
+          ),
+        ],
+      ),
+      TreeNode(
+        id: '2',
+        data: '下载',
+        children: [
+          TreeNode(id: '2-1', data: '安装包.exe'),
+        ],
+      ),
+    ];
+  }
+}

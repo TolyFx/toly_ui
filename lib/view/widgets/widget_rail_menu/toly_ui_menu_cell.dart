@@ -100,8 +100,8 @@ class TolyUIWidgetMenuCell extends StatelessWidget {
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.only(
                 left: 12.0 + (28 * menuNode.depth),
-                top: ext?.subtitle == null ? 12 : 8,
-                bottom: ext?.subtitle == null ? 12 : 8,
+                top: ext?.subtitle == null ? 10 : 6,
+                bottom: ext?.subtitle == null ? 10 : 6,
               ),
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,

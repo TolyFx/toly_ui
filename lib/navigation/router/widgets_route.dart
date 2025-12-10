@@ -8,7 +8,6 @@ import '../../view/widgets/overview/overview_page.dart';
 import '../../view/widgets/widgets_page.dart';
 import '../view/empty404/widget404.dart';
 
-
 RouteBase get widgetsRoute => ShellRoute(
         builder: (BuildContext context, GoRouterState state, Widget child) {
           return WidgetNavigationScope(
@@ -82,6 +81,7 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('segmented'),
                   _customRoute('card'),
                   _customRoute('tag'),
+                  _customRoute('tree'),
                   _customRoute('slideshow'),
                 ]),
             GoRoute(
@@ -113,8 +113,10 @@ RouteBase get widgetsRoute => ShellRoute(
                     // transitionDuration: const Duration(milliseconds: 500),
                     // reverseTransitionDuration: const Duration(milliseconds: 500),
                     child: Widget404(),
-                    transitionsBuilder: (BuildContext context, Animation<double> animation,
-                        Animation<double> secondaryAnimation, Widget child) {
+                    transitionsBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                        Widget child) {
                       return CupertinoPageTransition(
                         primaryRouteAnimation: animation,
                         secondaryRouteAnimation: secondaryAnimation,

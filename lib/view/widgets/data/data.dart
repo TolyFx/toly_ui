@@ -8,4 +8,5 @@ export 'progress/progress.dart';
 export 'segmented/segmented.dart';
 export 'statistics/statistics.dart';
 export 'tag/tag.dart';
+export 'tree/tree.dart';
 export 'slideshow/slideshow.dart';
