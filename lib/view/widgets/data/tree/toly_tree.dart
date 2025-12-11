@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'tree_line_painter.dart';
 
 /// 树节点数据模型
 class TreeNode<T> {
   final String id;
   final T data;
   final List<TreeNode<T>> children;
+  final bool selectable;
   bool isExpanded;
   bool isSelected;
   int level;
@@ -16,9 +18,64 @@ class TreeNode<T> {
     this.isExpanded = false,
     this.isSelected = false,
     this.level = 0,
+    this.selectable = true,
   });
 
+  factory TreeNode.fromMap(dynamic map) {
+    List<TreeNode<T>> children = [];
+    if (map['children'] != null) {
+      children = (map['children'] as List)
+          .map((child) => TreeNode<T>.fromMap(child))
+          .toList();
+    }
+
+    return TreeNode<T>(
+      id: map['id']?.toString() ?? '',
+      data: map['data'] as T,
+      children: children,
+      isExpanded: map['isExpanded'] ?? false,
+      isSelected: map['isSelected'] ?? false,
+      selectable: map['selectable'] ?? true,
+    );
+  }
+
   bool get hasChildren => children.isNotEmpty;
+
+  /// 获取复选框状态（支持三态）
+  bool? get selectState {
+    if (children.isEmpty) {
+      return isSelected;
+    }
+
+    int selectedCount = 0;
+    int totalCount = 0;
+    bool hasIndeterminate = false;
+
+    for (var child in children) {
+      if (!child.selectable) continue; // 跳过不可选中的节点
+
+      final childState = child.selectState;
+      totalCount++;
+
+      if (childState == true) {
+        selectedCount++;
+      } else if (childState == null) {
+        hasIndeterminate = true;
+      }
+    }
+
+    if (totalCount == 0) {
+      return false; // 没有可选中的子节点
+    }
+
+    if (selectedCount == totalCount) {
+      return true; // 全选
+    } else if (selectedCount == 0 && !hasIndeterminate) {
+      return false; // 全不选
+    } else {
+      return null; // 第三态（有至少一个选中）
+    }
+  }
 }
 
 /// 树形组件
@@ -31,6 +88,9 @@ class TolyTree<T> extends StatefulWidget {
   final Widget? expandIcon;
   final Widget? collapseIcon;
   final Duration animationDuration;
+  final bool showConnectingLines;
+  final Color? connectingLineColor;
+  final double connectingLineWidth;
 
   const TolyTree({
     super.key,
@@ -42,6 +102,9 @@ class TolyTree<T> extends StatefulWidget {
     this.expandIcon,
     this.collapseIcon,
     this.animationDuration = const Duration(milliseconds: 200),
+    this.showConnectingLines = false,
+    this.connectingLineColor,
+    this.connectingLineWidth = 1.0,
   });
 
   @override
@@ -53,17 +116,26 @@ class _TolyTreeState<T> extends State<TolyTree<T>> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: widget.nodes.map((node) => _TreeNodeWidget(
-        node: node,
-        nodeBuilder: widget.nodeBuilder,
-        onTap: widget.onTap,
-        onExpand: widget.onExpand,
-        indent: widget.indent,
-        expandIcon: widget.expandIcon,
-        collapseIcon: widget.collapseIcon,
-        animationDuration: widget.animationDuration,
-        level: 0,
-      )).toList(),
+      children: widget.nodes.asMap().entries.map((entry) {
+        final index = entry.key;
+        final node = entry.value;
+        return _TreeNodeWidget(
+          node: node,
+          nodeBuilder: widget.nodeBuilder,
+          onTap: widget.onTap,
+          onExpand: widget.onExpand,
+          indent: widget.indent,
+          expandIcon: widget.expandIcon,
+          collapseIcon: widget.collapseIcon,
+          animationDuration: widget.animationDuration,
+          level: 0,
+          showConnectingLines: widget.showConnectingLines,
+          connectingLineColor:
+              widget.connectingLineColor ?? Colors.grey.withOpacity(0.5),
+          connectingLineWidth: widget.connectingLineWidth,
+          isLast: index == widget.nodes.length - 1,
+        );
+      }).toList(),
     );
   }
 }
@@ -79,6 +151,11 @@ class _TreeNodeWidget<T> extends StatefulWidget {
   final Widget? collapseIcon;
   final Duration animationDuration;
   final int level;
+  final bool showConnectingLines;
+  final Color connectingLineColor;
+  final double connectingLineWidth;
+  final bool isLast;
+  final List<bool> ancestorLines;
 
   const _TreeNodeWidget({
     required this.node,
@@ -90,6 +167,11 @@ class _TreeNodeWidget<T> extends StatefulWidget {
     this.collapseIcon,
     required this.animationDuration,
     required this.level,
+    this.showConnectingLines = false,
+    this.connectingLineColor = Colors.grey,
+    this.connectingLineWidth = 1.0,
+    this.isLast = false,
+    this.ancestorLines = const [],
   });
 
   @override
@@ -150,48 +232,87 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
     if (widget.node.hasChildren) {
       _toggleExpand();
     }
-    widget.onTap?.call(widget.node);
+
+    // 只有可选中的节点才触发点击事件
+    if (widget.node.selectable) {
+      widget.onTap?.call(widget.node);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     widget.node.level = widget.level;
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        InkWell(
-          onTap: _handleTap,
-          child: Container(
-            constraints: const BoxConstraints(minHeight: 40),
-            padding: EdgeInsets.only(left: widget.level * widget.indent),
-            child: Row(
-              children: [
-                _buildExpandIcon(),
-                Expanded(child: widget.nodeBuilder(widget.node)),
-              ],
-            ),
-          ),
-        ),
+        widget.showConnectingLines
+            ? CustomPaint(
+                painter: TreeLinePainter(
+                  level: widget.level,
+                  indent: widget.indent,
+                  color: widget.connectingLineColor,
+                  strokeWidth: widget.connectingLineWidth,
+                  isLast: widget.isLast,
+                  hasChildren: widget.node.hasChildren,
+                  isExpanded: widget.node.isExpanded,
+                  ancestorLines: widget.ancestorLines,
+                ),
+                child: _buildNodeContent(),
+              )
+            : _buildNodeContent(),
         if (widget.node.hasChildren)
           SizeTransition(
             sizeFactor: _expandAnimation,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: widget.node.children.map((child) => _TreeNodeWidget(
-                node: child,
-                nodeBuilder: widget.nodeBuilder,
-                onTap: widget.onTap,
-                onExpand: widget.onExpand,
-                indent: widget.indent,
-                expandIcon: widget.expandIcon,
-                collapseIcon: widget.collapseIcon,
-                animationDuration: widget.animationDuration,
-                level: widget.level + 1,
-              )).toList(),
+              children: widget.node.children.asMap().entries.map((entry) {
+                final index = entry.key;
+                final child = entry.value;
+                final childAncestorLines =
+                    List<bool>.from(widget.ancestorLines);
+                childAncestorLines.add(index < widget.node.children.length - 1);
+                return _TreeNodeWidget(
+                  node: child,
+                  nodeBuilder: widget.nodeBuilder,
+                  onTap: widget.onTap,
+                  onExpand: widget.onExpand,
+                  indent: widget.indent,
+                  expandIcon: widget.expandIcon,
+                  collapseIcon: widget.collapseIcon,
+                  animationDuration: widget.animationDuration,
+                  level: widget.level + 1,
+                  showConnectingLines: widget.showConnectingLines,
+                  connectingLineColor: widget.connectingLineColor,
+                  connectingLineWidth: widget.connectingLineWidth,
+                  isLast: index == widget.node.children.length - 1,
+                  ancestorLines: childAncestorLines,
+                );
+              }).toList(),
             ),
           ),
       ],
+    );
+  }
+
+  Widget _buildNodeContent() {
+    return InkWell(
+      onTap: _handleTap,
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 40),
+        padding: EdgeInsets.only(left: widget.level * widget.indent),
+        child: Row(
+          children: [
+            _buildExpandIcon(),
+            Expanded(
+              child: Opacity(
+                opacity: widget.node.selectable ? 1.0 : 0.5,
+                child: widget.nodeBuilder(widget.node),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -210,3 +331,5 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
     );
   }
 }
+
+

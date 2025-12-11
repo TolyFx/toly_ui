@@ -11,145 +11,161 @@ class TreeDemo1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TolyTree<String>(
-      nodes: _buildSampleData(),
-      nodeBuilder: (node) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Text(node.data),
-      ),
+    return Wrap(
+      children: [
+        SizedBox(
+          width: 300,
+          child: TolyTree<String>(
+            nodes: _treeData.map(TreeNode<String>.fromMap).toList(),
+            nodeBuilder: (node) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(node.data),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 300,
+          child: TolyTree<String>(
+            showConnectingLines: true,
+            nodes: _treeData.map(TreeNode<String>.fromMap).toList(),
+            nodeBuilder: (node) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text(node.data),
+            ),
+          ),
+        ),
+      ],
     );
   }
-
-  List<TreeNode<String>> _buildSampleData() {
-    return [
-      TreeNode(
-        id: '1',
-        data: '系统目录 (C:)',
-        isExpanded: true,
-        children: [
-          TreeNode(
-            id: '1-1',
-            data: 'Program Files',
-            children: [
-              TreeNode(
-                id: '1-1-1',
-                data: 'Microsoft Office',
-                children: [
-                  TreeNode(id: '1-1-1-1', data: 'Word'),
-                  TreeNode(id: '1-1-1-2', data: 'Excel'),
-                  TreeNode(id: '1-1-1-3', data: 'PowerPoint'),
-                ],
-              ),
-              TreeNode(
-                id: '1-1-2',
-                data: 'Google',
-                children: [
-                  TreeNode(
-                    id: '1-1-2-1',
-                    data: 'Chrome',
-                    children: [
-                      TreeNode(id: '1-1-2-1-1', data: 'Application'),
-                      TreeNode(id: '1-1-2-1-2', data: 'Locales'),
-                      TreeNode(id: '1-1-2-1-3', data: 'Extensions'),
-                    ],
-                  ),
-                ],
-              ),
-              TreeNode(id: '1-1-3', data: 'Adobe'),
-              TreeNode(id: '1-1-4', data: 'JetBrains'),
-            ],
-          ),
-          TreeNode(
-            id: '1-2',
-            data: 'Users',
-            children: [
-              TreeNode(
-                id: '1-2-1',
-                data: 'Administrator',
-                children: [
-                  TreeNode(
-                    id: '1-2-1-1',
-                    data: 'Desktop',
-                    children: [
-                      TreeNode(id: '1-2-1-1-1', data: '快捷方式.lnk'),
-                      TreeNode(id: '1-2-1-1-2', data: '文件夹'),
-                    ],
-                  ),
-                  TreeNode(
-                    id: '1-2-1-2',
-                    data: 'Documents',
-                    children: [
-                      TreeNode(id: '1-2-1-2-1', data: '工作文档.docx'),
-                      TreeNode(id: '1-2-1-2-2', data: '项目计划.xlsx'),
-                      TreeNode(id: '1-2-1-2-3', data: '会议纪要.pdf'),
-                    ],
-                  ),
-                  TreeNode(
-                    id: '1-2-1-3',
-                    data: 'Downloads',
-                    children: [
-                      TreeNode(id: '1-2-1-3-1', data: 'flutter_windows.zip'),
-                      TreeNode(id: '1-2-1-3-2', data: 'android-studio.exe'),
-                      TreeNode(id: '1-2-1-3-3', data: 'vscode.exe'),
-                    ],
-                  ),
-                  TreeNode(id: '1-2-1-4', data: 'Pictures'),
-                  TreeNode(id: '1-2-1-5', data: 'Videos'),
-                ],
-              ),
-              TreeNode(id: '1-2-2', data: 'Public'),
-              TreeNode(id: '1-2-3', data: 'Default'),
-            ],
-          ),
-          TreeNode(
-            id: '1-3',
-            data: 'Windows',
-            children: [
-              TreeNode(id: '1-3-1', data: 'System32'),
-              TreeNode(id: '1-3-2', data: 'SysWOW64'),
-              TreeNode(id: '1-3-3', data: 'Temp'),
-            ],
-          ),
-        ],
-      ),
-      TreeNode(
-        id: '2',
-        data: '数据盘 (D:)',
-        children: [
-          TreeNode(
-            id: '2-1',
-            data: 'Projects',
-            children: [
-              TreeNode(
-                id: '2-1-1',
-                data: 'Flutter',
-                children: [
-                  TreeNode(id: '2-1-1-1', data: 'toly_ui'),
-                  TreeNode(id: '2-1-1-2', data: 'my_app'),
-                  TreeNode(id: '2-1-1-3', data: 'demo_project'),
-                ],
-              ),
-              TreeNode(
-                id: '2-1-2',
-                data: 'Web',
-                children: [
-                  TreeNode(id: '2-1-2-1', data: 'vue-project'),
-                  TreeNode(id: '2-1-2-2', data: 'react-app'),
-                ],
-              ),
-            ],
-          ),
-          TreeNode(
-            id: '2-2',
-            data: 'Software',
-            children: [
-              TreeNode(id: '2-2-1', data: 'Development'),
-              TreeNode(id: '2-2-2', data: 'Design'),
-              TreeNode(id: '2-2-3', data: 'Utilities'),
-            ],
-          ),
-        ],
-      ),
-    ];
-  }
 }
+
+List<Map<String, dynamic>> get _treeData => [
+      {
+        'id': '1',
+        'data': '系统目录 (C:)',
+        'isExpanded': true,
+        'children': [
+          {
+            'id': '1-1',
+            'data': 'Program Files',
+            'children': [
+              {
+                'id': '1-1-1',
+                'data': 'Microsoft Office',
+                'children': [
+                  {'id': '1-1-1-1', 'data': 'Word'},
+                  {'id': '1-1-1-2', 'data': 'Excel'},
+                  {'id': '1-1-1-3', 'data': 'PowerPoint'},
+                ],
+              },
+              {
+                'id': '1-1-2',
+                'data': 'Google',
+                'children': [
+                  {
+                    'id': '1-1-2-1',
+                    'data': 'Chrome',
+                    'children': [
+                      {'id': '1-1-2-1-1', 'data': 'Application'},
+                      {'id': '1-1-2-1-2', 'data': 'Locales'},
+                      {'id': '1-1-2-1-3', 'data': 'Extensions'},
+                    ],
+                  },
+                ],
+              },
+              {'id': '1-1-3', 'data': 'Adobe'},
+              {'id': '1-1-4', 'data': 'JetBrains'},
+            ],
+          },
+          {
+            'id': '1-2',
+            'data': 'Users',
+            'children': [
+              {
+                'id': '1-2-1',
+                'data': 'Administrator',
+                'children': [
+                  {
+                    'id': '1-2-1-1',
+                    'data': 'Desktop',
+                    'children': [
+                      {'id': '1-2-1-1-1', 'data': '快捷方式.lnk'},
+                      {'id': '1-2-1-1-2', 'data': '文件夹'},
+                    ],
+                  },
+                  {
+                    'id': '1-2-1-2',
+                    'data': 'Documents',
+                    'children': [
+                      {'id': '1-2-1-2-1', 'data': '工作文档.docx'},
+                      {'id': '1-2-1-2-2', 'data': '项目计划.xlsx'},
+                      {'id': '1-2-1-2-3', 'data': '会议纪要.pdf'},
+                    ],
+                  },
+                  {
+                    'id': '1-2-1-3',
+                    'data': 'Downloads',
+                    'children': [
+                      {'id': '1-2-1-3-1', 'data': 'flutter_windows.zip'},
+                      {'id': '1-2-1-3-2', 'data': 'android-studio.exe'},
+                      {'id': '1-2-1-3-3', 'data': 'vscode.exe'},
+                    ],
+                  },
+                  {'id': '1-2-1-4', 'data': 'Pictures'},
+                  {'id': '1-2-1-5', 'data': 'Videos'},
+                ],
+              },
+              {'id': '1-2-2', 'data': 'Public'},
+              {'id': '1-2-3', 'data': 'Default'},
+            ],
+          },
+          {
+            'id': '1-3',
+            'data': 'Windows',
+            'children': [
+              {'id': '1-3-1', 'data': 'System32'},
+              {'id': '1-3-2', 'data': 'SysWOW64'},
+              {'id': '1-3-3', 'data': 'Temp'},
+            ],
+          },
+        ],
+      },
+      {
+        'id': '2',
+        'data': '数据盘 (D:)',
+        'children': [
+          {
+            'id': '2-1',
+            'data': 'Projects',
+            'children': [
+              {
+                'id': '2-1-1',
+                'data': 'Flutter',
+                'children': [
+                  {'id': '2-1-1-1', 'data': 'toly_ui'},
+                  {'id': '2-1-1-2', 'data': 'my_app'},
+                  {'id': '2-1-1-3', 'data': 'demo_project'},
+                ],
+              },
+              {
+                'id': '2-1-2',
+                'data': 'Web',
+                'children': [
+                  {'id': '2-1-2-1', 'data': 'vue-project'},
+                  {'id': '2-1-2-2', 'data': 'react-app'},
+                ],
+              },
+            ],
+          },
+          {
+            'id': '2-2',
+            'data': 'Software',
+            'children': [
+              {'id': '2-2-1', 'data': 'Development'},
+              {'id': '2-2-2', 'data': 'Design'},
+              {'id': '2-2-3', 'data': 'Utilities'},
+            ],
+          },
+        ],
+      },
+    ];

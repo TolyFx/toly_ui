@@ -9,7 +9,7 @@ class TolyCheckBox extends StatefulWidget {
   final double labelSpacing;
   final double size;
   final BorderRadius? borderRadius;
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool>? onChanged;
 
   const TolyCheckBox({
     super.key,
@@ -19,7 +19,7 @@ class TolyCheckBox extends StatefulWidget {
     this.labelSpacing = 6,
     this.size = 16,
     this.borderRadius,
-    required this.onChanged,
+    this.onChanged,
   });
 
   @override
@@ -49,12 +49,12 @@ class _TolyCheckBoxState extends State<TolyCheckBox> {
     }
 
     return MouseRegion(
-      onExit: (_) => setState(() => _hover = false),
-      onEnter: (_) => setState(() => _hover = true),
-      cursor: SystemMouseCursors.click,
+      onExit: widget.onChanged != null ? (_) => setState(() => _hover = false) : null,
+      onEnter: widget.onChanged != null ? (_) => setState(() => _hover = true) : null,
+      cursor: widget.onChanged != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: () => widget.onChanged(!widget.value),
+        onTap: widget.onChanged != null ? () => widget.onChanged!(!widget.value) : null,
         child: child,
       ),
     );
@@ -93,12 +93,19 @@ class _TolyCheckBoxState extends State<TolyCheckBox> {
   }
 
   Widget unselect() {
+    Color borderColor;
+    if (widget.onChanged == null) {
+      borderColor = Color(0xffe4e7ed); // 禁用状态边框色
+    } else {
+      borderColor = _hover ? Colors.blue : Color(0xffdcdfe6);
+    }
+    
     return Container(
       width: widget.size,
       height: widget.size,
       decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: _hover ? Colors.blue : Color(0xffdcdfe6), width: 1),
+          color: widget.onChanged == null ? Color(0xfff5f7fa) : Colors.white, // 禁用状态背景色
+          border: Border.all(color: borderColor, width: 1),
           borderRadius: widget.borderRadius ?? BorderRadius.circular(widget.size * 0.125)),
     );
   }
