@@ -88,6 +88,7 @@ class TolyTree<T> extends StatefulWidget {
   final Widget? expandIcon;
   final Widget? collapseIcon;
   final Duration animationDuration;
+  final Curve animationCurve;
   final bool showConnectingLines;
   final Color? connectingLineColor;
   final double connectingLineWidth;
@@ -102,6 +103,7 @@ class TolyTree<T> extends StatefulWidget {
     this.expandIcon,
     this.collapseIcon,
     this.animationDuration = const Duration(milliseconds: 200),
+    this.animationCurve = Curves.easeInOut,
     this.showConnectingLines = false,
     this.connectingLineColor,
     this.connectingLineWidth = 1.0,
@@ -128,6 +130,7 @@ class _TolyTreeState<T> extends State<TolyTree<T>> {
           expandIcon: widget.expandIcon,
           collapseIcon: widget.collapseIcon,
           animationDuration: widget.animationDuration,
+          animationCurve: widget.animationCurve,
           level: 0,
           showConnectingLines: widget.showConnectingLines,
           connectingLineColor:
@@ -150,6 +153,7 @@ class _TreeNodeWidget<T> extends StatefulWidget {
   final Widget? expandIcon;
   final Widget? collapseIcon;
   final Duration animationDuration;
+  final Curve animationCurve;
   final int level;
   final bool showConnectingLines;
   final Color connectingLineColor;
@@ -166,6 +170,7 @@ class _TreeNodeWidget<T> extends StatefulWidget {
     this.expandIcon,
     this.collapseIcon,
     required this.animationDuration,
+    required this.animationCurve,
     required this.level,
     this.showConnectingLines = false,
     this.connectingLineColor = Colors.grey,
@@ -193,14 +198,14 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
     );
     _expandAnimation = CurvedAnimation(
       parent: _controller,
-      curve: Curves.easeInOut,
+      curve: widget.animationCurve,
     );
     _iconAnimation = Tween<double>(
       begin: 0.0,
       end: 0.25, // 90 degrees = 0.25 turns
     ).animate(CurvedAnimation(
       parent: _controller,
-      curve: Curves.easeInOut,
+      curve: widget.animationCurve,
     ));
 
     if (widget.node.isExpanded) {
@@ -281,6 +286,7 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
                   expandIcon: widget.expandIcon,
                   collapseIcon: widget.collapseIcon,
                   animationDuration: widget.animationDuration,
+                  animationCurve: widget.animationCurve,
                   level: widget.level + 1,
                   showConnectingLines: widget.showConnectingLines,
                   connectingLineColor: widget.connectingLineColor,

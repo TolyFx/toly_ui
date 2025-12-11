@@ -3,62 +3,136 @@ import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'toly_tree.dart';
 
 @DisplayNode(
-  title: '动画树形',
-  desc: '带有平滑展开收起动画的树形组件。节点展开时有渐入效果，图标旋转动画，提供流畅的用户体验。同时展示点击事件监听和节点类型判断。',
+  title: '动画曲线树形',
+  desc:
+      '展示不同动画曲线效果的树形组件对比。包含线性、缓动、弹性、回弹等多种曲线类型，每个树形组件使用不同的动画效果。通过对比可以直观感受各种曲线的特点，帮助选择最适合的动画风格。',
 )
 class TreeDemo4 extends StatelessWidget {
   const TreeDemo4({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return TolyTree<_FileMeta>(
-      nodes: _buildSampleData(),
-      animationDuration: const Duration(milliseconds: 300),
-      onTap: (node) => print(
-          '点击节点: ${node.data.name} - ${node.level == 0 ? '根节点' : '子节点(等级: ${node.level})'} - ${node.data.type == 'folder' ? ('文件夹' + (node.hasChildren ? '(有子项)' : '(空)')) : '文件'}'),
-      nodeBuilder: (node) => Container(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-        margin: const EdgeInsets.symmetric(vertical: 2.0),
-        decoration: BoxDecoration(
-          color: Colors.grey.shade50,
-          borderRadius: BorderRadius.circular(4),
-          border: Border.all(color: Colors.grey.shade200),
-        ),
-        child: Row(
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
-              node.data.icon,
-              size: 16,
-              color: node.data.color,
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Row(
-                children: [
-                  Text(
-                    node.data.name,
-                    style: TextStyle(
-                      fontWeight: node.hasChildren
-                          ? FontWeight.w500
-                          : FontWeight.normal,
-                    ),
-                  ),
-                  if (node.data.fileCount != null)
-                    Text(
-                      ' (${node.data.fileCount})',
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                ],
-              ),
-            ),
+            Expanded(child: _buildCurveSection('线性动画', Curves.linear)),
+            const SizedBox(width: 16),
+            Expanded(child: _buildCurveSection('缓入缓出', Curves.easeInOut)),
           ],
         ),
-      ),
+        const SizedBox(height: 20),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: _buildCurveSection('弹性效果', Curves.elasticOut)),
+            const SizedBox(width: 16),
+            Expanded(child: _buildCurveSection('回弹效果', Curves.bounceOut)),
+          ],
+        ),
+      ],
     );
   }
 
-  List<TreeNode<_FileMeta>> _buildSampleData() {
-    return _treeData.map(TreeNode<_FileMeta>.fromMap).toList();
+  Widget _buildCurveSection(String title, Curve curve) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: TolyTree<_FileMeta>(
+            nodes: _buildSampleData(title),
+            animationDuration: const Duration(milliseconds: 600),
+            animationCurve: curve,
+            nodeBuilder: (node) => Container(
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+              child: Row(
+                children: [
+                  Icon(node.data.icon, size: 14, color: node.data.color),
+                  const SizedBox(width: 6),
+                  Text(node.data.name, style: const TextStyle(fontSize: 13)),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<TreeNode<_FileMeta>> _buildSampleData(String curveType) {
+    return [
+      TreeNode<_FileMeta>(
+        id: '1',
+        data: _FileMeta(
+          name: '$curveType演示',
+          type: 'folder',
+          icon: Icons.animation,
+          color: Colors.purple,
+        ),
+        children: [
+          TreeNode<_FileMeta>(
+            id: '1-1',
+            data: const _FileMeta(
+              name: '子项目A',
+              type: 'folder',
+              icon: Icons.folder,
+              color: Colors.blue,
+            ),
+            children: [
+              TreeNode<_FileMeta>(
+                id: '1-1-1',
+                data: const _FileMeta(
+                  name: '文件1.dart',
+                  type: 'file',
+                  icon: Icons.code,
+                  color: Colors.green,
+                ),
+              ),
+              TreeNode<_FileMeta>(
+                id: '1-1-2',
+                data: const _FileMeta(
+                  name: '文件2.dart',
+                  type: 'file',
+                  icon: Icons.code,
+                  color: Colors.green,
+                ),
+              ),
+            ],
+          ),
+          TreeNode<_FileMeta>(
+            id: '1-2',
+            data: const _FileMeta(
+              name: '子项目B',
+              type: 'folder',
+              icon: Icons.folder,
+              color: Colors.blue,
+            ),
+            children: [
+              TreeNode<_FileMeta>(
+                id: '1-2-1',
+                data: const _FileMeta(
+                  name: '配置文件',
+                  type: 'file',
+                  icon: Icons.settings,
+                  color: Colors.orange,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ];
   }
 }
 
@@ -77,88 +151,3 @@ class _FileMeta {
     this.fileCount,
   });
 }
-
-List<Map<String, dynamic>> get _treeData => [
-      {
-        'id': '1',
-        'data': const _FileMeta(
-          name: '项目文件夹',
-          type: 'folder',
-          icon: Icons.folder,
-          color: Colors.amber,
-          fileCount: 4,
-        ),
-        'children': [
-          {
-            'id': '1-1',
-            'data': const _FileMeta(
-              name: '源代码',
-              type: 'folder',
-              icon: Icons.folder,
-              color: Colors.amber,
-              fileCount: 2,
-            ),
-            'children': [
-              {
-                'id': '1-1-1',
-                'data': _FileMeta(
-                  name: 'main.dart',
-                  type: 'file',
-                  icon: Icons.insert_drive_file,
-                  color: Colors.grey,
-                ),
-              },
-              {
-                'id': '1-1-2',
-                'data': _FileMeta(
-                  name: 'app.dart',
-                  type: 'file',
-                  icon: Icons.insert_drive_file,
-                  color: Colors.grey,
-                ),
-              },
-            ],
-          },
-          {
-            'id': '1-2',
-            'data': const _FileMeta(
-              name: '资源文件',
-              type: 'folder',
-              icon: Icons.folder,
-              color: Colors.amber,
-              fileCount: 2,
-            ),
-            'children': [
-              {
-                'id': '1-2-1',
-                'data': _FileMeta(
-                  name: 'logo.png',
-                  type: 'image',
-                  icon: Icons.image,
-                  color: Colors.green,
-                ),
-              },
-              {
-                'id': '1-2-2',
-                'data': _FileMeta(
-                  name: 'README.md',
-                  type: 'document',
-                  icon: Icons.description,
-                  color: Colors.blue,
-                ),
-              },
-            ],
-          },
-          {
-            'id': '1-3',
-            'data': const _FileMeta(
-              name: '空文件夹',
-              type: 'folder',
-              icon: Icons.folder_outlined,
-              color: Colors.amber,
-              fileCount: 0,
-            ),
-          },
-        ],
-      },
-    ];
