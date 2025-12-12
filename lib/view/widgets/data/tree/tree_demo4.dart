@@ -3,154 +3,118 @@ import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'toly_tree.dart';
 
 @DisplayNode(
-  title: '动画曲线树形',
+  title: '虚拟滚动树形',
   desc:
-      '展示不同动画曲线效果的树形组件对比。包含线性、缓动、弹性、回弹等多种曲线类型，每个树形组件使用不同的动画效果。通过对比可以直观感受各种曲线的特点，帮助选择最适合的动画风格。',
+      '展示大数据量下的虚拟滚动树形组件。本案例包含 60,000 个节点，通过设置固定高度启用虚拟滚动模式。组件只会渲染可见区域内的节点，大幅提升性能和流畅度。支持完整的展开收起交互，在滚动过程中保持节点状态。还支持异步加载功能，点击某些节点时会动态加载新的子节点。这种模式适用于大型数据库浏览、文件系统管理、组织架构展示等需要处理大量层级数据的场景。',
 )
-class TreeDemo4 extends StatelessWidget {
+class TreeDemo4 extends StatefulWidget {
   const TreeDemo4({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(child: _buildCurveSection('线性动画', Curves.linear)),
-            const SizedBox(width: 16),
-            Expanded(child: _buildCurveSection('缓入缓出', Curves.easeInOut)),
-          ],
-        ),
-        const SizedBox(height: 20),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(child: _buildCurveSection('弹性效果', Curves.elasticOut)),
-            const SizedBox(width: 16),
-            Expanded(child: _buildCurveSection('回弹效果', Curves.bounceOut)),
-          ],
-        ),
-      ],
-    );
-  }
+  State<TreeDemo4> createState() => _TreeDemo4State();
+}
 
-  Widget _buildCurveSection(String title, Curve curve) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-        ),
-        const SizedBox(height: 8),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.shade300),
-            borderRadius: BorderRadius.circular(8),
+class _TreeDemo4State extends State<TreeDemo4> {
+  late List<TreeNode<_VirtualData>> data = _buildLargeDataSet();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 300,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Text('60,000个节点'),
           ),
-          child: TolyTree<_FileMeta>(
-            nodes: _buildSampleData(title),
-            animationDuration: const Duration(milliseconds: 600),
-            animationCurve: curve,
+          TolyTree<_VirtualData>(
+            height: 300,
+            nodes: data,
+            loadData: _loadChildren,
             nodeBuilder: (node) => Container(
-              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               child: Row(
                 children: [
-                  Icon(node.data.icon, size: 14, color: node.data.color),
-                  const SizedBox(width: 6),
-                  Text(node.data.name, style: const TextStyle(fontSize: 13)),
+                  Icon(node.data.icon, size: 16, color: node.data.color),
+                  const SizedBox(width: 8),
+                  Text(node.data.name),
+                  if (node.data.count != null)
+                    Text(' (${node.data.count})',
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.grey)),
                 ],
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  List<TreeNode<_FileMeta>> _buildSampleData(String curveType) {
-    return [
-      TreeNode<_FileMeta>(
-        id: '1',
-        data: _FileMeta(
-          name: '$curveType演示',
-          type: 'folder',
-          icon: Icons.animation,
-          color: Colors.purple,
-        ),
-        children: [
-          TreeNode<_FileMeta>(
-            id: '1-1',
-            data: const _FileMeta(
-              name: '子项目A',
-              type: 'folder',
-              icon: Icons.folder,
-              color: Colors.blue,
-            ),
-            children: [
-              TreeNode<_FileMeta>(
-                id: '1-1-1',
-                data: const _FileMeta(
-                  name: '文件1.dart',
-                  type: 'file',
-                  icon: Icons.code,
-                  color: Colors.green,
-                ),
-                isLeaf: true,
+  List<TreeNode<_VirtualData>> _buildLargeDataSet() {
+    return List.generate(
+        100,
+        (i) => TreeNode<_VirtualData>(
+              id: 'root-$i',
+              data: _VirtualData(
+                name: '根节点 ${i + 1}',
+                icon: Icons.folder,
+                color: Colors.blue,
+                count: 100,
               ),
-              TreeNode<_FileMeta>(
-                id: '1-1-2',
-                data: const _FileMeta(
-                  name: '文件2.dart',
-                  type: 'file',
-                  icon: Icons.code,
-                  color: Colors.green,
-                ),
-                isLeaf: true,
+              children: List.generate(
+                  20,
+                  (j) => TreeNode<_VirtualData>(
+                        id: 'root-$i-child-$j',
+                        data: _VirtualData(
+                          name: '子节点 ${j + 1}',
+                          icon: Icons.folder_outlined,
+                          color: Colors.orange,
+                        ),
+                        children: List.generate(
+                            30,
+                            (k) => TreeNode<_VirtualData>(
+                                  id: 'root-$i-child-$j-leaf-$k',
+                                  data: _VirtualData(
+                                    name: '叶子节点 ${k + 1}',
+                                    icon: Icons.insert_drive_file,
+                                    color: Colors.grey,
+                                  ),
+                                  isLeaf: true,
+                                )),
+                      )),
+            ));
+  }
+
+  Future<List<TreeNode<_VirtualData>>> _loadChildren(
+      TreeNode<_VirtualData> node) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    return List.generate(
+        5,
+        (i) => TreeNode<_VirtualData>(
+              id: '${node.id}-async-$i',
+              data: _VirtualData(
+                name: '异步加载 ${i + 1}',
+                icon: Icons.cloud_download,
+                color: Colors.green,
               ),
-            ],
-          ),
-          TreeNode<_FileMeta>(
-            id: '1-2',
-            data: const _FileMeta(
-              name: '子项目B',
-              type: 'folder',
-              icon: Icons.folder,
-              color: Colors.blue,
-            ),
-            children: [
-              TreeNode<_FileMeta>(
-                id: '1-2-1',
-                data: const _FileMeta(
-                  name: '配置文件',
-                  type: 'file',
-                  icon: Icons.settings,
-                  color: Colors.orange,
-                ),
-                isLeaf: true,
-              ),
-            ],
-          ),
-        ],
-      ),
-    ];
+              isLeaf: true,
+            ));
   }
 }
 
-class _FileMeta {
+class _VirtualData {
   final String name;
-  final String type;
   final IconData icon;
   final Color color;
-  final int? fileCount;
+  final int? count;
 
-  const _FileMeta({
+  const _VirtualData({
     required this.name,
-    required this.type,
     required this.icon,
     required this.color,
-    this.fileCount,
+    this.count,
   });
 }

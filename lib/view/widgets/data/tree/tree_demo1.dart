@@ -4,7 +4,8 @@ import 'toly_tree.dart';
 
 @DisplayNode(
   title: '基础树形',
-  desc: '展示基本的树形结构，支持节点展开收起。通过递归渲染实现无限层级嵌套，适用于文件目录、组织架构等场景。',
+  desc:
+      '展示基本的树形结构，支持节点展开收起操作。左侧演示文件目录结构，右侧展示带连接线的学科分类树。通过递归渲染实现无限层级嵌套，点击节点前的展开图标可以控制子节点的显示隐藏。这种结构常用于文件管理器、组织架构图、分类导航等需要层级展示的场景。',
 )
 class TreeDemo1 extends StatelessWidget {
   const TreeDemo1({super.key});
@@ -66,7 +67,11 @@ List<Map<String, dynamic>> get _treeData => [
                     'id': '1-1-2-1',
                     'data': 'Chrome',
                     'children': [
-                      {'id': '1-1-2-1-1', 'data': 'Application', 'isLeaf': true},
+                      {
+                        'id': '1-1-2-1-1',
+                        'data': 'Application',
+                        'isLeaf': true
+                      },
                       {'id': '1-1-2-1-2', 'data': 'Locales', 'isLeaf': true},
                       {'id': '1-1-2-1-3', 'data': 'Extensions', 'isLeaf': true},
                     ],
@@ -106,8 +111,16 @@ List<Map<String, dynamic>> get _treeData => [
                     'id': '1-2-1-3',
                     'data': 'Downloads',
                     'children': [
-                      {'id': '1-2-1-3-1', 'data': 'flutter_windows.zip', 'isLeaf': true},
-                      {'id': '1-2-1-3-2', 'data': 'android-studio.exe', 'isLeaf': true},
+                      {
+                        'id': '1-2-1-3-1',
+                        'data': 'flutter_windows.zip',
+                        'isLeaf': true
+                      },
+                      {
+                        'id': '1-2-1-3-2',
+                        'data': 'android-studio.exe',
+                        'isLeaf': true
+                      },
                       {'id': '1-2-1-3-3', 'data': 'vscode.exe', 'isLeaf': true},
                     ],
                   },
@@ -177,33 +190,126 @@ List<Map<String, dynamic>> get natureScienceTree => [
         'children': [
           {
             'id': '1-1',
+            'data': '数学 Mathematics',
+            'children': [
+              {
+                'id': '1-1-1',
+                'data': '代数 Algebra',
+                'children': [
+                  {
+                    'id': '1-1-1-1',
+                    'data': '线性代数 Linear Algebra',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-1-1-2',
+                    'data': '抽象代数 Abstract Algebra',
+                    'isLeaf': true
+                  },
+                  {'id': '1-1-1-3', 'data': '群论 Group Theory', 'isLeaf': true},
+                ],
+              },
+              {
+                'id': '1-1-2',
+                'data': '分析 Analysis',
+                'children': [
+                  {'id': '1-1-2-1', 'data': '微积分 Calculus', 'isLeaf': true},
+                  {
+                    'id': '1-1-2-2',
+                    'data': '实分析 Real Analysis',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-1-2-3',
+                    'data': '复分析 Complex Analysis',
+                    'isLeaf': true
+                  },
+                ],
+              },
+              {
+                'id': '1-1-3',
+                'data': '几何 Geometry',
+                'children': [
+                  {
+                    'id': '1-1-3-1',
+                    'data': '欧几里得几何 Euclidean Geometry',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-1-3-2',
+                    'data': '微分几何 Differential Geometry',
+                    'isLeaf': true
+                  },
+                  {'id': '1-1-3-3', 'data': '拓扑学 Topology', 'isLeaf': true},
+                ],
+              },
+            ],
+          },
+          {
+            'id': '1-2',
             'data': '物理学 Physics',
             'children': [
               {
                 'id': '1-1-1',
                 'data': '力学 Mechanics',
                 'children': [
-                  {'id': '1-1-1-1', 'data': '经典力学 Classical Mechanics', 'isLeaf': true},
-                  {'id': '1-1-1-2', 'data': '流体力学 Fluid Mechanics', 'isLeaf': true},
-                  {'id': '1-1-1-3', 'data': '天体力学 Celestial Mechanics', 'isLeaf': true},
+                  {
+                    'id': '1-1-1-1',
+                    'data': '经典力学 Classical Mechanics',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-1-1-2',
+                    'data': '流体力学 Fluid Mechanics',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-1-1-3',
+                    'data': '天体力学 Celestial Mechanics',
+                    'isLeaf': true
+                  },
                 ],
               },
               {
                 'id': '1-1-2',
                 'data': '电磁学 Electromagnetism',
                 'children': [
-                  {'id': '1-1-2-1', 'data': '电场 Electric Field', 'isLeaf': true},
-                  {'id': '1-1-2-2', 'data': '磁场 Magnetic Field', 'isLeaf': true},
-                  {'id': '1-1-2-3', 'data': '麦克斯韦方程组 Maxwell Equations', 'isLeaf': true},
+                  {
+                    'id': '1-1-2-1',
+                    'data': '电场 Electric Field',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-1-2-2',
+                    'data': '磁场 Magnetic Field',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-1-2-3',
+                    'data': '麦克斯韦方程组 Maxwell Equations',
+                    'isLeaf': true
+                  },
                 ],
               },
               {
                 'id': '1-1-3',
                 'data': '量子物理 Quantum Physics',
                 'children': [
-                  {'id': '1-1-3-1', 'data': '量子态 Quantum States', 'isLeaf': true},
-                  {'id': '1-1-3-2', 'data': '波函数 Wave Function', 'isLeaf': true},
-                  {'id': '1-1-3-3', 'data': '量子纠缠 Entanglement', 'isLeaf': true},
+                  {
+                    'id': '1-1-3-1',
+                    'data': '量子态 Quantum States',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-1-3-2',
+                    'data': '波函数 Wave Function',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-1-3-3',
+                    'data': '量子纠缠 Entanglement',
+                    'isLeaf': true
+                  },
                 ],
               },
               {
@@ -212,7 +318,11 @@ List<Map<String, dynamic>> get natureScienceTree => [
                 'children': [
                   {'id': '1-1-4-1', 'data': '温度 Temperature', 'isLeaf': true},
                   {'id': '1-1-4-2', 'data': '熵 Entropy', 'isLeaf': true},
-                  {'id': '1-1-4-3', 'data': '热力学定律 Laws of Thermodynamics', 'isLeaf': true},
+                  {
+                    'id': '1-1-4-3',
+                    'data': '热力学定律 Laws of Thermodynamics',
+                    'isLeaf': true
+                  },
                 ],
               },
             ],
@@ -220,34 +330,54 @@ List<Map<String, dynamic>> get natureScienceTree => [
 
           // ---------------- 化学 ----------------
           {
-            'id': '1-2',
+            'id': '1-3',
             'data': '化学 Chemistry',
             'children': [
               {
-                'id': '1-2-1',
+                'id': '1-3-1',
                 'data': '无机化学 Inorganic Chemistry',
                 'children': [
-                  {'id': '1-2-1-1', 'data': '酸碱 Acid-Base', 'isLeaf': true},
-                  {'id': '1-2-1-2', 'data': '金属材料 Metals', 'isLeaf': true},
-                  {'id': '1-2-1-3', 'data': '晶体结构 Crystal Structure', 'isLeaf': true},
+                  {'id': '1-3-1-1', 'data': '酸碱 Acid-Base', 'isLeaf': true},
+                  {'id': '1-3-1-2', 'data': '金属材料 Metals', 'isLeaf': true},
+                  {
+                    'id': '1-3-1-3',
+                    'data': '晶体结构 Crystal Structure',
+                    'isLeaf': true
+                  },
                 ],
               },
               {
-                'id': '1-2-2',
+                'id': '1-3-2',
                 'data': '有机化学 Organic Chemistry',
                 'children': [
-                  {'id': '1-2-2-1', 'data': '烃类 Hydrocarbons', 'isLeaf': true},
-                  {'id': '1-2-2-2', 'data': '聚合物 Polymers', 'isLeaf': true},
-                  {'id': '1-2-2-3', 'data': '官能团 Functional Groups', 'isLeaf': true},
+                  {'id': '1-3-2-1', 'data': '烃类 Hydrocarbons', 'isLeaf': true},
+                  {'id': '1-3-2-2', 'data': '聚合物 Polymers', 'isLeaf': true},
+                  {
+                    'id': '1-3-2-3',
+                    'data': '官能团 Functional Groups',
+                    'isLeaf': true
+                  },
                 ],
               },
               {
-                'id': '1-2-3',
+                'id': '1-3-3',
                 'data': '分析化学 Analytical Chemistry',
                 'children': [
-                  {'id': '1-2-3-1', 'data': '色谱法 Chromatography', 'isLeaf': true},
-                  {'id': '1-2-3-2', 'data': '光谱分析 Spectroscopy', 'isLeaf': true},
-                  {'id': '1-2-3-3', 'data': '电化学分析 Electrochemical Analysis', 'isLeaf': true},
+                  {
+                    'id': '1-3-3-1',
+                    'data': '色谱法 Chromatography',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-3-3-2',
+                    'data': '光谱分析 Spectroscopy',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-3-3-3',
+                    'data': '电化学分析 Electrochemical Analysis',
+                    'isLeaf': true
+                  },
                 ],
               },
             ],
@@ -255,69 +385,54 @@ List<Map<String, dynamic>> get natureScienceTree => [
 
           // ---------------- 生物学 ----------------
           {
-            'id': '1-3',
+            'id': '1-4',
             'data': '生物学 Biology',
             'children': [
               {
-                'id': '1-3-1',
+                'id': '1-4-1',
                 'data': '细胞生物学 Cell Biology',
                 'children': [
-                  {'id': '1-3-1-1', 'data': '细胞结构 Cell Structure', 'isLeaf': true},
-                  {'id': '1-3-1-2', 'data': '细胞分裂 Mitosis/Meiosis', 'isLeaf': true},
-                  {'id': '1-3-1-3', 'data': '细胞代谢 Metabolism', 'isLeaf': true},
-                ],
-              },
-              {
-                'id': '1-3-2',
-                'data': '遗传学 Genetics',
-                'children': [
-                  {'id': '1-3-2-1', 'data': 'DNA 与 RNA', 'isLeaf': true},
-                  {'id': '1-3-2-2', 'data': '基因表达 Gene Expression', 'isLeaf': true},
-                  {'id': '1-3-2-3', 'data': '遗传规律 Mendelian Laws', 'isLeaf': true},
-                ],
-              },
-              {
-                'id': '1-3-3',
-                'data': '生态学 Ecology',
-                'children': [
-                  {'id': '1-3-3-1', 'data': '生态系统 Ecosystem', 'isLeaf': true},
-                  {'id': '1-3-3-2', 'data': '食物链 Food Chain', 'isLeaf': true},
-                  {'id': '1-3-3-3', 'data': '种群 Population Dynamics', 'isLeaf': true},
-                ],
-              },
-            ],
-          },
-
-          // ---------------- 地球科学 ----------------
-          {
-            'id': '1-4',
-            'data': '地球科学 Earth Science',
-            'children': [
-              {
-                'id': '1-4-1',
-                'data': '地质学 Geology',
-                'children': [
-                  {'id': '1-4-1-1', 'data': '岩石 Rock Types', 'isLeaf': true},
-                  {'id': '1-4-1-2', 'data': '矿物 Minerals', 'isLeaf': true},
-                  {'id': '1-4-1-3', 'data': '板块运动 Plate Tectonics', 'isLeaf': true},
+                  {
+                    'id': '1-4-1-1',
+                    'data': '细胞结构 Cell Structure',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-4-1-2',
+                    'data': '细胞分裂 Mitosis/Meiosis',
+                    'isLeaf': true
+                  },
+                  {'id': '1-4-1-3', 'data': '细胞代谢 Metabolism', 'isLeaf': true},
                 ],
               },
               {
                 'id': '1-4-2',
-                'data': '气象学 Meteorology',
+                'data': '遗传学 Genetics',
                 'children': [
-                  {'id': '1-4-2-1', 'data': '天气与气候 Weather & Climate', 'isLeaf': true},
-                  {'id': '1-4-2-2', 'data': '大气环流 Circulation', 'isLeaf': true},
-                  {'id': '1-4-2-3', 'data': '气象观测 Observation', 'isLeaf': true},
+                  {'id': '1-4-2-1', 'data': 'DNA 与 RNA', 'isLeaf': true},
+                  {
+                    'id': '1-4-2-2',
+                    'data': '基因表达 Gene Expression',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '1-4-2-3',
+                    'data': '遗传规律 Mendelian Laws',
+                    'isLeaf': true
+                  },
                 ],
               },
               {
                 'id': '1-4-3',
-                'data': '海洋学 Oceanography',
+                'data': '生态学 Ecology',
                 'children': [
-                  {'id': '1-4-3-1', 'data': '海流 Ocean Currents', 'isLeaf': true},
-                  {'id': '1-4-3-2', 'data': '珊瑚礁 Coral Reef', 'isLeaf': true},
-                  {'id': '1-4-3-3', 'data': '海洋生态 Marine Ecology', 'isLeaf': true},
+                  {'id': '1-4-3-1', 'data': '生态系统 Ecosystem', 'isLeaf': true},
+                  {'id': '1-4-3-2', 'data': '食物链 Food Chain', 'isLeaf': true},
+                  {
+                    'id': '1-4-3-3',
+                    'data': '种群 Population Dynamics',
+                    'isLeaf': true
+                  },
                 ],
               },
             ],
@@ -343,7 +458,11 @@ List<Map<String, dynamic>> get natureScienceTree => [
                 'children': [
                   {'id': '1-5-2-1', 'data': '恒星演化 Evolution', 'isLeaf': true},
                   {'id': '1-5-2-2', 'data': '超新星 Supernova', 'isLeaf': true},
-                  {'id': '1-5-2-3', 'data': '中子星 Neutron Stars', 'isLeaf': true},
+                  {
+                    'id': '1-5-2-3',
+                    'data': '中子星 Neutron Stars',
+                    'isLeaf': true
+                  },
                 ],
               },
               {
@@ -353,6 +472,184 @@ List<Map<String, dynamic>> get natureScienceTree => [
                   {'id': '1-5-3-1', 'data': '大爆炸 Big Bang', 'isLeaf': true},
                   {'id': '1-5-3-2', 'data': '暗物质 Dark Matter', 'isLeaf': true},
                   {'id': '1-5-3-3', 'data': '宇宙膨胀 Expansion', 'isLeaf': true},
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        'id': '2',
+        'data': '人文科学',
+        'children': [
+          {
+            'id': '2-1',
+            'data': '哲学 Philosophy',
+            'children': [
+              {
+                'id': '2-1-1',
+                'data': '形而上学 Metaphysics',
+                'children': [
+                  {'id': '2-1-1-1', 'data': '本体论 Ontology', 'isLeaf': true},
+                  {
+                    'id': '2-1-1-2',
+                    'data': '存在主义 Existentialism',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '2-1-1-3',
+                    'data': '现象学 Phenomenology',
+                    'isLeaf': true
+                  },
+                ],
+              },
+              {
+                'id': '2-1-2',
+                'data': '伦理学 Ethics',
+                'children': [
+                  {
+                    'id': '2-1-2-1',
+                    'data': '功利主义 Utilitarianism',
+                    'isLeaf': true
+                  },
+                  {'id': '2-1-2-2', 'data': '义务伦理学 Deontology', 'isLeaf': true},
+                  {
+                    'id': '2-1-2-3',
+                    'data': '美德伦理学 Virtue Ethics',
+                    'isLeaf': true
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            'id': '2-2',
+            'data': '历史学 History',
+            'children': [
+              {
+                'id': '2-2-1',
+                'data': '中国史 Chinese History',
+                'children': [
+                  {
+                    'id': '2-2-1-1',
+                    'data': '古代史 Ancient History',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '2-2-1-2',
+                    'data': '近代史 Modern History',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '2-2-1-3',
+                    'data': '当代史 Contemporary History',
+                    'isLeaf': true
+                  },
+                ],
+              },
+              {
+                'id': '2-2-2',
+                'data': '世界史 World History',
+                'children': [
+                  {
+                    'id': '2-2-2-1',
+                    'data': '欧洲史 European History',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '2-2-2-2',
+                    'data': '美洲史 American History',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '2-2-2-3',
+                    'data': '亚洲史 Asian History',
+                    'isLeaf': true
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            'id': '2-3',
+            'data': '文学 Literature',
+            'children': [
+              {
+                'id': '2-3-1',
+                'data': '中国文学 Chinese Literature',
+                'children': [
+                  {
+                    'id': '2-3-1-1',
+                    'data': '古典文学 Classical Literature',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '2-3-1-2',
+                    'data': '现代文学 Modern Literature',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '2-3-1-3',
+                    'data': '当代文学 Contemporary Literature',
+                    'isLeaf': true
+                  },
+                ],
+              },
+              {
+                'id': '2-3-2',
+                'data': '世界文学 World Literature',
+                'children': [
+                  {
+                    'id': '2-3-2-1',
+                    'data': '英美文学 Anglo-American Literature',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '2-3-2-2',
+                    'data': '欧洲文学 European Literature',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '2-3-2-3',
+                    'data': '东亚文学 East Asian Literature',
+                    'isLeaf': true
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            'id': '2-4',
+            'data': '语言学 Linguistics',
+            'children': [
+              {
+                'id': '2-4-1',
+                'data': '理论语言学 Theoretical Linguistics',
+                'children': [
+                  {'id': '2-4-1-1', 'data': '语音学 Phonetics', 'isLeaf': true},
+                  {'id': '2-4-1-2', 'data': '语法学 Grammar', 'isLeaf': true},
+                  {'id': '2-4-1-3', 'data': '语义学 Semantics', 'isLeaf': true},
+                ],
+              },
+              {
+                'id': '2-4-2',
+                'data': '应用语言学 Applied Linguistics',
+                'children': [
+                  {
+                    'id': '2-4-2-1',
+                    'data': '第二语言习得 Second Language Acquisition',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '2-4-2-2',
+                    'data': '翻译学 Translation Studies',
+                    'isLeaf': true
+                  },
+                  {
+                    'id': '2-4-2-3',
+                    'data': '计算语言学 Computational Linguistics',
+                    'isLeaf': true
+                  },
                 ],
               },
             ],

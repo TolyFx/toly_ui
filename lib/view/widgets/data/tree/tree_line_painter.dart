@@ -25,7 +25,7 @@ class TreeLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     if (level == 0) return;
-    const double lineOffset = 20.0;
+    const double lineOffset = 16.0;
     const double hLineWidth = 6;
 
     final paint = Paint()

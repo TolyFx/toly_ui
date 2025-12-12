@@ -25,17 +25,17 @@ class TreeNode<T> {
     this.isLoading = false,
   }) : children = children ?? [];
 
-  factory TreeNode.fromMap(dynamic map) {
+  factory TreeNode.fromMap(dynamic map, {T Function(dynamic)? dataParser}) {
     List<TreeNode<T>> children = [];
     if (map['children'] != null) {
       children = (map['children'] as List)
-          .map((child) => TreeNode<T>.fromMap(child))
+          .map((child) => TreeNode<T>.fromMap(child, dataParser: dataParser))
           .toList();
     }
 
     return TreeNode<T>(
       id: map['id']?.toString() ?? '',
-      data: map['data'] as T,
+      data: dataParser != null ? dataParser(map['data']) : map['data'] as T,
       children: children,
       isExpanded: map['isExpanded'] ?? false,
       isSelected: map['isSelected'] ?? false,
@@ -304,6 +304,8 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
   }
 
   void _toggleExpand() async {
+    if (widget.node.isLoading) return; // 加载中不响应点击
+    
     if (!widget.node.isExpanded &&
         widget.node.children.isEmpty &&
         widget.node.isLeaf != true &&
@@ -342,6 +344,8 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
   }
 
   void _handleTap() {
+    if (widget.node.isLoading) return; // 加载中不响应点击
+    
     if (widget.node.hasChildren) {
       _toggleExpand();
     }
@@ -419,7 +423,10 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
         padding: EdgeInsets.only(left: widget.level * widget.indent),
         child: Row(
           children: [
-            _buildExpandIcon(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: _buildExpandIcon(),
+            ),
             Expanded(
               child: Opacity(
                 opacity: widget.node.selectable ? 1.0 : 0.5,
@@ -438,22 +445,28 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
     }
 
     if (widget.node.isLoading) {
-      return const SizedBox(
+      return SizedBox(
         width: 24,
         height: 24,
-        child: Padding(
-          padding: EdgeInsets.all(4),
-          child: CircularProgressIndicator(strokeWidth: 2),
+        child: Center(
+          child: SizedBox(
+            width: 12,
+            height: 12,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
         ),
       );
     }
 
-    return IconButton(
-      iconSize: 16,
-      onPressed: _toggleExpand,
-      icon: RotationTransition(
-        turns: _iconAnimation,
-        child: widget.expandIcon ?? const Icon(Icons.chevron_right),
+    return GestureDetector(
+      onTap: _toggleExpand,
+      child: SizedBox(
+        width: 24,
+        height: 24,
+        child: RotationTransition(
+          turns: _iconAnimation,
+          child: widget.expandIcon ?? const Icon(Icons.chevron_right, size: 16),
+        ),
       ),
     );
   }
@@ -488,6 +501,8 @@ class _VirtualTreeNodeWidget<T> extends StatelessWidget {
   });
 
   void _handleTap() {
+    if (node.isLoading) return; // 加载中不响应点击
+    
     if (node.hasChildren) {
       _toggleExpand();
     }
@@ -497,6 +512,8 @@ class _VirtualTreeNodeWidget<T> extends StatelessWidget {
   }
 
   void _toggleExpand() async {
+    if (node.isLoading) return; // 加载中不响应点击
+    
     if (!node.isExpanded &&
         node.children.isEmpty &&
         node.isLeaf != true &&
@@ -562,12 +579,15 @@ class _VirtualTreeNodeWidget<T> extends StatelessWidget {
     }
 
     if (node.isLoading) {
-      return const SizedBox(
+      return SizedBox(
         width: 24,
         height: 24,
-        child: Padding(
-          padding: EdgeInsets.all(4),
-          child: CircularProgressIndicator(strokeWidth: 2),
+        child: Center(
+          child: SizedBox(
+            width: 16,
+            height: 16,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
         ),
       );
     }

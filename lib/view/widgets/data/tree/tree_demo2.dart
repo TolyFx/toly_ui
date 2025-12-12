@@ -7,7 +7,7 @@ import 'toly_tree_selector.dart';
 @DisplayNode(
   title: '可选择树形',
   desc:
-      '支持三态选择的树形组件，父级节点点击全选/取消全选，子级未全部勾选时显示第三态。支持设置某些节点为不可选中状态，这些节点会以半透明显示且无法被选中。适用于权限配置、分类选择等场景。',
+      '展示支持三态选择的树形组件。点击复选框可以选中或取消选中节点，父节点的选中状态会自动影响所有子节点。当子节点部分选中时，父节点会显示为半选中状态。右侧实时显示已选中的节点数量和标签列表。组件还支持设置某些节点为不可选中状态，这些节点会以灰色显示且无法被选中。这种交互模式常用于权限管理、分类选择、数据筛选等需要多选操作的场景。',
 )
 class TreeDemo2 extends StatefulWidget {
   const TreeDemo2({super.key});
@@ -174,7 +174,12 @@ List<Map<String, dynamic>> get _treeData => [
             'id': '4-1',
             'data': '数据管理',
             'children': [
-              {'id': '4-1-1', 'data': '数据导入', 'selectable': false, 'isLeaf': true},
+              {
+                'id': '4-1-1',
+                'data': '数据导入',
+                'selectable': false,
+                'isLeaf': true
+              },
               {'id': '4-1-2', 'data': '数据导出', 'isLeaf': true},
               {'id': '4-1-3', 'data': '数据清理', 'isLeaf': true},
             ],
@@ -183,7 +188,12 @@ List<Map<String, dynamic>> get _treeData => [
             'id': '4-2',
             'data': '系统维护',
             'children': [
-              {'id': '4-2-1', 'data': '系统备份', 'selectable': false, 'isLeaf': true},
+              {
+                'id': '4-2-1',
+                'data': '系统备份',
+                'selectable': false,
+                'isLeaf': true
+              },
               {'id': '4-2-2', 'data': '系统还原', 'isLeaf': true},
               {'id': '4-2-3', 'data': '日志查看', 'isLeaf': true},
             ],

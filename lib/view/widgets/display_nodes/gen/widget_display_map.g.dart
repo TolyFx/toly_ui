@@ -77,6 +77,7 @@ Widget widgetDisplayMap(String key){
     "TreeDemo4" => const TreeDemo4(),
     "TreeDemo5" => const TreeDemo5(),
     "TreeDemo6" => const TreeDemo6(),
+    "TreeDemo7" => const TreeDemo7(),
     "LoadingDemo1" => const LoadingDemo1(),
     "LoadingDemo2" => const LoadingDemo2(),
     "LoadingDemo3" => const LoadingDemo3(),

@@ -4,7 +4,8 @@ import 'toly_tree.dart';
 
 @DisplayNode(
   title: '异步加载树形',
-  desc: '支持异步加载子节点的树形组件。点击带有懒加载标识的节点时会显示加载动画，模拟从服务器获取数据的过程。适用于大数据量的树形结构，按需加载提升性能。',
+  desc:
+      '展示支持异步加载子节点的树形组件。初始状态下只显示根节点，带有“点击加载”提示的节点可以展开加载子内容。点击这些节点时会显示加载动画，模拟 2 秒的网络请求过程，然后动态渲染新的子节点。不同的节点会返回不同的子内容，有些子节点还可以继续异步加载更深层级的内容。这种模式适用于大型数据集、远程文件系统、API 数据浏览等需要按需加载的场景。',
 )
 class TreeDemo5 extends StatelessWidget {
   const TreeDemo5({super.key});
@@ -24,7 +25,8 @@ class TreeDemo5 extends StatelessWidget {
             if (node.isLeaf == null && node.children.isEmpty)
               const Padding(
                 padding: EdgeInsets.only(left: 8),
-                child: Text('(点击加载)', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                child: Text('(点击加载)',
+                    style: TextStyle(fontSize: 12, color: Colors.grey)),
               ),
           ],
         ),
@@ -62,10 +64,11 @@ class TreeDemo5 extends StatelessWidget {
     ];
   }
 
-  Future<List<TreeNode<_AsyncData>>> _loadChildren(TreeNode<_AsyncData> node) async {
+  Future<List<TreeNode<_AsyncData>>> _loadChildren(
+      TreeNode<_AsyncData> node) async {
     // 模拟网络延迟
     await Future.delayed(const Duration(seconds: 2));
-    
+
     switch (node.id) {
       case '1':
         return [
