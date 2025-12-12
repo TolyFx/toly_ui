@@ -7,19 +7,23 @@ class TreeNode<T> {
   final T data;
   final List<TreeNode<T>> children;
   final bool selectable;
+  final bool? isLeaf;
   bool isExpanded;
   bool isSelected;
+  bool isLoading;
   int level;
 
   TreeNode({
     required this.id,
     required this.data,
-    this.children = const [],
+    List<TreeNode<T>>? children,
     this.isExpanded = false,
     this.isSelected = false,
     this.level = 0,
     this.selectable = true,
-  });
+    this.isLeaf,
+    this.isLoading = false,
+  }) : children = children ?? [];
 
   factory TreeNode.fromMap(dynamic map) {
     List<TreeNode<T>> children = [];
@@ -36,10 +40,12 @@ class TreeNode<T> {
       isExpanded: map['isExpanded'] ?? false,
       isSelected: map['isSelected'] ?? false,
       selectable: map['selectable'] ?? true,
+      isLeaf: map['isLeaf'],
     );
   }
 
-  bool get hasChildren => children.isNotEmpty;
+  bool get hasChildren =>
+      isLeaf != true && (children.isNotEmpty || isLeaf == null);
 
   /// 获取复选框状态（支持三态）
   bool? get selectState {
@@ -84,6 +90,8 @@ class TolyTree<T> extends StatefulWidget {
   final Widget Function(TreeNode<T>) nodeBuilder;
   final Function(TreeNode<T>)? onTap;
   final Function(TreeNode<T>)? onExpand;
+  final Future<List<TreeNode<T>>> Function(TreeNode<T>)? loadData;
+  final double? height;
   final double indent;
   final Widget? expandIcon;
   final Widget? collapseIcon;
@@ -99,6 +107,8 @@ class TolyTree<T> extends StatefulWidget {
     required this.nodeBuilder,
     this.onTap,
     this.onExpand,
+    this.loadData,
+    this.height,
     this.indent = 24.0,
     this.expandIcon,
     this.collapseIcon,
@@ -114,8 +124,73 @@ class TolyTree<T> extends StatefulWidget {
 }
 
 class _TolyTreeState<T> extends State<TolyTree<T>> {
+  List<TreeNode<T>> _flattenedNodes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _updateFlattenedNodes();
+  }
+
+  @override
+  void didUpdateWidget(TolyTree<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _updateFlattenedNodes();
+  }
+
+  void _updateFlattenedNodes() {
+    _flattenedNodes = _flattenNodes(widget.nodes, 0);
+  }
+
+  List<TreeNode<T>> _flattenNodes(List<TreeNode<T>> nodes, int level) {
+    final result = <TreeNode<T>>[];
+    for (final node in nodes) {
+      node.level = level;
+      result.add(node);
+      if (node.isExpanded && node.children.isNotEmpty) {
+        result.addAll(_flattenNodes(node.children, level + 1));
+      }
+    }
+    return result;
+  }
+
+  void _onNodeChanged() {
+    setState(() {
+      _updateFlattenedNodes();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (widget.height != null) {
+      return SizedBox(
+        height: widget.height,
+        child: ListView.builder(
+          itemCount: _flattenedNodes.length,
+          itemBuilder: (context, index) {
+            final node = _flattenedNodes[index];
+            return _VirtualTreeNodeWidget(
+              node: node,
+              nodeBuilder: widget.nodeBuilder,
+              onTap: widget.onTap,
+              onExpand: (node) {
+                widget.onExpand?.call(node);
+                _onNodeChanged();
+              },
+              loadData: widget.loadData,
+              indent: widget.indent,
+              expandIcon: widget.expandIcon,
+              showConnectingLines: widget.showConnectingLines,
+              connectingLineColor:
+                  widget.connectingLineColor ?? Colors.grey.withOpacity(0.5),
+              connectingLineWidth: widget.connectingLineWidth,
+              isLast: _isLastNode(node, index),
+            );
+          },
+        ),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: widget.nodes.asMap().entries.map((entry) {
@@ -126,6 +201,7 @@ class _TolyTreeState<T> extends State<TolyTree<T>> {
           nodeBuilder: widget.nodeBuilder,
           onTap: widget.onTap,
           onExpand: widget.onExpand,
+          loadData: widget.loadData,
           indent: widget.indent,
           expandIcon: widget.expandIcon,
           collapseIcon: widget.collapseIcon,
@@ -141,6 +217,12 @@ class _TolyTreeState<T> extends State<TolyTree<T>> {
       }).toList(),
     );
   }
+
+  bool _isLastNode(TreeNode<T> node, int index) {
+    if (index == _flattenedNodes.length - 1) return true;
+    final nextNode = _flattenedNodes[index + 1];
+    return nextNode.level <= node.level;
+  }
 }
 
 /// 单个树节点组件
@@ -149,6 +231,7 @@ class _TreeNodeWidget<T> extends StatefulWidget {
   final Widget Function(TreeNode<T>) nodeBuilder;
   final Function(TreeNode<T>)? onTap;
   final Function(TreeNode<T>)? onExpand;
+  final Future<List<TreeNode<T>>> Function(TreeNode<T>)? loadData;
   final double indent;
   final Widget? expandIcon;
   final Widget? collapseIcon;
@@ -166,6 +249,7 @@ class _TreeNodeWidget<T> extends StatefulWidget {
     required this.nodeBuilder,
     this.onTap,
     this.onExpand,
+    this.loadData,
     required this.indent,
     this.expandIcon,
     this.collapseIcon,
@@ -219,15 +303,39 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
     super.dispose();
   }
 
-  void _toggleExpand() {
-    setState(() {
-      widget.node.isExpanded = !widget.node.isExpanded;
-    });
+  void _toggleExpand() async {
+    if (!widget.node.isExpanded &&
+        widget.node.children.isEmpty &&
+        widget.node.isLeaf != true &&
+        widget.loadData != null) {
+      setState(() {
+        widget.node.isLoading = true;
+      });
 
-    if (widget.node.isExpanded) {
-      _controller.forward();
+      try {
+        final children = await widget.loadData!(widget.node);
+        setState(() {
+          widget.node.children.addAll(children);
+          widget.node.isLoading = false;
+          widget.node.isExpanded = true;
+        });
+        _controller.forward();
+      } catch (e) {
+        setState(() {
+          widget.node.isLoading = false;
+        });
+        return;
+      }
     } else {
-      _controller.reverse();
+      setState(() {
+        widget.node.isExpanded = !widget.node.isExpanded;
+      });
+
+      if (widget.node.isExpanded) {
+        _controller.forward();
+      } else {
+        _controller.reverse();
+      }
     }
 
     widget.onExpand?.call(widget.node);
@@ -282,6 +390,7 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
                   nodeBuilder: widget.nodeBuilder,
                   onTap: widget.onTap,
                   onExpand: widget.onExpand,
+                  loadData: widget.loadData,
                   indent: widget.indent,
                   expandIcon: widget.expandIcon,
                   collapseIcon: widget.collapseIcon,
@@ -303,6 +412,7 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
 
   Widget _buildNodeContent() {
     return InkWell(
+      borderRadius: BorderRadius.circular(6),
       onTap: _handleTap,
       child: Container(
         constraints: const BoxConstraints(minHeight: 40),
@@ -327,6 +437,17 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
       return const SizedBox(width: 24);
     }
 
+    if (widget.node.isLoading) {
+      return const SizedBox(
+        width: 24,
+        height: 24,
+        child: Padding(
+          padding: EdgeInsets.all(4),
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+      );
+    }
+
     return IconButton(
       iconSize: 16,
       onPressed: _toggleExpand,
@@ -338,4 +459,126 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
   }
 }
 
+/// 虚拟滚动专用的简化节点组件
+class _VirtualTreeNodeWidget<T> extends StatelessWidget {
+  final TreeNode<T> node;
+  final Widget Function(TreeNode<T>) nodeBuilder;
+  final Function(TreeNode<T>)? onTap;
+  final Function(TreeNode<T>)? onExpand;
+  final Future<List<TreeNode<T>>> Function(TreeNode<T>)? loadData;
+  final double indent;
+  final Widget? expandIcon;
+  final bool showConnectingLines;
+  final Color connectingLineColor;
+  final double connectingLineWidth;
+  final bool isLast;
 
+  const _VirtualTreeNodeWidget({
+    required this.node,
+    required this.nodeBuilder,
+    this.onTap,
+    this.onExpand,
+    this.loadData,
+    required this.indent,
+    this.expandIcon,
+    this.showConnectingLines = false,
+    this.connectingLineColor = Colors.grey,
+    this.connectingLineWidth = 1.0,
+    this.isLast = false,
+  });
+
+  void _handleTap() {
+    if (node.hasChildren) {
+      _toggleExpand();
+    }
+    if (node.selectable) {
+      onTap?.call(node);
+    }
+  }
+
+  void _toggleExpand() async {
+    if (!node.isExpanded &&
+        node.children.isEmpty &&
+        node.isLeaf != true &&
+        loadData != null) {
+      node.isLoading = true;
+      try {
+        final children = await loadData!(node);
+        node.children.addAll(children);
+        node.isLoading = false;
+        node.isExpanded = true;
+      } catch (e) {
+        node.isLoading = false;
+        return;
+      }
+    } else {
+      node.isExpanded = !node.isExpanded;
+    }
+    onExpand?.call(node);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final content = InkWell(
+      borderRadius: BorderRadius.circular(6),
+      onTap: _handleTap,
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 40),
+        padding: EdgeInsets.only(left: node.level * indent),
+        child: Row(
+          children: [
+            _buildExpandIcon(),
+            Expanded(
+              child: Opacity(
+                opacity: node.selectable ? 1.0 : 0.5,
+                child: nodeBuilder(node),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    return showConnectingLines
+        ? CustomPaint(
+            painter: TreeLinePainter(
+              level: node.level,
+              indent: indent,
+              color: connectingLineColor,
+              strokeWidth: connectingLineWidth,
+              isLast: isLast,
+              hasChildren: node.hasChildren,
+              isExpanded: node.isExpanded,
+              ancestorLines: const [],
+            ),
+            child: content,
+          )
+        : content;
+  }
+
+  Widget _buildExpandIcon() {
+    if (!node.hasChildren) {
+      return const SizedBox(width: 24);
+    }
+
+    if (node.isLoading) {
+      return const SizedBox(
+        width: 24,
+        height: 24,
+        child: Padding(
+          padding: EdgeInsets.all(4),
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+      );
+    }
+
+    return IconButton(
+      iconSize: 16,
+      onPressed: _toggleExpand,
+      icon: Transform.rotate(
+        angle: node.isExpanded ? 1.5708 : 0, // 90 degrees
+        child: expandIcon ?? const Icon(Icons.chevron_right),
+      ),
+    );
+  }
+}

@@ -1,0 +1,82 @@
+class TreeDemo6 extends StatelessWidget {
+  const TreeDemo6({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TolyTree<_VirtualData>(
+      height: 300,
+      nodes: _buildLargeDataSet(),
+      loadData: _loadChildren,
+      nodeBuilder: (node) => Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        child: Row(
+          children: [
+            Icon(node.data.icon, size: 16, color: node.data.color),
+            const SizedBox(width: 8),
+            Text(node.data.name),
+            if (node.data.count != null)
+              Text(' (${node.data.count})', 
+                   style: const TextStyle(fontSize: 12, color: Colors.grey)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  List<TreeNode<_VirtualData>> _buildLargeDataSet() {
+    return List.generate(50, (i) => TreeNode<_VirtualData>(
+      id: 'root-$i',
+      data: _VirtualData(
+        name: '根节点 ${i + 1}',
+        icon: Icons.folder,
+        color: Colors.blue,
+        count: (i + 1) * 10,
+      ),
+      children: List.generate(20, (j) => TreeNode<_VirtualData>(
+        id: 'root-$i-child-$j',
+        data: _VirtualData(
+          name: '子节点 ${j + 1}',
+          icon: Icons.folder_outlined,
+          color: Colors.orange,
+        ),
+        children: List.generate(10, (k) => TreeNode<_VirtualData>(
+          id: 'root-$i-child-$j-leaf-$k',
+          data: _VirtualData(
+            name: '叶子节点 ${k + 1}',
+            icon: Icons.insert_drive_file,
+            color: Colors.grey,
+          ),
+          isLeaf: true,
+        )),
+      )),
+    ));
+  }
+
+  Future<List<TreeNode<_VirtualData>>> _loadChildren(TreeNode<_VirtualData> node) async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    
+    return List.generate(5, (i) => TreeNode<_VirtualData>(
+      id: '${node.id}-async-$i',
+      data: _VirtualData(
+        name: '异步加载 ${i + 1}',
+        icon: Icons.cloud_download,
+        color: Colors.green,
+      ),
+      isLeaf: true,
+    ));
+  }
+}
+
+class _VirtualData {
+  final String name;
+  final IconData icon;
+  final Color color;
+  final int? count;
+
+  const _VirtualData({
+    required this.name,
+    required this.icon,
+    required this.color,
+    this.count,
+  });
+}

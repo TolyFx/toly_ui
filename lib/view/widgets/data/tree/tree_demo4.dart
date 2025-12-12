@@ -98,6 +98,7 @@ class TreeDemo4 extends StatelessWidget {
                   icon: Icons.code,
                   color: Colors.green,
                 ),
+                isLeaf: true,
               ),
               TreeNode<_FileMeta>(
                 id: '1-1-2',
@@ -107,6 +108,7 @@ class TreeDemo4 extends StatelessWidget {
                   icon: Icons.code,
                   color: Colors.green,
                 ),
+                isLeaf: true,
               ),
             ],
           ),
@@ -127,6 +129,7 @@ class TreeDemo4 extends StatelessWidget {
                   icon: Icons.settings,
                   color: Colors.orange,
                 ),
+                isLeaf: true,
               ),
             ],
           ),
