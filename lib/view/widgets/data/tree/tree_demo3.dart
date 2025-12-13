@@ -4,7 +4,8 @@ import 'toly_tree.dart';
 
 @DisplayNode(
   title: '自定义数据结构',
-  desc: '展示如何使用自定义数据类型构建树形组件。通过 FileMeta 类封装文件信息，包含名称、类型、图标、颜色、大小和更新时间等属性。每个节点根据文件类型显示不同的图标和颜色，文件夹显示子项数量，文件显示大小和修改日期。点击节点会在控制台输出详细信息，包括节点类型、层级和子项情况。这种方式提供了类型安全的数据访问和更丰富的展示效果，适用于文件管理、资源浏览等需要详细信息展示的场景。',
+  desc:
+      '展示如何使用自定义数据类型构建树形组件。通过 FileMeta 类封装文件信息，包含名称、类型、图标、颜色、大小和更新时间等属性。每个节点根据文件类型显示不同的图标和颜色，文件夹显示子项数量，文件显示大小和修改日期。点击节点会在控制台输出详细信息，包括节点类型、层级和子项情况。这种方式提供了类型安全的数据访问和更丰富的展示效果，适用于文件管理、资源浏览等需要详细信息展示的场景。',
 )
 class TreeDemo3 extends StatelessWidget {
   const TreeDemo3({super.key});
@@ -67,10 +68,8 @@ class TreeDemo3 extends StatelessWidget {
 
   List<TreeNode<FileMeta>> _buildSampleData() {
     return _backendData
-        .map((map) => TreeNode<FileMeta>.fromMap(
-              map,
-              dataParser: (data) => FileMeta.fromJson(data),
-            ))
+        .map((map) =>
+            TreeNode<FileMeta>.fromMap(map, dataParser: FileMeta.fromJson))
         .toList();
   }
 }
@@ -94,7 +93,7 @@ class FileMeta {
     this.fileCount,
   });
 
-  factory FileMeta.fromJson(Map<String, dynamic> json) {
+  factory FileMeta.fromJson(dynamic json) {
     return FileMeta(
       name: json['name'] ?? '',
       type: json['type'] ?? 'file',

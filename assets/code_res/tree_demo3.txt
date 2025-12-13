@@ -59,10 +59,8 @@ class TreeDemo3 extends StatelessWidget {
 
   List<TreeNode<FileMeta>> _buildSampleData() {
     return _backendData
-        .map((map) => TreeNode<FileMeta>.fromMap(
-              map,
-              dataParser: (data) => FileMeta.fromJson(data),
-            ))
+        .map((map) =>
+            TreeNode<FileMeta>.fromMap(map, dataParser: FileMeta.fromJson))
         .toList();
   }
 }
@@ -86,7 +84,7 @@ class FileMeta {
     this.fileCount,
   });
 
-  factory FileMeta.fromJson(Map<String, dynamic> json) {
+  factory FileMeta.fromJson(dynamic json) {
     return FileMeta(
       name: json['name'] ?? '',
       type: json['type'] ?? 'file',

@@ -16,9 +16,12 @@ Map<String, dynamic> get dataMenus => {
           'label': 'Badge',
           'subtitle': '标记',
           'isFlutter': true,
-          'tag': '新',
         },
-        {'path': '/card', 'label': 'Card', 'subtitle': '卡片', 'tag': '新'},
+        {
+          'path': '/card',
+          'label': 'Card',
+          'subtitle': '卡片',
+        },
         {
           'path': '/collapse',
           'label': 'Collapse',
@@ -64,6 +67,7 @@ Map<String, dynamic> get dataMenus => {
           'path': '/Tree',
           'label': 'Tree',
           'subtitle': '树形控件',
+          'tag': '新'
 
           // 'icon': Icons.text_fields,
         },

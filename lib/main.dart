@@ -23,6 +23,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  static final PageStorageBucket _bucket = PageStorageBucket();
+  
   GoRouter _router = GoRouter(
     initialLocation: '/home',
     routes: <RouteBase>[appRoutes],
@@ -42,21 +44,26 @@ class _MyAppState extends State<MyApp> {
     ThemeData light = lightTheme;
     ThemeData dark = darkTheme;
     ThemeMode mode = state.themeMode;
-    return TolyUiApp.router(
-        routerConfig: _router,
-        debugShowCheckedModeBanner: false,
-        theme: light,
-        darkTheme: dark,
-        themeMode: mode,
-        title: '学无止境',
+    return PageStorage(
+      bucket: _bucket,
+      child: TolyUiApp.router(
+          routerConfig: _router,
+          debugShowCheckedModeBanner: false,
+          theme: light,
+          darkTheme: dark,
+          themeMode: mode,
+          title: '学无止境',
+      ),
     );
   }
 
   @override
   void reassemble() {
     super.reassemble();
+    // 保存当前路径，重建路由器以支持热重载更新路由配置
+    final currentPath = _router.routerDelegate.currentConfiguration.uri.toString();
     _router = GoRouter(
-      initialLocation: _router.path,
+      initialLocation: currentPath,
       routes: <RouteBase>[appRoutes],
       onException: (BuildContext ctx, GoRouterState state, GoRouter router) {
         String parent = state.uri.pathSegments.first;

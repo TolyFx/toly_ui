@@ -31,7 +31,6 @@ class _TreeDemo4State extends State<TreeDemo4> {
           TolyTree<_VirtualData>(
             height: 300,
             nodes: data,
-            loadData: _loadChildren,
             nodeBuilder: (node) => Container(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               child: Row(
@@ -58,11 +57,10 @@ class _TreeDemo4State extends State<TreeDemo4> {
         (i) => TreeNode<_VirtualData>(
               id: 'root-$i',
               data: _VirtualData(
-                name: '根节点 ${i + 1}',
-                icon: Icons.folder,
-                color: Colors.blue,
-                count: 100,
-              ),
+                  name: '根节点 ${i + 1}',
+                  icon: Icons.folder,
+                  color: Colors.blue,
+                  count: 100),
               children: List.generate(
                   20,
                   (j) => TreeNode<_VirtualData>(
@@ -84,23 +82,6 @@ class _TreeDemo4State extends State<TreeDemo4> {
                                   isLeaf: true,
                                 )),
                       )),
-            ));
-  }
-
-  Future<List<TreeNode<_VirtualData>>> _loadChildren(
-      TreeNode<_VirtualData> node) async {
-    await Future.delayed(const Duration(milliseconds: 500));
-
-    return List.generate(
-        5,
-        (i) => TreeNode<_VirtualData>(
-              id: '${node.id}-async-$i',
-              data: _VirtualData(
-                name: '异步加载 ${i + 1}',
-                icon: Icons.cloud_download,
-                color: Colors.green,
-              ),
-              isLeaf: true,
             ));
   }
 }

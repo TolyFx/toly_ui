@@ -23,8 +23,10 @@ class SliverDisplayNodeList extends StatelessWidget {
     List<String> keys = displayNodes.keys.toList();
     dynamic data = displayNodes.values.toList();
     return SliverList(
+      key: PageStorageKey('sliver_list_$name'),
       delegate: SliverChildBuilderDelegate(
         (_, index) => NodeDisplay(
+          key: PageStorageKey('node_${name}_${keys[index]}'),
           display: widgetDisplayMap(keys[index]),
           node: Node.fromMap(data[index]),
         ),
