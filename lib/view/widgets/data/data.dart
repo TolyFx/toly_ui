@@ -1,12 +1,16 @@
 export 'avatar/avatar.dart';
 export 'badge/badge.dart';
 export 'card/card.dart';
+export 'carousel/carousel.dart';
 export 'collapse/collapse.dart';
+export 'default/default.dart';
 export 'image/image.dart';
 export 'pagination/pagination.dart';
 export 'progress/progress.dart';
 export 'segmented/segmented.dart';
 export 'statistics/statistics.dart';
+export 'table/table.dart';
 export 'tag/tag.dart';
 export 'tree/tree.dart';
 export 'slideshow/slideshow.dart';
+export 'skeleton/skeleton.dart';

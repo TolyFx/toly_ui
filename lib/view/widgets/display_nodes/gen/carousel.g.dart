@@ -1,0 +1,8 @@
+/// ===================================================
+/// Power By 张风捷特烈 --- Generated file. Do not edit.
+/// github: https://github.com/toly1994328
+/// ===================================================
+
+part of 'node.g.dart';
+
+Map<String, dynamic> get _carouselData => {"CarouselDemo1":{"title":"基础轮播","desc":"展示轮播图的基础用法。通过 children 属性传入子组件列表，组件会自动循环展示。底部的指示器显示当前位置，点击指示器可以快速跳转到对应页面。","code":"assets/code_res/carousel_demo1.txt"},"CarouselDemo2":{"title":"自动播放","desc":"展示自动播放功能。通过 autoplay 属性启用自动播放，autoplaySpeed 设置切换间隔时间。轮播图会按照设定的时间间隔自动切换到下一页，鼠标悬停时不会暂停。","code":"assets/code_res/carousel_demo2.txt"},"CarouselDemo3":{"title":"淡入淡出效果","desc":"展示淡入淡出切换效果。通过 effect 属性设置为 fade，页面切换时会使用淡入淡出动画，而不是默认的滑动效果。这种效果适合图片展示等场景。","code":"assets/code_res/carousel_demo3.txt"},"CarouselDemo4":{"title":"指示器位置","desc":"展示不同的指示器位置配置。通过 dotPlacement 属性可以将指示器放置在顶部、底部、左侧或右侧。示例展示了四种位置的效果，适配不同的布局需求。","code":"assets/code_res/carousel_demo4.txt"},"CarouselDemo5":{"title":"编程式控制","desc":"展示通过代码控制轮播图的切换。使用 GlobalKey 获取轮播图状态，可以调用 goTo、next、prev 方法控制页面跳转。适用于需要外部控制轮播图的场景。","code":"assets/code_res/carousel_demo5.txt"},"CarouselDemo6":{"title":"箭头按钮","desc":"展示带有箭头按钮的轮播图。通过 arrows 属性启用左右箭头按钮，用户可以点击箭头切换页面。箭头会根据是否可以继续滑动自动调整透明度。","code":"assets/code_res/carousel_demo6.txt"},"CarouselDemo7":{"title":"指示器进度","desc":"展示指示器的进度动画效果。通过 dotDuration 属性启用指示器进度显示，在自动播放时，当前激活的指示器会显示进度条动画，直观展示切换倒计时。","code":"assets/code_res/carousel_demo7.txt"}};

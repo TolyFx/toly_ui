@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
+import 'package:toly_carousel/toly_carousel.dart';
+import 'package:tolyui_message/tolyui_message.dart';
+
+@DisplayNode(
+  title: '编程式控制',
+  desc: '展示通过代码控制轮播图的切换。使用 GlobalKey 获取轮播图状态，可以调用 goTo、next、prev 方法控制页面跳转。适用于需要外部控制轮播图的场景。',
+)
+class CarouselDemo5 extends StatefulWidget {
+  const CarouselDemo5({super.key});
+
+  @override
+  State<CarouselDemo5> createState() => _CarouselDemo5State();
+}
+
+class _CarouselDemo5State extends State<CarouselDemo5> {
+  final _carouselKey = GlobalKey<TolyCarouselState>();
+  int _currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TolyCarousel(
+          key: _carouselKey,
+          height: 200,
+          onChanged: (index) {
+            setState(() => _currentIndex = index);
+            $message.info(message: '切换到第 ${index + 1} 页');
+          },
+          children: [
+            _buildSlide('1'),
+            _buildSlide('2'),
+            _buildSlide('3'),
+            _buildSlide('4'),
+          ],
+        ),
+        SizedBox(height: 16),
+        Wrap(
+          spacing: 8,
+          children: [
+            ElevatedButton(
+              onPressed: () => _carouselKey.currentState?.prev(),
+              child: Text('上一页'),
+            ),
+            ElevatedButton(
+              onPressed: () => _carouselKey.currentState?.next(),
+              child: Text('下一页'),
+            ),
+            ElevatedButton(
+              onPressed: () => _carouselKey.currentState?.goTo(0),
+              child: Text('跳转到第1页'),
+            ),
+            ElevatedButton(
+              onPressed: () => _carouselKey.currentState?.goTo(2),
+              child: Text('跳转到第3页'),
+            ),
+          ],
+        ),
+        SizedBox(height: 8),
+        Text('当前页: ${_currentIndex + 1}', style: TextStyle(fontSize: 14)),
+      ],
+    );
+  }
+
+  Widget _buildSlide(String text) {
+    return Container(
+      color: Color(0xff3f51b5),
+      alignment: Alignment.center,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 48,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,35 @@
+class DefaultDemo5 extends StatelessWidget {
+  const DefaultDemo5({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 24,
+      runSpacing: 24,
+      children: [
+        _buildCard(DefaultType.empty),
+        _buildCard(DefaultType.noResult),
+        _buildCard(DefaultType.networkError),
+        _buildCard(DefaultType.noPermission),
+        _buildCard(DefaultType.notFound),
+        _buildCard(DefaultType.serverError),
+      ],
+    );
+  }
+
+  Widget _buildCard(DefaultType type) {
+    return Container(
+      width: 200,
+      height: 240,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: TolyDefault(
+        type: type,
+        imageSize: 64,
+        spacing: 12,
+      ),
+    );
+  }
+}

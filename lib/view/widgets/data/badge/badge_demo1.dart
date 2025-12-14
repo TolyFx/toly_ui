@@ -28,8 +28,9 @@ class BadgeDemo1 extends StatelessWidget {
         Badge(
           backgroundColor: Colors.orange,
           alignment: Alignment.bottomRight,
-          smallSize: 6,
+          smallSize: 8,
           child: child,
+
         ),
         Badge(
           largeSize: 14,

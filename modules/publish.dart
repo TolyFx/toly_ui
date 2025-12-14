@@ -9,8 +9,9 @@ void main() async {
   //     'd:/Projects/Flutter/Fx/toly_ui/modules/publish/tolyui_0.0.4+7.json';
   // List<String> updates = await collect(oldPath, newPath);
 
-  publishModule('tolyui');
+  // publishModule('tolyui');
   // publishModule('tolyui_feedback');
+  publishModule(folder: 'form', 'toly_check_box');
   // publishModule(folder: 'feedback', 'tolyui_feedback_modal');
   // publishModule(folder: 'data', 'tolyui_statistic');
   // publishModule(folder: 'data', 'tolyui_tag');

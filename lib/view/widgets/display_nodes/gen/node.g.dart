@@ -13,13 +13,17 @@ part 'tolyui_text.g.dart';
 part 'avatar.g.dart';
 part 'badge.g.dart';
 part 'card.g.dart';
+part 'carousel.g.dart';
 part 'collapse.g.dart';
+part 'default.g.dart';
 part 'image.g.dart';
 part 'pagination.g.dart';
 part 'progress.g.dart';
 part 'segmented.g.dart';
+part 'skeleton.g.dart';
 part 'slideshow.g.dart';
 part 'statistics.g.dart';
+part 'table.g.dart';
 part 'tag.g.dart';
 part 'tree.g.dart';
 part 'loading.g.dart';
@@ -57,13 +61,17 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "avatar" => _avatarData,
     "badge" => _badgeData,
     "card" => _cardData,
+    "carousel" => _carouselData,
     "collapse" => _collapseData,
+    "default" => _defaultData,
     "image" => _imageData,
     "pagination" => _paginationData,
     "progress" => _progressData,
     "segmented" => _segmentedData,
+    "skeleton" => _skeletonData,
     "slideshow" => _slideshowData,
     "statistics" => _statisticsData,
+    "table" => _tableData,
     "tag" => _tagData,
     "tree" => _treeData,
     "loading" => _loadingData,

@@ -1,0 +1,56 @@
+import 'package:flutter/material.dart';
+import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
+import 'package:toly_skeleton/toly_skeleton.dart';
+
+@DisplayNode(
+  title: '加载状态切换',
+  desc: '展示骨架屏的加载状态切换。通过 loading 属性控制显示骨架屏或实际内容，适用于数据加载场景。',
+)
+class SkeletonDemo4 extends StatefulWidget {
+  const SkeletonDemo4({super.key});
+
+  @override
+  State<SkeletonDemo4> createState() => _SkeletonDemo4State();
+}
+
+class _SkeletonDemo4State extends State<SkeletonDemo4> {
+  bool _loading = false;
+
+  void _showSkeleton() {
+    setState(() => _loading = true);
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) setState(() => _loading = false);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TolySkeleton(
+          loading: _loading,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'TolyUI 设计语言',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                '我们提供一系列设计原则、实用模式和高质量设计资源，帮助开发者快速构建优雅的产品原型。',
+                style: TextStyle(fontSize: 14, color: Colors.grey.shade700),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        ElevatedButton(
+          onPressed: _loading ? null : _showSkeleton,
+          child: const Text('显示骨架屏'),
+        ),
+      ],
+    );
+  }
+}

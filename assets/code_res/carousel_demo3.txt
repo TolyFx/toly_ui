@@ -1,0 +1,33 @@
+class CarouselDemo3 extends StatelessWidget {
+  const CarouselDemo3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TolyCarousel(
+      height: 200,
+      effect: CarouselEffect.fade,
+      autoplay: true,
+      children: [
+        _buildSlide('1'),
+        _buildSlide('2'),
+        _buildSlide('3'),
+        _buildSlide('4'),
+      ],
+    );
+  }
+
+  Widget _buildSlide(String text) {
+    return Container(
+      color: Color(0xff3f51b5),
+      alignment: Alignment.center,
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 48,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}

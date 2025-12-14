@@ -1,0 +1,11 @@
+class SkeletonDemo3 extends StatelessWidget {
+  const SkeletonDemo3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const TolySkeleton(
+      avatar: true,
+      paragraphRows: 4,
+    );
+  }
+}

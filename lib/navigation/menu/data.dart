@@ -30,6 +30,12 @@ Map<String, dynamic> get dataMenus => {
           // 'icon': Icons.text_fields,
         },
         {
+          'path': '/default',
+          'label': 'Default',
+          'subtitle': '缺省页',
+          'tag': '新'
+        },
+        {
           'path': '/image',
           'label': 'Image',
           'subtitle': '图片',
@@ -50,11 +56,17 @@ Map<String, dynamic> get dataMenus => {
           'isFlutter': true,
         },
         {
-          'path': '/Skeleton',
+          'path': '/skeleton',
           'label': 'Skeleton',
           'subtitle': '骨架屏',
 
           // 'icon': Icons.text_fields,
+        },
+        {
+          'path': '/table',
+          'label': 'Table',
+          'subtitle': '表格',
+          'tag': '新'
         },
         {
           'path': '/Tag',
@@ -89,10 +101,8 @@ Map<String, dynamic> get dataMenus => {
         {
           'path': '/carousel',
           'label': 'Carousel',
-          'subtitle': '走马灯',
-          'isFlutter': true,
+          'subtitle': '轮播图',
           'tag': '新'
-          // 'icon': Icons.text_fields,
         },
       ]
     };

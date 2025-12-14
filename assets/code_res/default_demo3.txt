@@ -1,0 +1,25 @@
+class DefaultDemo3 extends StatelessWidget {
+  const DefaultDemo3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TolyDefault(
+      image: Icon(Icons.folder_open, size: 80, color: Colors.grey),
+      title: '文件夹为空',
+      description: '这里还没有任何文件，快来创建第一个文件吧',
+      action: ElevatedButton.icon(
+        onPressed: () {
+          $message.success(message: '开始创建新文件');
+        },
+        icon: Icon(Icons.add, size: 18),
+        label: Text('创建文件'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
+          iconColor: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        ),
+      ),
+    );
+  }
+}

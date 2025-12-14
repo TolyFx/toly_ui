@@ -1,0 +1,8 @@
+class SkeletonDemo2 extends StatelessWidget {
+  const SkeletonDemo2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const TolySkeleton(active: true);
+  }
+}
