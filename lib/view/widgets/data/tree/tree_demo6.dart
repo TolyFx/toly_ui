@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
-import 'toly_tree.dart';
+import 'package:tolyui/tolyui.dart';
+
 
 @DisplayNode(
   title: '动画曲线树形',

@@ -410,33 +410,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.1"
-  toly_carousel:
-    dependency: "direct main"
+  toly_check_box:
+    dependency: transitive
     description:
-      path: "modules/data/toly_carousel"
-      relative: true
-    source: path
-    version: "0.0.1"
-  toly_default:
-    dependency: "direct main"
-    description:
-      path: "modules/data/toly_default"
-      relative: true
-    source: path
-    version: "0.0.1"
-  toly_skeleton:
-    dependency: "direct main"
-    description:
-      path: "modules/data/toly_skeleton"
-      relative: true
-    source: path
-    version: "0.0.1"
-  toly_table:
-    dependency: "direct main"
-    description:
-      path: "modules/data/toly_table"
-      relative: true
-    source: path
+      name: toly_check_box
+      sha256: "559b60ddf0d7adedcd5e46ebfa7babc127623e69c74207f08a6cced526402608"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "0.0.1"
   tolyui:
     dependency: "direct main"
@@ -444,7 +424,14 @@ packages:
       path: "modules/tolyui"
       relative: true
     source: path
-    version: "0.0.4+13"
+    version: "0.0.4+14"
+  tolyui_carousel:
+    dependency: "direct main"
+    description:
+      path: "modules/data/tolyui_carousel"
+      relative: true
+    source: path
+    version: "0.0.1"
   tolyui_color:
     dependency: "direct overridden"
     description:
@@ -452,6 +439,13 @@ packages:
       relative: true
     source: path
     version: "0.0.2"
+  tolyui_default:
+    dependency: "direct main"
+    description:
+      path: "modules/data/tolyui_default"
+      relative: true
+    source: path
+    version: "0.0.1"
   tolyui_feedback:
     dependency: "direct overridden"
     description:
@@ -489,6 +483,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.0"
+  tolyui_skeleton:
+    dependency: "direct main"
+    description:
+      path: "modules/data/tolyui_skeleton"
+      relative: true
+    source: path
+    version: "0.0.1"
   tolyui_statistic:
     dependency: transitive
     description:
@@ -496,6 +497,13 @@ packages:
       sha256: "4134a3fa7b79e891ff475cff2f2f8bd01ce85bde0469a3d355c78aadef7c824c"
       url: "https://pub.flutter-io.cn"
     source: hosted
+    version: "0.0.1"
+  tolyui_table:
+    dependency: "direct main"
+    description:
+      path: "modules/data/tolyui_table"
+      relative: true
+    source: path
     version: "0.0.1"
   tolyui_tag:
     dependency: transitive
@@ -512,6 +520,21 @@ packages:
       relative: true
     source: path
     version: "0.0.1+5"
+  tolyui_tree:
+    dependency: transitive
+    description:
+      name: tolyui_tree
+      sha256: "7a372d5240125ce6291f84fbdb406d838e73f2d471173e61c62abc1dcf98ee1d"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.1"
+  tolyui_watermark:
+    dependency: "direct main"
+    description:
+      path: "modules/data/tolyui_watermark"
+      relative: true
+    source: path
+    version: "0.0.1"
   two_dimensional_scrollables:
     dependency: "direct main"
     description:
@@ -672,5 +695,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.6.1 <4.0.0"
+  dart: ">=3.6.2 <4.0.0"
   flutter: ">=3.27.0"

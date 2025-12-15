@@ -1,0 +1,17 @@
+class WatermarkDemo1 extends StatelessWidget {
+  const WatermarkDemo1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TolyWatermark(
+      content: 'Toly UI',
+      child: Container(
+        height: 400,
+        decoration: BoxDecoration(
+          color: Colors.grey.shade50,
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+    );
+  }
+}

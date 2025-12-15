@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
-import 'package:toly_default/toly_default.dart';
+import 'package:tolyui_default/tolyui_default.dart';
 import 'package:tolyui/res/tolyui_icon.dart';
 
 @DisplayNode(

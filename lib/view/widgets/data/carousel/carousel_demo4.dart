@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
-import 'package:toly_carousel/toly_carousel.dart';
+import 'package:tolyui_carousel/tolyui_carousel.dart';
 
 @DisplayNode(
   title: '指示器位置',

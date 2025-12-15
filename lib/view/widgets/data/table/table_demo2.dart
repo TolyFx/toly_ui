@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
-import 'package:toly_table/toly_table.dart';
+import 'package:tolyui_table/tolyui_table.dart';
+
 
 @DisplayNode(
   title: '带边框表格',

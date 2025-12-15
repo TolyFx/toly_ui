@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
-import 'package:toly_skeleton/toly_skeleton.dart';
+import 'package:tolyui_skeleton/tolyui_skeleton.dart';
 
 @DisplayNode(
   title: '加载状态切换',

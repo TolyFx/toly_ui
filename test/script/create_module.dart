@@ -6,8 +6,8 @@ import 'dart:io';
 /// dart test/script/create_module.dart <module_name> <category>
 /// 
 /// 示例:
-/// dart test/script/create_module.dart toly_button form
-/// dart test/script/create_module.dart toly_avatar data
+/// dart test/script/create_module.dart tolyui_button form
+/// dart test/script/create_module.dart tolyui_avatar data
 void main(List<String> args) {
   if (args.length < 2) {
     print('❌ 参数不足');
@@ -94,6 +94,13 @@ void main(List<String> args) {
 
 // TODO: Export your library's public API
 ''');
+    }
+    
+    // 删除测试目录
+    final testDir = Directory('modules/$category/$moduleName/test');
+    if (testDir.existsSync()) {
+      testDir.deleteSync(recursive: true);
+      print('✅ 已删除测试目录');
     }
     
     print('\n✨ 模块创建完成!');

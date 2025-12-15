@@ -104,5 +104,11 @@ Map<String, dynamic> get dataMenus => {
           'subtitle': '轮播图',
           'tag': '新'
         },
+        {
+          'path': '/watermark',
+          'label': 'Watermark',
+          'subtitle': '水印',
+          'tag': '新'
+        },
       ]
     };

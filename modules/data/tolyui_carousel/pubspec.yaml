@@ -1,8 +1,8 @@
-name: toly_carousel
+name: tolyui_carousel
 description: "carousel for tolyui"
 version: 0.0.1
 homepage: https://github.com/TolyFx/toly_ui
-repository: https://github.com/TolyFx/toly_ui/tree/main/modules/data/toly_carousel
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/data/tolyui_carousel
 
 environment:
   sdk: ^3.6.0

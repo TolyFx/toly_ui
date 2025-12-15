@@ -1,8 +1,8 @@
-name: toly_skeleton
-description: "skeleton for tolyui"
+name: tolyui_default
+description: "default empty state for tolyui"
 version: 0.0.1
 homepage: https://github.com/TolyFx/toly_ui
-repository: https://github.com/TolyFx/toly_ui/tree/main/modules/data/toly_skeleton
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/data/tolyui_default
 
 environment:
   sdk: ^3.6.0

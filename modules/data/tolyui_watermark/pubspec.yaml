@@ -1,8 +1,8 @@
-name: toly_table
-description: "table for tolyui"
+name: tolyui_watermark
+description: "tolyui watermark for tolyui"
 version: 0.0.1
 homepage: https://github.com/TolyFx/toly_ui
-repository: https://github.com/TolyFx/toly_ui/tree/main/modules/data/toly_table
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/data/tolyui_watermark
 
 environment:
   sdk: ^3.6.0

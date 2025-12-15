@@ -50,14 +50,16 @@ dependencies:
   tolyui: 0.0.2+19
   tolyui_text:
     path: modules/tolyui_text
-  toly_default:
-    path: modules/data/toly_default
-  toly_carousel:
-    path: modules/data/toly_carousel
-  toly_skeleton:
-    path: modules/data/toly_skeleton
-  toly_table:
-    path: modules/data/toly_table
+  tolyui_default:
+    path: modules/data/tolyui_default
+  tolyui_carousel:
+    path: modules/data/tolyui_carousel
+  tolyui_skeleton:
+    path: modules/data/tolyui_skeleton
+  tolyui_table:
+    path: modules/data/tolyui_table
+  tolyui_watermark:
+    path: modules/data/tolyui_watermark
 
   wrapper:
     path: modules/wrapper
