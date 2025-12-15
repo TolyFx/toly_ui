@@ -1,4 +1,5 @@
 ## 0.0.4
+* 0.0.4+14: add tolyui_tree: 0.0.1
 * 0.0.4+13: add tolyui_tag: 0.0.1
 * 0.0.4+12: add tolyui_statistic: 0.0.1
 * 0.0.4+11: add tolyui_text

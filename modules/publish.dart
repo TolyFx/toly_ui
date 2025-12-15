@@ -11,13 +11,14 @@ void main() async {
 
   // publishModule('tolyui');
   // publishModule('tolyui_feedback');
-  publishModule(folder: 'form', 'toly_check_box');
+  // publishModule(folder: 'form', 'toly_check_box');
   // publishModule(folder: 'feedback', 'tolyui_feedback_modal');
   // publishModule(folder: 'data', 'tolyui_statistic');
   // publishModule(folder: 'data', 'tolyui_tag');
+  // publishModule(folder: 'data', 'tolyui_tree');
   // publishModule('tolyui_image');
   // publishModule('tolyui_text');
-  // publishModule('tolyui');
+  publishModule('tolyui');
 
   // for(String module in updates){
   //   await publishModule( module);
