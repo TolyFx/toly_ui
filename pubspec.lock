@@ -386,6 +386,22 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.3.0"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: "325f519ce4ad8edd81811c21b853d72018529e353584490824da0555156ba076"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "27.2.5"
+  syncfusion_flutter_datagrid:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_datagrid
+      sha256: "1ba098d01468ed9dd400bf69403eedfbbd3626dce675005697a2698834f05fde"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "27.2.5"
   term_glyph:
     dependency: transitive
     description:
@@ -411,12 +427,11 @@ packages:
     source: hosted
     version: "1.0.1"
   toly_check_box:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: toly_check_box
-      sha256: "559b60ddf0d7adedcd5e46ebfa7babc127623e69c74207f08a6cced526402608"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
+      path: "modules/form/toly_check_box"
+      relative: true
+    source: path
     version: "0.0.1"
   tolyui:
     dependency: "direct main"
@@ -695,5 +710,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.6.2 <4.0.0"
+  dart: ">=3.6.1 <4.0.0"
   flutter: ">=3.27.0"

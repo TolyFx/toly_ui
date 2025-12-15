@@ -1,0 +1,262 @@
+class TableDemo9 extends StatefulWidget {
+  const TableDemo9({super.key});
+
+  @override
+  State<TableDemo9> createState() => _TableDemo9State();
+}
+
+class _TableDemo9State extends State<TableDemo9> {
+  final List<UserData> _users = [
+    UserData(
+        id: 1,
+        name: '张三',
+        age: 25,
+        email: 'zhangsan@example.com',
+        department: '技术部'),
+    UserData(
+        id: 2,
+        name: '李四',
+        age: 30,
+        email: 'lisi@example.com',
+        department: '产品部'),
+    UserData(
+        id: 3,
+        name: '王五',
+        age: 28,
+        email: 'wangwu@example.com',
+        department: '设计部'),
+    UserData(
+        id: 4,
+        name: '赵六',
+        age: 35,
+        email: 'zhaoliu@example.com',
+        department: '市场部'),
+    UserData(
+        id: 5,
+        name: '孙七',
+        age: 22,
+        email: 'sunqi@example.com',
+        department: '技术部'),
+  ];
+
+  late SheetController<UserData> _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = SheetController<UserData>();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _buildToolbar(),
+        const SizedBox(height: 16),
+        Expanded(child: _buildSheet()),
+      ],
+    );
+  }
+
+  Widget _buildToolbar() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          const Text('操作：', style: TextStyle(fontWeight: FontWeight.w600)),
+          const SizedBox(width: 12),
+          OutlinedButton.icon(
+            onPressed: () {
+              final picked = _controller.pickedIndices;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('已选择 ${picked.length} 项: $picked')),
+              );
+            },
+            icon: const Icon(Icons.check_circle_outline, size: 18),
+            label: const Text('查看选中'),
+          ),
+          const SizedBox(width: 8),
+          OutlinedButton.icon(
+            onPressed: () => _controller.clearPicks(),
+            icon: const Icon(Icons.clear, size: 18),
+            label: const Text('清空选择'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSheet() {
+    return TolySheet<UserData>(
+      provider: LocalSheetProvider(data: _users),
+      controller: _controller,
+      fields: [
+        FieldSpec<UserData>(
+          key: 'id',
+          header: const FieldHeader(title: 'ID'),
+          builder: (ctx) => Text('${ctx.data.id}'),
+          constraint: const FieldConstraint(width: 80),
+          capability: const FieldCapability(
+            sortable: SortConfig(),
+          ),
+        ),
+        FieldSpec<UserData>(
+          key: 'name',
+          header: const FieldHeader(title: '姓名'),
+          builder: (ctx) => Text(
+            ctx.data.name,
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
+          capability: const FieldCapability(
+            sortable: SortConfig(),
+          ),
+        ),
+        FieldSpec<UserData>(
+          key: 'age',
+          header: const FieldHeader(title: '年龄'),
+          builder: (ctx) => Text('${ctx.data.age}'),
+          capability: const FieldCapability(
+            sortable: SortConfig(),
+          ),
+        ),
+        FieldSpec<UserData>(
+          key: 'department',
+          header: const FieldHeader(title: '部门'),
+          builder: (ctx) => Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: _getDepartmentColor(ctx.data.department),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Text(
+              ctx.data.department,
+              style: const TextStyle(fontSize: 12, color: Colors.white),
+            ),
+          ),
+        ),
+        FieldSpec<UserData>(
+          key: 'email',
+          header: const FieldHeader(title: '邮箱'),
+          builder: (ctx) => Text(
+            ctx.data.email,
+            style: TextStyle(color: Colors.blue[700]),
+          ),
+        ),
+        FieldSpec<UserData>(
+          key: 'actions',
+          header: const FieldHeader(title: '操作'),
+          builder: (ctx) => Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(
+                onPressed: () {},
+                child: const Text('编辑'),
+              ),
+              TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                child: const Text('删除'),
+              ),
+            ],
+          ),
+        ),
+      ],
+      behavior: SheetBehavior(
+        pickStrategy: PickStrategy(
+          mode: PickMode.multiple,
+          onChanged: (indices) {
+            print('选中变化: $indices');
+          },
+        ),
+        expandStrategy: ExpandStrategy<UserData>(
+          builder: (user, index) => Container(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '详细信息',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const SizedBox(height: 12),
+                _buildDetailRow('ID', '${user.id}'),
+                _buildDetailRow('姓名', user.name),
+                _buildDetailRow('年龄', '${user.age}'),
+                _buildDetailRow('部门', user.department),
+                _buildDetailRow('邮箱', user.email),
+              ],
+            ),
+          ),
+          trigger: ExpandTrigger.icon,
+        ),
+      ),
+      appearance: const SheetAppearance(
+        layoutMode: LayoutMode.fluid,
+        showBorder: true,
+        rowHeight: 56,
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 60,
+            child: Text(
+              '$label:',
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+          ),
+          Text(
+            value,
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color _getDepartmentColor(String department) {
+    switch (department) {
+      case '技术部':
+        return Colors.blue;
+      case '产品部':
+        return Colors.green;
+      case '设计部':
+        return Colors.purple;
+      case '市场部':
+        return Colors.orange;
+      default:
+        return Colors.grey;
+    }
+  }
+}
+
+class UserData {
+  final int id;
+  final String name;
+  final int age;
+  final String email;
+  final String department;
+
+  UserData({
+    required this.id,
+    required this.name,
+    required this.age,
+    required this.email,
+    required this.department,
+  });
+}

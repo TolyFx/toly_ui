@@ -41,6 +41,7 @@ Widget overviewDisplayMap(String key){
     'Tree' =>  TreeDisplay(),
     'Segmented' =>  SegmentedDisplay(),
     'Statistics' =>  StatisticsDisplay(),
+    'Table' => TableDisplay(),
 
     'Color' => ColorDisplay(),
 

@@ -3,14 +3,15 @@ class TableDemo1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TolyTable<UserData>(
+    return TolyTable<_UserData>(
       columns: [
         TableColumn(
           title: 'Name',
           dataIndex: (data) => data.name,
           render: (data, index) => Text(
             data.name,
-            style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+            style: const TextStyle(
+                color: Colors.blue, decoration: TextDecoration.underline),
           ),
         ),
         TableColumn(
@@ -44,7 +45,8 @@ class TableDemo1 extends StatelessWidget {
                 onTap: () => $message.info(message: 'Invite ${data.name}'),
                 child: const Text(
                   'Invite',
-                  style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                  style: TextStyle(
+                      color: Colors.blue, decoration: TextDecoration.underline),
                 ),
               ),
               const SizedBox(width: 16),
@@ -52,7 +54,8 @@ class TableDemo1 extends StatelessWidget {
                 onTap: () => $message.warning(message: 'Delete ${data.name}'),
                 child: const Text(
                   'Delete',
-                  style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                  style: TextStyle(
+                      color: Colors.blue, decoration: TextDecoration.underline),
                 ),
               ),
             ],
@@ -60,21 +63,21 @@ class TableDemo1 extends StatelessWidget {
         ),
       ],
       dataSource: const [
-        UserData(
+        _UserData(
           key: '1',
           name: 'John Brown',
           age: 32,
           address: 'New York No. 1 Lake Park',
           tags: ['nice', 'developer'],
         ),
-        UserData(
+        _UserData(
           key: '2',
           name: 'Jim Green',
           age: 42,
           address: 'London No. 1 Lake Park',
           tags: ['loser'],
         ),
-        UserData(
+        _UserData(
           key: '3',
           name: 'Joe Black',
           age: 32,
@@ -86,14 +89,14 @@ class TableDemo1 extends StatelessWidget {
   }
 }
 
-class UserData {
+class _UserData {
   final String key;
   final String name;
   final int age;
   final String address;
   final List<String> tags;
 
-  const UserData({
+  const _UserData({
     required this.key,
     required this.name,
     required this.age,

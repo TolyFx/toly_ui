@@ -1,0 +1,244 @@
+class TableDemo10 extends StatefulWidget {
+  const TableDemo10({super.key});
+
+  @override
+  State<TableDemo10> createState() => _TableDemo10State();
+}
+
+class _TableDemo10State extends State<TableDemo10> {
+  late EmployeeDataSource _employeeDataSource;
+
+  @override
+  void initState() {
+    super.initState();
+    _employeeDataSource = EmployeeDataSource(employees: _getEmployeeData());
+  }
+
+  List<Employee> _getEmployeeData() {
+    return [
+      Employee('John Brown', 32, 'Male', '+1 555-0123', 'john.brown@example.com', 'Engineering', 'Senior Developer', 85000),
+      Employee('Jane Smith', 28, 'Female', '+1 555-0124', 'jane.smith@example.com', 'Design', 'UI Designer', 72000),
+      Employee('Bob Johnson', 35, 'Male', '+1 555-0125', 'bob.johnson@example.com', 'Marketing', 'Marketing Manager', 95000),
+      Employee('Alice Wilson', 29, 'Female', '+1 555-0126', 'alice.wilson@example.com', 'HR', 'HR Specialist', 68000),
+      Employee('Charlie Davis', 42, 'Male', '+1 555-0127', 'charlie.davis@example.com', 'Finance', 'Financial Analyst', 78000),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFFF0F0F0)),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: SfDataGrid(
+        source: _employeeDataSource,
+        columnWidthMode: ColumnWidthMode.fill,
+        gridLinesVisibility: GridLinesVisibility.both,
+        headerGridLinesVisibility: GridLinesVisibility.both,
+        stackedHeaderRows: [
+          StackedHeaderRow(cells: [
+            StackedHeaderCell(
+              columnNames: ['name'],
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                alignment: Alignment.centerLeft,
+                child: const Text(
+                  'Name',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+            StackedHeaderCell(
+              columnNames: ['age', 'gender'],
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                alignment: Alignment.center,
+                child: const Text(
+                  'Personal Info',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+            StackedHeaderCell(
+              columnNames: ['phone', 'email'],
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                alignment: Alignment.center,
+                child: const Text(
+                  'Contact',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+            StackedHeaderCell(
+              columnNames: ['department', 'position', 'salary'],
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                alignment: Alignment.center,
+                child: const Text(
+                  'Work Info',
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+          ]),
+        ],
+        columns: [
+          GridColumn(
+            columnName: 'name',
+            label: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Name',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          GridColumn(
+            columnName: 'age',
+            label: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              alignment: Alignment.center,
+              child: const Text(
+                'Age',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          GridColumn(
+            columnName: 'gender',
+            label: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              alignment: Alignment.center,
+              child: const Text(
+                'Gender',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          GridColumn(
+            columnName: 'phone',
+            label: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Phone',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          GridColumn(
+            columnName: 'email',
+            label: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Email',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          GridColumn(
+            columnName: 'department',
+            label: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Department',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          GridColumn(
+            columnName: 'position',
+            label: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Position',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+          GridColumn(
+            columnName: 'salary',
+            label: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              alignment: Alignment.centerRight,
+              child: const Text(
+                'Salary',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Employee {
+  Employee(this.name, this.age, this.gender, this.phone, this.email, this.department, this.position, this.salary);
+
+  final String name;
+  final int age;
+  final String gender;
+  final String phone;
+  final String email;
+  final String department;
+  final String position;
+  final int salary;
+}
+
+class EmployeeDataSource extends DataGridSource {
+  EmployeeDataSource({required List<Employee> employees}) {
+    _employees = employees
+        .map<DataGridRow>((e) => DataGridRow(cells: [
+              DataGridCell<String>(columnName: 'name', value: e.name),
+              DataGridCell<int>(columnName: 'age', value: e.age),
+              DataGridCell<String>(columnName: 'gender', value: e.gender),
+              DataGridCell<String>(columnName: 'phone', value: e.phone),
+              DataGridCell<String>(columnName: 'email', value: e.email),
+              DataGridCell<String>(columnName: 'department', value: e.department),
+              DataGridCell<String>(columnName: 'position', value: e.position),
+              DataGridCell<int>(columnName: 'salary', value: e.salary),
+            ]))
+        .toList();
+  }
+
+  List<DataGridRow> _employees = [];
+
+  @override
+  List<DataGridRow> get rows => _employees;
+
+  @override
+  DataGridRowAdapter buildRow(DataGridRow row) {
+    return DataGridRowAdapter(
+      cells: row.getCells().map<Widget>((cell) {
+        if (cell.columnName == 'salary') {
+          return Container(
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              '\$${cell.value.toString().replaceAllMapped(
+                RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                (Match m) => '${m[1]},',
+              )}',
+              style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.green),
+            ),
+          );
+        }
+        
+        return Container(
+          alignment: cell.columnName == 'age' || cell.columnName == 'gender'
+              ? Alignment.center
+              : Alignment.centerLeft,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(cell.value.toString()),
+        );
+      }).toList(),
+    );
+  }
+}
