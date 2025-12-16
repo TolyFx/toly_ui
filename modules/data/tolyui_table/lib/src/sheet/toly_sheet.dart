@@ -117,8 +117,6 @@ class _TolySheetState<T> extends State<TolySheet<T>> {
   }
 
   Widget _buildGroupedHeader(SheetAppearance appearance, bool hasPickStrategy, bool hasExpandStrategy) {
-    final flatFields = _getFlatFields(widget.fields);
-    
     return Container(
       decoration: BoxDecoration(
         color: appearance.headerColor ?? const Color(0xFFFAFAFA),
@@ -128,90 +126,124 @@ class _TolySheetState<T> extends State<TolySheet<T>> {
           ),
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildGroupHeaderRow(appearance, hasPickStrategy, hasExpandStrategy),
-          _buildSubHeaderRow(appearance, flatFields, hasPickStrategy, hasExpandStrategy),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildGroupHeaderRow(SheetAppearance appearance, bool hasPickStrategy, bool hasExpandStrategy) {
-    return Container(
-      height: appearance.rowHeight,
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: appearance.borderColor ?? const Color(0xFFF0F0F0),
-          ),
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (hasPickStrategy) SizedBox(width: 48),
+            if (hasExpandStrategy) SizedBox(width: 48),
+            ...widget.fields.map((field) => _buildHeaderColumn(field, appearance)),
+          ],
         ),
       ),
-      child: Row(
-        children: [
-          if (hasPickStrategy) SizedBox(width: 48, height: appearance.rowHeight),
-          if (hasExpandStrategy) SizedBox(width: 48, height: appearance.rowHeight),
-          ...widget.fields.map((field) {
-            if (field.hasChildren) {
-              final span = _getFieldSpan(field);
-              return Expanded(
-                flex: span,
-                child: Container(
-                  height: appearance.rowHeight,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      right: BorderSide(
-                        color: appearance.borderColor ?? const Color(0xFFF0F0F0),
-                      ),
-                    ),
-                  ),
-                  child: Text(
-                    field.header.title,
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                  ),
-                ),
-              );
-            } else {
-              return Expanded(
-                child: Container(
-                  height: appearance.rowHeight,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  alignment: Alignment.centerLeft,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      right: BorderSide(
-                        color: appearance.borderColor ?? const Color(0xFFF0F0F0),
-                      ),
-                    ),
-                  ),
-                  child: Text(
-                    field.header.title,
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                  ),
-                ),
-              );
-            }
-          }),
-        ],
-      ),
     );
   }
 
-  Widget _buildSubHeaderRow(SheetAppearance appearance, List<FieldSpec<T>> flatFields, bool hasPickStrategy, bool hasExpandStrategy) {
-    return Container(
-      height: appearance.rowHeight,
-      child: Row(
-        children: [
-          if (hasPickStrategy) _buildPickAllCell(appearance),
-          if (hasExpandStrategy) _buildExpandHeaderCell(appearance),
-          ...flatFields.map((field) => _buildHeaderCell(field, appearance)),
-        ],
-      ),
-    );
+  Widget _buildHeaderColumn(FieldSpec<T> field, SheetAppearance appearance) {
+    if (field.hasChildren) {
+      return Expanded(
+        flex: _getFieldSpan(field),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: appearance.rowHeight,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: appearance.borderColor ?? const Color(0xFFF0F0F0),
+                  ),
+                  right: BorderSide(
+                    color: appearance.borderColor ?? const Color(0xFFF0F0F0),
+                  ),
+                ),
+              ),
+              child: Text(
+                field.header.title,
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+              ),
+            ),
+            Container(
+              height: appearance.rowHeight,
+              decoration: BoxDecoration(
+                border: Border(
+                  right: BorderSide(
+                    color: appearance.borderColor ?? const Color(0xFFF0F0F0),
+                  ),
+                ),
+              ),
+              child: Row(
+                children: field.children!.asMap().entries.map((entry) {
+                  final isLast = entry.key == field.children!.length - 1;
+                  return Expanded(
+                    child: Container(
+                      height: appearance.rowHeight,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      alignment: entry.value.constraint?.alignment ?? Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: isLast ? BorderSide.none : BorderSide(
+                            color: appearance.borderColor ?? const Color(0xFFF0F0F0),
+                          ),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (entry.value.header.icon != null) ...[
+                            entry.value.header.icon!,
+                            const SizedBox(width: 8),
+                          ],
+                          Text(
+                            entry.value.header.title,
+                            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                          ),
+                          if (entry.value.isSortable) _buildSortIcon(entry.value),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Expanded(
+        child: Container(
+          height: appearance.rowHeight * 2,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            border: Border(
+              right: BorderSide(
+                color: appearance.borderColor ?? const Color(0xFFF0F0F0),
+              ),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (field.header.icon != null) ...[
+                field.header.icon!,
+                const SizedBox(width: 8),
+              ],
+              Text(
+                field.header.title,
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+              ),
+              if (field.isSortable) _buildSortIcon(field),
+            ],
+          ),
+        ),
+      );
+    }
   }
+
+
 
   List<FieldSpec<T>> _getFlatFields(List<FieldSpec<T>> fields) {
     final result = <FieldSpec<T>>[];
@@ -348,7 +380,27 @@ class _TolySheetState<T> extends State<TolySheet<T>> {
             children: [
               if (hasPickStrategy) _buildPickCell(index),
               if (hasExpandStrategy) _buildExpandCell(index),
-              ...flatFields.map((field) => _buildDataCell(item, index, field)),
+              ...flatFields.asMap().entries.map((entry) {
+                final isLast = entry.key == flatFields.length - 1;
+                return Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    alignment: entry.value.constraint?.alignment ?? Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        right: isLast ? BorderSide.none : BorderSide(
+                          color: appearance.borderColor ?? const Color(0xFFF0F0F0),
+                        ),
+                      ),
+                    ),
+                    child: entry.value.builder?.call(CellContext<T>(
+                      data: item,
+                      rowIndex: index,
+                      fieldKey: entry.value.key,
+                    )) ?? const SizedBox.shrink(),
+                  ),
+                );
+              }),
             ],
           ),
         );
@@ -382,7 +434,7 @@ class _TolySheetState<T> extends State<TolySheet<T>> {
     );
   }
 
-  Widget _buildDataCell(T item, int index, FieldSpec<T> field) {
+  Widget _buildDataCell(T item, int index, FieldSpec<T> field, SheetAppearance appearance) {
     final context = CellContext<T>(
       data: item,
       rowIndex: index,
@@ -393,6 +445,13 @@ class _TolySheetState<T> extends State<TolySheet<T>> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         alignment: field.constraint?.alignment ?? Alignment.centerLeft,
+        decoration: BoxDecoration(
+          border: Border(
+            right: BorderSide(
+              color: appearance.borderColor ?? const Color(0xFFF0F0F0),
+            ),
+          ),
+        ),
         child: field.builder?.call(context) ?? const SizedBox.shrink(),
       ),
     );

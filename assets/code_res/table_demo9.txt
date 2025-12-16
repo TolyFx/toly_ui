@@ -55,12 +55,14 @@ class _TableDemo9State extends State<TableDemo9> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildToolbar(),
-        const SizedBox(height: 16),
-        Expanded(child: _buildSheet()),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _buildToolbar(),
+          const SizedBox(height: 16),
+          _buildSheet(),
+        ],
+      ),
     );
   }
 

@@ -395,7 +395,7 @@ packages:
     source: hosted
     version: "27.2.5"
   syncfusion_flutter_datagrid:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: syncfusion_flutter_datagrid
       sha256: "1ba098d01468ed9dd400bf69403eedfbbd3626dce675005697a2698834f05fde"

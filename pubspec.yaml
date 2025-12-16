@@ -63,6 +63,8 @@ dependencies:
 
   wrapper:
     path: modules/wrapper
+  
+  syncfusion_flutter_datagrid: ^27.1.58
 #  toly_menu_manager: ^0.0.1
 #  toly_menu_manager:
 #    path: modules/toly_menu_manager
