@@ -1,0 +1,115 @@
+class TableDemo5 extends StatefulWidget {
+  const TableDemo5({super.key});
+
+  @override
+  State<TableDemo5> createState() => _TableDemo5State();
+}
+
+class _TableDemo5State extends State<TableDemo5> {
+  int _currentPage = 1;
+  final int _pageSize = 5;
+
+  // 生成大量测试数据
+  List<PaginationData> get _allData => List.generate(
+        23,
+        (index) => PaginationData(
+          key: '${index + 1}',
+          name: 'User ${index + 1}',
+          age: 20 + (index % 50),
+          address: 'Address ${index + 1}',
+          tags: _generateTags(index),
+        ),
+      );
+
+  List<String> _generateTags(int index) {
+    final allTags = ['developer', 'designer', 'manager', 'tester', 'analyst', 'architect'];
+    final count = (index % 3) + 1;
+    return allTags.take(count).toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TolyTable<PaginationData>(
+      columns: [
+        TableColumn(
+          title: 'Name',
+          dataIndex: (data) => data.name,
+          render: (data, index) => Text(
+            data.name,
+            style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+          ),
+        ),
+        TableColumn(
+          title: 'Age',
+          dataIndex: (data) => data.age,
+        ),
+        TableColumn(
+          title: 'Address',
+          dataIndex: (data) => data.address,
+        ),
+        TableColumn(
+          title: 'Tags',
+          dataIndex: (data) => data.tags,
+          render: (data, index) => Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            children: data.tags.map((tag) {
+              Color color = tag.length > 5 ? Colors.blue : Colors.green;
+              return TolyTag(color: color, child: Text(tag));
+            }).toList(),
+          ),
+        ),
+        TableColumn(
+          title: 'Action',
+          dataIndex: (data) => '',
+          render: (data, index) => Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: () => $message.info(message: 'Invite ${data.name}'),
+                child: const Text(
+                  'Invite',
+                  style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                ),
+              ),
+              const SizedBox(width: 16),
+              GestureDetector(
+                onTap: () => $message.warning(message: 'Delete ${data.name}'),
+                child: const Text(
+                  'Delete',
+                  style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+      dataSource: _allData,
+      pagination: TablePagination(
+        pageSize: _pageSize,
+        current: _currentPage,
+        total: _allData.length,
+        onChange: (page, pageSize) {
+          setState(() => _currentPage = page);
+          debugPrint('Page changed to: $page, pageSize: $pageSize');
+        },
+      ),
+    );
+  }
+}
+
+class PaginationData {
+  final String key;
+  final String name;
+  final int age;
+  final String address;
+  final List<String> tags;
+
+  const PaginationData({
+    required this.key,
+    required this.name,
+    required this.age,
+    required this.address,
+    required this.tags,
+  });
+}
