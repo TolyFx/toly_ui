@@ -39,11 +39,13 @@ class FieldHeader {
   final String title;
   final Widget? icon;
   final String? tooltip;
+  final Alignment? alignment;
 
   const FieldHeader({
     required this.title,
     this.icon,
     this.tooltip,
+    this.alignment,
   });
 }
 
@@ -159,14 +161,30 @@ class SheetAppearance {
   final Color? headerColor;
   final Color? borderColor;
   final bool showBorder;
+  final bool showRowDivider;
+  final bool showHeaderColumnDivider;
+  final bool showBodyColumnDivider;
+  final bool striped;
+  final Color? stripedColor;
   final double rowHeight;
+  final Widget? headerActions;
+  final Widget? footerActions;
+  final EdgeInsets? dividerInset;
 
   const SheetAppearance({
     this.layoutMode = LayoutMode.fluid,
     this.headerColor,
     this.borderColor,
-    this.showBorder = true,
-    this.rowHeight = 48,
+    this.showBorder = false,
+    this.showRowDivider = false,
+    this.showHeaderColumnDivider = true,
+    this.showBodyColumnDivider = false,
+    this.striped = false,
+    this.stripedColor,
+    this.rowHeight = 56,
+    this.headerActions,
+    this.footerActions,
+    this.dividerInset = const EdgeInsets.symmetric(vertical: 10),
   });
 }
 

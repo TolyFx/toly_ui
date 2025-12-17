@@ -1,88 +1,193 @@
 import 'package:flutter/material.dart';
+import 'package:toly_ui/app/logic/actions/navigation.dart';
+import 'package:toly_ui/app/res/toly_icon.dart';
 import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui_table/tolyui_table.dart';
+import 'package:tolyui/tolyui.dart';
 
 @DisplayNode(
-  title: '紧凑型表格',
-  desc: '展示不同尺寸的表格样式。通过 size 属性控制表格的紧凑程度，提供 middle 和 small 两种尺寸选项。中等尺寸适合常规页面展示，小尺寸适用于对话框或空间受限的场景。',
+  title: '列宽配置表格',
+  desc:
+      '展示表格的列宽配置能力。通过 FieldConstraint 可以设置固定宽度、最小宽度和对齐方式。支持固定布局模式，确保列宽按照配置精确显示，适用于需要精确控制列宽的数据展示场景。',
 )
 class TableDemo3 extends StatelessWidget {
   const TableDemo3({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Middle size table', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-        SizedBox(height: 16),
-        _SizeTable(size: TableSize.middle),
-        SizedBox(height: 32),
-        Text('Small size table', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-        SizedBox(height: 16),
-        _SizeTable(size: TableSize.small),
+    List<Map<String, dynamic>> sourceData = const [
+      {
+        'key': '1',
+        'name': 'toly_tree',
+        'type': '数据展示',
+        'status': 1,
+        'tags': ['树', '常用'],
+        'desc': '完善的树形视图模块',
+      },
+      {
+        'key': '2',
+        'name': 'tolyui_feedback',
+        'type': '交互反馈',
+        'status': 1,
+        'tags': ['交互', '提示'],
+        'desc': '用户交互反馈核模块',
+      },
+      {
+        'key': '3',
+        'name': 'tolyui_table',
+        'type': '数据展示',
+        'status': 0,
+        'tags': ['表格', '复杂'],
+        'desc': '强大的数据表格模块',
+      },
+      {
+        'key': '4',
+        'name': 'tolyui_navigation',
+        'type': '导航模块',
+        'status': 1,
+        'tags': ['导航', '菜单'],
+        'desc': '强大的锚点导航模块',
+      },
+    ];
+
+    return TolyTable<_ColumnWidthData>.source(
+      data: sourceData,
+      converter: _ColumnWidthData.fromMap,
+      fields: [
+        FieldSpec<_ColumnWidthData>(
+          key: 'name',
+          header: const FieldHeader(title: '模块名', alignment: Alignment.center),
+          constraint: const FieldConstraint(
+            width: 200,
+            alignment: Alignment.center,
+          ),
+          builder: (ctx) =>
+              _NameCell(name: ctx.data.name, status: ctx.data.status),
+        ),
+        FieldSpec<_ColumnWidthData>(
+          key: 'type',
+          header: const FieldHeader(title: '类型', alignment: Alignment.center),
+          constraint: const FieldConstraint(
+            width: 100,
+            alignment: Alignment.centerLeft,
+          ),
+          builder: (ctx) => Text(ctx.data.type),
+        ),
+        FieldSpec<_ColumnWidthData>(
+          key: 'desc',
+          header: const FieldHeader(title: '描述', alignment: Alignment.center),
+          builder: (ctx) => Text(
+            ctx.data.desc,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        FieldSpec<_ColumnWidthData>(
+          key: 'tags',
+          header: const FieldHeader(title: '标签', alignment: Alignment.center),
+          builder: (ctx) => Wrap(
+            spacing: 8,
+            runSpacing: 4,
+            children: ctx.data.tags.map((tag) {
+              return TolyTag(
+                color: Colors.blue,
+                variant: TagVariant.outlined,
+                child: Text(tag),
+              );
+            }).toList(),
+          ),
+        ),
+        FieldSpec<_ColumnWidthData>(
+          key: 'action',
+          header: const FieldHeader(title: '操作', alignment: Alignment.center),
+          constraint: const FieldConstraint(
+            width: 120,
+            alignment: Alignment.centerLeft,
+          ),
+          builder: (ctx) => Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: () => $message.info(message: '查看 ${ctx.data.name}'),
+                child: Icon(
+                  TolyIcon.iconGithub,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 16),
+              GestureDetector(
+                onTap: () => $message.success(message: '复制 ${ctx.data.name}'),
+                child: const Text(
+                  '复制',
+                  style: TextStyle(color: Colors.blue),
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
+      appearance: const SheetAppearance(
+        showBorder: true,
+        layoutMode: LayoutMode.fixed,
+      ),
     );
   }
 }
 
-class _SizeTable extends StatelessWidget {
-  final TableSize size;
+class _NameCell extends StatelessWidget {
+  final String name;
+  final int status;
 
-  const _SizeTable({required this.size});
+  const _NameCell({super.key, required this.name, required this.status});
 
   @override
   Widget build(BuildContext context) {
-    return TolyTable<SimpleData>(
-      size: size,
-      columns: [
-        TableColumn(
-          title: 'Name',
-          dataIndex: (data) => data.name,
+    BoxDecoration decoration = BoxDecoration(
+      shape: BoxShape.circle,
+      color: status == 1 ? Colors.green : Colors.orange,
+    );
+    const TextStyle linkStyle = TextStyle(color: Colors.blue);
+    String href = 'https://pub.dev/packages/$name';
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        TolyTooltip(
+          placement: Placement.top,
+          message: status == 1 ? '已发布' : '开发中',
+          child: Container(width: 8, height: 8, decoration: decoration),
         ),
-        TableColumn(
-          title: 'Age',
-          dataIndex: (data) => data.age,
-        ),
-        TableColumn(
-          title: 'Address',
-          dataIndex: (data) => data.address,
-        ),
-      ],
-      dataSource: const [
-        SimpleData(
-          key: '1',
-          name: 'John Brown',
-          age: 32,
-          address: 'New York No. 1 Lake Park',
-        ),
-        SimpleData(
-          key: '2',
-          name: 'Jim Green',
-          age: 42,
-          address: 'London No. 1 Lake Park',
-        ),
-        SimpleData(
-          key: '3',
-          name: 'Joe Black',
-          age: 32,
-          address: 'Sydney No. 1 Lake Park',
-        ),
+        const SizedBox(width: 8),
+        TolyLink(text: name, href: href, style: linkStyle, onTap: jumpUrl),
       ],
     );
   }
 }
 
-class SimpleData {
+class _ColumnWidthData {
   final String key;
   final String name;
-  final int age;
-  final String address;
+  final String type;
+  final int status;
+  final List<String> tags;
+  final String desc;
 
-  const SimpleData({
+  const _ColumnWidthData({
     required this.key,
     required this.name,
-    required this.age,
-    required this.address,
+    required this.type,
+    required this.status,
+    required this.tags,
+    required this.desc,
   });
+
+  factory _ColumnWidthData.fromMap(Map<String, dynamic> map) {
+    return _ColumnWidthData(
+      key: map['key'] as String,
+      name: map['name'] as String,
+      type: map['type'] as String,
+      status: map['status'] as int,
+      tags: (map['tags'] as List).cast<String>(),
+      desc: map['desc'] as String,
+    );
+  }
 }

@@ -4,7 +4,7 @@ import 'package:tolyui_table/tolyui_table.dart';
 
 @DisplayNode(
   title: '可选择表格',
-  desc: '展示支持行选择功能的表格。支持复选框和单选框两种选择模式，可以通过切换按钮改变选择类型。选中的行会高亮显示，支持全选和单选操作，并提供选择状态的回调处理。',
+  desc: '展示支持行选择功能的表格。通过 PickStrategy 配置单选或多选模式，选中的行会高亮显示。支持全选操作和选择状态回调，可以实时获取选中的行索引，适用于需要批量操作的数据管理场景。',
 )
 class TableDemo4 extends StatefulWidget {
   const TableDemo4({super.key});
@@ -14,107 +14,126 @@ class TableDemo4 extends StatefulWidget {
 }
 
 class _TableDemo4State extends State<TableDemo4> {
-  RowSelectionType _selectionType = RowSelectionType.checkbox;
-  List<int> _selectedKeys = [];
+  PickMode _pickMode = PickMode.multiple;
+  Set<int> _selectedIndices = {};
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> sourceData = const [
+      {
+        'key': '1',
+        'name': 'John Brown',
+        'age': 32,
+        'address': 'New York No. 1 Lake Park',
+      },
+      {
+        'key': '2',
+        'name': 'Jim Green',
+        'age': 42,
+        'address': 'London No. 1 Lake Park',
+      },
+      {
+        'key': '3',
+        'name': 'Joe Black',
+        'age': 32,
+        'address': 'Sydney No. 1 Lake Park',
+      },
+      {
+        'key': '4',
+        'name': 'Disabled User',
+        'age': 99,
+        'address': 'Sydney No. 1 Lake Park',
+      },
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            Radio<RowSelectionType>(
-              value: RowSelectionType.checkbox,
-              groupValue: _selectionType,
-              onChanged: (value) => setState(() => _selectionType = value!),
+            Radio<PickMode>(
+              value: PickMode.multiple,
+              groupValue: _pickMode,
+              onChanged: (value) => setState(() {
+                _pickMode = value!;
+                _selectedIndices.clear();
+              }),
             ),
-            const Text('Checkbox'),
+            const Text('多选'),
             const SizedBox(width: 16),
-            Radio<RowSelectionType>(
-              value: RowSelectionType.radio,
-              groupValue: _selectionType,
-              onChanged: (value) => setState(() => _selectionType = value!),
+            Radio<PickMode>(
+              value: PickMode.single,
+              groupValue: _pickMode,
+              onChanged: (value) => setState(() {
+                _pickMode = value!;
+                _selectedIndices.clear();
+              }),
             ),
-            const Text('Radio'),
+            const Text('单选'),
           ],
         ),
         const SizedBox(height: 16),
-        TolyTable<SelectableData>(
-          rowSelection: TableRowSelection<SelectableData>(
-            type: _selectionType,
-            onChange: (selectedRowKeys, selectedRows) {
-              setState(() => _selectedKeys = selectedRowKeys);
-              debugPrint('selectedRowKeys: $selectedRowKeys');
-              debugPrint('selectedRows: ${selectedRows.map((e) => e.name).toList()}');
-            },
-            getCheckboxProps: (record) => CheckboxProps(
-              disabled: record.name == 'Disabled User',
-              name: record.name,
-            ),
-          ),
-          columns: [
-            TableColumn(
-              title: 'Name',
-              dataIndex: (data) => data.name,
-              render: (data, index) => Text(
-                data.name,
-                style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+        TolyTable<_SelectableData>.source(
+          data: sourceData,
+          converter: _SelectableData.fromMap,
+          fields: [
+            FieldSpec<_SelectableData>(
+              key: 'name',
+              header: const FieldHeader(title: 'Name'),
+              builder: (ctx) => Text(
+                ctx.data.name,
+                style: const TextStyle(color: Colors.blue),
               ),
             ),
-            TableColumn(
-              title: 'Age',
-              dataIndex: (data) => data.age,
+            FieldSpec<_SelectableData>(
+              key: 'age',
+              header: const FieldHeader(title: 'Age'),
+              builder: (ctx) => Text('${ctx.data.age}'),
             ),
-            TableColumn(
-              title: 'Address',
-              dataIndex: (data) => data.address,
-            ),
-          ],
-          dataSource: const [
-            SelectableData(
-              key: '1',
-              name: 'John Brown',
-              age: 32,
-              address: 'New York No. 1 Lake Park',
-            ),
-            SelectableData(
-              key: '2',
-              name: 'Jim Green',
-              age: 42,
-              address: 'London No. 1 Lake Park',
-            ),
-            SelectableData(
-              key: '3',
-              name: 'Joe Black',
-              age: 32,
-              address: 'Sydney No. 1 Lake Park',
-            ),
-            SelectableData(
-              key: '4',
-              name: 'Disabled User',
-              age: 99,
-              address: 'Sydney No. 1 Lake Park',
+            FieldSpec<_SelectableData>(
+              key: 'address',
+              header: const FieldHeader(title: 'Address'),
+              builder: (ctx) => Text(ctx.data.address),
             ),
           ],
+          behavior: SheetBehavior(
+            pickStrategy: PickStrategy(
+              mode: _pickMode,
+              onChanged: (indices) {
+                setState(() => _selectedIndices = indices);
+              },
+            ),
+          ),
+          appearance: const SheetAppearance(
+            showBorder: true,
+          ),
         ),
         const SizedBox(height: 16),
-        Text('已选择: ${_selectedKeys.length} 项'),
+        Text('已选择: ${_selectedIndices.length} 项'),
       ],
     );
   }
 }
 
-class SelectableData {
+class _SelectableData {
   final String key;
   final String name;
   final int age;
   final String address;
 
-  const SelectableData({
+  const _SelectableData({
     required this.key,
     required this.name,
     required this.age,
     required this.address,
   });
+
+  factory _SelectableData.fromMap(Map<String, dynamic> map) {
+    return _SelectableData(
+      key: map['key'] as String,
+      name: map['name'] as String,
+      age: map['age'] as int,
+      address: map['address'] as String,
+    );
+  }
 }

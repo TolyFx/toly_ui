@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-class TolyTable<T> extends StatefulWidget {
+class TolyTableV1<T> extends StatefulWidget {
   final List<TableColumn<T>> columns;
   final List<T> dataSource;
   final bool bordered;
@@ -16,7 +16,7 @@ class TolyTable<T> extends StatefulWidget {
   final double? height;
   final bool sticky;
 
-  const TolyTable({
+  const TolyTableV1({
     super.key,
     required this.columns,
     required this.dataSource,
@@ -34,10 +34,10 @@ class TolyTable<T> extends StatefulWidget {
   });
 
   @override
-  State<TolyTable<T>> createState() => _TolyTableState<T>();
+  State<TolyTableV1<T>> createState() => _TolyTableV1State<T>();
 }
 
-class _TolyTableState<T> extends State<TolyTable<T>> {
+class _TolyTableV1State<T> extends State<TolyTableV1<T>> {
   late ScrollController _scrollController;
   Set<int> _selectedRowKeys = {};
   int _currentPage = 1;
@@ -86,11 +86,11 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
 
   Widget _buildTableContainer() {
     Widget table = _buildTable();
-    
+
     if (widget.height != null) {
       table = SizedBox(height: widget.height, child: table);
     }
-    
+
     return Container(
       decoration: widget.bordered
           ? BoxDecoration(
@@ -105,10 +105,10 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
   Widget _buildTable() {
     final effectiveColumns = _getEffectiveColumns();
     final flatColumns = _getFlatColumns(effectiveColumns);
-    
+
     // 检查是否有多级表头
     final hasGroupedHeaders = effectiveColumns.any((col) => col.isGroup);
-    
+
     return SingleChildScrollView(
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
@@ -116,7 +116,7 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
         constraints: BoxConstraints(
           minWidth: MediaQuery.of(context).size.width,
         ),
-        child: hasGroupedHeaders 
+        child: hasGroupedHeaders
             ? _buildGroupedHeaderTable(effectiveColumns, flatColumns)
             : _buildSimpleTable(flatColumns),
       ),
@@ -130,35 +130,40 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: [
         if (widget.showHeader) _buildSimpleHeaderRow(flatColumns),
-        ..._paginatedData.asMap().entries.map((e) => 
-          _buildDataRow(e.value, e.key, flatColumns)
-        ),
+        ..._paginatedData
+            .asMap()
+            .entries
+            .map((e) => _buildDataRow(e.value, e.key, flatColumns)),
       ],
     );
   }
 
-  Widget _buildGroupedHeaderTable(List<TableColumn<T>> effectiveColumns, List<TableColumn<T>> flatColumns) {
+  Widget _buildGroupedHeaderTable(
+      List<TableColumn<T>> effectiveColumns, List<TableColumn<T>> flatColumns) {
     return Table(
       border: _buildTableBorder(),
       columnWidths: _buildColumnWidths(flatColumns),
       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
       children: [
-        if (widget.showHeader) ..._buildGroupedHeaderRows(effectiveColumns, flatColumns),
-        ..._paginatedData.asMap().entries.map((e) => 
-          _buildDataRow(e.value, e.key, flatColumns)
-        ),
+        if (widget.showHeader)
+          ..._buildGroupedHeaderRows(effectiveColumns, flatColumns),
+        ..._paginatedData
+            .asMap()
+            .entries
+            .map((e) => _buildDataRow(e.value, e.key, flatColumns)),
       ],
     );
   }
 
-  List<TableRow> _buildGroupedHeaderRows(List<TableColumn<T>> effectiveColumns, List<TableColumn<T>> flatColumns) {
+  List<TableRow> _buildGroupedHeaderRows(
+      List<TableColumn<T>> effectiveColumns, List<TableColumn<T>> flatColumns) {
     final rows = <TableRow>[];
     final padding = _getPadding();
-    
+
     // 第一行：分组标题
     final groupCells = <Widget>[];
     int colIndex = 0;
-    
+
     for (final column in effectiveColumns) {
       if (column.isGroup) {
         final colSpan = _getColumnSpan(column);
@@ -191,15 +196,15 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
         colIndex++;
       }
     }
-    
+
     rows.add(TableRow(
       decoration: const BoxDecoration(color: Color(0xFFFAFAFA)),
       children: groupCells,
     ));
-    
+
     // 第二行：子列标题
     final subCells = <Widget>[];
-    
+
     for (int i = 0; i < flatColumns.length; i++) {
       final column = flatColumns[i];
       Widget cell = Container(
@@ -210,13 +215,14 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
           style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
         ),
       );
-      
+
       // 添加全选功能
-      if (i == 0 && widget.rowSelection != null && 
+      if (i == 0 &&
+          widget.rowSelection != null &&
           widget.rowSelection?.type != RowSelectionType.radio &&
           column.title.isEmpty) {
         final allSelected = _selectedRowKeys.length == widget.dataSource.length;
-        
+
         cell = Container(
           padding: padding,
           alignment: Alignment.center,
@@ -227,15 +233,15 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
           ),
         );
       }
-      
+
       subCells.add(cell);
     }
-    
+
     rows.add(TableRow(
       decoration: const BoxDecoration(color: Color(0xFFFAFAFA)),
       children: subCells,
     ));
-    
+
     return rows;
   }
 
@@ -246,7 +252,7 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
       children: columns.asMap().entries.map((entry) {
         final index = entry.key;
         final col = entry.value;
-        
+
         Widget headerCell = Padding(
           padding: padding,
           child: Align(
@@ -257,13 +263,15 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
             ),
           ),
         );
-        
+
         // 添加全选功能
-        if (index == 0 && widget.rowSelection != null && 
+        if (index == 0 &&
+            widget.rowSelection != null &&
             widget.rowSelection?.type != RowSelectionType.radio &&
             col.title.isEmpty) {
-          final allSelected = _selectedRowKeys.length == widget.dataSource.length;
-          
+          final allSelected =
+              _selectedRowKeys.length == widget.dataSource.length;
+
           headerCell = Padding(
             padding: padding,
             child: Checkbox(
@@ -273,7 +281,7 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
             ),
           );
         }
-        
+
         return headerCell;
       }).toList(),
     );
@@ -281,7 +289,7 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
 
   List<TableColumn<T>> _getEffectiveColumns() {
     final columns = <TableColumn<T>>[];
-    
+
     // 添加选择列
     if (widget.rowSelection != null) {
       columns.add(TableColumn<T>(
@@ -292,14 +300,14 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
         render: (data, index) => _buildSelectionCell(data, index),
       ));
     }
-    
+
     columns.addAll(widget.columns);
     return columns;
   }
 
   List<TableColumn<T>> _getFlatColumns(List<TableColumn<T>> columns) {
     final flatColumns = <TableColumn<T>>[];
-    
+
     for (final column in columns) {
       if (column.isGroup) {
         flatColumns.addAll(_getFlatColumns(column.children!));
@@ -307,38 +315,40 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
         flatColumns.add(column);
       }
     }
-    
+
     return flatColumns;
   }
 
-
-
   int _getColumnSpan(TableColumn<T> column) {
     if (!column.isGroup) return 1;
-    
+
     int span = 0;
     for (final child in column.children!) {
       span += _getColumnSpan(child);
     }
-    
+
     return span;
   }
 
   Widget _buildSelectionCell(T data, int index) {
     final isSelected = _selectedRowKeys.contains(index);
-    final isDisabled = widget.rowSelection?.getCheckboxProps?.call(data)?.disabled ?? false;
-    
+    final isDisabled =
+        widget.rowSelection?.getCheckboxProps?.call(data)?.disabled ?? false;
+
     if (widget.rowSelection?.type == RowSelectionType.radio) {
       return Radio<int>(
         value: index,
         groupValue: _selectedRowKeys.isEmpty ? null : _selectedRowKeys.first,
-        onChanged: isDisabled ? null : (value) => _handleRowSelect(data, index, true),
+        onChanged:
+            isDisabled ? null : (value) => _handleRowSelect(data, index, true),
       );
     }
-    
+
     return Checkbox(
       value: isSelected,
-      onChanged: isDisabled ? null : (value) => _handleRowSelect(data, index, value ?? false),
+      onChanged: isDisabled
+          ? null
+          : (value) => _handleRowSelect(data, index, value ?? false),
     );
   }
 
@@ -354,9 +364,11 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
         }
       }
     });
-    
-    final selectedRows = _selectedRowKeys.map((i) => widget.dataSource[i]).toList();
-    widget.rowSelection?.onChange?.call(_selectedRowKeys.toList(), selectedRows);
+
+    final selectedRows =
+        _selectedRowKeys.map((i) => widget.dataSource[i]).toList();
+    widget.rowSelection?.onChange
+        ?.call(_selectedRowKeys.toList(), selectedRows);
     widget.rowSelection?.onSelect?.call(data, selected, selectedRows);
   }
 
@@ -373,10 +385,13 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: widget.bordered ? null : const Border(bottom: BorderSide(color: Color(0xFFF0F0F0))),
+        border: widget.bordered
+            ? null
+            : const Border(bottom: BorderSide(color: Color(0xFFF0F0F0))),
       ),
       child: DefaultTextStyle(
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
+        style: const TextStyle(
+            fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black87),
         child: widget.title!,
       ),
     );
@@ -398,7 +413,7 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
 
   Widget _buildPagination() {
     final totalPages = (widget.dataSource.length / _pageSize).ceil();
-    
+
     return Container(
       padding: const EdgeInsets.all(16),
       child: Row(
@@ -407,12 +422,15 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
           Text('共 ${widget.dataSource.length} 条'),
           const SizedBox(width: 16),
           IconButton(
-            onPressed: _currentPage > 1 ? () => _changePage(_currentPage - 1) : null,
+            onPressed:
+                _currentPage > 1 ? () => _changePage(_currentPage - 1) : null,
             icon: const Icon(Icons.chevron_left),
           ),
           Text('$_currentPage / $totalPages'),
           IconButton(
-            onPressed: _currentPage < totalPages ? () => _changePage(_currentPage + 1) : null,
+            onPressed: _currentPage < totalPages
+                ? () => _changePage(_currentPage + 1)
+                : null,
             icon: const Icon(Icons.chevron_right),
           ),
         ],
@@ -438,31 +456,32 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
     return widths;
   }
 
-
-
   void _handleSelectAll(bool selected) {
     setState(() {
       if (selected) {
-        _selectedRowKeys = Set.from(List.generate(widget.dataSource.length, (i) => i));
+        _selectedRowKeys =
+            Set.from(List.generate(widget.dataSource.length, (i) => i));
       } else {
         _selectedRowKeys.clear();
       }
     });
-    
-    final selectedRows = _selectedRowKeys.map((i) => widget.dataSource[i]).toList();
-    widget.rowSelection?.onChange?.call(_selectedRowKeys.toList(), selectedRows);
+
+    final selectedRows =
+        _selectedRowKeys.map((i) => widget.dataSource[i]).toList();
+    widget.rowSelection?.onChange
+        ?.call(_selectedRowKeys.toList(), selectedRows);
   }
 
   TableRow _buildDataRow(T data, int index, List<TableColumn<T>> columns) {
     final padding = _getPadding();
     final isSelected = _selectedRowKeys.contains(index);
     final isHovered = _hoveredRowIndex == index;
-    
+
     return TableRow(
       decoration: BoxDecoration(
-        color: isSelected 
+        color: isSelected
             ? const Color(0xFFE6F7FF)
-            : isHovered 
+            : isHovered
                 ? const Color(0xFFFAFAFA)
                 : null,
       ),
@@ -495,8 +514,10 @@ class _TolyTableState<T> extends State<TolyTable<T>> {
   EdgeInsets _getPadding() {
     return switch (widget.size) {
       TableSize.small => const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      TableSize.middle => const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      TableSize.large => const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      TableSize.middle =>
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      TableSize.large =>
+        const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
     };
   }
 
@@ -549,7 +570,8 @@ class TableColumn<T> {
 class TableRowSelection<T> {
   final RowSelectionType type;
   final List<int>? selectedRowKeys;
-  final void Function(List<int> selectedRowKeys, List<T> selectedRows)? onChange;
+  final void Function(List<int> selectedRowKeys, List<T> selectedRows)?
+      onChange;
   final void Function(T record, bool selected, List<T> selectedRows)? onSelect;
   final CheckboxProps Function(T record)? getCheckboxProps;
 
@@ -591,6 +613,7 @@ class TablePagination {
 }
 
 enum TableSize { small, middle, large }
+
 enum RowSelectionType { checkbox, radio }
 
 class _HeaderCell<T> {

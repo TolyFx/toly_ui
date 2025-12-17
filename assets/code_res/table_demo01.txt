@@ -3,104 +3,163 @@ class TableDemo1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TolyTable<_UserData>(
-      columns: [
-        TableColumn(
-          title: 'Name',
-          dataIndex: (data) => data.name,
-          render: (data, index) => Text(
-            data.name,
-            style: const TextStyle(
-                color: Colors.blue, decoration: TextDecoration.underline),
+    List<Map<String, dynamic>> sourceData = const [
+      {
+        'key': '1',
+        'name': 'toly_tree',
+        'type': '数据展示',
+        'status': 1,
+        'tags': ['树', '常用'],
+        'desc': '完善的树形视图模块',
+      },
+      {
+        'key': '2',
+        'name': 'tolyui_feedback',
+        'type': '交互反馈',
+        'status': 1,
+        'tags': ['交互', '提示'],
+        'desc': '用户交互反馈核模块',
+      },
+      {
+        'key': '3',
+        'name': 'tolyui_table',
+        'type': '数据展示',
+        'status': 0,
+        'tags': ['表格', '复杂'],
+        'desc': '强大的数据表格模块',
+      },
+      {
+        'key': '4',
+        'name': 'tolyui_navigation',
+        'type': '导航模块',
+        'status': 1,
+        'tags': ['导航', '菜单'],
+        'desc': '强大的锚点导航模块',
+      },
+    ];
+
+    return TolyTable<_Component>.source(
+      data: sourceData,
+      converter: _Component.fromMap,
+      fields: _buildFields(),
+    );
+  }
+
+  List<FieldSpec<_Component>> _buildFields() => [
+        FieldSpec(
+          key: 'name',
+          header: const FieldHeader(title: '模块名'),
+          builder: (ctx) =>
+              _NameCell(name: ctx.data.name, status: ctx.data.status),
+        ),
+        FieldSpec(
+          key: 'type',
+          header: const FieldHeader(title: '类型'),
+          builder: (ctx) => Text(ctx.data.type),
+        ),
+        FieldSpec(
+          key: 'desc',
+          header: const FieldHeader(title: '描述'),
+          builder: (ctx) => Text(
+            ctx.data.desc,
           ),
         ),
-        TableColumn(
-          title: 'Age',
-          dataIndex: (data) => data.age,
-        ),
-        TableColumn(
-          title: 'Address',
-          dataIndex: (data) => data.address,
-        ),
-        TableColumn(
-          title: 'Tags',
-          dataIndex: (data) => data.tags,
-          render: (data, index) => Wrap(
+        FieldSpec(
+          key: 'tags',
+          header: const FieldHeader(title: '标签'),
+          builder: (ctx) => Wrap(
             spacing: 8,
             runSpacing: 4,
-            children: data.tags.map((tag) {
-              Color color = tag.length > 5 ? Colors.blue : Colors.green;
-              if (tag == 'loser') color = Colors.red;
-              return TolyTag(color: color, child: Text(tag.toUpperCase()));
+            children: ctx.data.tags.map((tag) {
+              return TolyTag(
+                color: Colors.blue,
+                variant: TagVariant.outlined,
+                child: Text(tag),
+              );
             }).toList(),
           ),
         ),
-        TableColumn(
-          title: 'Action',
-          dataIndex: (data) => '',
-          render: (data, index) => Row(
+        FieldSpec(
+          key: 'action',
+          header: const FieldHeader(title: '操作'),
+          builder: (ctx) => Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               GestureDetector(
-                onTap: () => $message.info(message: 'Invite ${data.name}'),
-                child: const Text(
-                  'Invite',
-                  style: TextStyle(
-                      color: Colors.blue, decoration: TextDecoration.underline),
+                onTap: () => $message.info(message: '查看 ${ctx.data.name}'),
+                child: Icon(
+                  TolyIcon.iconGithub,
+                  size: 20,
                 ),
               ),
               const SizedBox(width: 16),
               GestureDetector(
-                onTap: () => $message.warning(message: 'Delete ${data.name}'),
+                onTap: () => $message.success(message: '复制 ${ctx.data.name}'),
                 child: const Text(
-                  'Delete',
-                  style: TextStyle(
-                      color: Colors.blue, decoration: TextDecoration.underline),
+                  '复制',
+                  style: TextStyle(color: Colors.blue),
                 ),
               ),
             ],
           ),
         ),
-      ],
-      dataSource: const [
-        _UserData(
-          key: '1',
-          name: 'John Brown',
-          age: 32,
-          address: 'New York No. 1 Lake Park',
-          tags: ['nice', 'developer'],
+      ];
+}
+
+class _NameCell extends StatelessWidget {
+  final String name;
+  final int status;
+
+  const _NameCell({super.key, required this.name, required this.status});
+
+  @override
+  Widget build(BuildContext context) {
+    BoxDecoration decoration = BoxDecoration(
+      shape: BoxShape.circle,
+      color: status == 1 ? Colors.green : Colors.orange,
+    );
+    const TextStyle linkStyle = TextStyle(color: Colors.blue);
+    String href = 'https://pub.dev/packages/$name';
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        TolyTooltip(
+          placement: Placement.top,
+          message: status == 1 ? '已发布' : '开发中',
+          child: Container(width: 8, height: 8, decoration: decoration),
         ),
-        _UserData(
-          key: '2',
-          name: 'Jim Green',
-          age: 42,
-          address: 'London No. 1 Lake Park',
-          tags: ['loser'],
-        ),
-        _UserData(
-          key: '3',
-          name: 'Joe Black',
-          age: 32,
-          address: 'Sydney No. 1 Lake Park',
-          tags: ['cool', 'teacher'],
-        ),
+        const SizedBox(width: 8),
+        TolyLink(text: name, href: href, style: linkStyle, onTap: jumpUrl),
       ],
     );
   }
 }
 
-class _UserData {
+class _Component {
   final String key;
   final String name;
-  final int age;
-  final String address;
+  final String type;
+  final int status;
   final List<String> tags;
+  final String desc;
 
-  const _UserData({
+  const _Component({
     required this.key,
     required this.name,
-    required this.age,
-    required this.address,
+    required this.type,
+    required this.status,
     required this.tags,
+    required this.desc,
   });
+
+  factory _Component.fromMap(Map<String, dynamic> map) {
+    return _Component(
+      key: map['key'] as String,
+      name: map['name'] as String,
+      type: map['type'] as String,
+      status: map['status'] as int,
+      tags: (map['tags'] as List).cast<String>(),
+      desc: map['desc'] as String,
+    );
+  }
 }

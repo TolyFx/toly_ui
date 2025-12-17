@@ -114,7 +114,7 @@ class _TableDemo7State extends State<TableDemo7> {
         const SizedBox(height: 16),
 
         // 表格
-        TolyTable<ComprehensiveData>(
+        TolyTableV1<ComprehensiveData>(
           height: 400,
           bordered: true,
           size: TableSize.middle,

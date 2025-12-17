@@ -94,6 +94,7 @@ Widget widgetDisplayMap(String key){
     "TableDemo8" => const TableDemo8(),
     "TableDemo9" => const TableDemo9(),
     "TableDemo10" => const TableDemo10(),
+    "TableDemo12" => const TableDemo12(),
     "TagDemo1" => const TagDemo1(),
     "TagDemo2" => const TagDemo2(),
     "TagDemo3" => const TagDemo3(),

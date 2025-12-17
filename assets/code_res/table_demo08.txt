@@ -4,7 +4,7 @@ class TableDemo8 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox();
-    return TolyTable<GroupedData>(
+    return TolyTableV1<GroupedData>(
       bordered: true,
       columns: [
         TableColumn(

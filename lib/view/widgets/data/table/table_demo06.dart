@@ -55,7 +55,7 @@ class _TableDemo6State extends State<TableDemo6> {
           style: TextStyle(fontSize: 14, color: Colors.grey),
         ),
         const SizedBox(height: 16),
-        TolyTable<ScrollableData>(
+        TolyTableV1<ScrollableData>(
           height: 300,
           bordered: true,
           columns: [

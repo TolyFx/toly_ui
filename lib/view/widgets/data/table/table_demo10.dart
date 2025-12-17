@@ -4,7 +4,8 @@ import 'package:tolyui_table/tolyui_table.dart';
 
 @DisplayNode(
   title: 'TolySheet 合并表头',
-  desc: '展示 TolySheet 的合并表头功能。通过嵌套的 FieldSpec 定义多级表头结构，支持任意层级的表头合并。适用于复杂数据结构的展示场景，如个人信息、联系方式、工作信息等分组展示。',
+  desc:
+      '展示 TolySheet 的合并表头功能。通过嵌套的 FieldSpec 定义多级表头结构，支持任意层级的表头合并。适用于复杂数据结构的展示场景，如个人信息、联系方式、工作信息等分组展示。',
 )
 class TableDemo10 extends StatefulWidget {
   const TableDemo10({super.key});
@@ -14,6 +15,8 @@ class TableDemo10 extends StatefulWidget {
 }
 
 class _TableDemo10State extends State<TableDemo10> {
+  bool _autoWidth = true;
+
   final List<EmployeeData> _employees = [
     EmployeeData(
       name: '张三',
@@ -60,98 +63,140 @@ class _TableDemo10State extends State<TableDemo10> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: TolySheet<EmployeeData>(
-        provider: LocalSheetProvider(data: _employees),
-        fields: [
-          FieldSpec<EmployeeData>(
-            key: 'name',
-            header: const FieldHeader(title: '姓名'),
-            builder: (ctx) => Text(
-              ctx.data.name,
-              style: const TextStyle(fontWeight: FontWeight.w500),
+      child: Column(
+        children: [
+          _buildToolbar(),
+          const SizedBox(height: 16),
+          TolyTable<EmployeeData>(
+            provider: LocalSheetProvider(data: _employees),
+            fields: [
+              FieldSpec<EmployeeData>(
+                key: 'name',
+                header: const FieldHeader(title: '姓名'),
+                builder: (ctx) => Text(
+                  ctx.data.name,
+                  style: const TextStyle(fontWeight: FontWeight.w500),
+                ),
+              ),
+              FieldSpec<EmployeeData>(
+                key: 'personal',
+                header: const FieldHeader(title: '个人信息'),
+                children: [
+                  FieldSpec<EmployeeData>(
+                    key: 'age',
+                    header: const FieldHeader(title: '年龄'),
+                    builder: (ctx) => Text('${ctx.data.age}'),
+                  ),
+                  FieldSpec<EmployeeData>(
+                    key: 'gender',
+                    header: const FieldHeader(title: '性别'),
+                    builder: (ctx) => Text(ctx.data.gender),
+                  ),
+                ],
+              ),
+              FieldSpec<EmployeeData>(
+                key: 'contact',
+                header: const FieldHeader(title: '联系方式'),
+                children: [
+                  FieldSpec<EmployeeData>(
+                    key: 'phone',
+                    header: const FieldHeader(title: '电话'),
+                    builder: (ctx) => Text(ctx.data.phone),
+                  ),
+                  FieldSpec<EmployeeData>(
+                    key: 'email',
+                    header: const FieldHeader(title: '邮箱'),
+                    builder: (ctx) => Text(
+                      ctx.data.email,
+                      style: TextStyle(color: Colors.blue[700]),
+                    ),
+                  ),
+                ],
+              ),
+              FieldSpec<EmployeeData>(
+                key: 'work',
+                header: const FieldHeader(title: '工作信息'),
+                children: [
+                  FieldSpec<EmployeeData>(
+                    key: 'department',
+                    header: const FieldHeader(title: '部门'),
+                    builder: (ctx) => Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: _getDepartmentColor(ctx.data.department),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        ctx.data.department,
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  FieldSpec<EmployeeData>(
+                    key: 'position',
+                    header: const FieldHeader(title: '职位'),
+                    builder: (ctx) => Text(ctx.data.position),
+                  ),
+                  FieldSpec<EmployeeData>(
+                    key: 'salary',
+                    header: const FieldHeader(title: '薪资'),
+                    builder: (ctx) => Text(
+                      '¥${ctx.data.salary.toString().replaceAllMapped(
+                            RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                            (m) => '${m[1]},',
+                          )}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.green,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+            appearance: SheetAppearance(
+              layoutMode: _autoWidth ? LayoutMode.fluid : LayoutMode.fixed,
+              showBorder: true,
+              rowHeight: 56,
             ),
           ),
-          FieldSpec<EmployeeData>(
-            key: 'personal',
-            header: const FieldHeader(title: '个人信息'),
-            children: [
-              FieldSpec<EmployeeData>(
-                key: 'age',
-                header: const FieldHeader(title: '年龄'),
-                builder: (ctx) => Text('${ctx.data.age}'),
-              ),
-              FieldSpec<EmployeeData>(
-                key: 'gender',
-                header: const FieldHeader(title: '性别'),
-                builder: (ctx) => Text(ctx.data.gender),
-              ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildToolbar() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          const Text('表格宽度：', style: TextStyle(fontWeight: FontWeight.w600)),
+          const SizedBox(width: 12),
+          SegmentedButton<bool>(
+            segments: const [
+              ButtonSegment(
+                  value: true,
+                  label: Text('自适应'),
+                  icon: Icon(Icons.fit_screen, size: 16)),
+              ButtonSegment(
+                  value: false,
+                  label: Text('固定宽度'),
+                  icon: Icon(Icons.view_column, size: 16)),
             ],
-          ),
-          FieldSpec<EmployeeData>(
-            key: 'contact',
-            header: const FieldHeader(title: '联系方式'),
-            children: [
-              FieldSpec<EmployeeData>(
-                key: 'phone',
-                header: const FieldHeader(title: '电话'),
-                builder: (ctx) => Text(ctx.data.phone),
-              ),
-              FieldSpec<EmployeeData>(
-                key: 'email',
-                header: const FieldHeader(title: '邮箱'),
-                builder: (ctx) => Text(
-                  ctx.data.email,
-                  style: TextStyle(color: Colors.blue[700]),
-                ),
-              ),
-            ],
-          ),
-          FieldSpec<EmployeeData>(
-            key: 'work',
-            header: const FieldHeader(title: '工作信息'),
-            children: [
-              FieldSpec<EmployeeData>(
-                key: 'department',
-                header: const FieldHeader(title: '部门'),
-                builder: (ctx) => Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: _getDepartmentColor(ctx.data.department),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    ctx.data.department,
-                    style: const TextStyle(fontSize: 12, color: Colors.white),
-                  ),
-                ),
-              ),
-              FieldSpec<EmployeeData>(
-                key: 'position',
-                header: const FieldHeader(title: '职位'),
-                builder: (ctx) => Text(ctx.data.position),
-              ),
-              FieldSpec<EmployeeData>(
-                key: 'salary',
-                header: const FieldHeader(title: '薪资'),
-                builder: (ctx) => Text(
-                  '¥${ctx.data.salary.toString().replaceAllMapped(
-                        RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                        (m) => '${m[1]},',
-                      )}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.green,
-                  ),
-                ),
-              ),
-            ],
+            selected: {_autoWidth},
+            onSelectionChanged: (Set<bool> selected) {
+              setState(() {
+                _autoWidth = selected.first;
+              });
+            },
           ),
         ],
-        appearance: const SheetAppearance(
-          layoutMode: LayoutMode.fluid,
-          showBorder: true,
-          rowHeight: 56,
-        ),
       ),
     );
   }

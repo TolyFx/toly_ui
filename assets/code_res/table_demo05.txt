@@ -29,7 +29,7 @@ class _TableDemo5State extends State<TableDemo5> {
 
   @override
   Widget build(BuildContext context) {
-    return TolyTable<PaginationData>(
+    return TolyTableV1<PaginationData>(
       columns: [
         TableColumn(
           title: 'Name',

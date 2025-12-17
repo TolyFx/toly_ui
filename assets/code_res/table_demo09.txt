@@ -99,7 +99,7 @@ class _TableDemo9State extends State<TableDemo9> {
   }
 
   Widget _buildSheet() {
-    return TolySheet<UserData>(
+    return TolyTable<UserData>(
       provider: LocalSheetProvider(data: _users),
       controller: _controller,
       fields: [
@@ -157,8 +157,7 @@ class _TableDemo9State extends State<TableDemo9> {
         FieldSpec<UserData>(
           key: 'actions',
           header: const FieldHeader(title: '操作'),
-          builder: (ctx) => Row(
-            mainAxisSize: MainAxisSize.min,
+          builder: (ctx) => Wrap(
             children: [
               TextButton(
                 onPressed: () {},
