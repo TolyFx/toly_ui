@@ -6,7 +6,6 @@ typedef RxParserStrategy = Rx Function(double width);
 
 typedef RxWidgetBuilder = Widget Function(BuildContext context, Rx type);
 
-
 class WindowRespondBuilder extends StatelessWidget {
   final RxWidgetBuilder builder;
   final RxParserStrategy? parserStrategy;
@@ -17,14 +16,22 @@ class WindowRespondBuilder extends StatelessWidget {
     this.parserStrategy,
   });
 
-
-
   @override
   Widget build(BuildContext context) {
-    Size windowSize = MediaQuery.sizeOf(context);
-    RxParserStrategy? themeRx = Theme.of(context).extension<ReParserStrategyTheme>()?.parserStrategy;
-    RxParserStrategy? strategy = parserStrategy ?? themeRx??defaultParserStrategy;
-    return builder(context, strategy(windowSize.width));
+    RxParserStrategy? themeRx =
+        Theme.of(context).extension<ReParserStrategyTheme>()?.parserStrategy;
+    RxParserStrategy? strategy =
+        parserStrategy ?? themeRx ?? defaultParserStrategy;
+
+    return LayoutBuilder(builder: (ctx, cts) {
+      return builder(context, strategy(cts.maxWidth));
+    });
+    // Size windowSize = MediaQuery.sizeOf(context);
+    // RxParserStrategy? themeRx =
+    //     Theme.of(context).extension<ReParserStrategyTheme>()?.parserStrategy;
+    // RxParserStrategy? strategy =
+    //     parserStrategy ?? themeRx ?? defaultParserStrategy;
+    // return builder(context, strategy(windowSize.width));
   }
 }
 

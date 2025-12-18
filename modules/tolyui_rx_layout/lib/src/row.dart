@@ -38,10 +38,12 @@ class Row$ extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WindowRespondBuilder(
-      builder: (ctx, Rx type) => LayoutBuilder(
-        builder: (ctx, cts) => _buildLayout(type, cts.maxWidth),
-      ),
+    RxParserStrategy? themeRx =
+        Theme.of(context).extension<ReParserStrategyTheme>()?.parserStrategy;
+    RxParserStrategy? strategy = themeRx ?? defaultParserStrategy;
+
+    return LayoutBuilder(
+      builder: (ctx, cts) => _buildLayout(strategy(cts.maxWidth), cts.maxWidth),
     );
   }
 
@@ -70,7 +72,7 @@ class Row$ extends StatelessWidget {
         );
         if (push != 0 || pull != 0) {
           child = Transform.translate(
-            offset: Offset(dx * unit + dx  * gutter, 0),
+            offset: Offset(dx * unit + dx * gutter, 0),
             child: child,
           );
         }

@@ -39,7 +39,7 @@ ThemeData get darkTheme {
       TargetPlatform.windows: FadePageTransitionsBuilder(),
       TargetPlatform.linux: FadePageTransitionsBuilder(),
     }),
-    tabBarTheme: const TabBarTheme(
+    tabBarTheme: const TabBarThemeData(
       dividerColor: Colors.transparent,
     ),
     // fontFamily: state.fontFamily,
@@ -56,8 +56,10 @@ ThemeData get darkTheme {
         centerTitle: false,
         backgroundColor: const Color(0xff181818),
         iconTheme: const IconThemeData(color: Color(0xffCCCCCC)),
-        titleTextStyle:
-            const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffCCCCCC))),
+        titleTextStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Color(0xffCCCCCC))),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
         foregroundColor: Colors.white, backgroundColor: Color(0xff4699FB)),
     dividerTheme: DividerThemeData(
@@ -66,7 +68,8 @@ ThemeData get darkTheme {
       thickness: px1,
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: Color(0xff181818), selectedItemColor: Color(0xff4699FB)),
+        backgroundColor: Color(0xff181818),
+        selectedItemColor: Color(0xff4699FB)),
   );
 }
 
@@ -74,7 +77,8 @@ ThemeData get lightTheme {
   return ThemeData(
     extensions: [
       TolyMessageStyleTheme.tolyuiLight(),
-      TolyMessageShowTheme.tolyui(duration: const Duration(seconds: 3), offset: Offset(0, 36)),
+      TolyMessageShowTheme.tolyui(
+          duration: const Duration(seconds: 3), offset: Offset(0, 36)),
       LinkTheme(
         style: const TextStyle(fontSize: 14, color: Color(0xff606266)),
         hoverColor: const Color(0xff0061a4),
@@ -103,7 +107,8 @@ ThemeData get lightTheme {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     ),
     expansionTileTheme: const ExpansionTileThemeData(
-        shape: RoundedRectangleBorder(side: BorderSide(color: Colors.transparent))),
+        shape: RoundedRectangleBorder(
+            side: BorderSide(color: Colors.transparent))),
     datePickerTheme: DatePickerThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         backgroundColor: const Color(0xfff4f8fb),

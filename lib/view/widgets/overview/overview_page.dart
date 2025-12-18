@@ -42,70 +42,83 @@ class _OverviewPageState extends State<OverviewPage> {
     return PageStorage(
       bucket: _bucket,
       child: Scaffold(
-        body: ListView(
-          key: PageStorageKey<String>('pageOne'),
-          padding: EdgeInsets.symmetric(horizontal: 48),
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24.0),
-              child: Row(
-                children: [
-                  Text(
-                    'Overview 组件总览',
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(width: 16),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.blue.shade200),
+        body: Padding$(
+          padding: (re) => switch (re) {
+            Rx.xs => const EdgeInsets.symmetric(horizontal: 20),
+            _ => const EdgeInsets.symmetric(horizontal: 48),
+          },
+          child: ListView(
+            key: PageStorageKey<String>('pageOne'),
+            // padding: EdgeInsets.symmetric(horizontal: 48),
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Overview 组件总览',
+                      style:
+                          TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                     ),
-                    child: Text(
-                      '$totalCount',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold),
+                    const SizedBox(width: 16),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.blue.shade200),
+                      ),
+                      child: Text(
+                        '$totalCount',
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                  SizedBox(
-                    width: 300,
-                    child: TolyInput(
-                      hintText: '搜索组件...',
-                      prefixIcon: Icon(Icons.search, size: 18, color: Colors.grey),
-                      onChanged: (value) {
-                        setState(() {
-                          _searchQuery = value.toLowerCase();
-                        });
-                      },
-                    ),
-                  ),
-                ],
+                    Spacer(),
+                    WindowRespondBuilder(builder: (_, r) {
+                      if (r.index > 1)
+                        SizedBox(
+                          width: 300,
+                          child: TolyInput(
+                            hintText: '搜索组件...',
+                            prefixIcon: Icon(Icons.search,
+                                size: 18, color: Colors.grey),
+                            onChanged: (value) {
+                              setState(() {
+                                _searchQuery = value.toLowerCase();
+                              });
+                            },
+                          ),
+                        );
+                      return Icon(Icons.search, size: 18, color: Colors.grey);
+                    }),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-                '以下是 Toly UI 提供的所有组件，包括基础组件、表单组件、导航系统、数据展示、高级组件、反馈组件六大类别；\n'
-                '另外 TolyUI 体系中也包括 Flutter 支持的框架内部件，'
-                '将在面板中通过 Flutter Logo示意。',
-                style: TextStyle(fontSize: 16)),
-            const SizedBox(height: 24),
-            buildByMenuNode(basicMenus),
-            const SizedBox(height: 24),
-            buildByMenuNode(formMenus),
-            const SizedBox(height: 24),
-            buildByMenuNode(navigationMenus),
-            const SizedBox(height: 24),
-            buildByMenuNode(dataMenus),
-            const SizedBox(height: 24),
-            buildByMenuNode(feedbackMenus),
-            const SizedBox(height: 24),
-            buildByMenuNode(advancedMenus),
-            const SizedBox(height: 24),
-          ],
+              const SizedBox(height: 16),
+              Text(
+                  '以下是 Toly UI 提供的所有组件，包括基础组件、表单组件、导航系统、数据展示、高级组件、反馈组件六大类别；\n'
+                  '另外 TolyUI 体系中也包括 Flutter 支持的框架内部件，'
+                  '将在面板中通过 Flutter Logo示意。',
+                  style: TextStyle(fontSize: 16)),
+              const SizedBox(height: 24),
+              buildByMenuNode(basicMenus),
+              const SizedBox(height: 24),
+              buildByMenuNode(formMenus),
+              const SizedBox(height: 24),
+              buildByMenuNode(navigationMenus),
+              const SizedBox(height: 24),
+              buildByMenuNode(dataMenus),
+              const SizedBox(height: 24),
+              buildByMenuNode(feedbackMenus),
+              const SizedBox(height: 24),
+              buildByMenuNode(advancedMenus),
+              const SizedBox(height: 24),
+            ],
+          ),
         ),
       ),
     );
