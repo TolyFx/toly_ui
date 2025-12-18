@@ -317,13 +317,10 @@ class _TolyCollapseState extends State<TolyCollapse>
                 child: widget.title,
               )),
               Spacer(),
-              AnimatedBuilder(
-                  animation: _controller,
-                  builder: (_, child) => Transform.rotate(
-                        angle: pi * _controller.value,
-                        child: child,
-                      ),
-                  child: const Icon(Icons.expand_more))
+              RotationTransition(
+                turns: Tween(begin: 0.0, end: 0.5).animate(_controller),
+                child: const Icon(Icons.expand_more),
+              )
             ],
           ));
     }
