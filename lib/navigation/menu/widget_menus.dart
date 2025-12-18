@@ -6,7 +6,7 @@
 // CreateTime:  2024-05-16
 // Contact Me:  1981462002@qq.com
 
-import 'advance.dart';
+import 'advanced.dart';
 import 'basic.dart';
 import 'dashboard.dart';
 import 'data.dart';
@@ -24,6 +24,6 @@ Map<String, dynamic> get widgetMenus => {
         navigationMenus,
         dataMenus,
         feedbackMenus,
-        advanceMenus,
+        advancedMenus,
       ],
     };

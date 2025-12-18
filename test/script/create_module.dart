@@ -3,24 +3,32 @@ import 'dart:io';
 /// TolyUI 模块创建脚本
 /// 
 /// 使用方式:
-/// dart test/script/create_module.dart <module_name> <category>
+/// dart test/script/create_module.dart <module_name> [category]
 /// 
 /// 示例:
-/// dart test/script/create_module.dart tolyui_button form
-/// dart test/script/create_module.dart tolyui_avatar data
+/// dart test/script/create_module.dart toly_button form
+/// dart test/script/create_module.dart advanced  # 创建父模块
 void main(List<String> args) {
-  if (args.length < 2) {
+  if (args.isEmpty) {
     print('❌ 参数不足');
-    print('使用方式: dart test/script/create_module.dart <module_name> <category>');
+    print('使用方式: dart test/script/create_module.dart <module_name> [category]');
     print('示例: dart test/script/create_module.dart toly_button form');
-    print('可用分类: data, form, feedback, media, navigation');
+    print('创建父模块: dart test/script/create_module.dart advanced');
+    print('可用分类: data, form, feedback, media, navigation, advanced');
     exit(1);
   }
 
   final moduleName = args[0];
-  final category = args[1];
+  final category = args.length > 1 ? args[1] : null;
   
-  final validCategories = ['data', 'form', 'feedback', 'media', 'navigation'];
+  final validCategories = ['data', 'form', 'feedback', 'media', 'navigation', 'advanced'];
+  
+  // 如果没有提供 category，创建父模块
+  if (category == null) {
+    createParentModule(moduleName);
+    return;
+  }
+  
   if (!validCategories.contains(category)) {
     print('❌ 无效的分类: $category');
     print('可用分类: ${validCategories.join(", ")}');
@@ -40,10 +48,12 @@ void main(List<String> args) {
   try {
     // 1. 创建 Flutter package
     print('\n📦 创建 Flutter package...');
+    final flutterCmd = Platform.isWindows ? 'flutter.bat' : 'flutter';
     final result = Process.runSync(
-      'flutter',
+      flutterCmd,
       ['create', '--template=package', moduleName],
       workingDirectory: 'modules/$category',
+      runInShell: true,
     );
     
     if (result.exitCode != 0) {
@@ -265,6 +275,49 @@ String _toPascalCase(String text) {
     if (word.isEmpty) return word;
     return word[0].toUpperCase() + word.substring(1);
   }).join('');
+}
+
+void createParentModule(String moduleName) {
+  print('🚀 创建父模块: $moduleName');
+  
+  final moduleDir = Directory('modules/$moduleName');
+  
+  if (moduleDir.existsSync()) {
+    print('❌ 父模块已存在: ${moduleDir.path}');
+    exit(1);
+  }
+
+  try {
+    moduleDir.createSync(recursive: true);
+    
+    // 创建 README
+    final readmeFile = File('modules/$moduleName/README.md');
+    final content = '''# ${_toTitleCase(moduleName)} 模块
+
+${_toTitleCase(moduleName)} 是 TolyUI 的高级组件模块集合。
+
+## 子模块
+
+TODO: 列出子模块
+
+## 关于 TolyUI
+
+TolyUI 是一个为 Flutter 开发者打造的 UI 组件库。
+
+展示网站: http://toly1994.com/ui
+''';
+    readmeFile.writeAsStringSync(content);
+    
+    print('✅ 父模块创建成功!');
+    print('\n📍 模块位置: modules/$moduleName');
+    print('\n📝 下一步:');
+    print('  1. 在 modules/$moduleName/ 下创建子模块');
+    print('  2. 使用: dart test/script/create_module.dart <module_name> $moduleName');
+    
+  } catch (e) {
+    print('❌ 创建失败: $e');
+    exit(1);
+  }
 }
 
 void updateGitignore(String moduleName, String category) {

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:tolyui/basic/basic.dart';
 import 'package:tolyui/tolyui.dart';
+import 'package:tolyui_text/tolyui_text.dart';
 
 class ActionOverview extends StatelessWidget {
   const ActionOverview({super.key});
@@ -13,7 +14,8 @@ class ActionOverview extends StatelessWidget {
       borderRadius: BorderRadius.circular(4),
       padding: const EdgeInsets.all(4),
       backgroundColor: Colors.blue.withOpacity(0.1),
-      border: Border.all(color: context.isDark ? Colors.blueAccent : Colors.blue),
+      border:
+          Border.all(color: context.isDark ? Colors.blueAccent : Colors.blue),
       selectColor: Colors.blue.withOpacity(0.2),
     );
     return IgnorePointer(
@@ -23,14 +25,14 @@ class ActionOverview extends StatelessWidget {
           spacing: 4,
           children: [
             TolyAction(
-              onTap: () {  },
-              child: Icon( CupertinoIcons.wand_rays ),
+              onTap: () {},
+              child: Icon(CupertinoIcons.wand_rays),
             ),
             TolyAction(
               selected: true,
               style: style,
-              onTap: () {  },
-              child: Icon(CupertinoIcons.move  ),
+              onTap: () {},
+              child: Icon(CupertinoIcons.move),
             ),
           ],
         ),
@@ -38,7 +40,6 @@ class ActionOverview extends StatelessWidget {
     );
   }
 }
-
 
 class ButtonOverview extends StatelessWidget {
   const ButtonOverview({super.key});
@@ -51,7 +52,10 @@ class ButtonOverview extends StatelessWidget {
           color: Colors.blue,
           borderRadius: BorderRadius.circular(4),
           boxShadow: [
-            BoxShadow(color: Colors.blue.withOpacity(0.2), spreadRadius: 1, blurRadius: 6)
+            BoxShadow(
+                color: Colors.blue.withOpacity(0.2),
+                spreadRadius: 1,
+                blurRadius: 6)
           ]),
       child: const Text(
         'Event',
@@ -75,7 +79,10 @@ class IconOverview extends StatelessWidget {
               color: Colors.black,
               borderRadius: BorderRadius.circular(4),
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.2), spreadRadius: 1, blurRadius: 6)
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 6)
               ]),
           child: const Icon(
             Icons.pages_outlined,
@@ -88,7 +95,10 @@ class IconOverview extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(4),
               boxShadow: [
-                BoxShadow(color: Colors.grey.withOpacity(0.2), spreadRadius: 1, blurRadius: 6)
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 6)
               ]),
           child: const Icon(
             Icons.insights,
@@ -111,11 +121,16 @@ class TextOverview extends StatelessWidget {
       children: [
         Text(
           'Toly',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+          style: TextStyle(
+              fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
         ),
         Text(
           'UI',
-          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.red, height: 1),
+          style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: Colors.red,
+              height: 1),
         ),
         Text(
           'Design',
@@ -165,7 +180,8 @@ class LayoutOverview extends StatelessWidget {
     Widget box2 = Container(
       width: 40,
       height: 14,
-      decoration: BoxDecoration(color: tiledColor, borderRadius: BorderRadius.circular(2)),
+      decoration: BoxDecoration(
+          color: tiledColor, borderRadius: BorderRadius.circular(2)),
     );
     return Wrap(
       spacing: 12,
@@ -177,7 +193,10 @@ class LayoutOverview extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(4),
               boxShadow: [
-                BoxShadow(color: Colors.grey.withOpacity(0.2), spreadRadius: 1, blurRadius: 6)
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 1,
+                    blurRadius: 6)
               ]),
           child: Column(
             children: [
@@ -263,6 +282,37 @@ class LayoutOverview extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class TolyuiTextOverview extends StatelessWidget {
+  const TolyuiTextOverview({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Wrap(
+        spacing: 6,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Icon(
+            Icons.search,
+            color: Colors.grey,
+          ),
+          HighlightText.withArg(
+            'TolyUI',
+            arg: 'To',
+            highlightStyle: TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+            ),
+            style: TextStyle(
+              fontSize: 28,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

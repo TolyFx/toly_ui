@@ -9,10 +9,9 @@ class _TableDemo5State extends State<TableDemo5> {
   int _currentPage = 1;
   final int _pageSize = 5;
 
-  // 生成大量测试数据
-  List<PaginationData> get _allData => List.generate(
+  List<_PaginationData> get _allData => List.generate(
         23,
-        (index) => PaginationData(
+        (index) => _PaginationData(
           key: '${index + 1}',
           name: 'User ${index + 1}',
           age: 20 + (index % 50),
@@ -27,89 +26,149 @@ class _TableDemo5State extends State<TableDemo5> {
     return allTags.take(count).toList();
   }
 
+  List<_PaginationData> get _currentPageData {
+    final startIndex = (_currentPage - 1) * _pageSize;
+    final endIndex = startIndex + _pageSize;
+    return _allData.sublist(
+      startIndex,
+      endIndex > _allData.length ? _allData.length : endIndex,
+    );
+  }
+
+  int get _totalPages => (_allData.length / _pageSize).ceil();
+
   @override
   Widget build(BuildContext context) {
-    return TolyTableV1<PaginationData>(
-      columns: [
-        TableColumn(
-          title: 'Name',
-          dataIndex: (data) => data.name,
-          render: (data, index) => Text(
-            data.name,
-            style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
-          ),
-        ),
-        TableColumn(
-          title: 'Age',
-          dataIndex: (data) => data.age,
-        ),
-        TableColumn(
-          title: 'Address',
-          dataIndex: (data) => data.address,
-        ),
-        TableColumn(
-          title: 'Tags',
-          dataIndex: (data) => data.tags,
-          render: (data, index) => Wrap(
-            spacing: 4,
-            runSpacing: 4,
-            children: data.tags.map((tag) {
-              Color color = tag.length > 5 ? Colors.blue : Colors.green;
-              return TolyTag(color: color, child: Text(tag));
-            }).toList(),
-          ),
-        ),
-        TableColumn(
-          title: 'Action',
-          dataIndex: (data) => '',
-          render: (data, index) => Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              GestureDetector(
-                onTap: () => $message.info(message: 'Invite ${data.name}'),
-                child: const Text(
-                  'Invite',
-                  style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        TolyTable<_PaginationData>.source(
+          data: _currentPageData.map((e) => e.toMap()).toList(),
+          converter: _PaginationData.fromMap,
+          fields: [
+            FieldSpec<_PaginationData>(
+              key: 'name',
+              header: const FieldHeader(title: 'Name'),
+              builder: (ctx) => Text(
+                ctx.data.name,
+                style: const TextStyle(color: Colors.blue),
               ),
-              const SizedBox(width: 16),
-              GestureDetector(
-                onTap: () => $message.warning(message: 'Delete ${data.name}'),
-                child: const Text(
-                  'Delete',
-                  style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
-                ),
+            ),
+            FieldSpec<_PaginationData>(
+              key: 'age',
+              header: const FieldHeader(title: 'Age'),
+              builder: (ctx) => Text('${ctx.data.age}'),
+            ),
+            FieldSpec<_PaginationData>(
+              key: 'address',
+              header: const FieldHeader(title: 'Address'),
+              builder: (ctx) => Text(ctx.data.address),
+            ),
+            FieldSpec<_PaginationData>(
+              key: 'tags',
+              header: const FieldHeader(title: 'Tags'),
+              builder: (ctx) => Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                children: ctx.data.tags.map((tag) {
+                  Color color = tag.length > 5 ? Colors.blue : Colors.green;
+                  return TolyTag(color: color, child: Text(tag));
+                }).toList(),
               ),
-            ],
+            ),
+            FieldSpec<_PaginationData>(
+              key: 'action',
+              header: const FieldHeader(title: 'Action'),
+              builder: (ctx) => Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  GestureDetector(
+                    onTap: () => $message.info(message: 'Invite ${ctx.data.name}'),
+                    child: const Text(
+                      'Invite',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  GestureDetector(
+                    onTap: () => $message.warning(message: 'Delete ${ctx.data.name}'),
+                    child: const Text(
+                      'Delete',
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+          appearance: SheetAppearance(
+            showBorder: true,
+            footerActions: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '共 ${_allData.length} 条记录',
+                  style: const TextStyle(fontSize: 14, color: Colors.black54),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.chevron_left, size: 20),
+                      onPressed: _currentPage > 1
+                          ? () => setState(() => _currentPage--)
+                          : null,
+                    ),
+                    Text('$_currentPage / $_totalPages'),
+                    IconButton(
+                      icon: const Icon(Icons.chevron_right, size: 20),
+                      onPressed: _currentPage < _totalPages
+                          ? () => setState(() => _currentPage++)
+                          : null,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ],
-      dataSource: _allData,
-      pagination: TablePagination(
-        pageSize: _pageSize,
-        current: _currentPage,
-        total: _allData.length,
-        onChange: (page, pageSize) {
-          setState(() => _currentPage = page);
-          debugPrint('Page changed to: $page, pageSize: $pageSize');
-        },
-      ),
     );
   }
 }
 
-class PaginationData {
+class _PaginationData {
   final String key;
   final String name;
   final int age;
   final String address;
   final List<String> tags;
 
-  const PaginationData({
+  const _PaginationData({
     required this.key,
     required this.name,
     required this.age,
     required this.address,
     required this.tags,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'key': key,
+      'name': name,
+      'age': age,
+      'address': address,
+      'tags': tags,
+    };
+  }
+
+  factory _PaginationData.fromMap(Map<String, dynamic> map) {
+    return _PaginationData(
+      key: map['key'] as String,
+      name: map['name'] as String,
+      age: map['age'] as int,
+      address: map['address'] as String,
+      tags: (map['tags'] as List).cast<String>(),
+    );
+  }
 }

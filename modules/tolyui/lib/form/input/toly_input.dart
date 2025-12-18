@@ -31,6 +31,7 @@ class TolyInput extends StatefulWidget {
   final InputType? type;
   final String? unit;
   final String? prefix;
+  final Widget? prefixIcon;
 
   final Slot? leadingBuilder;
   final Slot? tailingBuilder;
@@ -57,6 +58,7 @@ class TolyInput extends StatefulWidget {
     this.type,
     this.unit,
     this.prefix,
+    this.prefixIcon,
     this.enable = true,
     this.clearBuilder,
     this.clearable = false,
@@ -283,12 +285,12 @@ class _TolyInputState extends State<TolyInput> {
           padding: const EdgeInsets.only(left: 4.0),
           child: Text(widget.unit!,style: TextStyle(color: Colors.grey),),
         ) : null,
-        prefixIcon: widget.prefix != null
+        prefixIcon: widget.prefixIcon ?? (widget.prefix != null
             ? Padding(
                 padding: const EdgeInsets.only(left:4.0,right: 4.0),
                 child: Center(child: Text(widget.prefix!,style: TextStyle(color: Colors.grey),)),
               )
-            : null,
+            : null),
         // prefixText: prefix,
         hintStyle: style.copyWith(color: unFocusedColor),
         constraints: constraints,

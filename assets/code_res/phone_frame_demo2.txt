@@ -1,0 +1,28 @@
+class PhoneFrameDemo2 extends StatelessWidget {
+  const PhoneFrameDemo2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: PhoneFrame(
+        width: 390,
+        height: 844,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.blue.shade300, Colors.purple.shade300],
+            ),
+          ),
+          child: const Center(
+            child: Text(
+              'iPhone 12 Pro',
+              style: TextStyle(fontSize: 20, color: Colors.white),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

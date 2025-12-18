@@ -1,0 +1,276 @@
+class PhoneFrameDemo1 extends StatefulWidget {
+  const PhoneFrameDemo1({super.key});
+
+  @override
+  State<PhoneFrameDemo1> createState() => _PhoneFrameDemo1State();
+}
+
+class _PhoneFrameDemo1State extends State<PhoneFrameDemo1> {
+  double _width = 375;
+  double _height = 812;
+  double _devicePixelRatio = 3.0;
+  Color _frameColor = Colors.black;
+  double _borderRadius = 40;
+  int _selectedPreset = 0;
+  bool _showApp = false;
+  DeviceType _deviceType = DeviceType.ios;
+  bool _showStatusBar = true;
+  bool _showNavigationBar = true;
+
+  final List<Map<String, dynamic>> _presets = [
+    {
+      'name': 'iPhone 13',
+      'width': 375.0,
+      'height': 812.0,
+      'dpr': 3.0,
+      'type': '📱 手机'
+    },
+    {
+      'name': 'iPhone 14 Pro',
+      'width': 393.0,
+      'height': 852.0,
+      'dpr': 3.0,
+      'type': '📱 手机'
+    },
+    {
+      'name': 'Pixel 7',
+      'width': 412.0,
+      'height': 915.0,
+      'dpr': 2.625,
+      'type': '📱 手机'
+    },
+    {
+      'name': 'iPad Air',
+      'width': 820.0,
+      'height': 1180.0,
+      'dpr': 2.0,
+      'type': '💻 平板'
+    },
+    {
+      'name': 'iPad Pro 12.9',
+      'width': 1024.0,
+      'height': 1366.0,
+      'dpr': 2.0,
+      'type': '💻 平板'
+    },
+    {
+      'name': 'MacBook Air',
+      'width': 1280.0,
+      'height': 832.0,
+      'dpr': 2.0,
+      'type': '🖥️ 电脑'
+    },
+    {
+      'name': 'MacBook Pro 16',
+      'width': 1728.0,
+      'height': 1117.0,
+      'dpr': 2.0,
+      'type': '🖥️ 电脑'
+    },
+  ];
+
+  void _applyPreset(int index) {
+    setState(() {
+      _selectedPreset = index;
+      _width = _presets[index]['width'];
+      _height = _presets[index]['height'];
+      _devicePixelRatio = _presets[index]['dpr'];
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 240,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('预设尺寸',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              TolySelect(
+                fontSize: 13,
+                data: _presets
+                    .map((e) =>
+                        '${e['name']} (${e['width'].toInt()}x${e['height'].toInt()})')
+                    .toList(),
+                selectIndex: _selectedPreset,
+                height: 36,
+                width: double.infinity,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                onSelected: (int index) {
+                  _applyPreset(index);
+                },
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => setState(() => _showApp = !_showApp),
+                  icon: Icon(_showApp ? Icons.dashboard : Icons.phone_android,
+                      size: 18),
+                  label: Text(_showApp ? '显示示例' : '显示 TolyUI'),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              const Text('设备类型',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => setState(() => _deviceType = DeviceType.ios),
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: _deviceType == DeviceType.ios ? Colors.blue.shade50 : null,
+                      ),
+                      child: const Text('iOS'),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => setState(() => _deviceType = DeviceType.android),
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: _deviceType == DeviceType.android ? Colors.blue.shade50 : null,
+                      ),
+                      child: const Text('Android'),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              CheckboxListTile(
+                title: const Text('显示状态栏', style: TextStyle(fontSize: 14)),
+                value: _showStatusBar,
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+                onChanged: (value) => setState(() => _showStatusBar = value ?? true),
+              ),
+              CheckboxListTile(
+                title: const Text('显示导航栏', style: TextStyle(fontSize: 14)),
+                value: _showNavigationBar,
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+                onChanged: (value) => setState(() => _showNavigationBar = value ?? false),
+              ),
+              const SizedBox(height: 16),
+              const Text('边框颜色',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                children: [
+                  _colorButton(Colors.black),
+                  _colorButton(Colors.grey.shade800),
+                  _colorButton(Colors.blue.shade900),
+                  _colorButton(Colors.purple.shade900),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const Text('圆角半径',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              Slider(
+                value: _borderRadius,
+                min: 20,
+                max: 60,
+                divisions: 8,
+                label: _borderRadius.round().toString(),
+                onChanged: (value) => setState(() => _borderRadius = value),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Center(
+            child: SizedBox(
+              height: 700,
+              child: FittedBox(
+                fit: BoxFit.contain,
+                child: DeviceFrame(
+                  width: _width,
+                  height: _height,
+                  devicePixelRatio: _devicePixelRatio,
+                  frameColor: _frameColor,
+                  borderRadius: _borderRadius,
+                  deviceType: _deviceType,
+                  showStatusBar: _showStatusBar,
+                  showNavigationBar: _showNavigationBar,
+                  child: _showApp ? _buildApp() : _buildDemo(),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildApp() {
+    return MyApp();
+  }
+
+  Widget _buildDemo() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Colors.blue.shade300, Colors.purple.shade300],
+        ),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.devices, size: 64, color: Colors.white),
+            const SizedBox(height: 16),
+            Text(
+              '${_width.toInt()} x ${_height.toInt()}',
+              style: const TextStyle(
+                  fontSize: 24,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              _presets[_selectedPreset]['name'],
+              style: const TextStyle(fontSize: 16, color: Colors.white70),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'DPR: ${_devicePixelRatio}x',
+              style: const TextStyle(fontSize: 14, color: Colors.white60),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _colorButton(Color color) {
+    final isSelected = _frameColor == color;
+    return GestureDetector(
+      onTap: () => setState(() => _frameColor = color),
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: color,
+          border: Border.all(
+            color: isSelected ? Colors.blue : Colors.grey.shade300,
+            width: isSelected ? 3 : 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+    );
+  }
+}

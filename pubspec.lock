@@ -454,6 +454,13 @@ packages:
       relative: true
     source: path
     version: "0.0.2"
+  tolyui_debug:
+    dependency: "direct main"
+    description:
+      path: "modules/advanced/tolyui_debug"
+      relative: true
+    source: path
+    version: "0.0.1"
   tolyui_default:
     dependency: "direct main"
     description:

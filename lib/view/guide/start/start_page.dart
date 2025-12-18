@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:tolyui/data/collapse/collapse.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../widgets/data/tree/tree_demo6.dart';
@@ -9,6 +10,70 @@ class StartUsePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return Column(
+    //   children: [
+    //     const TolyCollapse(
+    //         sizeCurve: Curves.ease,
+    //         title: Text(
+    //           "设备信息",
+    //           style: TextStyle(fontWeight: FontWeight.bold),
+    //         ),
+    //         content: Column(
+    //           children: <Widget>[
+    //             Text("data很长的数据data很长的数据data很长的数据data很长的数据data很长的数据data很"),
+    //           ],
+    //         ),
+    //         duration: Duration(milliseconds: 400)),
+    //     const TolyCollapse(
+    //         sizeCurve: Curves.ease,
+    //         title: Text(
+    //           "设备信息",
+    //           style: TextStyle(fontWeight: FontWeight.bold),
+    //         ),
+    //         content: Column(
+    //           children: <Widget>[
+    //             Text("data很长的数据data很长的数据data很长的数据data很长的数据data很长的数据data很"),
+    //           ],
+    //         ),
+    //         duration: Duration(milliseconds: 400)),
+    //     const TolyCollapse(
+    //         sizeCurve: Curves.ease,
+    //         title: Text(
+    //           "设备信息",
+    //           style: TextStyle(fontWeight: FontWeight.bold),
+    //         ),
+    //         content: Column(
+    //           children: <Widget>[
+    //             Text("data很长的数据data很长的数据data很长的数据data很长的数据data很长的数据data很"),
+    //           ],
+    //         ),
+    //         duration: Duration(milliseconds: 400)),
+    //     const TolyCollapse(
+    //         sizeCurve: Curves.ease,
+    //         title: Text(
+    //           "设备信息",
+    //           style: TextStyle(fontWeight: FontWeight.bold),
+    //         ),
+    //         content: Column(
+    //           children: <Widget>[
+    //             Text("data很长的数据data很长的数据data很长的数据data很长的数据data很长的数据data很"),
+    //           ],
+    //         ),
+    //         duration: Duration(milliseconds: 400)),
+    //     const TolyCollapse(
+    //         sizeCurve: Curves.ease,
+    //         title: Text(
+    //           "设备信息",
+    //           style: TextStyle(fontWeight: FontWeight.bold),
+    //         ),
+    //         content: Column(
+    //           children: <Widget>[
+    //             Text("data很长的数据data很长的数据data很长的数据data很长的数据data很长的数据data很"),
+    //           ],
+    //         ),
+    //         duration: Duration(milliseconds: 400)),
+    //   ],
+    // );
     // return Scaffold(body: TreeDemo6());
     return Material(
       color: Colors.white,

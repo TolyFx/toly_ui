@@ -1,0 +1,195 @@
+class PhoneFrameDemo1 extends StatefulWidget {
+  const PhoneFrameDemo1({super.key});
+
+  @override
+  State<PhoneFrameDemo1> createState() => _PhoneFrameDemo1State();
+}
+
+class _PhoneFrameDemo1State extends State<PhoneFrameDemo1> {
+  double _width = 375;
+  double _height = 812;
+  double _devicePixelRatio = 3.0;
+  Color _frameColor = Colors.black;
+  double _borderRadius = 40;
+  int _selectedPreset = 0;
+  DeviceType _deviceType = DeviceType.ios;
+  bool _showStatusBar = true;
+  bool _showNavigationBar = true;
+
+  final List<Map<String, dynamic>> _presets = [
+    {
+      'name': 'iPhone 13',
+      'width': 375.0,
+      'height': 812.0,
+      'dpr': 3.0,
+      'type': '📱 手机'
+    },
+    {
+      'name': 'iPhone 14 Pro',
+      'width': 393.0,
+      'height': 852.0,
+      'dpr': 3.0,
+      'type': '📱 手机'
+    },
+    {
+      'name': 'Pixel 7',
+      'width': 412.0,
+      'height': 915.0,
+      'dpr': 2.625,
+      'type': '📱 手机'
+    },
+    {
+      'name': 'iPad Air',
+      'width': 820.0,
+      'height': 1180.0,
+      'dpr': 2.0,
+      'type': '💻 平板'
+    },
+    {
+      'name': 'iPad Pro 12.9',
+      'width': 1024.0,
+      'height': 1366.0,
+      'dpr': 2.0,
+      'type': '💻 平板'
+    },
+    {
+      'name': 'MacBook Air',
+      'width': 1280.0,
+      'height': 832.0,
+      'dpr': 2.0,
+      'type': '🖥️ 电脑'
+    },
+    {
+      'name': 'MacBook Pro 16',
+      'width': 1728.0,
+      'height': 1117.0,
+      'dpr': 2.0,
+      'type': '🖥️ 电脑'
+    },
+  ];
+
+  void _applyPreset(int index) {
+    setState(() {
+      _selectedPreset = index;
+      _width = _presets[index]['width'];
+      _height = _presets[index]['height'];
+      _devicePixelRatio = _presets[index]['dpr'];
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 700,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            child: Wrap(
+              spacing: 16,
+              runSpacing: 12,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                TolySelect(
+                  minWidth: 280,
+                  fontSize: 13,
+                  data: _presets
+                      .map((e) =>
+                          '${e['name']} (${e['width'].toInt()}x${e['height'].toInt()})')
+                      .toList(),
+                  selectIndex: _selectedPreset,
+                  height: 36,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  onSelected: (int index) {
+                    _applyPreset(index);
+                  },
+                ),
+                OutlinedButton(
+                  onPressed: () => setState(() => _deviceType = DeviceType.ios),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: _deviceType == DeviceType.ios
+                        ? Colors.blue.shade50
+                        : null,
+                  ),
+                  child: const Text('iOS'),
+                ),
+                OutlinedButton(
+                  onPressed: () =>
+                      setState(() => _deviceType = DeviceType.android),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: _deviceType == DeviceType.android
+                        ? Colors.blue.shade50
+                        : null,
+                  ),
+                  child: const Text('Android'),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Checkbox(
+                      value: _showStatusBar,
+                      onChanged: (value) =>
+                          setState(() => _showStatusBar = value ?? true),
+                    ),
+                    const Text('状态栏', style: TextStyle(fontSize: 14)),
+                  ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Checkbox(
+                      value: _showNavigationBar,
+                      onChanged: (value) =>
+                          setState(() => _showNavigationBar = value ?? false),
+                    ),
+                    const Text('导航栏', style: TextStyle(fontSize: 14)),
+                  ],
+                ),
+                // _colorButton(Colors.black),
+                // _colorButton(Colors.grey.shade800),
+                // _colorButton(Colors.blue.shade900),
+                // _colorButton(Colors.purple.shade900),
+              ],
+            ),
+          ),
+          Expanded(
+            child: FittedBox(
+              fit: BoxFit.contain,
+              child: DeviceFrame(
+                width: _width,
+                height: _height,
+                devicePixelRatio: _devicePixelRatio,
+                frameColor: _frameColor,
+                borderRadius: _borderRadius,
+                deviceType: _deviceType,
+                showStatusBar: _showStatusBar,
+                showNavigationBar: _showNavigationBar,
+                child: MyApp(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _colorButton(Color color) {
+    final isSelected = _frameColor == color;
+    return GestureDetector(
+      onTap: () => setState(() => _frameColor = color),
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: color,
+          border: Border.all(
+            color: isSelected ? Colors.blue : Colors.grey.shade300,
+            width: isSelected ? 3 : 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+    );
+  }
+}

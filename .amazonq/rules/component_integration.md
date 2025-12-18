@@ -2,6 +2,26 @@
 
 本规范说明如何快速集成新组件到 TolyUI 框架。项目使用 `toly ui` 命令自动生成路由和代码资源文件。
 
+## 快速集成（推荐）
+
+使用自动化脚本一键集成：
+
+```bash
+dart test/script/integrate_component.dart <component_name> <module> <label> <subtitle>
+```
+
+示例：
+```bash
+dart test/script/integrate_component.dart phone_frame advanced PhoneFrame 手机外观
+```
+
+脚本会自动：
+- 更新模块导出文件
+- 添加菜单配置
+- 注册路由
+
+使用前提：已创建组件目录和 demo 文件。
+
 ## 集成步骤
 
 ### 1. 创建组件目录和案例文件
@@ -56,6 +76,8 @@ export '{component}_demo4.dart';
 // lib/view/widgets/{module}/{module}.dart
 export '{component}/{component}.dart';
 ```
+
+**重要**：模块导出文件必须导出所有 demo 文件，这样 `toly ui` 命令才能扫描到 `@DisplayNode` 注解。
 
 ### 4. 添加菜单配置
 
@@ -113,7 +135,15 @@ Widget overviewDisplayMap(String key){
 }
 ```
 
-### 7. 运行自动生成命令
+### 7. 运行自动集成脚本（可选）
+
+如果已创建好组件目录和 demo 文件，可以使用自动化脚本完成步骤 3-5：
+
+```bash
+dart test/script/integrate_component.dart <component_name> <module> <label> <subtitle>
+```
+
+### 8. 运行自动生成命令
 
 完成上述步骤后，运行命令自动生成路由和代码资源：
 
@@ -132,7 +162,7 @@ toly ui
 1. **目录结构**：`lib/view/widgets/{module}/{component}/`
 2. **文件命名**：`{component}_demo{number}.dart`
 3. **注解标注**：每个案例必须使用 `@DisplayNode` 注解
-4. **导出层级**：组件导出 → 模块导出
+4. **导出层级**：组件导出 → 模块导出（模块导出文件必须导出所有 demo）
 5. **路径一致**：菜单 path 必须与路由 path 一致（小写）
 6. **自动生成**：使用 `toly ui` 命令生成路由和资源文件
 
@@ -189,6 +219,8 @@ toly ui
 2. 更新导出
    lib/view/widgets/data/data.dart
    export 'default/default.dart';
+   
+   注意：data.dart 必须导出 default.dart，而 default.dart 导出所有 demo 文件
 
 3. 添加菜单
    lib/navigation/menu/data.dart

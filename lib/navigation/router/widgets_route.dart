@@ -90,12 +90,13 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('watermark'),
                 ]),
             GoRoute(
-                path: 'advance',
+                path: 'advanced',
                 builder: (BuildContext context, GoRouterState state) {
                   return EcologicalPage();
                 },
                 routes: [
                   _customRoute('color'),
+                  _customRoute('device_frame'),
                 ]),
             GoRoute(
                 path: 'feedback',

@@ -9,6 +9,7 @@ import '../../widgets.dart';
 Widget widgetDisplayMap(String key){
   return switch(key){
     "ColorDemo1" => const ColorDemo1(),
+    "PhoneFrameDemo1" => const PhoneFrameDemo1(),
     "ActionDemo1" => const ActionDemo1(),
     "ActionDemo2" => const ActionDemo2(),
     "ActionDemo3" => const ActionDemo3(),
@@ -89,10 +90,7 @@ Widget widgetDisplayMap(String key){
     "TableDemo3" => const TableDemo3(),
     "TableDemo4" => const TableDemo4(),
     "TableDemo5" => const TableDemo5(),
-    "TableDemo6" => const TableDemo6(),
     "TableDemo7" => const TableDemo7(),
-    "TableDemo8" => const TableDemo8(),
-    "TableDemo9" => const TableDemo9(),
     "TableDemo10" => const TableDemo10(),
     "TableDemo12" => const TableDemo12(),
     "TagDemo1" => const TagDemo1(),

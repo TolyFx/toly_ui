@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toly_ui/app/theme/theme.dart';
-import 'package:toly_ui/navigation/menu/advance.dart';
+import 'package:toly_ui/navigation/menu/advanced.dart';
 import 'package:toly_ui/navigation/menu/basic.dart';
 import 'package:toly_ui/navigation/menu/data.dart';
 import 'package:toly_ui/navigation/menu/feedback.dart';
@@ -22,6 +22,8 @@ class OverviewPage extends StatefulWidget {
 }
 
 class _OverviewPageState extends State<OverviewPage> {
+  String _searchQuery = '';
+
   @override
   void initState() {
     print("_OverviewPageState#initState=========");
@@ -30,6 +32,13 @@ class _OverviewPageState extends State<OverviewPage> {
 
   @override
   Widget build(BuildContext context) {
+    int totalCount = basicMenus['children'].length +
+        formMenus['children'].length +
+        navigationMenus['children'].length +
+        dataMenus['children'].length +
+        feedbackMenus['children'].length +
+        advancedMenus['children'].length;
+
     return PageStorage(
       bucket: _bucket,
       child: Scaffold(
@@ -39,11 +48,45 @@ class _OverviewPageState extends State<OverviewPage> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 24.0),
-              child: Text(
-                'Overview 组件总览',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              child: Row(
+                children: [
+                  Text(
+                    'Overview 组件总览',
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(width: 16),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.blue.shade200),
+                    ),
+                    child: Text(
+                      '$totalCount',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Spacer(),
+                  SizedBox(
+                    width: 300,
+                    child: TolyInput(
+                      hintText: '搜索组件...',
+                      prefixIcon: Icon(Icons.search, size: 18, color: Colors.grey),
+                      onChanged: (value) {
+                        setState(() {
+                          _searchQuery = value.toLowerCase();
+                        });
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
+            const SizedBox(height: 16),
             Text(
                 '以下是 Toly UI 提供的所有组件，包括基础组件、表单组件、导航系统、数据展示、高级组件、反馈组件六大类别；\n'
                 '另外 TolyUI 体系中也包括 Flutter 支持的框架内部件，'
@@ -60,7 +103,7 @@ class _OverviewPageState extends State<OverviewPage> {
             const SizedBox(height: 24),
             buildByMenuNode(feedbackMenus),
             const SizedBox(height: 24),
-            buildByMenuNode(advanceMenus),
+            buildByMenuNode(advancedMenus),
             const SizedBox(height: 24),
           ],
         ),
@@ -69,14 +112,27 @@ class _OverviewPageState extends State<OverviewPage> {
   }
 
   Widget buildByMenuNode(Map<String, dynamic> menu) {
+    List<OverviewItem> items = menu['children']
+        .map<OverviewItem>((e) => OverviewItem(
+            name: e['label'],
+            label: '${e['label']} ${e['subtitle']}',
+            path: '${menu['path']}${e['path']}'))
+        .toList();
+
+    if (_searchQuery.isNotEmpty) {
+      items = items
+          .where((item) =>
+              item.name.toLowerCase().contains(_searchQuery) ||
+              item.label.toLowerCase().contains(_searchQuery))
+          .toList();
+
+      if (items.isEmpty) return SizedBox.shrink();
+    }
+
     return OverviewCell(
       title: menu['label'],
-      items: menu['children']
-          .map<OverviewItem>((e) => OverviewItem(
-              name: e['label'],
-              label: '${e['label']} ${e['subtitle']}',
-              path: '${menu['path']}${e['path']}'))
-          .toList(),
+      items: items,
+      searchQuery: _searchQuery,
     );
   }
 }
@@ -96,11 +152,13 @@ class OverviewItem {
 class OverviewCell extends StatelessWidget {
   final String title;
   final List<OverviewItem> items;
+  final String searchQuery;
 
   const OverviewCell({
     super.key,
     required this.title,
     required this.items,
+    this.searchQuery = '',
   });
 
   @override
@@ -115,11 +173,18 @@ class OverviewCell extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(width: 12),
-            // Tag(
-            //   tagText: '${items.length}',
-            //   padding: EdgeInsets.symmetric(horizontal: 8),
-            //   radius: 6,
-            // )
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: Colors.blue.shade50,
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: Colors.blue.shade200),
+              ),
+              child: Text(
+                '${items.length}',
+                style: TextStyle(fontSize: 12, color: Colors.blue),
+              ),
+            )
           ],
         ),
         const SizedBox(
@@ -133,7 +198,14 @@ class OverviewCell extends StatelessWidget {
             height: 180,
             spacing: 24,
             runSpacing: 24,
-            children: items.map((e) => OverviewWidgetCell(item: e)).toList())
+            children: items
+                .asMap()
+                .entries
+                .map((entry) => OverviewWidgetCell(
+                      item: entry.value,
+                      highlight: searchQuery.isNotEmpty && entry.key < 2,
+                    ))
+                .toList())
         // GridView(gridDelegate: gridDelegate)
       ],
     );
@@ -142,8 +214,10 @@ class OverviewCell extends StatelessWidget {
 
 class OverviewWidgetCell extends StatefulWidget {
   final OverviewItem item;
+  final bool highlight;
 
-  const OverviewWidgetCell({super.key, required this.item});
+  const OverviewWidgetCell(
+      {super.key, required this.item, this.highlight = false});
 
   @override
   State<OverviewWidgetCell> createState() => _OverviewWidgetCellState();
@@ -152,10 +226,12 @@ class OverviewWidgetCell extends StatefulWidget {
 class _OverviewWidgetCellState extends State<OverviewWidgetCell> {
   bool hover = false;
 
-  List<BoxShadow>? get shadow => hover
+  List<BoxShadow>? get shadow => hover || widget.highlight
       ? [
           BoxShadow(
-            color: Color(0xffe8f3ff),
+            color: widget.highlight
+                ? Colors.orange.withOpacity(0.3)
+                : Color(0xffe8f3ff),
             spreadRadius: 2,
             blurRadius: 6,
           )
@@ -184,7 +260,11 @@ class _OverviewWidgetCellState extends State<OverviewWidgetCell> {
           decoration: BoxDecoration(
               boxShadow: shadow,
               color: Colors.white,
-              border: Border.all(color: const Color(0xffdcdfe6), width: px1),
+              border: Border.all(
+                color:
+                    widget.highlight ? Colors.orange : const Color(0xffdcdfe6),
+                width: widget.highlight ? 2 : px1,
+              ),
               borderRadius: BorderRadius.circular(8)),
           child: Column(
             children: [

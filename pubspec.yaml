@@ -60,6 +60,8 @@ dependencies:
     path: modules/data/tolyui_table
   tolyui_watermark:
     path: modules/data/tolyui_watermark
+  tolyui_debug:
+    path: modules/advanced/tolyui_debug
 
   wrapper:
     path: modules/wrapper

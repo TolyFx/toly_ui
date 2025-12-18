@@ -1,0 +1,29 @@
+class PhoneFrameDemo3 extends StatelessWidget {
+  const PhoneFrameDemo3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: PhoneFrame(
+        frameColor: Colors.grey.shade800,
+        borderRadius: 45,
+        child: Container(
+          color: Colors.grey.shade100,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.phone_android, size: 64, color: Colors.grey.shade600),
+                const SizedBox(height: 16),
+                Text(
+                  'Custom Style',
+                  style: TextStyle(fontSize: 20, color: Colors.grey.shade700),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

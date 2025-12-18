@@ -6,221 +6,282 @@ class TableDemo7 extends StatefulWidget {
 }
 
 class _TableDemo7State extends State<TableDemo7> {
-  List<int> _selectedKeys = [];
-  int _currentPage = 1;
-  final int _pageSize = 8;
+  late SheetController<EmployeeData> _controller;
 
-  // 生成综合测试数据
-  List<ComprehensiveData> get _allData => List.generate(
-        50,
-        (index) => ComprehensiveData(
-          key: '${index + 1}',
-          name: 'Employee ${index + 1}',
-          age: 22 + (index % 40),
-          position: _getPosition(index),
-          department: _getDepartment(index),
-          salary: 50000 + (index * 2000),
-          status: _getStatus(index),
-          joinDate:
-              DateTime(2020 + (index % 4), (index % 12) + 1, (index % 28) + 1),
-        ),
-      );
+  final List<EmployeeData> _employees = [
+    EmployeeData(
+      name: '张三',
+      age: 32,
+      position: '高级工程师',
+      department: '技术部',
+      salary: 25000,
+      status: EmployeeStatus.active,
+      joinDate: DateTime(2020, 3, 15),
+    ),
+    EmployeeData(
+      name: '李四',
+      age: 28,
+      position: 'UI设计师',
+      department: '设计部',
+      salary: 18000,
+      status: EmployeeStatus.active,
+      joinDate: DateTime(2021, 6, 20),
+    ),
+    EmployeeData(
+      name: '王五',
+      age: 35,
+      position: '市场经理',
+      department: '市场部',
+      salary: 22000,
+      status: EmployeeStatus.pending,
+      joinDate: DateTime(2019, 8, 10),
+    ),
+    EmployeeData(
+      name: '赵六',
+      age: 29,
+      position: '人事专员',
+      department: '人事部',
+      salary: 15000,
+      status: EmployeeStatus.inactive,
+      joinDate: DateTime(2022, 1, 5),
+    ),
+    EmployeeData(
+      name: '孙七',
+      age: 26,
+      position: '前端开发',
+      department: '技术部',
+      salary: 20000,
+      status: EmployeeStatus.active,
+      joinDate: DateTime(2021, 11, 12),
+    ),
+    EmployeeData(
+      name: '周八',
+      age: 31,
+      position: '产品经理',
+      department: '产品部',
+      salary: 24000,
+      status: EmployeeStatus.active,
+      joinDate: DateTime(2020, 9, 8),
+    ),
+    EmployeeData(
+      name: '吴九',
+      age: 27,
+      position: '测试工程师',
+      department: '技术部',
+      salary: 16000,
+      status: EmployeeStatus.suspended,
+      joinDate: DateTime(2022, 4, 18),
+    ),
+  ];
 
-  String _getPosition(int index) {
-    final positions = [
-      'Developer',
-      'Designer',
-      'Manager',
-      'Analyst',
-      'Tester',
-      'Architect'
-    ];
-    return positions[index % positions.length];
+  @override
+  void initState() {
+    super.initState();
+    _controller = SheetController<EmployeeData>();
   }
 
-  String _getDepartment(int index) {
-    final departments = [
-      'Engineering',
-      'Design',
-      'Marketing',
-      'Sales',
-      'HR',
-      'Finance'
-    ];
-    return departments[index % departments.length];
-  }
-
-  EmployeeStatus _getStatus(int index) {
-    final statuses = EmployeeStatus.values;
-    return statuses[index % statuses.length];
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   void _handleBatchAction(String action) {
-    if (_selectedKeys.isEmpty) {
-      $message.warning(message: '请先选择要操作的数据');
+    final picked = _controller.pickedIndices;
+    if (picked.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('请先选择要操作的数据')),
+      );
       return;
     }
 
-    final selectedNames =
-        _selectedKeys.map((index) => _allData[index].name).join(', ');
-
-    $message.success(message: '$action 操作: $selectedNames');
+    final names = picked.map((i) => _employees[i].name).join('、');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('$action: $names')),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // return SizedBox();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // 批量操作按钮
-        Row(
-          children: [
-            ElevatedButton.icon(
-              onPressed: () => _handleBatchAction('批量删除'),
-              icon: const Icon(Icons.delete, size: 16),
-              label: const Text('批量删除'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-              ),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton.icon(
-              onPressed: () => _handleBatchAction('批量导出'),
-              icon: const Icon(Icons.download, size: 16),
-              label: const Text('批量导出'),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton.icon(
-              onPressed: () => _handleBatchAction('批量编辑'),
-              icon: const Icon(Icons.edit, size: 16),
-              label: const Text('批量编辑'),
-            ),
-            const Spacer(),
-            Text('已选择: ${_selectedKeys.length} 项'),
-          ],
-        ),
-        const SizedBox(height: 16),
-
-        // 表格
-        TolyTableV1<ComprehensiveData>(
-          height: 400,
-          bordered: true,
-          size: TableSize.middle,
-          rowSelection: TableRowSelection<ComprehensiveData>(
-            type: RowSelectionType.checkbox,
-            onChange: (selectedRowKeys, selectedRows) {
-              setState(() => _selectedKeys = selectedRowKeys);
-            },
-            getCheckboxProps: (record) => CheckboxProps(
-              disabled: record.status == EmployeeStatus.inactive,
-            ),
-          ),
-          columns: [
-            TableColumn(
-              title: 'Name',
-              dataIndex: (data) => data.name,
-              width: 120,
-              render: (data, index) => Text(
-                data.name,
-                style: const TextStyle(
-                  color: Colors.blue,
-                  decoration: TextDecoration.underline,
-                  fontWeight: FontWeight.w500,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _buildToolbar(),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 500,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: IntrinsicWidth(
+                child: TolyTable<EmployeeData>(
+                  provider: LocalSheetProvider(data: _employees),
+                  controller: _controller,
+                  fields: [
+                    FieldSpec<EmployeeData>(
+                      key: 'name',
+                      header: const FieldHeader(title: '姓名'),
+                      builder: (ctx) => Text(
+                        ctx.data.name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.blue,
+                        ),
+                      ),
+                      constraint: const FieldConstraint(width: 130),
+                      capability: const FieldCapability(
+                        sortable: SortConfig(),
+                      ),
+                    ),
+                    FieldSpec<EmployeeData>(
+                      key: 'age',
+                      header: const FieldHeader(title: '年龄'),
+                      builder: (ctx) => Text('${ctx.data.age}'),
+                      constraint: const FieldConstraint(width: 130),
+                      capability: const FieldCapability(
+                        sortable: SortConfig(),
+                      ),
+                    ),
+                    FieldSpec<EmployeeData>(
+                      key: 'position',
+                      header: const FieldHeader(title: '职位'),
+                      builder: (ctx) => Text(ctx.data.position),
+                      constraint: const FieldConstraint(width: 140),
+                    ),
+                    FieldSpec<EmployeeData>(
+                      key: 'department',
+                      header: const FieldHeader(title: '部门'),
+                      builder: (ctx) => Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: _getDepartmentColor(ctx.data.department),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          ctx.data.department,
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.white),
+                        ),
+                      ),
+                      constraint: const FieldConstraint(width: 100),
+                    ),
+                    FieldSpec<EmployeeData>(
+                      key: 'salary',
+                      header: const FieldHeader(title: '薪资'),
+                      builder: (ctx) => Text(
+                        '¥${ctx.data.salary.toString().replaceAllMapped(
+                              RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                              (m) => '${m[1]},',
+                            )}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.green,
+                        ),
+                      ),
+                      constraint: const FieldConstraint(width: 120),
+                      capability: const FieldCapability(
+                        sortable: SortConfig(),
+                      ),
+                    ),
+                    FieldSpec<EmployeeData>(
+                      key: 'status',
+                      header: const FieldHeader(title: '状态'),
+                      builder: (ctx) => _buildStatusTag(ctx.data.status),
+                      constraint: const FieldConstraint(width: 100),
+                    ),
+                    FieldSpec<EmployeeData>(
+                      key: 'joinDate',
+                      header: const FieldHeader(title: '入职日期'),
+                      builder: (ctx) => Text(
+                        '${ctx.data.joinDate.year}-${ctx.data.joinDate.month.toString().padLeft(2, '0')}-${ctx.data.joinDate.day.toString().padLeft(2, '0')}',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                      constraint: const FieldConstraint(width: 120),
+                    ),
+                    FieldSpec<EmployeeData>(
+                      key: 'actions',
+                      header: const FieldHeader(title: '操作'),
+                      builder: (ctx) => Wrap(
+                        spacing: 8,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('编辑 ${ctx.data.name}')),
+                              );
+                            },
+                            child: const Text('编辑'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('删除 ${ctx.data.name}')),
+                              );
+                            },
+                            style: TextButton.styleFrom(
+                                foregroundColor: Colors.red),
+                            child: const Text('删除'),
+                          ),
+                        ],
+                      ),
+                      constraint: const FieldConstraint(width: 150),
+                    ),
+                  ],
+                  behavior: SheetBehavior(
+                    pickStrategy: PickStrategy(
+                      mode: PickMode.multiple,
+                      onChanged: (indices) {
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                  appearance: const SheetAppearance(
+                    layoutMode: LayoutMode.fixed,
+                    showBorder: true,
+                    rowHeight: 56,
+                  ),
                 ),
               ),
             ),
-            TableColumn(
-              title: 'Age',
-              dataIndex: (data) => data.age,
-              width: 60,
-              align: TextAlign.center,
-            ),
-            TableColumn(
-              title: 'Position',
-              dataIndex: (data) => data.position,
-              width: 100,
-            ),
-            TableColumn(
-              title: 'Department',
-              dataIndex: (data) => data.department,
-              width: 100,
-            ),
-            TableColumn(
-              title: 'Salary',
-              dataIndex: (data) => data.salary,
-              width: 100,
-              align: TextAlign.right,
-              render: (data, index) => Text(
-                '\$${data.salary.toString().replaceAllMapped(
-                      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-                      (Match m) => '${m[1]},',
-                    )}',
-                style: const TextStyle(fontWeight: FontWeight.w500),
-              ),
-            ),
-            TableColumn(
-              title: 'Status',
-              dataIndex: (data) => data.status,
-              width: 100,
-              render: (data, index) => _buildStatusTag(data.status),
-            ),
-            TableColumn(
-              title: 'Join Date',
-              dataIndex: (data) => data.joinDate,
-              width: 100,
-              render: (data, index) => Text(
-                '${data.joinDate.year}-${data.joinDate.month.toString().padLeft(2, '0')}-${data.joinDate.day.toString().padLeft(2, '0')}',
-                style: const TextStyle(fontSize: 12),
-              ),
-            ),
-            TableColumn(
-              title: 'Action',
-              dataIndex: (data) => '',
-              width: 120,
-              render: (data, index) => Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  GestureDetector(
-                    onTap: () => $message.info(message: 'Edit ${data.name}'),
-                    child: const Icon(Icons.edit, size: 16, color: Colors.blue),
-                  ),
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: () => $message.info(message: 'View ${data.name}'),
-                    child: const Icon(Icons.visibility,
-                        size: 16, color: Colors.green),
-                  ),
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: () =>
-                        $message.warning(message: 'Delete ${data.name}'),
-                    child:
-                        const Icon(Icons.delete, size: 16, color: Colors.red),
-                  ),
-                ],
-              ),
-            ),
-          ],
-          dataSource: _allData,
-          pagination: TablePagination(
-            pageSize: _pageSize,
-            current: _currentPage,
-            total: _allData.length,
-            onChange: (page, pageSize) {
-              setState(() {
-                _currentPage = page;
-                _selectedKeys.clear(); // 切换页面时清空选择
-              });
-            },
           ),
-          onRow: (record, index) {
-            $message.success(
-                message: 'Clicked: ${record.name} (${record.position})');
-          },
-        ),
-      ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildToolbar() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          const Text('批量操作：', style: TextStyle(fontWeight: FontWeight.w600)),
+          const SizedBox(width: 12),
+          OutlinedButton.icon(
+            onPressed: () => _handleBatchAction('批量删除'),
+            icon: const Icon(Icons.delete, size: 18),
+            label: const Text('删除'),
+            style: OutlinedButton.styleFrom(foregroundColor: Colors.red),
+          ),
+          const SizedBox(width: 8),
+          OutlinedButton.icon(
+            onPressed: () => _handleBatchAction('批量导出'),
+            icon: const Icon(Icons.download, size: 18),
+            label: const Text('导出'),
+          ),
+          const SizedBox(width: 8),
+          OutlinedButton.icon(
+            onPressed: () => _handleBatchAction('批量编辑'),
+            icon: const Icon(Icons.edit, size: 18),
+            label: const Text('编辑'),
+          ),
+          const Spacer(),
+          Text('已选择: ${_controller.pickedIndices.length} 项'),
+        ],
+      ),
     );
   }
 
@@ -231,36 +292,56 @@ class _TableDemo7State extends State<TableDemo7> {
     switch (status) {
       case EmployeeStatus.active:
         color = Colors.green;
-        text = 'Active';
+        text = '在职';
         break;
       case EmployeeStatus.inactive:
         color = Colors.grey;
-        text = 'Inactive';
+        text = '离职';
         break;
       case EmployeeStatus.pending:
         color = Colors.orange;
-        text = 'Pending';
+        text = '待入职';
         break;
       case EmployeeStatus.suspended:
         color = Colors.red;
-        text = 'Suspended';
+        text = '停职';
         break;
     }
 
-    return TolyTag(
-      color: color,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(4),
+      ),
       child: Text(
         text,
         style: const TextStyle(fontSize: 12, color: Colors.white),
       ),
     );
   }
+
+  Color _getDepartmentColor(String department) {
+    switch (department) {
+      case '技术部':
+        return Colors.blue;
+      case '设计部':
+        return Colors.purple;
+      case '市场部':
+        return Colors.orange;
+      case '人事部':
+        return Colors.teal;
+      case '产品部':
+        return Colors.indigo;
+      default:
+        return Colors.grey;
+    }
+  }
 }
 
 enum EmployeeStatus { active, inactive, pending, suspended }
 
-class ComprehensiveData {
-  final String key;
+class EmployeeData {
   final String name;
   final int age;
   final String position;
@@ -269,8 +350,7 @@ class ComprehensiveData {
   final EmployeeStatus status;
   final DateTime joinDate;
 
-  const ComprehensiveData({
-    required this.key,
+  EmployeeData({
     required this.name,
     required this.age,
     required this.position,

@@ -5,6 +5,7 @@ import 'package:tolyui/tolyui.dart';
 import 'advance.dart';
 import 'basic_display.dart';
 import 'data.dart';
+import 'feedback_display.dart';
 import 'form_display.dart';
 import 'navigation_display.dart';
 
@@ -14,13 +15,19 @@ Widget overviewDisplayMap(String key){
     'Button' => ButtonOverview(),
     'Icon' => IconOverview(),
     'Text' => TextOverview(),
+    'TolyuiText' => TolyuiTextOverview(),
     'Layout' => LayoutOverview(),
     'Link' => LinkOverview(),
     'Autocomplete' => AutocompleteDisplay(),
-    'ColorPicker' => ColorDisplay(),
+    'ColorPicker' => ColorPickerDisplay(),
+    'Checkbox' => CheckboxDisplay(),
     'DatePicker' => DatePickerDisplay(),
     'Input' => InputDisplay(),
     'Select' => SelectDisplay(),
+    'Slider' => SliderDisplay(),
+    'Switch' => SwitchDisplay(),
+    'Radio' => RadioDisplay(),
+    'Transfer' => TransferDisplay(),
     'Anchor' => AnchorDisplay(),
     'Breadcrumb' => BreadcrumbDisplay(),
     'DropMenu' => DropMenuDisplay(),
@@ -42,8 +49,18 @@ Widget overviewDisplayMap(String key){
     'Segmented' =>  SegmentedDisplay(),
     'Statistics' =>  StatisticsDisplay(),
     'Table' => TableDisplay(),
+    'Watermark' => WatermarkDisplay(),
+    'Carousel' => CarouselDisplay(),
 
     'Color' => ColorDisplay(),
+    'DeviceFrame' => DeviceFrameDisplay(),
+
+    'Message' => MessageDisplay(),
+    'Notification' => NotificationDisplay(),
+    'Loading' => LoadingDisplay(),
+    'Popover' => PopoverDisplay(),
+    'Shortcuts' => ShortcutsDisplay(),
+    'Tooltip' => TooltipDisplay(),
 
     _ => ToDoDisplay()
   };

@@ -726,3 +726,82 @@ class TableDisplay extends StatelessWidget {
     );
   }
 }
+
+class WatermarkDisplay extends StatelessWidget {
+  const WatermarkDisplay({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 120,
+      height: 80,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: Color(0xffd9d9d9), width: 0.5),
+      ),
+      child: Stack(
+        children: List.generate(6, (index) {
+          final row = index ~/ 2;
+          final col = index % 2;
+          return Positioned(
+            left: col * 60.0 + 10,
+            top: row * 30.0 + 5,
+            child: Transform.rotate(
+              angle: -0.3,
+              child: Text(
+                'TolyUI',
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Colors.grey.shade400,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class CarouselDisplay extends StatelessWidget {
+  const CarouselDisplay({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 120,
+      height: 70,
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: Color(0xffd9d9d9), width: 0.5),
+      ),
+      child: Stack(
+        children: [
+          Center(
+            child: Icon(Icons.image, size: 32, color: hitColor),
+          ),
+          Positioned(
+            bottom: 8,
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(3, (index) => Container(
+                margin: EdgeInsets.symmetric(horizontal: 2),
+                width: index == 1 ? 16 : 6,
+                height: 6,
+                decoration: BoxDecoration(
+                  color: index == 1 ? activeColor : hitColor,
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              )),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

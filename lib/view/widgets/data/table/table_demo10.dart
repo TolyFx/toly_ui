@@ -17,8 +17,8 @@ class TableDemo10 extends StatefulWidget {
 class _TableDemo10State extends State<TableDemo10> {
   bool _autoWidth = true;
 
-  final List<EmployeeData> _employees = [
-    EmployeeData(
+  final List<_EmployeeData> _employees = [
+    _EmployeeData(
       name: '张三',
       age: 32,
       gender: '男',
@@ -28,7 +28,7 @@ class _TableDemo10State extends State<TableDemo10> {
       position: '高级工程师',
       salary: 25000,
     ),
-    EmployeeData(
+    _EmployeeData(
       name: '李四',
       age: 28,
       gender: '女',
@@ -38,7 +38,7 @@ class _TableDemo10State extends State<TableDemo10> {
       position: 'UI设计师',
       salary: 18000,
     ),
-    EmployeeData(
+    _EmployeeData(
       name: '王五',
       age: 35,
       gender: '男',
@@ -48,7 +48,7 @@ class _TableDemo10State extends State<TableDemo10> {
       position: '市场经理',
       salary: 22000,
     ),
-    EmployeeData(
+    _EmployeeData(
       name: '赵六',
       age: 29,
       gender: '女',
@@ -67,10 +67,10 @@ class _TableDemo10State extends State<TableDemo10> {
         children: [
           _buildToolbar(),
           const SizedBox(height: 16),
-          TolyTable<EmployeeData>(
+          TolyTable<_EmployeeData>(
             provider: LocalSheetProvider(data: _employees),
             fields: [
-              FieldSpec<EmployeeData>(
+              FieldSpec<_EmployeeData>(
                 key: 'name',
                 header: const FieldHeader(title: '姓名'),
                 builder: (ctx) => Text(
@@ -78,32 +78,32 @@ class _TableDemo10State extends State<TableDemo10> {
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
               ),
-              FieldSpec<EmployeeData>(
+              FieldSpec<_EmployeeData>(
                 key: 'personal',
                 header: const FieldHeader(title: '个人信息'),
                 children: [
-                  FieldSpec<EmployeeData>(
+                  FieldSpec<_EmployeeData>(
                     key: 'age',
                     header: const FieldHeader(title: '年龄'),
                     builder: (ctx) => Text('${ctx.data.age}'),
                   ),
-                  FieldSpec<EmployeeData>(
+                  FieldSpec<_EmployeeData>(
                     key: 'gender',
                     header: const FieldHeader(title: '性别'),
                     builder: (ctx) => Text(ctx.data.gender),
                   ),
                 ],
               ),
-              FieldSpec<EmployeeData>(
+              FieldSpec<_EmployeeData>(
                 key: 'contact',
                 header: const FieldHeader(title: '联系方式'),
                 children: [
-                  FieldSpec<EmployeeData>(
+                  FieldSpec<_EmployeeData>(
                     key: 'phone',
                     header: const FieldHeader(title: '电话'),
                     builder: (ctx) => Text(ctx.data.phone),
                   ),
-                  FieldSpec<EmployeeData>(
+                  FieldSpec<_EmployeeData>(
                     key: 'email',
                     header: const FieldHeader(title: '邮箱'),
                     builder: (ctx) => Text(
@@ -113,11 +113,11 @@ class _TableDemo10State extends State<TableDemo10> {
                   ),
                 ],
               ),
-              FieldSpec<EmployeeData>(
+              FieldSpec<_EmployeeData>(
                 key: 'work',
                 header: const FieldHeader(title: '工作信息'),
                 children: [
-                  FieldSpec<EmployeeData>(
+                  FieldSpec<_EmployeeData>(
                     key: 'department',
                     header: const FieldHeader(title: '部门'),
                     builder: (ctx) => Container(
@@ -134,12 +134,12 @@ class _TableDemo10State extends State<TableDemo10> {
                       ),
                     ),
                   ),
-                  FieldSpec<EmployeeData>(
+                  FieldSpec<_EmployeeData>(
                     key: 'position',
                     header: const FieldHeader(title: '职位'),
                     builder: (ctx) => Text(ctx.data.position),
                   ),
-                  FieldSpec<EmployeeData>(
+                  FieldSpec<_EmployeeData>(
                     key: 'salary',
                     header: const FieldHeader(title: '薪资'),
                     builder: (ctx) => Text(
@@ -217,7 +217,7 @@ class _TableDemo10State extends State<TableDemo10> {
   }
 }
 
-class EmployeeData {
+class _EmployeeData {
   final String name;
   final int age;
   final String gender;
@@ -227,7 +227,7 @@ class EmployeeData {
   final String position;
   final int salary;
 
-  EmployeeData({
+  _EmployeeData({
     required this.name,
     required this.age,
     required this.gender,
