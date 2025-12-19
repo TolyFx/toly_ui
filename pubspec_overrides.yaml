@@ -4,17 +4,17 @@ dependency_overrides:
 #  toly_menu:
 #    path: modules/toly_menu
   tolyui_navigation:
-    path: modules/tolyui_navigation
+    path: modules/navigation/tolyui_navigation
   tolyui_rx_layout:
-    path: modules/tolyui_rx_layout
+    path: modules/basic/tolyui_rx_layout
   tolyui_feedback:
-    path: modules/tolyui_feedback
+    path: modules/feedback/tolyui_feedback
   tolyui_message:
     path: modules/feedback/tolyui_message
   tolyui_color:
     path: modules/advanced/tolyui_color
   tolyui_text:
-    path: modules/tolyui_text
+    path: modules/basic/tolyui_text
   toly_check_box:
     path: modules/form/toly_check_box
   intl: 0.20.2

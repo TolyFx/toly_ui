@@ -479,7 +479,7 @@ packages:
   tolyui_feedback:
     dependency: "direct overridden"
     description:
-      path: "modules/tolyui_feedback"
+      path: "modules/feedback/tolyui_feedback"
       relative: true
     source: path
     version: "0.3.6+8"
@@ -501,14 +501,14 @@ packages:
   tolyui_navigation:
     dependency: "direct overridden"
     description:
-      path: "modules/tolyui_navigation"
+      path: "modules/navigation/tolyui_navigation"
       relative: true
     source: path
     version: "0.2.0+5"
   tolyui_rx_layout:
     dependency: "direct overridden"
     description:
-      path: "modules/tolyui_rx_layout"
+      path: "modules/basic/tolyui_rx_layout"
       relative: true
     source: path
     version: "1.0.0+1"
@@ -545,7 +545,7 @@ packages:
   tolyui_text:
     dependency: "direct main"
     description:
-      path: "modules/tolyui_text"
+      path: "modules/basic/tolyui_text"
       relative: true
     source: path
     version: "0.0.1+5"
@@ -711,7 +711,7 @@ packages:
   wrapper:
     dependency: "direct main"
     description:
-      path: "modules/wrapper"
+      path: "modules/data/wrapper"
       relative: true
     source: path
     version: "1.0.2"

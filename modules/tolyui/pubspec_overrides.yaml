@@ -1,10 +1,10 @@
 dependency_overrides:
   tolyui_rx_layout:
-    path: ../tolyui_rx_layout
+    path: ../basic/tolyui_rx_layout
   tolyui_navigation:
-    path: ../tolyui_navigation
+    path: ../navigation/tolyui_navigation
   tolyui_feedback:
-    path: ../tolyui_feedback
+    path: ../feedback/tolyui_feedback
   tolyui_color:
     path: ../advanced/tolyui_color
   toly_check_box:
