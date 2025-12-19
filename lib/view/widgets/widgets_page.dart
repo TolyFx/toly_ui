@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tolyui/debugger/debug_constraints_display.dart';
 
 class WidgetsPage extends StatelessWidget {
-
   const WidgetsPage({super.key});
 
   ///      maxCrossAxisExtent: 320,
@@ -12,17 +10,15 @@ class WidgetsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     // return Scaffold(body: const Center(child: Text('WidgetsPage')));
     return const Scaffold(
       body: Center(
-        // child: DebugConstraintsDisplay(
-        //   color: Color(0xff00ffff),
-        //   showBorder: true,
-        //   showColor: true,
-        // ),
-      ),
+          // child: DebugConstraintsDisplay(
+          //   color: Color(0xff00ffff),
+          //   showBorder: true,
+          //   showColor: true,
+          // ),
+          ),
     );
   }
 }
-

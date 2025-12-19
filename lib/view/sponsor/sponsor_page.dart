@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tolyui/basic/basic.dart';
+import 'package:tolyui/tolyui.dart';
 
 import 'contact_me.dart';
 import 'sponsor_panel.dart';
@@ -29,4 +29,3 @@ class SponsorPage extends StatelessWidget {
     );
   }
 }
-

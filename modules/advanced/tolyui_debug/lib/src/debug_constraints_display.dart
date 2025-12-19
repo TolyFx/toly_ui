@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../res/cons.dart';
-
 class DebugConstraintsDisplay extends StatelessWidget {
   final Widget? child;
   final bool showConstraints;
@@ -13,41 +11,43 @@ class DebugConstraintsDisplay extends StatelessWidget {
 
   const DebugConstraintsDisplay({
     super.key,
-     this.child,
+    this.child,
     this.color = Colors.blue,
     this.showConstraints = true,
-     this.showBorder = true,
-     this.showColor= true,
+    this.showBorder = true,
+    this.showColor = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (isRelease) return child??const SizedBox();
+    if (_isRelease) return child ?? const SizedBox();
 
     return LayoutBuilder(builder: (ctx, cts) {
       return Container(
         width: cts.maxWidth,
         height: cts.maxHeight,
         decoration: BoxDecoration(
-            border: showBorder?Border.all(color: color):null,
-            color: showColor? color.withOpacity(0.05):null),
-        child: showConstraints?Stack(
-          children: [
-            child??const SizedBox(),
-            Positioned(
-              right: 0,
-              top: 0,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-                child: Text(
-                  display(cts),
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-              ),
-            )
-          ],
-        ):null,
+            border: showBorder ? Border.all(color: color) : null,
+            color: showColor ? color.withOpacity(0.05) : null),
+        child: showConstraints
+            ? Stack(
+                children: [
+                  child ?? const SizedBox(),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 4),
+                      child: Text(
+                        display(cts),
+                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                      ),
+                    ),
+                  )
+                ],
+              )
+            : null,
       );
     });
   }
@@ -71,3 +71,5 @@ class DebugConstraintsDisplay extends StatelessWidget {
         'H:[${constraints.minHeight.toStringAsFixed(1)},${constraints.maxHeight.toStringAsFixed(1)}]';
   }
 }
+
+const _isRelease = bool.fromEnvironment('dart.vm.product');

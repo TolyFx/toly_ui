@@ -1,7 +1,7 @@
 # TolyUI - Flutter 全平台响应式组件库
 
 <p align="center">
-  <img src="./doc/screen/display.webp" alt="TolyUI Logo" width="1200"/>
+  <img src="https://raw.githubusercontent.com/TolyFx/toly_ui/master/modules/tolyui/doc/screen/display.webp" alt="TolyUI Logo" width="1200"/>
 </p>
 
 <p align="center">
