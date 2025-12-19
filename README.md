@@ -1,7 +1,7 @@
 # TolyUI
 
 <p align="center">
-  <img src="./doc/tolyui/img.webp" alt="TolyUI Logo" width="1200"/>
+  <img src="./modules/tolyui/doc/screen/display.webp" alt="TolyUI Logo" width="1200"/>
 </p>
 
 <p align="center">
