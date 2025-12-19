@@ -244,7 +244,7 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 ### 开源不易，请我喝咖啡 ☕
 
 <p align="center">
-  <img src="./doc/ewm/coffee1.webp" alt="赞赏码" width="200"/>
+  <img src="./doc/ewm/coffee1.webp" alt="赞赏码" width="1200"/>
 </p>
 
 ---
