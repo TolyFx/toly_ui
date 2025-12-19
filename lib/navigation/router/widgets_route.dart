@@ -85,7 +85,6 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('carousel'),
                   _customRoute('tag'),
                   _customRoute('tree'),
-                  _customRoute('slideshow'),
                   _customRoute('skeleton'),
                   _customRoute('watermark'),
                 ]),

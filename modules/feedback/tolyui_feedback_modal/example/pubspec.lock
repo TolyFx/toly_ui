@@ -215,7 +215,7 @@ packages:
   tolyui_message:
     dependency: "direct main"
     description:
-      path: "../../../tolyui_message"
+      path: "../../tolyui_message"
       relative: true
     source: path
     version: "0.2.6+1"

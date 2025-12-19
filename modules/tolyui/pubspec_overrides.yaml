@@ -1,9 +1,11 @@
-#dependency_overrides:
-#  tolyui_rx_layout:
-#    path: ../tolyui_rx_layout
-#  tolyui_navigation:
-#    path: ../tolyui_navigation
-#  tolyui_feedback:
-#    path: ../tolyui_feedback
-#  tolyui_color:
-#    path: ../tolyui_color
+dependency_overrides:
+  tolyui_rx_layout:
+    path: ../tolyui_rx_layout
+  tolyui_navigation:
+    path: ../tolyui_navigation
+  tolyui_feedback:
+    path: ../tolyui_feedback
+  tolyui_color:
+    path: ../advanced/tolyui_color
+  toly_check_box:
+    path: ../form/toly_check_box

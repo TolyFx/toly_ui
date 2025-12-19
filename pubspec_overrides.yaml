@@ -10,9 +10,9 @@ dependency_overrides:
   tolyui_feedback:
     path: modules/tolyui_feedback
   tolyui_message:
-    path: modules/tolyui_message
+    path: modules/feedback/tolyui_message
   tolyui_color:
-    path: modules/tolyui_color
+    path: modules/advanced/tolyui_color
   tolyui_text:
     path: modules/tolyui_text
   toly_check_box:

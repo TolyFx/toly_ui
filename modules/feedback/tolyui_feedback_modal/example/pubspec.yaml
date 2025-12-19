@@ -37,7 +37,7 @@ dependencies:
   tolyui_feedback_modal:
     path: ../
   tolyui_message:
-    path: ../../../tolyui_message
+    path: ../../tolyui_message
 dev_dependencies:
   flutter_test:
     sdk: flutter

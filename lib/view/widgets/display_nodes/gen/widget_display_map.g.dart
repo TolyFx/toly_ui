@@ -81,7 +81,6 @@ Widget widgetDisplayMap(String key){
     "SkeletonDemo3" => const SkeletonDemo3(),
     "SkeletonDemo4" => const SkeletonDemo4(),
     "SkeletonDemo5" => const SkeletonDemo5(),
-    "SlideshowDemo1" => const SlideshowDemo1(),
     "StatisticsDemo" => const StatisticsDemo(),
     "CountdownDemo" => const CountdownDemo(),
     "StatisticsDemo3" => const StatisticsDemo3(),

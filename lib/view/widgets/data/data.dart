@@ -12,6 +12,5 @@ export 'statistics/statistics.dart';
 export 'table/table.dart';
 export 'tag/tag.dart';
 export 'tree/tree.dart';
-export 'slideshow/slideshow.dart';
 export 'skeleton/skeleton.dart';
 export 'watermark/watermark.dart';

@@ -22,7 +22,6 @@ part 'pagination.g.dart';
 part 'progress.g.dart';
 part 'segmented.g.dart';
 part 'skeleton.g.dart';
-part 'slideshow.g.dart';
 part 'statistics.g.dart';
 part 'table.g.dart';
 part 'tag.g.dart';
@@ -72,7 +71,6 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "progress" => _progressData,
     "segmented" => _segmentedData,
     "skeleton" => _skeletonData,
-    "slideshow" => _slideshowData,
     "statistics" => _statisticsData,
     "table" => _tableData,
     "tag" => _tagData,

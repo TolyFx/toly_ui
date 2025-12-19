@@ -12,3 +12,4 @@ export 'ext/context.dart';
 export 'form/form.dart';
 export 'data/data.dart';
 export 'package:tolyui_tree/toly_tree.dart';
+export 'package:tolyui_collapse/tolyui_collapse.dart';
