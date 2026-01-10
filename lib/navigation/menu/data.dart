@@ -110,5 +110,11 @@ Map<String, dynamic> get dataMenus => {
           'subtitle': '水印',
           'tag': '新'
         },
+        {
+          'path': '/timeline_new',
+          'label': 'Timeline',
+          'subtitle': '时间轴',
+          'tag': '新'
+        },
       ]
     };

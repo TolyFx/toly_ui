@@ -25,6 +25,7 @@ part 'skeleton.g.dart';
 part 'statistics.g.dart';
 part 'table.g.dart';
 part 'tag.g.dart';
+part 'timeline_new.g.dart';
 part 'tree.g.dart';
 part 'watermark.g.dart';
 part 'loading.g.dart';
@@ -74,6 +75,7 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "statistics" => _statisticsData,
     "table" => _tableData,
     "tag" => _tagData,
+    "timeline_new" => _timeline_newData,
     "tree" => _treeData,
     "watermark" => _watermarkData,
     "loading" => _loadingData,

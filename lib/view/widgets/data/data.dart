@@ -14,3 +14,4 @@ export 'tag/tag.dart';
 export 'tree/tree.dart';
 export 'skeleton/skeleton.dart';
 export 'watermark/watermark.dart';
+export 'timeline_new/timeline_new.dart';

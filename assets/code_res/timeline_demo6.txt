@@ -1,0 +1,20 @@
+class TimelineDemo6 extends StatelessWidget {
+  const TimelineDemo6({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const TolyTimeline(
+      mode: TimelineMode.end,
+      items: [
+        TimelineItemData(content: 'Create a services site 2015-09-01'),
+        TimelineItemData(content: 'Solve initial network problems 2015-09-01'),
+        TimelineItemData(
+          icon: Icon(Icons.access_time),
+          color: Colors.red,
+          content: 'Technical testing 2015-09-01',
+        ),
+        TimelineItemData(content: 'Network problems being solved 2015-09-01'),
+      ],
+    );
+  }
+}

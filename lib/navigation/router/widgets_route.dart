@@ -87,6 +87,7 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('tree'),
                   _customRoute('skeleton'),
                   _customRoute('watermark'),
+                  _customRoute('timeline_new'),
                 ]),
             GoRoute(
                 path: 'advanced',

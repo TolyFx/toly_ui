@@ -60,6 +60,8 @@ dependencies:
     path: modules/data/tolyui_table
   tolyui_watermark:
     path: modules/data/tolyui_watermark
+  tolyui_timeline:
+    path: modules/data/tolyui_timeline
   tolyui_debug:
     path: modules/advanced/tolyui_debug
 
@@ -147,3 +149,4 @@ toly:
     src_zip: 'assets/hide/download.zip' # 下载的压缩包资源
     assets_dir: 'assets/iconfont'  # ttf文件解压的文件夹
     dist_file: 'lib/app/res/toly_icon.dart' # 生成的代码文件地址
+

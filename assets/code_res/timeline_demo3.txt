@@ -1,0 +1,15 @@
+class TimelineDemo3 extends StatelessWidget {
+  const TimelineDemo3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const TolyTimeline(
+      items: [
+        TimelineItemData(content: 'Create a services site 2015-09-01'),
+        TimelineItemData(content: 'Solve initial network problems 2015-09-01'),
+        TimelineItemData(content: 'Technical testing 2015-09-01'),
+        TimelineItemData(loading: true, content: 'Recording...'),
+      ],
+    );
+  }
+}

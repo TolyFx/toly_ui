@@ -13,6 +13,7 @@ void main() async {
   // publishModule('tolyui_feedback');
   // publishModule(folder: 'form', 'toly_check_box');
   // publishModule(folder: 'feedback', 'tolyui_feedback_modal');
+  publishModule(folder: 'feedback', 'tolyui_feedback');
   // publishModule(folder: 'data', 'tolyui_statistic');
   // publishModule(folder: 'data', 'tolyui_tag');
   // publishModule(folder: 'data', 'tolyui_tree');

@@ -409,7 +409,7 @@ class TolyTooltip extends StatefulWidget {
 /// [ensureTooltipVisible] method.
 class TolyTooltipState extends State<TolyTooltip>
     with SingleTickerProviderStateMixin {
-  static const double _defaultVerticalOffset = 10.0;
+  static const double _defaultVerticalOffset = 24.0;
   static const EdgeInsets _defaultMargin = EdgeInsets.zero;
   static const Duration _fadeInDuration = Duration(milliseconds: 150);
   static const Duration _fadeOutDuration = Duration(milliseconds: 75);
@@ -765,10 +765,7 @@ class TolyTooltipState extends State<TolyTooltip>
       TargetPlatform.linux ||
       TargetPlatform.windows =>
         24.0,
-      TargetPlatform.android ||
-      TargetPlatform.fuchsia ||
-      TargetPlatform.iOS =>
-        32.0,
+      _ => 32.0,
     };
   }
 
@@ -778,10 +775,7 @@ class TolyTooltipState extends State<TolyTooltip>
       TargetPlatform.linux ||
       TargetPlatform.windows =>
         const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-      TargetPlatform.android ||
-      TargetPlatform.fuchsia ||
-      TargetPlatform.iOS =>
-        const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+      _ => const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
     };
   }
 
@@ -791,10 +785,7 @@ class TolyTooltipState extends State<TolyTooltip>
       TargetPlatform.linux ||
       TargetPlatform.windows =>
         12.0,
-      TargetPlatform.android ||
-      TargetPlatform.fuchsia ||
-      TargetPlatform.iOS =>
-        14.0,
+      _ => 14.0,
     };
   }
 
