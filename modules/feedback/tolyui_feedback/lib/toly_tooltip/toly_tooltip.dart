@@ -168,9 +168,7 @@ class TolyTooltip extends StatefulWidget {
   /// All parameters that are defined in the constructor will
   /// override the default values _and_ the values in [TooltipTheme.of].
   ///
-  /// Only one of [message] and  bvc[richMessage] may be non-null.
-  ///  \bv,m,
-  ///  |
+  /// Only one of [message] and [richMessage] may be non-null.
   const TolyTooltip({
     super.key,
     this.message,

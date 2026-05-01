@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'tooltip_placement.dart';
 
 /// 边界溢出情况

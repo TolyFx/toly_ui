@@ -5,7 +5,7 @@ import '../toly_tooltip/position_delegate.dart';
 import '../toly_tooltip/toly_tooltip.dart';
 import '../toly_tooltip/tooltip_placement.dart';
 import 'model/callback.dart';
-import 'view/decration.dart';
+import 'view/decoration.dart';
 
 part 'logic/controller.dart';
 
