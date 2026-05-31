@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'tooltip_placement.dart';
 
 /// 边界溢出情况
@@ -49,11 +47,11 @@ Placement defaultOverflowAlgorithm(
     return Placement.top;
   }
 
-  if (!outLeft && input.isLeft) {
+  if (!outLeft && input == Placement.left && outRight) {
     return Placement.left;
   }
 
-  if (!outRight && input.isRight) {
+  if (!outRight && input == Placement.right && outLeft) {
     return Placement.right;
   }
 
@@ -85,6 +83,7 @@ Placement defaultOverflowAlgorithm(
     case Placement.leftEnd:
       if (outTop) return Placement.leftStart;
       if (outLeft) return Placement.rightEnd;
+      if (outBottom) return input;
       break;
     case Placement.right:
       if (outRight) return Placement.left;
@@ -99,6 +98,7 @@ Placement defaultOverflowAlgorithm(
     case Placement.rightEnd:
       if (outTop) return Placement.rightStart;
       if (outRight) return Placement.leftEnd;
+      if (outBottom) return input;
       break;
     default:
       if (outBottom && input.isBottom || outTop && input.isTop) {

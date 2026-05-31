@@ -5,7 +5,7 @@ import '../toly_tooltip/position_delegate.dart';
 import '../toly_tooltip/toly_tooltip.dart';
 import '../toly_tooltip/tooltip_placement.dart';
 import 'model/callback.dart';
-import 'view/decration.dart';
+import 'view/decoration.dart';
 
 part 'logic/controller.dart';
 
@@ -132,6 +132,14 @@ class _TolyPopoverState extends State<TolyPopover>
     _controller.reverse();
   }
 
+  double get _defaultGap {
+    final config = widget.decorationConfig;
+    if (config != null && config.isBubble) {
+      return config.bubbleMeta.spineHeight + 2;
+    }
+    return 12;
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget child = OverlayPortal(
@@ -188,7 +196,7 @@ class _TolyPopoverState extends State<TolyPopover>
       animation:
           CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
       target: target,
-      verticalOffset: widget.gap ?? 12,
+      verticalOffset: widget.gap ?? _defaultGap,
     );
 
     return SelectionContainer.maybeOf(context) == null

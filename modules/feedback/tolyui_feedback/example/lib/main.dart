@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
+import 'feedback_showcase_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -241,6 +243,21 @@ class _PopPickerDemoState extends State<PopPickerDemo> {
             ElevatedButton(
               onPressed: _showPickerWithCustomTheme,
               child: const Text('ThemeExtension 自定义'),
+            ),
+            const SizedBox(height: 24),
+            const Divider(),
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const FeedbackShowcasePage(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.science),
+              label: const Text('组件测试总览'),
             ),
           ],
         ),
