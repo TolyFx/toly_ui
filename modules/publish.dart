@@ -11,16 +11,19 @@ void main() async {
 
   // publishModule('tolyui');
   // publishModule('tolyui_feedback');
+  // publishModule(folder: 'basic', 'tolyui_rx_layout');
+  // publishModule(folder: 'form', 'toly_check_box');
   // publishModule(folder: 'form', 'toly_check_box');
   // publishModule(folder: 'feedback', 'tolyui_feedback_modal');
   publishModule(folder: 'feedback', 'tolyui_feedback');
+  // publishModule(folder: 'navigation', 'tolyui_navigation');
   // publishModule(folder: 'data', 'tolyui_statistic');
   // publishModule(folder: 'data', 'tolyui_tag');
   // publishModule(folder: 'data', 'tolyui_tree');
   // publishModule(folder: 'data', 'tolyui_collapse');
   // publishModule('tolyui_image');
   // publishModule('tolyui_text');
-  publishModule('tolyui');
+  // publishModule('tolyui');
   // publishModule('tolyui_rx_layout');
 
   // for(String module in updates){

@@ -168,7 +168,9 @@ class TolyTooltip extends StatefulWidget {
   /// All parameters that are defined in the constructor will
   /// override the default values _and_ the values in [TooltipTheme.of].
   ///
-  /// Only one of [message] and [richMessage] may be non-null.
+  /// Only one of [message] and  bvc[richMessage] may be non-null.
+  ///  \bv,m,
+  ///  |
   const TolyTooltip({
     super.key,
     this.message,
@@ -777,14 +779,6 @@ class TolyTooltipState extends State<TolyTooltip>
     };
   }
 
-  double _getDefaultGap() {
-    final config = widget.decorationConfig;
-    if (config != null && config.isBubble) {
-      return config.bubbleMeta.spineHeight + 2;
-    }
-    return _defaultVerticalOffset;
-  }
-
   static double _getDefaultFontSize(TargetPlatform platform) {
     return switch (platform) {
       TargetPlatform.macOS ||
@@ -851,7 +845,7 @@ class TolyTooltipState extends State<TolyTooltip>
           CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
       target: target,
       verticalOffset:
-          widget.gap ?? tooltipTheme.verticalOffset ?? _getDefaultGap(),
+          widget.gap ?? tooltipTheme.verticalOffset ?? _defaultVerticalOffset,
     );
 
     return SelectionContainer.maybeOf(context) == null

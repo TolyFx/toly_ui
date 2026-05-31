@@ -1,3 +1,6 @@
+## 1.0.2
+* add Rx$ to easy use desktop/mobile
+
 ## 1.0.0
 
 * fix Row$ cell size error

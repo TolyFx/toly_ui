@@ -80,10 +80,11 @@ class _PopOverlayState extends State<_PopOverlay> {
         ),
       ),
     );
-    result = FadeTransition(
-      opacity: widget.animation,
-      child: result,
-    );
+    if(true){
+       result = FadeTransition(
+          opacity: widget.animation,
+          child: result);
+    }
 
     return Positioned.fill(
       bottom: 0.0,

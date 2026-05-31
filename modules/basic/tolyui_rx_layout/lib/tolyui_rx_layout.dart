@@ -2,6 +2,8 @@ library tolyui_rx_layout;
 
 export 'src/responsive/rx.dart';
 export 'src/responsive/window_respond_builder.dart';
+export 'src/responsive/rx_context.dart';
+export 'src/responsive/rx_switch.dart';
 
 export 'src/layout.dart';
 export 'src/padding.dart';

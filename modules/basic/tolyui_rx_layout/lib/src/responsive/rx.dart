@@ -12,9 +12,9 @@ enum Rx {
 /// The default strategy of responsive layout
 /// xs: [0,576)
 /// sm: [576,768)
-/// xs: [768,992)
-/// xs: [992,1200)
-/// xs: [1200,)
+/// md: [768,992)
+/// lg: [992,1200)
+/// xl: [1200,)
 Rx defaultParserStrategy(double width) {
   if (width < 576) return Rx.xs;
   if (width >= 576 && width < 768) return Rx.sm;
@@ -25,6 +25,7 @@ Rx defaultParserStrategy(double width) {
 
 typedef Op<T> = T Function(Rx re);
 
-extension RxT<T> on T {
-  Op<T> get rx => (Rx re) => this;
+extension RxHelper on Rx {
+  bool get isMobile => this == Rx.xs || this == Rx.sm;
+  bool get isDesktop => !isMobile;
 }
