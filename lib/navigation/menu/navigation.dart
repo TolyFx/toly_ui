@@ -10,7 +10,7 @@ Map<String, dynamic> get navigationMenus => {
       'children': [
 
         {
-          'path': '/Anchor',
+          'path': '/anchor',
           'label': 'Anchor',
           'subtitle': '锚点',
           // 'icon': Icons.text_fields,

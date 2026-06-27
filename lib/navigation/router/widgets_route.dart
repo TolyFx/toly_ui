@@ -34,6 +34,7 @@ RouteBase get widgetsRoute => ShellRoute(
                   _customRoute('drop_menu'),
                   _customRoute('tabs'),
                   _customRoute('stepper'),
+                  _customRoute('anchor'),
                 ]),
             GoRoute(
                 path: 'basic',

@@ -1,0 +1,34 @@
+# https://dart.dev/guides/libraries/private-files
+# Created by https://www.toptal.com/developers/gitignore/api/flutter
+
+# Packages
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+
+# Android
+.gradle/
+local.properties
+gen/
+*.apk
+*.aar
+*.bundle
+*.cpp
+
+# iOS
+.generated/
+DerivedData/
+Runner.app
+Runner.ipa
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+# Web
+.last_build_id
+.web_assets_cache/
+
+# macOS
+.DS_Store

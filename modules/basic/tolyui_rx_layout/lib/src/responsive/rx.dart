@@ -29,3 +29,7 @@ extension RxHelper on Rx {
   bool get isMobile => this == Rx.xs || this == Rx.sm;
   bool get isDesktop => !isMobile;
 }
+
+extension RxT<T> on T {
+  Op<T> get rx => (Rx re) => this;
+}

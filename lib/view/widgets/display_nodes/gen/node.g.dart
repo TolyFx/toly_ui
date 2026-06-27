@@ -43,6 +43,7 @@ part 'select.g.dart';
 part 'slider.g.dart';
 part 'switch.g.dart';
 part 'transfer.g.dart';
+part 'anchor.g.dart';
 part 'breadcrumb.g.dart';
 part 'drop_menu.g.dart';
 part 'rail_menu_bar.g.dart';
@@ -93,6 +94,7 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     "slider" => _sliderData,
     "switch" => _switchData,
     "transfer" => _transferData,
+    "anchor" => _anchorData,
     "breadcrumb" => _breadcrumbData,
     "drop_menu" => _drop_menuData,
     "rail_menu_bar" => _rail_menu_barData,

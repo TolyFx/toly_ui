@@ -48,3 +48,4 @@ app.*.map.json
 /test/build_center
 /doc/articles
 /doc/复盘
+/docs/ref
