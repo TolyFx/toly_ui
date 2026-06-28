@@ -167,6 +167,7 @@ Widget widgetDisplayMap(String key){
     "TransferDemo2" => const TransferDemo2(),
     "AnchorDemo1" => const AnchorDemo1(),
     "AnchorDemo2" => const AnchorDemo2(),
+    "AnchorDemo4" => const AnchorDemo4(),
     "AnchorDemo3" => const AnchorDemo3(),
     "BreadcrumbDemo1" => const BreadcrumbDemo1(),
     "BreadcrumbDemo2" => const BreadcrumbDemo2(),

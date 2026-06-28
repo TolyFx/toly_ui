@@ -1,7 +1,8 @@
 name: tolyui_anchor
 description: A new Flutter package project.
 version: 0.0.1
-publish_to: none
+homepage: https://github.com/TolyFx/toly_ui
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/navigation/tolyui_anchor
 
 environment:
   sdk: '>=3.3.0 <4.0.0'

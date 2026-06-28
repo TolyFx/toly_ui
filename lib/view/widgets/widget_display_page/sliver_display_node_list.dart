@@ -15,7 +15,11 @@ import '../display_nodes/gen/node.g.dart';
 class SliverDisplayNodeList extends StatelessWidget {
   final String name;
 
-  const SliverDisplayNodeList({super.key, required this.name});
+  /// 可选的 GlobalKey 列表，用于右侧锚点导航追踪每个 section 的位置。
+  /// 长度应与 displayNodes 数量一致，通过 package key 包在 NodeDisplay 外层。
+  final List<GlobalKey>? itemKeys;
+
+  const SliverDisplayNodeList({super.key, required this.name, this.itemKeys});
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +29,18 @@ class SliverDisplayNodeList extends StatelessWidget {
     return SliverList(
       key: PageStorageKey('sliver_list_$name'),
       delegate: SliverChildBuilderDelegate(
-        (_, index) => NodeDisplay(
-          key: PageStorageKey('node_${name}_${keys[index]}'),
-          display: widgetDisplayMap(keys[index]),
-          node: Node.fromMap(data[index]),
-        ),
+        (_, index) {
+          Widget child = NodeDisplay(
+            key: PageStorageKey('node_${name}_${keys[index]}'),
+            display: widgetDisplayMap(keys[index]),
+            node: Node.fromMap(data[index]),
+          );
+          // 通过 Column 包裹来挂载 GlobalKey，不影响 NodeDisplay 的 PageStorageKey
+          if (itemKeys != null && index < itemKeys!.length) {
+            child = Column(key: itemKeys![index], children: [child]);
+          }
+          return child;
+        },
         childCount: displayNodes.length,
       ),
     );

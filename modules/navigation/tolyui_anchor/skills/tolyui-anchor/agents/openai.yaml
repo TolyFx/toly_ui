@@ -1,0 +1,4 @@
+interface:
+  display_name: "TolyUI Anchor"
+  short_description: "使用 TolyUI 构建锚点导航。"
+  default_prompt: "使用 $tolyui-anchor 在此 Flutter 项目中添加或修改 TolyUI 锚点导航。"
