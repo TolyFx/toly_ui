@@ -65,35 +65,41 @@ class _AnchorDemo2State extends State<AnchorDemo2> {
   }
 
   Widget _buildCustomLink(BuildContext context, TolyAnchorLink link, bool active) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: active ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1) : Colors.transparent,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(
-          color: active ? Theme.of(context).colorScheme.primary : Colors.transparent,
-          width: 1,
+    final index = _links.indexOf(link);
+    
+    return InkWell(
+      onTap: () => _controller.scrollToIndex(index),
+      borderRadius: BorderRadius.circular(8),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          color: active ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: active ? Theme.of(context).colorScheme.primary : Colors.transparent,
+            width: 1,
+          ),
         ),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            active ? Icons.bookmark : Icons.bookmark_border,
-            size: 18,
-            color: active ? Theme.of(context).colorScheme.primary : Colors.grey.shade600,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            link.title,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: active ? FontWeight.w600 : FontWeight.normal,
-              color: active ? Theme.of(context).colorScheme.primary : Colors.grey.shade700,
+        child: Row(
+          children: [
+            Icon(
+              active ? Icons.bookmark : Icons.bookmark_border,
+              size: 18,
+              color: active ? Theme.of(context).colorScheme.primary : Colors.grey.shade600,
             ),
-          ),
-        ],
+            const SizedBox(width: 8),
+            Text(
+              link.title,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: active ? FontWeight.w600 : FontWeight.normal,
+                color: active ? Theme.of(context).colorScheme.primary : Colors.grey.shade700,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
