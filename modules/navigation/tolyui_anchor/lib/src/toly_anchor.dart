@@ -113,6 +113,8 @@ class TolyAnchor extends StatefulWidget {
   final double scrollOffset;
   /// 是否根据内容收缩，默认 false（占满父容器）
   final bool shrinkWrap;
+  /// 滚动方向，默认垂直
+  final Axis scrollDirection;
 
   const TolyAnchor({
     super.key,
@@ -122,6 +124,7 @@ class TolyAnchor extends StatefulWidget {
     this.scrollController,
     this.scrollOffset = 20.0,
     this.shrinkWrap = false,
+    this.scrollDirection = Axis.vertical,
   });
 
   @override
@@ -234,6 +237,7 @@ class _TolyAnchorState extends State<TolyAnchor> {
         return ListView.builder(
           controller: _scrollController,
           shrinkWrap: widget.shrinkWrap,
+          scrollDirection: widget.scrollDirection,
           itemCount: widget.links.length,
           itemBuilder: (context, index) {
             return _buildLink(index, widget.links[index]);
@@ -289,12 +293,15 @@ class TolyAnchorScrollable extends StatefulWidget {
   final TolyAnchorController controller;
   final int itemCount;
   final IndexedWidgetBuilder itemBuilder;
+  /// 滚动方向，默认垂直
+  final Axis scrollDirection;
 
   const TolyAnchorScrollable({
     super.key,
     required this.controller,
     required this.itemCount,
     required this.itemBuilder,
+    this.scrollDirection = Axis.vertical,
   });
 
   @override
@@ -336,6 +343,7 @@ class _TolyAnchorScrollableState extends State<TolyAnchorScrollable> {
       itemPositionsListener: widget.controller.itemPositionsListener,
       itemCount: widget.itemCount,
       itemBuilder: widget.itemBuilder,
+      scrollDirection: widget.scrollDirection,
     );
   }
 }
