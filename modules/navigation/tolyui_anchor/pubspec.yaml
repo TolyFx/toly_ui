@@ -1,5 +1,5 @@
 name: tolyui_anchor
-description: A new Flutter package project.
+description: Flutter 锚点导航组件，支持索引级滚动控制、双向联动、自定义样式、横向导航和大数据量虚拟滚动。适用于文档阅读、设置面板、目录导航等场景。
 version: 0.0.1
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/navigation/tolyui_anchor
