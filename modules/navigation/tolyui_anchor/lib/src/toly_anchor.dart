@@ -111,6 +111,8 @@ class TolyAnchor extends StatefulWidget {
   final ScrollController? scrollController;
   /// 滚动时的偏移量，确保激活项不会紧贴边缘
   final double scrollOffset;
+  /// 是否根据内容收缩，默认 false（占满父容器）
+  final bool shrinkWrap;
 
   const TolyAnchor({
     super.key,
@@ -119,6 +121,7 @@ class TolyAnchor extends StatefulWidget {
     this.linkBuilder,
     this.scrollController,
     this.scrollOffset = 20.0,
+    this.shrinkWrap = false,
   });
 
   @override
@@ -228,12 +231,13 @@ class _TolyAnchorState extends State<TolyAnchor> {
     return ListenableBuilder(
       listenable: widget.controller,
       builder: (context, child) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: widget.links.asMap().entries.map((entry) {
-            return _buildLink(entry.key, entry.value);
-          }).toList(),
+        return ListView.builder(
+          controller: _scrollController,
+          shrinkWrap: widget.shrinkWrap,
+          itemCount: widget.links.length,
+          itemBuilder: (context, index) {
+            return _buildLink(index, widget.links[index]);
+          },
         );
       },
     );

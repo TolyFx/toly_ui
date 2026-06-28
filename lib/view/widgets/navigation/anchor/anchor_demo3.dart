@@ -27,8 +27,8 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
   }
 
   void _generateItems() {
-    // 生成 30 个测试项
-    _items = List.generate(30, (index) {
+    // 生成 300 个测试项
+    _items = List.generate(300, (index) {
       final colors = [
         Colors.blue,
         Colors.green,
@@ -65,7 +65,7 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 500,
+      height: 400,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -103,15 +103,11 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
                 ),
                 // 导航列表
                 Expanded(
-                  child: SingleChildScrollView(
-                    controller: _navScrollController,
-                    child: TolyAnchor(
-                      controller: _controller,
-                      links: _links,
-                      linkBuilder: _buildCompactLink,
-                      scrollController: _navScrollController,
-                      // scrollOffset: 60,
-                    ),
+                  child: TolyAnchor(
+                    controller: _controller,
+                    links: _links,
+                    linkBuilder: _buildCompactLink,
+                    scrollController: _navScrollController,
                   ),
                 ),
               ],
@@ -189,7 +185,7 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
     
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 12,left: 24,right: 24),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: item.color,
@@ -197,6 +193,7 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
         border: Border.all(color: Colors.grey.shade200),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(item.icon, size: 32, color: Colors.grey.shade600),
           const SizedBox(width: 16),
