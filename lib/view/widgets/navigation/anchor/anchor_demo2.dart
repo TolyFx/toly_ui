@@ -4,7 +4,10 @@ import 'package:tolyui_anchor/tolyui_anchor.dart';
 
 @DisplayNode(
   title: '设置面板样式',
-  desc: '类似飞书桌面端的设置面板，左侧分组导航，右侧对应设置内容区域。',
+  desc: '模拟飞书桌面端设置面板的交互体验，展示 TolyAnchor 在实际应用场景中的使用方式。'
+      '左侧导航使用 linkBuilder 自定义渲染，包含图标和文字，激活项有左侧高亮边框和背景色。'
+      '右侧内容区域按分组展示设置项，每个设置项使用不同颜色的色块区分，内容高度自适应。'
+      '当激活项超出可视区域时，左侧导航会自动滚动确保激活项可见。',
 )
 class AnchorDemo2 extends StatefulWidget {
   const AnchorDemo2({super.key});

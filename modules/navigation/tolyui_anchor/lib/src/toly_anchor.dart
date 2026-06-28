@@ -165,7 +165,6 @@ class _TolyAnchorState extends State<TolyAnchor> {
   
   /// 滚动左侧导航，使激活项保持可视
   void _scrollToVisible() {
-    // 添加延迟，确保组件树已经稳定
     if (!_scrollController.hasClients) return;
     if (!mounted) return;
     
@@ -176,39 +175,40 @@ class _TolyAnchorState extends State<TolyAnchor> {
     final itemKey = _itemKeys[activeIndex];
     if (itemKey?.currentContext == null) return;
     
-    // 获取 item 相对于滚动容器的位置
-    final RenderBox itemBox = itemKey!.currentContext!.findRenderObject() as RenderBox;
+    // 获取 item 的 RenderBox
+    final RenderBox? itemBox = itemKey!.currentContext!.findRenderObject() as RenderBox?;
+    if (itemBox == null || !itemBox.hasSize) return;
     
-    // 获取滚动容器的 RenderBox
-    final scrollContext = context.findRenderObject();
-    if (scrollContext == null) return;
+    // 获取 item 在屏幕上的位置
+    final itemRenderObject = itemKey.currentContext!.findRenderObject();
+    if (itemRenderObject == null) return;
     
-    final RenderBox scrollBox = scrollContext as RenderBox;
+    // 使用 Scrollable.ensureVisible 的方式计算
+    // 获取 viewport 信息
+    final viewportDimension = _scrollController.position.viewportDimension;
+    final currentOffset = _scrollController.offset;
+    final maxScroll = _scrollController.position.maxScrollExtent;
     
-    // 确保两个 RenderBox 都已经挂载
-    if (!itemBox.hasSize || !scrollBox.hasSize) return;
+    // 计算每个 item 的估算高度（通过已渲染的 item）
+    // 使用 GlobalKey 获取 item 在列表中的实际位置
+    final RenderObject? viewportRenderObject = context.findRenderObject();
+    if (viewportRenderObject == null) return;
     
-    // 获取 item 相对于滚动容器的位置
-    final itemPosition = itemBox.localToGlobal(Offset.zero, ancestor: scrollBox);
+    // 获取 item 相对于 ListView 的位置
+    final itemOffset = itemBox.localToGlobal(Offset.zero, ancestor: viewportRenderObject);
     final itemHeight = itemBox.size.height;
     
-    // 获取滚动容器的信息
-    final viewportHeight = _scrollController.position.viewportDimension;
-    final currentScroll = _scrollController.offset;
-    final maxScroll = _scrollController.position.maxScrollExtent;
+    // item 在视口中的位置
+    final itemTopInViewport = itemOffset.dy;
+    final itemBottomInViewport = itemTopInViewport + itemHeight;
     
     // 配置的偏移量
     final offset = widget.scrollOffset;
     
-    // item 在内容中的绝对位置 = itemPosition.dy
-    // item 相对于可视区域顶部的位置 = itemPosition.dy - currentScroll
-    final itemTopInViewport = itemPosition.dy - currentScroll;
-    final itemBottomInViewport = itemTopInViewport + itemHeight;
-    
     // 判断激活项是否在可视区域内
     // 如果在视口上方被挡住
     if (itemTopInViewport < offset) {
-      final scrollTo = (itemPosition.dy - offset).clamp(0.0, maxScroll);
+      final scrollTo = (currentOffset + itemTopInViewport - offset).clamp(0.0, maxScroll);
       _scrollController.animateTo(
         scrollTo,
         duration: const Duration(milliseconds: 200),
@@ -216,8 +216,8 @@ class _TolyAnchorState extends State<TolyAnchor> {
       );
     }
     // 如果在视口下方被挡住
-    else if (itemBottomInViewport > viewportHeight - offset) {
-      final scrollTo = (itemPosition.dy + itemHeight - viewportHeight + offset).clamp(0.0, maxScroll);
+    else if (itemBottomInViewport > viewportDimension - offset) {
+      final scrollTo = (currentOffset + itemBottomInViewport - viewportDimension + offset).clamp(0.0, maxScroll);
       _scrollController.animateTo(
         scrollTo,
         duration: const Duration(milliseconds: 200),
