@@ -3,30 +3,62 @@ import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui_anchor/tolyui_anchor.dart';
 
 @DisplayNode(
-  title: '横向标签导航',
-  desc: '顶部横向标签导航，内容区域竖直滚动。\nTolyAnchor 设置 scrollDirection: Axis.horizontal 实现横向标签列表。\nTolyAnchorScrollable 保持默认垂直滚动，内容按页面分段。\n适用于文档目录、章节导航等场景。',
+  title: '大量数据测试',
+  desc: '测试 TolyAnchor 在极端数据量（300 项）场景下的性能表现。\nTolyAnchor 内置 ListView.builder 实现虚拟滚动，仅渲染可视区域的导航项，内存占用稳定。\nTolyAnchorScrollable 基于 ScrollablePositionedList，同样支持高效的按需构建。\n滚动过程中，左侧导航会自动跟随高亮并滚动确保激活项可见，交互流畅无卡顿。\n可用于验证长列表场景下的滚动监听、高亮切换、导航跟随等功能稳定性。',
 )
-class AnchorDemo4 extends StatefulWidget {
-  const AnchorDemo4({super.key});
+class AnchorDemo3 extends StatefulWidget {
+  const AnchorDemo3({super.key});
 
   @override
-  State<AnchorDemo4> createState() => _AnchorDemo4State();
+  State<AnchorDemo3> createState() => _AnchorDemo3State();
 }
 
-class _AnchorDemo4State extends State<AnchorDemo4> {
+class _AnchorDemo3State extends State<AnchorDemo3> {
   final TolyAnchorController _controller = TolyAnchorController();
+  final ScrollController _navScrollController = ScrollController(keepScrollOffset: false);
 
-  final List<TolyAnchorLink> _links = const [
-    TolyAnchorLink(title: '概述', href: 'overview'),
-    TolyAnchorLink(title: '快速开始', href: 'quick-start'),
-    TolyAnchorLink(title: '核心概念', href: 'concepts'),
-    TolyAnchorLink(title: 'API 参考', href: 'api'),
-    TolyAnchorLink(title: '最佳实践', href: 'best-practices'),
-  ];
+  late final List<TolyAnchorLink> _links;
+  late final List<_NavItem> _items;
+
+  @override
+  void initState() {
+    super.initState();
+    _generateItems();
+  }
+
+  void _generateItems() {
+    // 生成 300 个测试项
+    _items = List.generate(300, (index) {
+      final colors = [
+        Colors.blue,
+        Colors.green,
+        Colors.orange,
+        Colors.purple,
+        Colors.red,
+        Colors.teal,
+        Colors.indigo,
+        Colors.pink,
+      ];
+      
+      return _NavItem(
+        tag: 'item_$index',
+        title: '章节 ${index + 1}',
+        subtitle: '这是第 ${index + 1} 个测试章节的内容描述'*((index+1)%10),
+        color: colors[index % colors.length].shade50,
+        icon: Icons.article,
+      );
+    });
+
+    _links = _items.map((item) => TolyAnchorLink(
+      title: item.title,
+      href: item.tag,
+    )).toList();
+  }
 
   @override
   void dispose() {
     _controller.dispose();
+    _navScrollController.dispose();
     super.dispose();
   }
 
@@ -34,31 +66,59 @@ class _AnchorDemo4State extends State<AnchorDemo4> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 400,
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 顶部横向标签导航
+          // 左侧紧凑导航
           Container(
-            height: 48,
+            width: 140,
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: Colors.grey.shade50,
               border: Border(
-                bottom: BorderSide(color: Colors.grey.shade300),
+                right: BorderSide(color: Colors.grey.shade300),
               ),
             ),
-            child: TolyAnchor(
-              controller: _controller,
-              links: _links,
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              linkBuilder: _buildTabLink,
+            child: Column(
+              children: [
+                // 统计信息
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.list, size: 16),
+                      const SizedBox(width: 4),
+                      Text(
+                        '共 ${_items.length} 项',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // 导航列表
+                Expanded(
+                  child: TolyAnchor(
+                    controller: _controller,
+                    links: _links,
+                    linkBuilder: _buildCompactLink,
+                    scrollController: _navScrollController,
+                  ),
+                ),
+              ],
             ),
           ),
-          // 竖直滚动内容区域
+          // 右侧内容
           Expanded(
             child: TolyAnchorScrollable(
               controller: _controller,
               itemCount: _links.length,
-              itemBuilder: (context, index) => _buildSection(index),
+              itemBuilder: (context, index) => _buildItem(index),
             ),
           ),
         ],
@@ -66,124 +126,117 @@ class _AnchorDemo4State extends State<AnchorDemo4> {
     );
   }
 
-  Widget _buildTabLink(BuildContext context, TolyAnchorLink link, bool active) {
+  Widget _buildCompactLink(BuildContext context, TolyAnchorLink link, bool active) {
     final index = _links.indexOf(link);
-
+    
     return InkWell(
       onTap: () => _controller.scrollToIndex(index),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
+          color: active ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1) : null,
           border: Border(
-            bottom: BorderSide(
+            left: BorderSide(
               color: active ? Theme.of(context).colorScheme.primary : Colors.transparent,
-              width: 3,
+              width: 2,
             ),
           ),
         ),
-        child: Center(
-          child: Text(
-            link.title,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: active ? FontWeight.w600 : FontWeight.normal,
-              color: active ? Theme.of(context).colorScheme.primary : Colors.grey.shade700,
+        child: Row(
+          children: [
+            Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                color: active ? Theme.of(context).colorScheme.primary : Colors.grey.shade400,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Text(
+                  '${index + 1}',
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
-          ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                link.title,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: active ? FontWeight.w600 : FontWeight.normal,
+                  color: active ? Theme.of(context).colorScheme.primary : Colors.grey.shade700,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildSection(int index) {
-    final link = _links[index];
-    final colors = [
-      Colors.blue.shade50,
-      Colors.green.shade50,
-      Colors.orange.shade50,
-      Colors.purple.shade50,
-      Colors.teal.shade50,
-    ];
-    final contents = [
-      'TolyUI Anchor 是一个强大的锚点导航组件。',
-      '''安装依赖：
-
-flutter pub add tolyui_anchor
-
-基本用法：
-
-final controller = TolyAnchorController();
-final links = [
-  TolyAnchorLink(title: '章节1', href: 'section1'),
-  TolyAnchorLink(title: '章节2', href: 'section2'),
-];
-
-TolyAnchor(controller: controller, links: links)
-TolyAnchorScrollable(controller: controller, itemCount: links.length, itemBuilder: ...)''',
-      '''TolyAnchorController 提供以下核心 API：
-
-• scrollToIndex(index) - 滚动到指定索引，支持动画参数
-• activeIndex - 获取当前激活的索引
-• activeTag - 获取当前激活的标签
-• itemScrollController - 底层滚动控制器，用于更精细控制
-
-TolyAnchorLink 数据结构：
-• title - 显示标题
-• href - 锚点标识，用于 scrollTo(tag) 方法''',
-      '''scrollToIndex(index, {duration, curve})
-  滚动到指定索引，支持自定义动画时长和曲线
-
-scrollTo(tag, {duration, curve})
-  通过标签名滚动到对应位置
-
-jumpToIndex(index)
-  无动画跳转到指定索引，适用于快速定位''',
-      '''性能优化建议：
-
-1. 使用 ListView.builder 处理大量导航项（内置虚拟滚动）
-2. 避免在 linkBuilder 中执行耗时操作
-3. 合理设置 scrollOffset 确保激活项可见
-4. 横向导航时设置 scrollDirection: Axis.horizontal
-5. 大量数据时避免频繁 rebuild
-
-常见问题：
-Q: 为什么滚动时左侧导航不跟随高亮？
-A: 确保使用了同一个 TolyAnchorController 实例''',
-    ];
-
+  Widget _buildItem(int index) {
+    final item = _items[index];
+    
     return Container(
-      padding: const EdgeInsets.all(32),
-      child: Column(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12,left: 24,right: 24),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: item.color,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            link.title,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+          Icon(item.icon, size: 32, color: Colors.grey.shade600),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item.title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  item.subtitle,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 20),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: colors[index],
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade200),
-            ),
-            child: Text(
-              contents[index],
-              style: const TextStyle(
-                fontSize: 14,
-                height: 1.6,
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
         ],
       ),
     );
   }
+}
+
+class _NavItem {
+  final String tag;
+  final String title;
+  final String subtitle;
+  final Color color;
+  final IconData icon;
+
+  _NavItem({
+    required this.tag,
+    required this.title,
+    required this.subtitle,
+    required this.color,
+    required this.icon,
+  });
 }
