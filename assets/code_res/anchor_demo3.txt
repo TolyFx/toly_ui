@@ -7,7 +7,7 @@ class AnchorDemo3 extends StatefulWidget {
 
 class _AnchorDemo3State extends State<AnchorDemo3> {
   final TolyAnchorController _controller = TolyAnchorController();
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController _navScrollController = ScrollController(keepScrollOffset: false);
 
   late final List<TolyAnchorLink> _links;
   late final List<_NavItem> _items;
@@ -19,8 +19,8 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
   }
 
   void _generateItems() {
-    // 生成 30 个测试项
-    _items = List.generate(30, (index) {
+    // 生成 300 个测试项
+    _items = List.generate(300, (index) {
       final colors = [
         Colors.blue,
         Colors.green,
@@ -35,7 +35,7 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
       return _NavItem(
         tag: 'item_$index',
         title: '章节 ${index + 1}',
-        subtitle: '这是第 ${index + 1} 个测试章节的内容描述',
+        subtitle: '这是第 ${index + 1} 个测试章节的内容描述'*((index+1)%10),
         color: colors[index % colors.length].shade50,
         icon: Icons.article,
       );
@@ -50,14 +50,14 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
   @override
   void dispose() {
     _controller.dispose();
-    _scrollController.dispose();
+    _navScrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 500,
+      height: 400,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -95,12 +95,11 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
                 ),
                 // 导航列表
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: TolyAnchor(
-                      controller: _controller,
-                      links: _links,
-                      linkBuilder: _buildCompactLink,
-                    ),
+                  child: TolyAnchor(
+                    controller: _controller,
+                    links: _links,
+                    linkBuilder: _buildCompactLink,
+                    scrollController: _navScrollController,
                   ),
                 ),
               ],
@@ -108,18 +107,10 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
           ),
           // 右侧内容
           Expanded(
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                _controller.handleNotification(notification);
-                return false;
-              },
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: _items.map((item) => _buildItem(item)).toList(),
-                ),
-              ),
+            child: TolyAnchorScrollable(
+              controller: _controller,
+              itemCount: _links.length,
+              itemBuilder: (context, index) => _buildItem(index),
             ),
           ),
         ],
@@ -131,7 +122,7 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
     final index = _links.indexOf(link);
     
     return InkWell(
-      onTap: () => _controller.scrollTo(link.href),
+      onTap: () => _controller.scrollToIndex(index),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
@@ -181,47 +172,46 @@ class _AnchorDemo3State extends State<AnchorDemo3> {
     );
   }
 
-  Widget _buildItem(_NavItem item) {
-    return TolyAnchorItem(
-      tag: item.tag,
-      controller: _controller,
-      child: Container(
-        width: double.infinity,
-        margin: const EdgeInsets.only(bottom: 12),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: item.color,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade200),
-        ),
-        child: Row(
-          children: [
-            Icon(item.icon, size: 32, color: Colors.grey.shade600),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+  Widget _buildItem(int index) {
+    final item = _items[index];
+    
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12,left: 24,right: 24),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: item.color,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(item.icon, size: 32, color: Colors.grey.shade600),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item.title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    item.subtitle,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey.shade600,
-                    ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  item.subtitle,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.grey.shade600,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

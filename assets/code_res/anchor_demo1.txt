@@ -30,36 +30,20 @@ class _AnchorDemo1State extends State<AnchorDemo1> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 左侧锚点导航
-          Container(
-            width: 160,
-            decoration: BoxDecoration(
-              border: Border(
-                right: BorderSide(color: Colors.grey.shade300),
-              ),
-            ),
+          SizedBox(
+            width: 150,
             child: TolyAnchor(
               controller: _controller,
               links: _links,
             ),
           ),
+          VerticalDivider(),
           // 右侧内容区域
           Expanded(
-            child: NotificationListener<ScrollNotification>(
-              onNotification: (notification) {
-                _controller.handleNotification(notification);
-                return false;
-              },
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildSection('overview', '概览', Colors.blue.shade50),
-                    _buildSection('features', '特性', Colors.green.shade50),
-                    _buildSection('installation', '安装', Colors.orange.shade50),
-                    _buildSection('quick-start', '快速开始', Colors.purple.shade50),
-                    _buildSection('api', 'API', Colors.red.shade50),
-                  ],
-                ),
-              ),
+            child: TolyAnchorScrollable(
+              controller: _controller,
+              itemCount: _links.length,
+              itemBuilder: (context, index) => _buildSection(index),
             ),
           ),
         ],
@@ -67,37 +51,27 @@ class _AnchorDemo1State extends State<AnchorDemo1> {
     );
   }
 
-  Widget _buildSection(String tag, String title, Color color) {
-    return TolyAnchorItem(
-      tag: tag,
-      controller: _controller,
-      child: Container(
-        width: double.infinity,
-        height: 200,
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: color,
-          border: Border(
-            bottom: BorderSide(color: Colors.grey.shade300),
+  Widget _buildSection(int index) {
+    final link = _links[index];
+
+    return Container(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            link.title,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              '这是 $title 部分的内容。滚动页面时，左侧导航会自动高亮当前区域对应的锚点。',
-              style: const TextStyle(fontSize: 14),
-            ),
-          ],
-        ),
+          const SizedBox(height: 16),
+          Text(
+            '这是 ${link.title} 部分的内容。点击左侧导航可快速跳转到对应区域。'*(index+1)*4,
+            style: const TextStyle(fontSize: 14),
+          ),
+        ],
       ),
     );
   }
