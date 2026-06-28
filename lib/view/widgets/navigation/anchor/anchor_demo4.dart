@@ -3,8 +3,8 @@ import 'package:toly_ui/view/widgets/display_nodes/display_nodes.dart';
 import 'package:tolyui_anchor/tolyui_anchor.dart';
 
 @DisplayNode(
-  title: '横向滚动',
-  desc: 'TolyAnchor 和 TolyAnchorScrollable 支持横向滚动模式。\n通过 scrollDirection: Axis.horizontal 设置滚动方向。\n适用于标签页切换、时间线导航等横向布局场景。\n左侧导航变为水平列表，右侧内容区域也变为横向滚动。',
+  title: '横向标签导航',
+  desc: '顶部横向标签导航，内容区域竖直滚动。\nTolyAnchor 设置 scrollDirection: Axis.horizontal 实现横向标签列表。\nTolyAnchorScrollable 保持默认垂直滚动，内容按页面分段。\n适用于文档目录、章节导航等场景。',
 )
 class AnchorDemo4 extends StatefulWidget {
   const AnchorDemo4({super.key});
@@ -17,11 +17,11 @@ class _AnchorDemo4State extends State<AnchorDemo4> {
   final TolyAnchorController _controller = TolyAnchorController();
 
   final List<TolyAnchorLink> _links = const [
-    TolyAnchorLink(title: '首页', href: 'home'),
-    TolyAnchorLink(title: '产品', href: 'product'),
-    TolyAnchorLink(title: '案例', href: 'case'),
-    TolyAnchorLink(title: '关于', href: 'about'),
-    TolyAnchorLink(title: '联系', href: 'contact'),
+    TolyAnchorLink(title: '概述', href: 'overview'),
+    TolyAnchorLink(title: '快速开始', href: 'quick-start'),
+    TolyAnchorLink(title: '核心概念', href: 'concepts'),
+    TolyAnchorLink(title: 'API 参考', href: 'api'),
+    TolyAnchorLink(title: '最佳实践', href: 'best-practices'),
   ];
 
   @override
@@ -36,7 +36,7 @@ class _AnchorDemo4State extends State<AnchorDemo4> {
       height: 400,
       child: Column(
         children: [
-          // 顶部横向导航
+          // 顶部横向标签导航
           Container(
             height: 48,
             decoration: BoxDecoration(
@@ -53,13 +53,12 @@ class _AnchorDemo4State extends State<AnchorDemo4> {
               linkBuilder: _buildTabLink,
             ),
           ),
-          // 横向内容区域
+          // 竖直滚动内容区域
           Expanded(
             child: TolyAnchorScrollable(
               controller: _controller,
               itemCount: _links.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => _buildPage(index),
+              itemBuilder: (context, index) => _buildSection(index),
             ),
           ),
         ],
@@ -96,7 +95,7 @@ class _AnchorDemo4State extends State<AnchorDemo4> {
     );
   }
 
-  Widget _buildPage(int index) {
+  Widget _buildSection(int index) {
     final link = _links[index];
     final colors = [
       Colors.blue.shade50,
@@ -105,41 +104,44 @@ class _AnchorDemo4State extends State<AnchorDemo4> {
       Colors.purple.shade50,
       Colors.teal.shade50,
     ];
+    final contents = [
+      'TolyUI Anchor 是一个强大的锚点导航组件，基于 ScrollablePositionedList 实现。\n\n核心特性：\n• 支持索引级滚动控制\n• 自动高亮当前可见区域\n• 支持自定义导航项样式\n• 内置虚拟滚动，高性能',
+      '安装依赖：\n\nflutter pub add tolyui_anchor\n\n基本用法：\n\nfinal controller = TolyAnchorController();\n\nTolyAnchor(controller: controller, links: links)\nTolyAnchorScrollable(controller: controller, itemCount: 5, itemBuilder: ...)',
+      'TolyAnchorController\n• scrollToIndex(index) - 滚动到指定索引\n• activeIndex - 当前激活的索引\n• itemScrollController - 底层滚动控制器\n\nTolyAnchorLink\n• title - 显示标题\n• href - 锚点标识',
+      'scrollToIndex(index, {duration, curve})\n  滚动到指定索引，支持动画\n\nscrollTo(tag, {duration, curve})\n  通过标签名滚动\n\njumpToIndex(index)\n  无动画跳转到指定索引',
+      '1. 使用 ListView.builder 处理大量导航项\n2. 避免在 linkBuilder 中执行耗时操作\n3. 合理设置 scrollOffset 确保激活项可见\n4. 横向导航时设置 scrollDirection: Axis.horizontal',
+    ];
 
     return Container(
-      width: 400,
-      margin: const EdgeInsets.all(24),
       padding: const EdgeInsets.all(32),
-      decoration: BoxDecoration(
-        color: colors[index],
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            [Icons.home, Icons.inventory_2, Icons.work, Icons.info, Icons.mail][index],
-            size: 64,
-            color: Colors.grey.shade400,
-          ),
-          const SizedBox(height: 24),
           Text(
             link.title,
             style: const TextStyle(
-              fontSize: 28,
+              fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 16),
-          Text(
-            '这是 ${link.title} 页面的内容。\n可以左右滑动切换页面，或点击顶部标签跳转。',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey.shade600,
+          const SizedBox(height: 20),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: colors[index],
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.shade200),
+            ),
+            child: Text(
+              contents[index],
+              style: const TextStyle(
+                fontSize: 14,
+                height: 1.6,
+              ),
             ),
           ),
+          const SizedBox(height: 24),
         ],
       ),
     );
