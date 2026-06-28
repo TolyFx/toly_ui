@@ -1020,6 +1020,7 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
               // padding: widget.padding,
               // margin: margin,
               child: SingleChildScrollView(
+                controller: ScrollController(keepScrollOffset: false),
                 child: Padding(
                   padding: widget.padding ?? EdgeInsets.zero,
                   child: Text.rich(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'positioned_list/item_positions_listener.dart';
+import 'positioned_list/scrollable_positioned_list.dart';
 
 typedef TolyAnchorLinkBuilder = Widget Function(
     BuildContext context, TolyAnchorLink link, bool active);
@@ -125,7 +126,9 @@ class TolyAnchor extends StatefulWidget {
 }
 
 class _TolyAnchorState extends State<TolyAnchor> {
-  final ScrollController _defaultScrollController = ScrollController();
+  final ScrollController _defaultScrollController = ScrollController(
+    keepScrollOffset: false, // 禁用滚动位置保持，避免类型转换异常
+  );
   final Map<int, GlobalKey> _itemKeys = {};
   
   ScrollController get _scrollController => 
@@ -139,7 +142,7 @@ class _TolyAnchorState extends State<TolyAnchor> {
     // 注册所有标签和创建 GlobalKey
     for (int i = 0; i < widget.links.length; i++) {
       widget.controller.registerTag(widget.links[i].href, i);
-      _itemKeys[i] = GlobalKey();
+      _itemKeys[i] = GlobalKey(debugLabel: 'anchor_item_$i');
     }
   }
 
@@ -159,7 +162,9 @@ class _TolyAnchorState extends State<TolyAnchor> {
   
   /// 滚动左侧导航，使激活项保持可视
   void _scrollToVisible() {
+    // 添加延迟，确保组件树已经稳定
     if (!_scrollController.hasClients) return;
+    if (!mounted) return;
     
     final activeIndex = widget.controller.activeIndex;
     if (activeIndex < 0 || activeIndex >= widget.links.length) return;
@@ -176,6 +181,9 @@ class _TolyAnchorState extends State<TolyAnchor> {
     if (scrollContext == null) return;
     
     final RenderBox scrollBox = scrollContext as RenderBox;
+    
+    // 确保两个 RenderBox 都已经挂载
+    if (!itemBox.hasSize || !scrollBox.hasSize) return;
     
     // 获取 item 相对于滚动容器的位置
     final itemPosition = itemBox.localToGlobal(Offset.zero, ancestor: scrollBox);
