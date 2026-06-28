@@ -105,17 +105,57 @@ class _AnchorDemo4State extends State<AnchorDemo4> {
       Colors.teal.shade50,
     ];
     final contents = [
-      'TolyUI Anchor 是一个强大的锚点导航组件，基于 ScrollablePositionedList 实现。\n\n核心特性：\n• 支持索引级滚动控制\n• 自动高亮当前可见区域\n• 支持自定义导航项样式\n• 内置虚拟滚动，高性能',
-      '安装依赖：\n\nflutter pub add tolyui_anchor\n\n基本用法：\n\nfinal controller = TolyAnchorController();\n\nTolyAnchor(controller: controller, links: links)\nTolyAnchorScrollable(controller: controller, itemCount: 5, itemBuilder: ...)',
-      'TolyAnchorController\n• scrollToIndex(index) - 滚动到指定索引\n• activeIndex - 当前激活的索引\n• itemScrollController - 底层滚动控制器\n\nTolyAnchorLink\n• title - 显示标题\n• href - 锚点标识',
-      'scrollToIndex(index, {duration, curve})\n  滚动到指定索引，支持动画\n\nscrollTo(tag, {duration, curve})\n  通过标签名滚动\n\njumpToIndex(index)\n  无动画跳转到指定索引',
-      '1. 使用 ListView.builder 处理大量导航项\n2. 避免在 linkBuilder 中执行耗时操作\n3. 合理设置 scrollOffset 确保激活项可见\n4. 横向导航时设置 scrollDirection: Axis.horizontal',
+      'TolyUI Anchor 是一个强大的锚点导航组件。',
+      '''安装依赖：
+
+flutter pub add tolyui_anchor
+
+基本用法：
+
+final controller = TolyAnchorController();
+final links = [
+  TolyAnchorLink(title: '章节1', href: 'section1'),
+  TolyAnchorLink(title: '章节2', href: 'section2'),
+];
+
+TolyAnchor(controller: controller, links: links)
+TolyAnchorScrollable(controller: controller, itemCount: links.length, itemBuilder: ...)''',
+      '''TolyAnchorController 提供以下核心 API：
+
+• scrollToIndex(index) - 滚动到指定索引，支持动画参数
+• activeIndex - 获取当前激活的索引
+• activeTag - 获取当前激活的标签
+• itemScrollController - 底层滚动控制器，用于更精细控制
+
+TolyAnchorLink 数据结构：
+• title - 显示标题
+• href - 锚点标识，用于 scrollTo(tag) 方法''',
+      '''scrollToIndex(index, {duration, curve})
+  滚动到指定索引，支持自定义动画时长和曲线
+
+scrollTo(tag, {duration, curve})
+  通过标签名滚动到对应位置
+
+jumpToIndex(index)
+  无动画跳转到指定索引，适用于快速定位''',
+      '''性能优化建议：
+
+1. 使用 ListView.builder 处理大量导航项（内置虚拟滚动）
+2. 避免在 linkBuilder 中执行耗时操作
+3. 合理设置 scrollOffset 确保激活项可见
+4. 横向导航时设置 scrollDirection: Axis.horizontal
+5. 大量数据时避免频繁 rebuild
+
+常见问题：
+Q: 为什么滚动时左侧导航不跟随高亮？
+A: 确保使用了同一个 TolyAnchorController 实例''',
     ];
 
     return Container(
       padding: const EdgeInsets.all(32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             link.title,
