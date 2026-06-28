@@ -4,10 +4,7 @@ import 'package:tolyui_anchor/tolyui_anchor.dart';
 
 @DisplayNode(
   title: '基础用法',
-  desc: 'TolyAnchor 用于锚点导航，基于 ScrollablePositionedList 实现索引级滚动控制。'
-      '左侧 TolyAnchor 显示导航列表，右侧 TolyAnchorScrollable 显示对应内容区域。'
-      '点击左侧导航项时，右侧内容会平滑滚动到对应位置；滚动右侧内容时，左侧导航会自动高亮当前可见区域对应的项。'
-      'TolyAnchor 内部使用 ListView.builder，支持大量导航项的性能优化。',
+  desc: 'TolyAnchor 用于锚点导航，基于 ScrollablePositionedList 实现索引级滚动控制。\n左侧 TolyAnchor 显示导航列表，右侧 TolyAnchorScrollable 显示对应内容区域。\n点击左侧导航项时，右侧内容会平滑滚动到对应位置；滚动右侧内容时，左侧导航会自动高亮当前可见区域对应的项。\nTolyAnchor 内部使用 ListView.builder，支持大量导航项的性能优化。',
 )
 class AnchorDemo1 extends StatefulWidget {
   const AnchorDemo1({super.key});

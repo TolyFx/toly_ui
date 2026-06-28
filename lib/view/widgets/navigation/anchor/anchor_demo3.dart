@@ -4,11 +4,7 @@ import 'package:tolyui_anchor/tolyui_anchor.dart';
 
 @DisplayNode(
   title: '大量数据测试',
-  desc: '测试 TolyAnchor 在极端数据量（300 项）场景下的性能表现。'
-      'TolyAnchor 内置 ListView.builder 实现虚拟滚动，仅渲染可视区域的导航项，内存占用稳定。'
-      'TolyAnchorScrollable 基于 ScrollablePositionedList，同样支持高效的按需构建。'
-      '滚动过程中，左侧导航会自动跟随高亮并滚动确保激活项可见，交互流畅无卡顿。'
-      '可用于验证长列表场景下的滚动监听、高亮切换、导航跟随等功能稳定性。',
+  desc: '测试 TolyAnchor 在极端数据量（300 项）场景下的性能表现。\nTolyAnchor 内置 ListView.builder 实现虚拟滚动，仅渲染可视区域的导航项，内存占用稳定。\nTolyAnchorScrollable 基于 ScrollablePositionedList，同样支持高效的按需构建。\n滚动过程中，左侧导航会自动跟随高亮并滚动确保激活项可见，交互流畅无卡顿。\n可用于验证长列表场景下的滚动监听、高亮切换、导航跟随等功能稳定性。',
 )
 class AnchorDemo3 extends StatefulWidget {
   const AnchorDemo3({super.key});
