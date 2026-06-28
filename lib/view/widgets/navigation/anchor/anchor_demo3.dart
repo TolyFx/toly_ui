@@ -15,7 +15,7 @@ class AnchorDemo3 extends StatefulWidget {
 
 class _AnchorDemo3State extends State<AnchorDemo3> {
   final TolyAnchorController _controller = TolyAnchorController();
-  final ScrollController _navScrollController = ScrollController();
+  final ScrollController _navScrollController = ScrollController(keepScrollOffset: false);
 
   late final List<TolyAnchorLink> _links;
   late final List<_NavItem> _items;
