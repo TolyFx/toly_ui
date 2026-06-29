@@ -51,8 +51,8 @@ part 'rail_menu_tree.g.dart';
 part 'stepper.g.dart';
 part 'tabs.g.dart';
 
-Map<String, dynamic>  queryDisplayNodes(String name){
-  return switch(name){
+Map<String, dynamic> queryDisplayNodes(String name) {
+  return switch (name) {
     "color" => _colorData,
     "device_frame" => _device_frameData,
     "action" => _actionData,
@@ -104,4 +104,3 @@ Map<String, dynamic>  queryDisplayNodes(String name){
     _ => {},
   };
 }
-    

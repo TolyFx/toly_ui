@@ -1,0 +1,33 @@
+class ColorDemo3 extends StatefulWidget {
+  const ColorDemo3({super.key});
+
+  @override
+  State<ColorDemo3> createState() => _ColorDemo3State();
+}
+
+class _ColorDemo3State extends State<ColorDemo3> {
+  Color _color = Colors.blue;
+  double _alpha = 1.0;
+
+  Color get _colorWithAlpha => _color.withAlpha((_alpha * 255).round());
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TolyHexInput(
+          color: _color,
+          onChanged: (v) => setState(() => _color = v),
+        ),
+        const SizedBox(height: 12),
+        TolyAlphaSlider(
+          color: _color,
+          alpha: _alpha,
+          onChanged: (v) => setState(() => _alpha = v),
+        ),
+        // 预览 + 色值信息 ...
+      ],
+    );
+  }
+}

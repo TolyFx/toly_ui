@@ -5,41 +5,71 @@
 // Author:      张风捷特烈
 // CreateTime:  2024-06-09
 // Contact Me:  1981462002@qq.com
-import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'display_meta.dart';
 
+/// 解析单个 Dart 源文件，提取 @DisplayNode 注解和类定义
 class DisplayFileParser {
-  final String path;
+  final String filePath;
 
-  static final RegExp _codeRegex = RegExp(r'class (?<name>\w+)(.|\s)*');
-  static final RegExp _displayRegex = RegExp(r'@DisplayNode(.|\s)*?\)');
+  static final RegExp _codeRegex = RegExp(
+    r'class\s+(?<name>\w+)',
+    multiLine: true,
+  );
 
-  DisplayFileParser(this.path);
+  static final RegExp _classBodyRegex = RegExp(
+    r'class\s+(?<name>\w+)(.|\s)*',
+    multiLine: true,
+  );
 
-  StreamSubscription<List<int>>? subscription;
+  static final RegExp _displayRegex = RegExp(
+    r'@DisplayNode\((.|\s)*?\)\s*',
+    multiLine: true,
+  );
 
-  Future<NodeMeta?> parser() async {
-    if (!path.contains('_demo')) return null;
-    File file = File(path);
-    String content = await file.readAsString();
-    bool hasDisplay = content.contains('@DisplayNode(');
-    if (!hasDisplay) return null;
-    return _parserContent(path, content);
+  DisplayFileParser(this.filePath);
+
+  Future<NodeMeta?> parse() async {
+    try {
+      final file = File(filePath);
+      if (!await file.exists()) return null;
+
+      // 跳过非 _demo 文件
+      final fileName = file.uri.pathSegments.last;
+      if (!fileName.contains('_demo')) return null;
+
+      final content = await file.readAsString();
+      if (!content.contains('@DisplayNode(')) return null;
+
+      return _parseContent(content);
+    } catch (e) {
+      print('⚠ 解析文件失败 $filePath: $e');
+      return null;
+    }
   }
 
-  NodeMeta _parserContent(String filePath, String content) {
-    RegExpMatch? codeMatch = _codeRegex.firstMatch(content);
-    String? code = codeMatch?.group(0);
-    String? name = codeMatch?.namedGroup('name');
-    String? display = _displayRegex.firstMatch(content)?.group(0);
+  NodeMeta _parseContent(String content) {
+    final codeMatch = _classBodyRegex.firstMatch(content);
+    final code = codeMatch?.group(0) ?? '';
+    final name = _codeRegex.firstMatch(content)?.namedGroup('name') ?? '';
+
+    String displayRaw = '';
+    final displayMatch = _displayRegex.firstMatch(content);
+    if (displayMatch != null) {
+      displayRaw = displayMatch.group(0)!;
+      // 去掉 regext 匹配到的尾部空白和 @DisplayNode 头部
+      displayRaw = displayRaw
+          .replaceFirst(RegExp(r'^@DisplayNode\(\s*'), '')
+          .replaceFirst(RegExp(r'\s*\)\s*$'), '')
+          .trim();
+    }
+
     return NodeMeta(
       filePath: filePath,
-      name: name ?? '',
-      code: code ?? '',
-      display: DisplayNode.fromString(display ?? ''),
+      name: name,
+      code: code,
+      display: DisplayNode.fromString(displayRaw),
     );
   }
 }

@@ -214,7 +214,7 @@ class _AnchorDemo2State extends State<AnchorDemo2> {
           const SizedBox(height: 20),
           // 设置项列表
           ...group.items.map((item) => _buildSettingItem(item)),
-          const SizedBox(height: 16),
+          // const SizedBox(height: 16),
         ],
       ),
     );

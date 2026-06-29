@@ -66,6 +66,8 @@ dependencies:
     path: modules/advanced/tolyui_debug
   tolyui_anchor:
     path: modules/navigation/tolyui_anchor
+  tolyui_color_picker:
+    path: modules/form/tolyui_color_picker
   scrollable_positioned_list: ^0.3.8
 
   wrapper:
@@ -98,6 +100,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  yaml: ^3.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -152,4 +155,10 @@ toly:
     src_zip: 'assets/hide/download.zip' # 下载的压缩包资源
     assets_dir: 'assets/iconfont'  # ttf文件解压的文件夹
     dist_file: 'lib/app/res/toly_icon.dart' # 生成的代码文件地址
+
+  # 代码生成工具配置 (toly ui 命令)
+  code_gen:
+    parser_dir: 'lib/view/widgets'         # @DisplayNode 扫描目录
+    gen_dist_dir: 'lib/view/widgets/display_nodes/gen'  # .g.dart 输出目录
+    code_res_dir: 'assets/code_res'        # 源码导出目录
 

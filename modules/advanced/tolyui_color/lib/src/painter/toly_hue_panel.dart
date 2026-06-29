@@ -130,7 +130,7 @@ class _TolyHuePanelState extends State<TolyHuePanel> {
 
     _trackColor = HSVColor.fromAHSV(1.0, hue, 1.0, 1.0).toColor();
     double s = _color.saturation;
-    double v = _color.saturation;
+    double v = _color.value;
     _color = HSVColor.fromAHSV(1.0, hue,s, v);
     widget.onChanged(_color.toColor());
     setState(() {

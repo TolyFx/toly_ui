@@ -1,0 +1,21 @@
+class ColorDemo2 extends StatefulWidget {
+  const ColorDemo2({super.key});
+
+  @override
+  State<ColorDemo2> createState() => _ColorDemo2State();
+}
+
+class _ColorDemo2State extends State<ColorDemo2> {
+  Color _color = Colors.blue;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 300,
+      child: TolyRGBPanel(
+        initColor: _color,
+        onChanged: (v) => setState(() => _color = v),
+      ),
+    );
+  }
+}

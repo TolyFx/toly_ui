@@ -1,0 +1,24 @@
+class ColorDemo5 extends StatefulWidget {
+  const ColorDemo5({super.key});
+
+  @override
+  State<ColorDemo5> createState() => _ColorDemo5State();
+}
+
+class _ColorDemo5State extends State<ColorDemo5> {
+  Color _color = Colors.blue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TolyColorGrid.material(
+          selectedColor: _color,
+          onChanged: (v) => setState(() => _color = v),
+        ),
+        // 选中色预览 ...
+      ],
+    );
+  }
+}

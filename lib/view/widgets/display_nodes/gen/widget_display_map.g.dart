@@ -6,9 +6,14 @@
 import 'package:flutter/material.dart';
 import '../../widgets.dart';
 
-Widget widgetDisplayMap(String key){
-  return switch(key){
+Widget widgetDisplayMap(String key) {
+  return switch (key) {
     "ColorDemo1" => const ColorDemo1(),
+    "ColorDemo2" => const ColorDemo2(),
+    "ColorDemo3" => const ColorDemo3(),
+    "ColorDemo5" => const ColorDemo5(),
+    "ColorDemo6" => const ColorDemo6(),
+    "ColorDemo7" => const ColorDemo7(),
     "PhoneFrameDemo1" => const PhoneFrameDemo1(),
     "ActionDemo1" => const ActionDemo1(),
     "ActionDemo2" => const ActionDemo2(),
@@ -201,4 +206,3 @@ Widget widgetDisplayMap(String key){
     _ => const SizedBox(),
   };
 }
-    

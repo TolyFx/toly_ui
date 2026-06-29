@@ -10,33 +10,39 @@ import 'dart:io';
 
 import 'package:path/path.dart' as path;
 
+/// @DisplayNode 注解数据
 class DisplayNode {
   final String title;
   final String desc;
 
+  static final RegExp _titleRegex = RegExp(
+    r"""title\s*:\s*(['"])(?<title>.*?)\1""",
+    multiLine: true,
+    dotAll: true,
+  );
 
-  static RegExp titleRegex = RegExp(r"""title(.|\n)*?('|")()(?<title>.*?)('|"),""",dotAll: true);
-  static RegExp descRegex = RegExp(r"""desc(.|\n)*?('|")()(?<desc>.*?)('|"),""",dotAll: true);
+  static final RegExp _descRegex = RegExp(
+    r"""desc\s*:\s*(['"])(?<desc>.*?)\1""",
+    multiLine: true,
+    dotAll: true,
+  );
 
-  const DisplayNode({
-    required this.title,
-    required this.desc,
-  });
+  const DisplayNode({required this.title, required this.desc});
 
   factory DisplayNode.fromString(String text) {
+    final tMatch = _titleRegex.firstMatch(text);
+    final dMatch = _descRegex.firstMatch(text);
     return DisplayNode(
-      title: titleRegex.firstMatch(text)?.namedGroup('title') ?? '',
-      desc: descRegex.firstMatch(text)?.namedGroup('desc') ?? '',
+      title: tMatch?.namedGroup('title') ?? '',
+      desc: dMatch?.namedGroup('desc') ?? '',
     );
   }
 
   @override
-  String toString() {
-    return 'DisplayNode{title: $title, desc: $desc}';
-  }
+  String toString() => 'DisplayNode{title: $title, desc: $desc}';
 }
 
-
+/// 组件元数据（源码 + 注解）
 class NodeMeta {
   final String filePath;
   final String code;
@@ -50,30 +56,31 @@ class NodeMeta {
     required this.display,
   });
 
-  String get assetPath => 'assets/code_res/${path.basenameWithoutExtension(filePath)}.txt';
+  String get _assetFileName => '${path.basenameWithoutExtension(filePath)}.txt';
+
+  String assetPath(String codeResDir) =>
+      '$codeResDir/$_assetFileName';
 
   Map<String, dynamic> toJson() => {
         name: {
           'title': display.title,
           'desc': display.desc,
-          'code': assetPath,
+          'code': assetPath('assets/code_res'),
         }
       };
 
   Map<String, dynamic> get valueMap => {
         'title': display.title,
         'desc': display.desc,
-        'code': assetPath,
+        'code': assetPath('assets/code_res'),
       };
 
   @override
-  String toString() {
-    return 'NodeMeta{content: $code, display: $display,filePath:$filePath}';
-  }
+  String toString() => 'NodeMeta{name: $name, title: ${display.title}, file: $filePath}';
 
-  void saveCode() {
-    File codeFile =
-        File(path.join(Directory.current.path, 'assets', 'code_res', path.basename(assetPath)));
-    codeFile.writeAsString(code);
+  void saveCode({String codeResDir = 'assets/code_res'}) {
+    final dir = Directory(path.join(Directory.current.path, codeResDir));
+    if (!dir.existsSync()) dir.createSync(recursive: true);
+    File(path.join(dir.path, _assetFileName)).writeAsStringSync(code);
   }
 }

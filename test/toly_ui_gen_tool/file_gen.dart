@@ -13,64 +13,80 @@ import 'package:path/path.dart' as path;
 
 import 'display_meta.dart';
 
+/// 生成 .g.dart 代码文件
 class FileGen {
   final Map<String, List<NodeMeta>> displayMap;
 
   FileGen(this.displayMap);
 
   Future<void> genNode(String outPath) async {
-    List<String> nodeParts = [];
-    List<String> nodeContents = [];
-    List<String> mapWidgetItem = [];
-    File file = File(outPath);
-    displayMap.forEach((k, v) {
-      Map<String, dynamic> items = {};
-      nodeParts.add("part '$k.g.dart';\n");
-      nodeContents.add('    "$k" => _${k}Data,\n');
-      for (NodeMeta meta in v) {
-        items[meta.name] = meta.valueMap;
-        mapWidgetItem.add('    "${meta.name}" => const ${meta.name}(),\n');
+    final file = File(outPath);
+    final parentDir = file.parent;
+
+    // 确保输出目录存在
+    if (!parentDir.existsSync()) {
+      parentDir.createSync(recursive: true);
+    }
+
+    final nodeParts = <String>[];
+    final nodeContents = <String>[];
+    final mapWidgetItems = <String>[];
+
+    for (final entry in displayMap.entries) {
+      final category = entry.key;
+      final nodes = entry.value;
+
+      nodeParts.add("part '$category.g.dart';\n");
+      nodeContents.add('    "$category" => _${category}Data,\n');
+
+      // 生成分类数据文件
+      final items = <String, dynamic>{};
+      for (final node in nodes) {
+        items[node.name] = node.valueMap;
+        mapWidgetItems.add('    "${node.name}" => const ${node.name}(),\n');
       }
-      File nodeFile = File(path.join(file.parent.path, '$k.g.dart'));
-      String nodeContent = singleNodeTemplate(json.encode(items), k);
-      nodeFile.writeAsString(nodeContent);
-    });
-    File widgetMapFile = File(path.join(file.parent.path, 'widget_display_map.g.dart'));
-    widgetMapFile.writeAsString(widgetMapTemplate(mapWidgetItem.join()));
-    String content = nodeTemplate(nodeContents.join(), nodeParts.join());
-    await file.writeAsString(content);
+
+      final nodeFile = File(path.join(parentDir.path, '$category.g.dart'));
+      await nodeFile.writeAsString(_singleNodeTemplate(json.encode(items), category));
+    }
+
+    // 生成 Widget 映射文件
+    final widgetMapFile = File(path.join(parentDir.path, 'widget_display_map.g.dart'));
+    await widgetMapFile.writeAsString(_widgetMapTemplate(mapWidgetItems.join()));
+
+    // 生成主入口文件
+    await file.writeAsString(_nodeTemplate(nodeContents.join(), nodeParts.join()));
   }
 
-  String nodeTemplate(String content, String part) {
-    return """
-/// ===================================================
+  String _nodeTemplate(String content, String parts) {
+    return '''/// ===================================================
 /// Power By 张风捷特烈 --- Generated file. Do not edit.
 /// github: https://github.com/toly1994328
 /// ===================================================
-$part
-Map<String, dynamic>  queryDisplayNodes(String name){
-  return switch(name){
+$parts
+Map<String, dynamic> queryDisplayNodes(String name) {
+  return switch (name) {
 $content    _ => {},
   };
 }
-    """;
+''';
   }
 
-  String singleNodeTemplate(String content, String name) {
+  String _singleNodeTemplate(String content, String name) {
     content = content.replaceAll(r'$', r'\$');
-    return """/// ===================================================
+    return '''/// ===================================================
 /// Power By 张风捷特烈 --- Generated file. Do not edit.
 /// github: https://github.com/toly1994328
 /// ===================================================
 
 part of 'node.g.dart';
 
-Map<String, dynamic> get _${name}Data => $content;""";
+Map<String, dynamic> get _${name}Data => $content;''';
   }
 
-  String widgetMapTemplate(String content) {
+  String _widgetMapTemplate(String content) {
     content = content.replaceAll(r'$', r'\$');
-    return """/// ===================================================
+    return '''/// ===================================================
 /// Power By 张风捷特烈 --- Generated file. Do not edit.
 /// github: https://github.com/toly1994328
 /// ===================================================
@@ -78,11 +94,11 @@ Map<String, dynamic> get _${name}Data => $content;""";
 import 'package:flutter/material.dart';
 import '../../widgets.dart';
 
-Widget widgetDisplayMap(String key){
-  return switch(key){
+Widget widgetDisplayMap(String key) {
+  return switch (key) {
 $content    _ => const SizedBox(),
   };
 }
-    """;
+''';
   }
 }

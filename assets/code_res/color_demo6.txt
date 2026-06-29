@@ -1,0 +1,32 @@
+class ColorDemo6 extends StatefulWidget {
+  const ColorDemo6({super.key});
+
+  @override
+  State<ColorDemo6> createState() => _ColorDemo6State();
+}
+
+class _ColorDemo6State extends State<ColorDemo6> {
+  Color _color = Colors.blue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // 触发按钮 — 点击弹出 ColorPicker
+        GestureDetector(
+          onTap: () async {
+            final result = await showColorPicker(context, color: _color);
+            if (result != null) setState(() => _color = result);
+          },
+          child: Container(/* 色块 + HEX + 下拉箭头 */),
+        ),
+        // 嵌入式面板
+        TolyColorPicker(
+          color: _color,
+          onChanged: (v) => setState(() => _color = v),
+        ),
+      ],
+    );
+  }
+}
