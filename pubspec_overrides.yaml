@@ -17,4 +17,6 @@ dependency_overrides:
     path: modules/basic/tolyui_text
   toly_check_box:
     path: modules/form/toly_check_box
+  tolyui_meta:
+    path: modules/core/tolyui_meta
   intl: 0.20.2

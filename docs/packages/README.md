@@ -1,7 +1,51 @@
 # TolyUI 包结构树
 
-> 更新日期：2026-05-02
+> 更新日期：2026-06-29
 > 基于项目源码 modules/ 目录实际结构生成
+
+---
+
+## 包间依赖关系
+
+```mermaid
+mindmap
+  root((TolyUI<br/>26 包))
+    basic[📂 basic 基础]
+      tolyui_rx_layout[v1.0.2+1 响应式布局]
+      tolyui_text[v0.0.1+5 文本高亮]
+    form[📂 form 表单]
+      toly_check_box[v0.0.1 三态复选框]
+      tolyui_rich_input[v1.0.0 富文本]
+    navigation[📂 navigation 导航]
+      tolyui_anchor[v0.0.1 锚点导航]
+      tolyui_navigation[v0.2.1 面包屑标签页]
+        tolyui_feedback[v0.3.6+16 Popover]
+          tolyui_message[v0.2.6+1 全局Toast]
+        tolyui_meta[v0.0.2+1 菜单元数据]
+    data[📂 data 数据展示]
+      tolyui_carousel[v0.0.1 轮播图]
+      tolyui_collapse[v0.0.1 折叠面板]
+      tolyui_default[v0.0.1 缺省空状态]
+      tolyui_skeleton[v0.0.1 骨架屏]
+      tolyui_statistic[v0.0.1 数值统计]
+      tolyui_table[v0.0.1 表格]
+      tolyui_tag[v0.0.1 标签]
+      tolyui_timeline[v0.0.1 时间线]
+      tolyui_tree[v0.0.1 树形控件]
+        toly_check_box
+      tolyui_watermark[v0.0.1 水印]
+    feedback[📂 feedback 反馈]
+      tolyui_feedback_modal[v0.0.1 模态选择器]
+    advanced[📂 advanced 高级]
+      tolyui_color[v0.0.2 调色板]
+      tolyui_debug[v0.0.1 设备模拟器]
+      tolyui_refresh[v0.0.1+1 下拉刷新]
+    media[📂 media 媒体]
+      tolyui_image[v0.0.1+2 图片组件]
+      toly_image_io[v0.0.1 图片I/O]
+```
+
+> 缩进层级 = 依赖深度。`tolyui` 直接聚合 8 个子包（⭐标注在下方总览），其余为独立叶子包。
 
 ---
 
@@ -16,9 +60,10 @@ modules/
 ├── 📂 form/                            # 表单组件 (2 packages)
 │   ├── 📦 toly_check_box
 │   └── 📦 tolyui_rich_input
-├── 📂 navigation/                      # 导航组件 (1 package)
+├── 📂 navigation/                      # 导航组件 (2 packages)
+│   ├── 📦 tolyui_anchor
 │   └── 📦 tolyui_navigation
-├── 📂 data/                            # 数据展示 (11 packages)
+├── 📂 data/                            # 数据展示 (10 packages)
 │   ├── 📦 tolyui_carousel
 │   ├── 📦 tolyui_collapse
 │   ├── 📦 tolyui_default
@@ -28,8 +73,7 @@ modules/
 │   ├── 📦 tolyui_tag
 │   ├── 📦 tolyui_timeline
 │   ├── 📦 tolyui_tree
-│   ├── 📦 tolyui_watermark
-│   └── 📦 wrapper
+│   └── 📦 tolyui_watermark
 ├── 📂 feedback/                        # 反馈组件 (3 packages)
 │   ├── 📦 tolyui_feedback
 │   ├── 📦 tolyui_feedback_modal
@@ -107,7 +151,7 @@ modules/tolyui/
 
 ### 📂 basic/ — 基础组件
 
-#### 📦 tolyui_rx_layout `v1.0.0+1`
+#### 📦 tolyui_rx_layout `v1.0.2+1`
 
 响应式布局引擎。提供 `Row$` / `Cell` 栅格系统（支持 gutter、offset、push/pull）、`Size$` / `Padding$` 响应式尺寸包装器，以及 `WindowRespondBuilder` 断点构建器。通过 `RxParserStrategy` 可自定义 xs/sm/md/lg/xl 断点阈值，是 TolyUI 全平台适配的基石。
 
@@ -193,7 +237,30 @@ modules/form/tolyui_rich_input/
 
 ### 📂 navigation/ — 导航组件
 
-#### 📦 tolyui_navigation `v0.2.0+5`
+#### 📦 tolyui_anchor `v0.0.1`
+
+锚点导航组件。基于 `scrollable_positioned_list` 实现索引级滚动控制，支持 `TolyAnchor`（右侧目录导航）与 `TolyAnchorScrollable`（左侧内容区）双向联动、自定义 link 样式、横向导航模式和大数据量虚拟滚动。适用于文档阅读、设置面板、目录导航等场景。
+
+```
+modules/navigation/tolyui_anchor/
+├── lib/
+│   ├── tolyui_anchor.dart               # 包入口
+│   └── src/
+│       ├── toly_anchor.dart             # TolyAnchor 核心组件
+│       ├── toly_anchor_scope.dart       # 作用域扩展
+│       └── positioned_list/             # 定位列表底层实现
+├── skills/
+│   └── tolyui-anchor/
+│       └── SKILL.md                     # 使用技能文档
+├── test/
+│   └── tolyui_anchor_test.dart
+├── pubspec.yaml
+├── CHANGELOG.md
+├── LICENSE
+└── README.md
+```
+
+#### 📦 tolyui_navigation `v0.2.1`
 
 导航组件套件，涵盖五大导航模式：`TolyBreadcrumb`（面包屑）、`DropMenu`（下拉菜单，含样式/Mixin/碰撞检测）、`RailMenuTree`（树形侧边栏菜单）、`RailMenuBar`（轨道菜单栏）、`TolyTabs` / `FlutterTabBar`（标签页）。内部依赖 `tolyui_meta` 提供 `MenuMeta` / `DisplayMeta` 数据模型。
 
@@ -390,29 +457,11 @@ modules/data/tolyui_watermark/
 └── README.md
 ```
 
-#### 📦 wrapper `v1.0.2`
-
-气泡 / 对话框形状容器。通过 CustomPaint 绘制带"尖角"（spine）的圆角矩形，尖角可置于上下左右任意方向。支持配置角度、高度、偏移、阴影/投影、描边模式，以及通过 `spinePathBuilder` 自定义尖角路径。`Wrapper.just` 提供无尖角的纯圆角盒子。
-
-```
-modules/data/wrapper/
-├── lib/
-│   └── wrapper.dart
-├── example/
-│   └── main.dart
-├── test/
-│   └── wrapper_test.dart
-├── pubspec.yaml
-├── CHANGELOG.md
-├── LICENSE
-└── README.md
-```
-
 ---
 
 ### 📂 feedback/ — 反馈组件
 
-#### 📦 tolyui_feedback `v0.3.6+9`
+#### 📦 tolyui_feedback `v0.3.6+16`
 
 反馈交互组件集合，是 TolyUI 反馈层的核心包。包含：`TolyTooltip`（悬停气泡提示，支持多方向定位和气泡装饰）、`TolyPopover`（智能弹出框，带控制器模式和碰撞检测）、`BubbleDecoration`（气泡装饰绘制器）、`TolyPopPicker`（移动端底部弹出选择器）。同时转导出 tolyui_message。
 
@@ -627,23 +676,23 @@ modules/publish/
 | # | 包名 | 版本 | 分类 | 说明 |
 |---|------|------|------|------|
 | 1 | `tolyui` | 0.0.4+16 | 核心 | 聚合包，一次导入所有基础组件 |
-| 2 | `tolyui_rx_layout` | 1.0.0+1 | 基础 | 响应式栅格布局引擎 |
+| 2 | `tolyui_rx_layout` | 1.0.2+1 | 基础 | 响应式栅格布局引擎 |
 | 3 | `tolyui_text` | 0.0.1+5 | 基础 | 正则文本高亮组件 |
 | 4 | `toly_check_box` | 0.0.1 | 表单 | 三态复选框 |
 | 5 | `tolyui_rich_input` | 1.0.0 | 表单 | 富文本输入（基于 flutter_quill） |
-| 6 | `tolyui_navigation` | 0.2.0+5 | 导航 | 面包屑、下拉菜单、树形菜单、标签页 |
-| 7 | `tolyui_carousel` | 0.0.1 | 数据 | 轮播图（自动播放、无限循环） |
-| 8 | `tolyui_collapse` | 0.0.1 | 数据 | 折叠面板 / 手风琴 |
-| 9 | `tolyui_default` | 0.0.1 | 数据 | 缺省空状态（6 种预设类型） |
-| 10 | `tolyui_skeleton` | 0.0.1 | 数据 | 骨架屏加载占位 |
-| 11 | `tolyui_statistic` | 0.0.1 | 数据 | 数值统计与倒计时 |
-| 12 | `tolyui_table` | 0.0.1 | 数据 | 表格与 Sheet 系统 |
-| 13 | `tolyui_tag` | 0.0.1 | 数据 | 标签（三种样式、可选中） |
-| 14 | `tolyui_timeline` | 0.0.1 | 数据 | 时间线 |
-| 15 | `tolyui_tree` | 0.0.1 | 数据 | 树形控件（虚拟滚动、拖拽） |
-| 16 | `tolyui_watermark` | 0.0.1 | 数据 | 水印覆盖 |
-| 17 | `wrapper` | 1.0.2 | 数据 | 气泡形状容器（可配尖角） |
-| 18 | `tolyui_feedback` | 0.3.6+9 | 反馈 | Tooltip、Popover、气泡装饰 |
+| 6 | `tolyui_anchor` | 0.0.1 | 导航 | 锚点导航（双向联动、虚拟滚动） |
+| 7 | `tolyui_navigation` | 0.2.1 | 导航 | 面包屑、下拉菜单、树形菜单、标签页 |
+| 8 | `tolyui_carousel` | 0.0.1 | 数据 | 轮播图（自动播放、无限循环） |
+| 9 | `tolyui_collapse` | 0.0.1 | 数据 | 折叠面板 / 手风琴 |
+| 10 | `tolyui_default` | 0.0.1 | 数据 | 缺省空状态（6 种预设类型） |
+| 11 | `tolyui_skeleton` | 0.0.1 | 数据 | 骨架屏加载占位 |
+| 12 | `tolyui_statistic` | 0.0.1 | 数据 | 数值统计与倒计时 |
+| 13 | `tolyui_table` | 0.0.1 | 数据 | 表格与 Sheet 系统 |
+| 14 | `tolyui_tag` | 0.0.1 | 数据 | 标签（三种样式、可选中） |
+| 15 | `tolyui_timeline` | 0.0.1 | 数据 | 时间线 |
+| 16 | `tolyui_tree` | 0.0.1 | 数据 | 树形控件（虚拟滚动、拖拽） |
+| 17 | `tolyui_watermark` | 0.0.1 | 数据 | 水印覆盖 |
+| 18 | `tolyui_feedback` | 0.3.6+16 | 反馈 | Tooltip、Popover、气泡装饰 |
 | 19 | `tolyui_feedback_modal` | 0.0.1 | 反馈 | 异步任务模态选择器 |
 | 20 | `tolyui_message` | 0.2.6+1 | 反馈 | 全局 Toast 消息与通知 |
 | 21 | `tolyui_color` | 0.0.2 | 高级 | 调色板（RGB + 色相面板） |

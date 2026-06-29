@@ -506,12 +506,11 @@ packages:
     source: path
     version: "0.2.6+1"
   tolyui_meta:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: tolyui_meta
-      sha256: "449bca06271d6c5d2a6b49192fd9176fa14b86fcd57c7317c4466a9d0b334674"
-      url: "https://pub.dev"
-    source: hosted
+      path: "modules/core/tolyui_meta"
+      relative: true
+    source: path
     version: "0.0.2+1"
   tolyui_navigation:
     dependency: "direct overridden"

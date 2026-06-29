@@ -1,165 +1,170 @@
 import 'package:flutter/material.dart';
 
+import '../guide_section_page.dart';
+
 class PrinciplePage extends StatelessWidget {
   const PrinciplePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.white,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(48),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              '设计原则',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'TolyUI 的设计理念和核心原则',
-              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-            ),
-            const SizedBox(height: 48),
-            _buildPrinciple(
-              icon: Icons.straighten,
-              title: '简洁易用',
-              color: Colors.blue,
-              description:
-                  'TolyUI 秉持简洁的设计理念，提供清晰的 API 和直观的使用方式。每个组件都经过精心设计，确保开发者能够快速上手，无需复杂的配置即可实现常用功能。',
-              points: [
-                '清晰的命名规范，见名知意',
-                '简单的属性配置，开箱即用',
-                '完善的默认值，减少必填参数',
-              ],
-            ),
-            const SizedBox(height: 32),
-            _buildPrinciple(
-              icon: Icons.palette,
-              title: '灵活定制',
-              color: Colors.purple,
-              description:
-                  '在保持简洁的同时，TolyUI 提供了丰富的定制能力。开发者可以通过主题配置、样式覆盖等方式，轻松打造符合自己品牌特色的界面。',
-              points: [
-                '支持主题定制，统一视觉风格',
-                '灵活的样式覆盖，满足个性化需求',
-                '丰富的配置选项，适应多种场景',
-              ],
-            ),
-            const SizedBox(height: 32),
-            _buildPrinciple(
-              icon: Icons.speed,
-              title: '性能优先',
-              color: Colors.orange,
-              description:
-                  'TolyUI 注重组件的性能表现，采用高效的渲染策略和优化算法。在保证功能完善的前提下，最大化减少资源消耗，提供流畅的用户体验。',
-              points: [
-                '高效的组件渲染，减少重绘',
-                '合理的状态管理，避免不必要的更新',
-                '懒加载和虚拟化，优化大数据场景',
-              ],
-            ),
-            const SizedBox(height: 32),
-            _buildPrinciple(
-              icon: Icons.accessibility_new,
-              title: '无障碍访问',
-              color: Colors.green,
-              description:
-                  'TolyUI 遵循无障碍设计规范，确保所有用户都能顺畅使用。组件支持键盘导航、屏幕阅读器等辅助功能，让应用更加包容。',
-              points: [
-                '支持键盘导航，提升操作效率',
-                '语义化标签，兼容屏幕阅读器',
-                '清晰的视觉反馈，降低使用门槛',
-              ],
-            ),
-            const SizedBox(height: 32),
-            _buildPrinciple(
-              icon: Icons.devices,
-              title: '跨平台兼容',
-              color: Colors.teal,
-              description:
-                  'TolyUI 基于 Flutter 构建，天然具备跨平台特性。组件在 iOS、Android、Web、桌面端等平台上都能保持一致的表现，让开发者一次编写，处处运行。',
-              points: [
-                '完美支持 iOS、Android、Web 等平台',
-                '自适应布局，适配不同屏幕尺寸',
-                '平台特性兼容，提供原生体验',
-              ],
-            ),
-            const SizedBox(height: 32),
-            _buildPrinciple(
-              icon: Icons.auto_awesome,
-              title: '渐进增强',
-              color: Colors.red,
-              description:
-                  'TolyUI 采用渐进增强的设计理念，组件功能从简单到复杂分层设计。开发者可以根据需求逐步引入高级功能，避免一开始就面对复杂的配置。',
-              points: [
-                '基础功能开箱即用，零配置起步',
-                '高级特性可选引入，按需使用',
-                '清晰的功能分层，降低学习成本',
-              ],
-            ),
-          ],
+    return GuideSectionPage(
+      title: '设计原则',
+      subtitle: '贯穿 TolyUI 设计始终的核心价值观',
+      sections: [
+        GuideSection(
+          title: '简洁易用',
+          builder: (_) => const _PrincipleCard(
+            index: 1,
+            color: Color(0xFF4F6EF7),
+            description: '清晰直观的 API 命名，合理的默认配置，让开发者用最少的代码达成目标。',
+            points: [
+              '命名见名知意，降低查阅文档的频率',
+              '核心属性提供合理默认值，减少必填参数',
+              '常见场景一行代码即可覆盖，复杂场景按需深入',
+            ],
+          ),
         ),
-      ),
+        GuideSection(
+          title: '灵活定制',
+          builder: (_) => const _PrincipleCard(
+            index: 2,
+            color: Color(0xFF8B5CF6),
+            description: '提供完善的主题系统与样式覆盖机制，在一致性与个性化之间取得平衡。',
+            points: [
+              '全局主题配置，一键切换亮色 / 暗色模式',
+              '支持组件级样式覆盖，适配品牌视觉规范',
+              '开放底层构建块，不限制自定义组合方式',
+            ],
+          ),
+        ),
+        GuideSection(
+          title: '性能优先',
+          builder: (_) => const _PrincipleCard(
+            index: 3,
+            color: Color(0xFFF59E0B),
+            description: '在每个组件设计阶段就考虑性能影响，确保大量使用时依然流畅顺滑。',
+            points: [
+              '细致的 rebuild 控制，避免无效重绘',
+              '长列表场景内建懒加载与虚拟化支持',
+              '合理的 const 构造与缓存策略',
+            ],
+          ),
+        ),
+        GuideSection(
+          title: '模块化',
+          builder: (_) => const _PrincipleCard(
+            index: 4,
+            color: Color(0xFF10B981),
+            description: '各组件独立分包，按需引入，保持依赖树清爽，构建体积可控。',
+            points: [
+              '组件粒度的独立 package，按需添加',
+              '核心模块零外部依赖，减少版本冲突',
+              '清晰的模块边界，便于团队分工与维护',
+            ],
+          ),
+        ),
+        GuideSection(
+          title: '跨平台一致',
+          builder: (_) => const _PrincipleCard(
+            index: 5,
+            color: Color(0xFF14B8A6),
+            description: '基于 Flutter 的跨平台能力，确保同一套组件在多个平台上表现统一。',
+            points: [
+              'iOS、Android、Web、桌面端全平台适配',
+              '自适应布局，兼顾不同屏幕尺寸',
+              '尊重各平台交互习惯的同时保持品牌一致性',
+            ],
+          ),
+        ),
+        GuideSection(
+          title: '渐进增强',
+          builder: (_) => const _PrincipleCard(
+            index: 6,
+            color: Color(0xFFEF4444),
+            description: '基础功能上手即用，高级能力按需开启，学习曲线平滑，不强制一次性掌握全部。',
+            points: [
+              '零配置即可使用，随着需求深入再探索高级选项',
+              '分层设计，每层之间互不干扰',
+              '渐进式的风格迁移路径，兼容旧版行为',
+            ],
+          ),
+        ),
+      ],
     );
   }
+}
 
-  Widget _buildPrinciple({
-    required IconData icon,
-    required String title,
-    required Color color,
-    required String description,
-    required List<String> points,
-  }) {
+class _PrincipleCard extends StatelessWidget {
+  final int index;
+  final Color color;
+  final String description;
+  final List<String> points;
+
+  const _PrincipleCard({
+    required this.index,
+    required this.color,
+    required this.description,
+    required this.points,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[300]!),
+        border: Border.all(color: const Color(0xFFEEEEEE)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                padding: const EdgeInsets.all(12),
+                width: 36,
+                height: 36,
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: [color, color.withOpacity(0.7)],
+                  ),
+                  shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: color, size: 32),
+                alignment: Alignment.center,
+                child: Text(
+                  '$index',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
               ),
-              const SizedBox(width: 16),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+              const SizedBox(width: 14),
+              Expanded(
+                child: Text(
+                  description,
+                  style: TextStyle(fontSize: 14, color: Colors.grey[700], height: 1.6),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
-          Text(
-            description,
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.grey[700],
-              height: 1.6,
-            ),
-          ),
-          const SizedBox(height: 16),
-          ...points.map((point) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
+          const SizedBox(height: 20),
+          ...points.asMap().entries.map((entry) => Padding(
+                padding: EdgeInsets.only(bottom: entry.key < points.length - 1 ? 10 : 0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(top: 8, right: 8),
+                      margin: const EdgeInsets.only(top: 7),
                       width: 6,
                       height: 6,
                       decoration: BoxDecoration(
@@ -167,14 +172,11 @@ class PrinciplePage extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                     ),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        point,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                          height: 1.6,
-                        ),
+                        entry.value,
+                        style: TextStyle(fontSize: 13, color: Colors.grey[600], height: 1.5),
                       ),
                     ),
                   ],
