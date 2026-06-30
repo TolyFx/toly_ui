@@ -6,19 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:tolyui_color/tolyui_color.dart';
 
 /// Ant Design 风格内嵌颜色选择器面板。
-///
-/// 布局：
-/// ┌──────────────────────────────┐
-/// │ ■                            │  ← 左上角色块预览
-/// │ ┌────────────────┐           │  ← S-V 面板
-/// │ │                │           │
-/// │ │   S-V 面板      │           │
-/// │ │                │           │
-/// │ └────────────────┘           │
-/// │ ●══════════════●    ■        │  ← 水平色相滑条 + 色预览
-/// │ ════════════════●            │  ← 水平透明度滑条
-/// │ HEX ∨ [#2E70CC] [100%]       │  ← 底部输入栏
-/// └──────────────────────────────┘
 class TolyColorPickerPanel extends StatefulWidget {
   final Color color;
   final ValueChanged<Color> onChanged;
@@ -44,8 +31,9 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
   late double _alpha;
   final TextEditingController _hexController = TextEditingController();
   final FocusNode _hexFocus = FocusNode();
+  final TextEditingController _alphaController = TextEditingController();
+  final FocusNode _alphaFocus = FocusNode();
 
-  static const double _panelSize = 196.0;
   static const double _sliderHeight = 12.0;
   static const double _thumbRadius = 9.0;
   static const double _previewSize = 24.0;
@@ -55,8 +43,9 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
     super.initState();
     _hsv = HSVColor.fromColor(widget.color);
     _alpha = widget.color.opacity;
-    _updateHexText();
+    _updateTexts();
     _hexFocus.addListener(_onHexFocusChange);
+    _alphaFocus.addListener(_onAlphaFocusChange);
   }
 
   @override
@@ -64,22 +53,30 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
     _hexController.dispose();
     _hexFocus.removeListener(_onHexFocusChange);
     _hexFocus.dispose();
+    _alphaController.dispose();
+    _alphaFocus.removeListener(_onAlphaFocusChange);
+    _alphaFocus.dispose();
     super.dispose();
   }
 
   Color get _color => _hsv.toColor().withValues(alpha: _alpha);
 
-  void _updateHexText() {
+  void _updateTexts() {
     final c = _hsv.toColor();
     _hexController.text =
         '#${c.red.toRadixString(16).padLeft(2, '0')}'
         '${c.green.toRadixString(16).padLeft(2, '0')}'
         '${c.blue.toRadixString(16).padLeft(2, '0')}'
             .toUpperCase();
+    _alphaController.text = '${(_alpha * 100).round()}';
   }
 
   void _onHexFocusChange() {
     if (!_hexFocus.hasFocus) _applyHexInput();
+  }
+
+  void _onAlphaFocusChange() {
+    if (!_alphaFocus.hasFocus) _applyAlphaInput();
   }
 
   void _applyHexInput() {
@@ -94,23 +91,33 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
         });
       } catch (_) {}
     }
-    _updateHexText();
+    _updateTexts();
+  }
+
+  void _applyAlphaInput() {
+    final raw = int.tryParse(_alphaController.text.trim());
+    if (raw != null) {
+      setState(() => _alpha = (raw.clamp(0, 100) / 100));
+      widget.onChanged(_color);
+    }
+    _updateTexts();
   }
 
   void _onSVChanged(HSVColor hsv) {
     setState(() => _hsv = hsv);
-    _updateHexText();
+    _updateTexts();
     widget.onChanged(_color);
   }
 
   void _onHueChanged(double hue) {
     setState(() => _hsv = _hsv.withHue(hue));
-    _updateHexText();
+    _updateTexts();
     widget.onChanged(_color);
   }
 
   void _onAlphaChanged(double alpha) {
     setState(() => _alpha = alpha);
+    _updateTexts();
     widget.onChanged(_color);
   }
 
@@ -118,11 +125,15 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
   Widget build(BuildContext context) {
     return Container(
       width: widget.width,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildHeader(),
+          _buildSvPanel(),
           const SizedBox(height: 10),
           _buildHueSlider(),
           const SizedBox(height: 8),
@@ -136,26 +147,19 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
     );
   }
 
-  Widget _buildHeader() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: _previewSize,
-          height: _previewSize,
-          decoration: BoxDecoration(
-            color: _color,
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: Colors.grey.shade300),
+  Widget _buildSvPanel() {
+    return LayoutBuilder(
+      builder: (_, constraints) {
+        final w = constraints.maxWidth;
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(6),
+          child: _SvPanel(
+            size: Size(w, 160),
+            hsv: _hsv,
+            onChanged: _onSVChanged,
           ),
-        ),
-        const SizedBox(width: 10),
-        _SvPanel(
-          size: Size(_panelSize - _previewSize - 10, _panelSize - 4),
-          hsv: _hsv,
-          onChanged: _onSVChanged,
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -166,10 +170,10 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
         const SizedBox(width: 8),
         Container(
           width: _previewSize,
-          height: _sliderHeight,
+          height: _previewSize,
           decoration: BoxDecoration(
             color: _hsv.toColor(),
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(4),
             border: Border.all(color: Colors.grey.shade300),
           ),
         ),
@@ -187,42 +191,68 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
             onChanged: _onAlphaChanged,
           ),
         ),
+        const SizedBox(width: 8),
+        Container(
+          width: _previewSize,
+          height: _previewSize,
+          decoration: BoxDecoration(
+            color: _color,
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: Colors.grey.shade300),
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildInputBar() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Row(
-        children: [
-          Text('HEX', style: TextStyle(fontSize: 12, color: Colors.grey.shade700)),
-          Icon(Icons.arrow_drop_down, size: 16, color: Colors.grey.shade500),
-          const SizedBox(width: 8),
-          Expanded(
-            child: SizedBox(
-              height: 24,
-              child: TextField(
-                controller: _hexController,
-                focusNode: _hexFocus,
-                style: const TextStyle(fontSize: 13, fontFamily: 'monospace'),
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.zero,
-                  isDense: true,
-                ),
-                onSubmitted: (_) => _applyHexInput(),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text('HEX', style: TextStyle(fontSize: 13, color: Colors.grey.shade700)),
+        Icon(Icons.arrow_drop_down, size: 18, color: Colors.grey.shade500),
+        const SizedBox(width: 6),
+        Expanded(
+          child: SizedBox(
+            height: 28,
+            child: TextField(
+              controller: _hexController,
+              focusNode: _hexFocus,
+              style: const TextStyle(fontSize: 13, fontFamily: 'monospace'),
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(color: Colors.grey.shade300)),
+                enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(color: Colors.grey.shade300)),
+                focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(color: Colors.blue)),
+                isDense: true,
               ),
+              onSubmitted: (_) => _applyHexInput(),
             ),
           ),
-          Text('${(_alpha * 100).round()}%',
-              style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
-        ],
-      ),
+        ),
+        const SizedBox(width: 6),
+        SizedBox(
+          width: 52,
+          height: 28,
+          child: TextField(
+            controller: _alphaController,
+            focusNode: _alphaFocus,
+            style: const TextStyle(fontSize: 13, fontFamily: 'monospace'),
+            textAlign: TextAlign.center,
+            decoration: InputDecoration(
+              suffixText: '%',
+              suffixStyle: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+              contentPadding: const EdgeInsets.only(right: 2, left: 6),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(color: Colors.grey.shade300)),
+              enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(color: Colors.grey.shade300)),
+              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(color: Colors.blue)),
+              isDense: true,
+            ),
+            onSubmitted: (_) => _applyAlphaInput(),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -297,7 +327,6 @@ class _HueBar extends StatelessWidget {
   const _HueBar({required this.hue, required this.onChanged});
 
   static const _sliderHeight = 12.0;
-  static const _thumbRadius = 9.0;
 
   @override
   Widget build(BuildContext context) {
