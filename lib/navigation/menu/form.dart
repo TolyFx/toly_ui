@@ -15,7 +15,7 @@ Map<String, dynamic> get formMenus => {
           // 'icon': Icons.calculate_outlined,
         },
         {
-          'path': '/ColorPicker',
+          'path': '/color_picker',
           'label': 'ColorPicker',
           'subtitle': '取色器',
         },

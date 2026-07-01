@@ -2,16 +2,40 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:tolyui_color/tolyui_color.dart';
 
-/// Ant Design 风格内嵌颜色选择器面板。
+/// 面板预设尺寸，对应 Ant Design 的 small / medium / large。
+enum PanelSize {
+  small(220),
+  medium(280),
+  large(340);
+
+  final double width;
+  const PanelSize(this.width);
+}
+
+/// 内嵌颜色选择器面板。
+/// 
+/// 参数对齐 Ant Design ColorPicker API：
+/// - [enabled] 禁用面板交互，默认 true
+/// - [allowClear] 显示清除按钮，默认 false
+/// - [size] 预设面板宽度，会覆盖 [width]
+/// - [onChangeComplete] 拖拽/输入结束时回调，仅在动作完成时调用一次
 class TolyColorPickerPanel extends StatefulWidget {
   final Color color;
   final ValueChanged<Color> onChanged;
   final bool showAlpha;
   final bool showHexInput;
   final double width;
+  final PanelSize? size;
+  final bool enabled;
+  final bool allowClear;
+  final VoidCallback? onClear;
+  final ValueChanged<Color>? onChangeComplete;
+  final String? title;
 
   const TolyColorPickerPanel({
     super.key,
@@ -20,6 +44,12 @@ class TolyColorPickerPanel extends StatefulWidget {
     this.showAlpha = true,
     this.showHexInput = true,
     this.width = 280,
+    this.size,
+    this.enabled = true,
+    this.allowClear = false,
+    this.onClear,
+    this.onChangeComplete,
+    this.title,
   });
 
   @override
@@ -89,6 +119,7 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
           _hsv = HSVColor.fromColor(Color(0xFF000000 | val));
           widget.onChanged(_color);
         });
+        _notifyComplete();
       } catch (_) {}
     }
     _updateTexts();
@@ -99,6 +130,7 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
     if (raw != null) {
       setState(() => _alpha = (raw.clamp(0, 100) / 100));
       widget.onChanged(_color);
+      _notifyComplete();
     }
     _updateTexts();
   }
@@ -121,10 +153,14 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
     widget.onChanged(_color);
   }
 
+  void _notifyComplete() => widget.onChangeComplete?.call(_color);
+
+  double get _effectiveWidth => widget.size?.width ?? widget.width;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: widget.width,
+    final Widget panel = Container(
+      width: _effectiveWidth,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -133,6 +169,14 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (widget.title != null) ...[
+            _buildTitle(),
+            const SizedBox(height: 8),
+          ],
+          if (widget.allowClear) ...[
+            _buildHeader(),
+            const SizedBox(height: 8),
+          ],
           _buildSvPanel(),
           const SizedBox(height: 10),
           _buildHueSlider(),
@@ -144,6 +188,47 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
           if (widget.showHexInput) _buildInputBar(),
         ],
       ),
+    );
+
+    return Opacity(
+      opacity: widget.enabled ? 1.0 : 0.45,
+      child: AbsorbPointer(absorbing: !widget.enabled, child: panel),
+    );
+  }
+
+  Widget _buildTitle() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        widget.title!,
+        style: const TextStyle(fontSize: 12, color: Color(0xE0000000), height: 20 / 12),
+      ),
+    );
+  }
+
+  Widget _buildHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        GestureDetector(
+          onTap: widget.onClear,
+          child: Container(
+            width: 20,
+            height: 20,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.grey.shade300),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Center(
+              child: Transform.rotate(
+                angle: 45 * math.pi / 180,
+                child: Container(width: 12, height: 1.5, color: const Color(0xFFFA5555)),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -157,6 +242,7 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
             size: Size(w, 160),
             hsv: _hsv,
             onChanged: _onSVChanged,
+            onComplete: _notifyComplete,
           ),
         );
       },
@@ -166,7 +252,7 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
   Widget _buildHueSlider() {
     return Row(
       children: [
-        Expanded(child: _HueBar(hue: _hsv.hue, onChanged: _onHueChanged)),
+        Expanded(child: _HueBar(hue: _hsv.hue, onChanged: _onHueChanged, onComplete: _notifyComplete)),
         const SizedBox(width: 8),
         Container(
           width: _previewSize,
@@ -189,6 +275,7 @@ class _TolyColorPickerPanelState extends State<TolyColorPickerPanel> {
             baseColor: _hsv.toColor(),
             alpha: _alpha,
             onChanged: _onAlphaChanged,
+            onComplete: _notifyComplete,
           ),
         ),
         const SizedBox(width: 8),
@@ -263,14 +350,16 @@ class _SvPanel extends StatelessWidget {
   final Size size;
   final HSVColor hsv;
   final ValueChanged<HSVColor> onChanged;
+  final VoidCallback? onComplete;
 
-  const _SvPanel({required this.size, required this.hsv, required this.onChanged});
+  const _SvPanel({required this.size, required this.hsv, required this.onChanged, this.onComplete});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onPanDown: (e) => _handle(e.localPosition),
       onPanUpdate: (e) => _handle(e.localPosition),
+      onPanEnd: (_) => onComplete?.call(),
       child: CustomPaint(
         size: size,
         painter: _SvPainter(hsv),
@@ -324,7 +413,8 @@ class _SvPainter extends CustomPainter {
 class _HueBar extends StatelessWidget {
   final double hue;
   final ValueChanged<double> onChanged;
-  const _HueBar({required this.hue, required this.onChanged});
+  final VoidCallback? onComplete;
+  const _HueBar({required this.hue, required this.onChanged, this.onComplete});
 
   static const _sliderHeight = 12.0;
 
@@ -337,6 +427,7 @@ class _HueBar extends StatelessWidget {
         return GestureDetector(
           onPanDown: (e) => _handle(e.localPosition.dx, w),
           onPanUpdate: (e) => _handle(e.localPosition.dx, w),
+          onPanEnd: (_) => onComplete?.call(),
           child: CustomPaint(painter: _HueBarPainter(hue), willChange: false),
         );
       }),
@@ -393,7 +484,8 @@ class _AlphaBar extends StatelessWidget {
   final Color baseColor;
   final double alpha;
   final ValueChanged<double> onChanged;
-  const _AlphaBar({required this.baseColor, required this.alpha, required this.onChanged});
+  final VoidCallback? onComplete;
+  const _AlphaBar({required this.baseColor, required this.alpha, required this.onChanged, this.onComplete});
 
   static const _sliderHeight = 12.0;
 
@@ -406,6 +498,7 @@ class _AlphaBar extends StatelessWidget {
         return GestureDetector(
           onPanDown: (e) => _handle(e.localPosition.dx, w),
           onPanUpdate: (e) => _handle(e.localPosition.dx, w),
+          onPanEnd: (_) => onComplete?.call(),
           child: CustomPaint(painter: _AlphaBarPainter(baseColor, alpha), willChange: false),
         );
       }),

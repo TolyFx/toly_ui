@@ -3,45 +3,34 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'color_picker_trigger.dart';
 import 'package:tolyui_color_picker/tolyui_color_picker.dart';
 import 'package:tolyui_feedback/tolyui_feedback.dart';
 
-class ColorDemo5 extends StatefulWidget {
-  const ColorDemo5({super.key});
+import '../../display_nodes/display_nodes.dart';
+
+@DisplayNode(
+  title: '禁用透明度',
+  desc: '设置 showAlpha: false 隐藏透明度滑条，颜色始终不透明。',
+)
+class ColorPickerDemo4 extends StatefulWidget {
+  const ColorPickerDemo4({super.key});
 
   @override
-  State<ColorDemo5> createState() => _ColorDemo5State();
+  State<ColorPickerDemo4> createState() => _ColorPickerDemo4State();
 }
 
-class _ColorDemo5State extends State<ColorDemo5> {
+class _ColorPickerDemo4State extends State<ColorPickerDemo4> {
   Color _color = const Color(0xFF2E70CC);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('TolyPopover + TolyColorPickerPanel', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 4),
-        Text('点击色块弹出颜色面板', style: TextStyle(fontSize: 13, color: Colors.grey.shade600)),
-        const SizedBox(height: 16),
-        Wrap(
-          spacing: 8,
-          children: [
-            _buildSwatch(32),
-            _buildSwatch(40),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSwatch(double size) {
     return TolyPopover(
       placement: Placement.bottom,
       maxWidth: 280,
       overlay: TolyColorPickerPanel(
         color: _color,
+        showAlpha: false,
         onChanged: (c) => setState(() => _color = c),
       ),
       overlayDecorationBuilder: (_) => BoxDecoration(
@@ -57,15 +46,7 @@ class _ColorDemo5State extends State<ColorDemo5> {
       ),
       builder: (_, ctrl, __) => GestureDetector(
         onTap: ctrl.open,
-        child: Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            color: _color,
-            borderRadius: BorderRadius.circular(size / 6),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-        ),
+        child: ColorPickerTrigger(color: _color),
       ),
     );
   }

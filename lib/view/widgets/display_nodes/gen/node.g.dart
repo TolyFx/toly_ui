@@ -3,6 +3,7 @@
 /// github: https://github.com/toly1994328
 /// ===================================================
 part 'color.g.dart';
+part 'color_picker.g.dart';
 part 'device_frame.g.dart';
 part 'action.g.dart';
 part 'button.g.dart';
@@ -54,6 +55,7 @@ part 'tabs.g.dart';
 Map<String, dynamic> queryDisplayNodes(String name) {
   return switch (name) {
     "color" => _colorData,
+    "color_picker" => _colorPickerData,
     "device_frame" => _device_frameData,
     "action" => _actionData,
     "button" => _buttonData,

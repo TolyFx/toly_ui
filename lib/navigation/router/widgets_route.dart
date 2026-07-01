@@ -57,13 +57,14 @@ RouteBase get widgetsRoute => ShellRoute(
                 },
                 routes: [
                   _customRoute('autocomplete'),
+                  _customRoute('checkbox'),
+                  _customRoute('color_picker'),
+                  _customRoute('date_picker'),
                   _customRoute('input'),
+                  _customRoute('radio'),
                   _customRoute('select'),
                   _customRoute('slider'),
                   _customRoute('switch'),
-                  _customRoute('radio'),
-                  _customRoute('checkbox'),
-                  _customRoute('date_picker'),
                   _customRoute('transfer'),
                 ]),
             GoRoute(

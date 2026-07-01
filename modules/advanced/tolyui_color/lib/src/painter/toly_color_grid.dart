@@ -65,33 +65,29 @@ class TolyColorGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: colors.map((row) {
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: row.map((color) {
-            final bool selected = selectedColor?.value == color.value;
-            return GestureDetector(
-              onTap: () => onChanged(color),
-              child: Container(
-                width: 28,
-                height: 28,
-                margin: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(
-                    color: selected ? Colors.white : Colors.transparent,
-                    width: 2,
-                  ),
-                  boxShadow: selected
-                      ? [BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 4)]
-                      : null,
-                ),
+    final List<Color> flatColors = colors.expand((row) => row).toList();
+    return Wrap(
+      spacing: 4,
+      runSpacing: 4,
+      children: flatColors.map((color) {
+        final bool selected = selectedColor?.value == color.value;
+        return GestureDetector(
+          onTap: () => onChanged(color),
+          child: Container(
+            width: 28,
+            height: 28,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(
+                color: selected ? Colors.white : Colors.transparent,
+                width: 2,
               ),
-            );
-          }).toList(),
+              boxShadow: selected
+                  ? [BoxShadow(color: color.withValues(alpha: 0.5), blurRadius: 4)]
+                  : null,
+            ),
+          ),
         );
       }).toList(),
     );

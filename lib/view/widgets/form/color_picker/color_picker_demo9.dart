@@ -1,0 +1,53 @@
+// Copyright 2014 The 张风捷特烈 . All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+import 'package:flutter/material.dart';
+import 'package:tolyui_color_picker/tolyui_color_picker.dart';
+import 'package:tolyui_feedback/tolyui_feedback.dart';
+
+import 'color_picker_trigger.dart';
+import '../../display_nodes/display_nodes.dart';
+
+@DisplayNode(
+  title: '面板标题',
+  desc: '通过 title 参数在面板顶部添加标题文字，对齐 Ant panelRender 用法。',
+)
+class ColorPickerDemo9 extends StatefulWidget {
+  const ColorPickerDemo9({super.key});
+
+  @override
+  State<ColorPickerDemo9> createState() => _ColorPickerDemo9State();
+}
+
+class _ColorPickerDemo9State extends State<ColorPickerDemo9> {
+  Color _color = const Color(0xFF1677FF);
+
+  @override
+  Widget build(BuildContext context) {
+    return TolyPopover(
+      placement: Placement.bottom,
+      maxWidth: 280,
+      overlay: TolyColorPickerPanel(
+        color: _color,
+        title: 'Color Picker',
+        onChanged: (c) => setState(() => _color = c),
+      ),
+      overlayDecorationBuilder: (_) => BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.08),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      builder: (_, ctrl, __) => GestureDetector(
+        onTap: ctrl.open,
+        child: ColorPickerTrigger(color: _color),
+      ),
+    );
+  }
+}

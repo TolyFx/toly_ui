@@ -5,4 +5,29 @@
 
 part of 'node.g.dart';
 
-Map<String, dynamic> get _colorData => {"ColorDemo1":{"title":"HSV 调色盘","desc":"TolyHuePanel 展示 HSV 方形调色盘：左侧为饱和度和明度面板、右侧为色相滑条。支持设置初始色 initColor，通过 onChanged 回调实时获取选中的颜色。","code":"assets/code_res/color_demo1.txt"},"ColorDemo2":{"title":"RGB 调色面板","desc":"TolyRGBPanel 通过 R/G/B 三个独立滑条精确调色。每个通道范围 0~255，滑条颜色随当前值联动变化。底部实时显示当前色值和 RGB 数值，适合需要数字精确控制的场景。","code":"assets/code_res/color_demo2.txt"},"ColorDemo3":{"title":"颜色值展示与输入","desc":"使用 TolyHexInput 支持直接输入十六进制颜色值（6 位），配合 TolyAlphaSlider 调整透明度。右侧面板实时展示当前颜色的 HEX、RGB 及 Flutter Color 写法，方便开发时复制使用。","code":"assets/code_res/color_demo3.txt"},"ColorDemo4":{"title":"Material 色块网格","desc":"TolyColorGrid 预设色值快速选择网格。支持 fullMaterial（灰度+主色变体）与 material（500号主色）两种内置色板，也可自定义传入颜色列表。当前选中色块以白色边框+阴影高亮。","code":"assets/code_res/color_demo4.txt"},"ColorDemo5":{"title":"Ant Design ColorPicker (Form)","desc":"form 域 Ant Design 风格颜色选择器：左上角色块预览 + S-V 方形面板 + 水平色相/透明度滑条 + 底部 HEX 输入栏。依赖 tolyui_color 和 tolyui_feedback (popover)。","code":"assets/code_res/color_demo5.txt"}};
+Map<String, dynamic> get _colorData => {
+      "ColorDemo1": {
+        "title": "HSV 调色盘",
+        "desc":
+            "TolyHuePanel 展示 HSV 方形调色盘：左侧为饱和度和明度面板、右侧为色相滑条。支持设置初始色 initColor，通过 onChanged 回调实时获取选中的颜色。",
+        "code": "assets/code_res/color_demo1.txt"
+      },
+      "ColorDemo2": {
+        "title": "RGB 调色面板",
+        "desc":
+            "TolyRGBPanel 通过 R/G/B 三个独立滑条精确调色。每个通道范围 0~255，滑条颜色随当前值联动变化。底部实时显示当前色值和 RGB 数值，适合需要数字精确控制的场景。",
+        "code": "assets/code_res/color_demo2.txt"
+      },
+      "ColorDemo3": {
+        "title": "颜色值展示与输入",
+        "desc":
+            "使用 TolyHexInput 支持直接输入十六进制颜色值（6 位），配合 TolyAlphaSlider 调整透明度。右侧面板实时展示当前颜色的 HEX、RGB 及 Flutter Color 写法，方便开发时复制使用。",
+        "code": "assets/code_res/color_demo3.txt"
+      },
+      "ColorDemo4": {
+        "title": "Material 色块网格",
+        "desc":
+            "TolyColorGrid 预设色值快速选择网格。支持 fullMaterial（灰度+主色变体）与 material（500号主色）两种内置色板，也可自定义传入颜色列表。当前选中色块以白色边框+阴影高亮。",
+        "code": "assets/code_res/color_demo4.txt"
+      }
+    };
