@@ -1,0 +1,20 @@
+name: toly_json_editor
+description: "JSON editor with syntax highlighting, validation and formatting for tolyui"
+version: 0.0.1
+homepage: https://github.com/TolyFx/toly_ui
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/form/toly_json_editor
+
+environment:
+  sdk: ^3.6.0
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
