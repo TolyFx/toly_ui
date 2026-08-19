@@ -91,7 +91,8 @@ class _TolyColorPickerState extends State<TolyColorPicker> {
         const SizedBox(height: 12),
         // ── Alpha 滑条 ──
         if (widget.showAlpha) ...[
-          TolyAlphaSlider(color: _color, alpha: _alpha, onChanged: _onAlphaChanged),
+          TolyAlphaSlider(
+              color: _color, alpha: _alpha, onChanged: _onAlphaChanged),
           const SizedBox(height: 12),
         ],
         // ── Hex 输入 ──
@@ -125,30 +126,38 @@ class _TolyColorPickerState extends State<TolyColorPicker> {
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: Colors.grey.shade300),
             boxShadow: [
-              BoxShadow(color: _color.withValues(alpha: 0.2), blurRadius: 4, offset: const Offset(0, 2)),
+              BoxShadow(
+                  color: _color.withValues(alpha: 0.2),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2)),
             ],
           ),
         ),
         const SizedBox(width: 12),
         Text(
           _toHex(_colorWithAlpha),
-          style: const TextStyle(fontSize: 14, fontFamily: 'monospace', fontWeight: FontWeight.w500),
+          style: const TextStyle(
+              fontSize: 14,
+              fontFamily: 'monospace',
+              fontWeight: FontWeight.w500),
         ),
         const SizedBox(width: 8),
         Text(
           'α ${(_alpha * 100).round()}%',
-          style: TextStyle(fontSize: 12, color: Colors.grey.shade600, fontFamily: 'monospace'),
+          style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey.shade600,
+              fontFamily: 'monospace'),
         ),
       ],
     );
   }
 
-  String _toHex(Color c) =>
-      '#${c.alpha.toRadixString(16).padLeft(2, '0')}'
-      '${c.red.toRadixString(16).padLeft(2, '0')}'
-      '${c.green.toRadixString(16).padLeft(2, '0')}'
-      '${c.blue.toRadixString(16).padLeft(2, '0')}'
-          .toUpperCase();
+  String _toHex(Color c) => '#${c.alpha.toRadixString(16).padLeft(2, '0')}'
+          '${c.red.toRadixString(16).padLeft(2, '0')}'
+          '${c.green.toRadixString(16).padLeft(2, '0')}'
+          '${c.blue.toRadixString(16).padLeft(2, '0')}'
+      .toUpperCase();
 }
 
 /// 以弹出层形式展示 [TolyColorPicker]。
@@ -174,28 +183,37 @@ Future<Color?> showColorPicker(
     pageBuilder: (context, _, __) {
       return Align(
         alignment: Alignment.center,
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 24),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Material(
             color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(12),
-            boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 16, offset: Offset(0, 4))],
-          ),
-          width: 340,
-          child: TolyColorPicker(
-            color: selected,
-            showAlpha: showAlpha,
-            showHexInput: showHexInput,
-            showPresets: showPresets,
-            presets: presets,
-            onChanged: (c) => selected = c,
+            elevation: 8,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: MediaQuery.sizeOf(context).height - 48,
+                maxWidth: 340,
+              ),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: TolyColorPicker(
+                  color: selected,
+                  showAlpha: showAlpha,
+                  showHexInput: showHexInput,
+                  showPresets: showPresets,
+                  presets: presets,
+                  onChanged: (c) => selected = c,
+                ),
+              ),
+            ),
           ),
         ),
       );
     },
     transitionBuilder: (_, anim, __, child) {
-      return FadeTransition(opacity: CurvedAnimation(parent: anim, curve: Curves.easeOut), child: child);
+      return FadeTransition(
+          opacity: CurvedAnimation(parent: anim, curve: Curves.easeOut),
+          child: child);
     },
   ).then((_) => selected);
 }
