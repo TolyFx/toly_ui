@@ -44,6 +44,9 @@ class TolyTextField extends StatefulWidget {
   /// 文本对齐方式。
   final TextAlign textAlign;
 
+  /// 输入内容与边框之间的内边距。
+  final EdgeInsetsGeometry? contentPadding;
+
   /// 键盘类型。
   final TextInputType? keyboardType;
 
@@ -70,6 +73,7 @@ class TolyTextField extends StatefulWidget {
     this.maxLines = 1,
     this.density = TolyFormDensity.compact,
     this.textAlign = TextAlign.start,
+    this.contentPadding,
     this.keyboardType,
     this.inputFormatters,
     this.onChanged,
@@ -158,7 +162,9 @@ class _TolyTextFieldState extends State<TolyTextField> {
             autofocus: widget.autofocus,
             maxLines: widget.maxLines,
             textAlign: widget.textAlign,
-            textAlignVertical: TextAlignVertical.center,
+            textAlignVertical: widget.maxLines == 1
+                ? TextAlignVertical.center
+                : TextAlignVertical.top,
             keyboardType: widget.keyboardType,
             inputFormatters: widget.inputFormatters,
             cursorColor: theme.focusBorderColor,
@@ -180,7 +186,8 @@ class _TolyTextFieldState extends State<TolyTextField> {
                 maxWidth: 28,
               ),
               isCollapsed: true,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+              contentPadding: widget.contentPadding ??
+                  const EdgeInsets.symmetric(horizontal: 8),
               border: InputBorder.none,
             ),
             onChanged: widget.onChanged,

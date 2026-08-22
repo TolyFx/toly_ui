@@ -4,64 +4,64 @@ import 'package:flutter/material.dart';
 class JsonEditorStyle {
   /// 标签样式
   final TextStyle labelStyle;
-  
+
   /// 文本样式
   final TextStyle textStyle;
-  
+
   /// 提示文本样式
   final TextStyle hintStyle;
-  
+
   /// 错误文本样式
   final TextStyle errorStyle;
-  
+
   /// 边框颜色
   final Color borderColor;
-  
+
   /// 焦点边框颜色
   final Color focusBorderColor;
-  
+
   /// 错误颜色
   final Color errorColor;
-  
+
   /// 验证通过颜色
   final Color validColor;
-  
+
   /// 背景颜色
   final Color backgroundColor;
-  
+
   /// 禁用背景颜色
   final Color disabledColor;
-  
+
   /// 光标颜色
   final Color cursorColor;
-  
+
   /// 工具栏图标颜色
   final Color toolbarIconColor;
-  
+
   /// 禁用图标颜色
   final Color disabledIconColor;
-  
+
   /// 语法高亮 - Key 颜色
   final Color keyColor;
-  
+
   /// 语法高亮 - String 颜色
   final Color stringColor;
-  
+
   /// 语法高亮 - Number 颜色
   final Color numberColor;
-  
+
   /// 语法高亮 - Boolean 颜色
   final Color boolColor;
-  
+
   /// 语法高亮 - Null 颜色
   final Color nullColor;
-  
+
   /// 语法高亮 - 括号颜色
   final Color bracketColor;
-  
+
   /// 圆角
   final BorderRadius borderRadius;
-  
+
   /// 内边距
   final EdgeInsets padding;
 
@@ -93,14 +93,17 @@ class JsonEditorStyle {
   factory JsonEditorStyle.fromTheme(ThemeData theme) {
     final colorScheme = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
-    
+
     return JsonEditorStyle(
       labelStyle: theme.textTheme.labelLarge?.copyWith(
-        color: colorScheme.primary,
-      ) ?? TextStyle(color: colorScheme.primary),
-      textStyle: const TextStyle(
+            color: colorScheme.primary,
+          ) ??
+          TextStyle(color: colorScheme.primary),
+      textStyle: TextStyle(
         fontFamily: 'monospace',
-        fontSize: 12,
+        fontSize: 13,
+        height: 1.55,
+        color: colorScheme.onSurface,
       ),
       hintStyle: TextStyle(
         fontFamily: 'monospace',
@@ -111,14 +114,14 @@ class JsonEditorStyle {
         fontSize: 10,
         color: Colors.red,
       ),
-      borderColor: colorScheme.outline,
+      borderColor: colorScheme.outlineVariant.withValues(alpha: 0.65),
       focusBorderColor: colorScheme.primary,
       errorColor: Colors.red,
       validColor: Colors.green,
       backgroundColor: colorScheme.surface,
       disabledColor: colorScheme.surfaceContainerHighest,
       cursorColor: colorScheme.primary,
-      toolbarIconColor: colorScheme.primary,
+      toolbarIconColor: colorScheme.onSurfaceVariant,
       disabledIconColor: colorScheme.outline,
       keyColor: isDark ? Colors.lightBlue[300]! : Colors.blue[700]!,
       stringColor: isDark ? Colors.lightGreen[300]! : Colors.green[700]!,
@@ -126,6 +129,8 @@ class JsonEditorStyle {
       boolColor: isDark ? Colors.purple[300]! : Colors.purple[700]!,
       nullColor: isDark ? Colors.grey[400]! : Colors.grey[600]!,
       bracketColor: isDark ? Colors.grey[300]! : Colors.grey[800]!,
+      borderRadius: const BorderRadius.all(Radius.circular(12)),
+      padding: const EdgeInsets.all(16),
     );
   }
 

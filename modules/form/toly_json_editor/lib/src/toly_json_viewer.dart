@@ -5,7 +5,7 @@ import 'json_editor_style.dart';
 
 /// TolyUI JSON 预览组件
 ///
-/// 只读的 JSON 查看器，支持语法高亮、可折叠树形结构、复制功能
+/// 只读的 JSON 源码查看器，支持语法高亮、行号、区块折叠和复制。
 ///
 /// 示例:
 /// ```dart
@@ -24,35 +24,27 @@ class TolyJsonViewer extends StatefulWidget {
   /// 样式配置
   final JsonEditorStyle? style;
 
-  /// 初始展开深度（-1 表示全部展开）
-  final int initialExpandDepth;
-
   /// 是否显示工具栏
   final bool showToolbar;
 
   /// 是否显示行号
   final bool showLineNumbers;
 
-  /// 缩进大小
-  final int indentSize;
-
-  /// 是否显示边框
-  final bool showBorder;
-
   /// 是否使用滚动容器（false 时自适应高度）
   final bool scrollable;
+
+  /// JSON 复制到剪贴板后的回调。
+  final VoidCallback? onCopied;
 
   const TolyJsonViewer({
     super.key,
     this.data,
     this.jsonString,
     this.style,
-    this.initialExpandDepth = 2,
     this.showToolbar = true,
     this.showLineNumbers = false,
-    this.indentSize = 2,
-    this.showBorder = true,
     this.scrollable = true,
+    this.onCopied,
   });
 
   @override
@@ -62,20 +54,26 @@ class TolyJsonViewer extends StatefulWidget {
 class _TolyJsonViewerState extends State<TolyJsonViewer> {
   late dynamic _parsedData;
   String? _errorMessage;
-  final Set<String> _collapsedPaths = {};
-  bool _isTreeView = true;
+  final Set<String> _collapsedPaths = <String>{};
+  final Set<int> _collapsedSourceLines = <int>{};
+  late bool _showLineNumbers;
 
   @override
   void initState() {
     super.initState();
+    _showLineNumbers = widget.showLineNumbers;
     _parseData();
   }
 
   @override
   void didUpdateWidget(TolyJsonViewer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.data != widget.data || oldWidget.jsonString != widget.jsonString) {
+    if (oldWidget.data != widget.data ||
+        oldWidget.jsonString != widget.jsonString) {
       _parseData();
+    }
+    if (oldWidget.showLineNumbers != widget.showLineNumbers) {
+      _showLineNumbers = widget.showLineNumbers;
     }
   }
 
@@ -95,169 +93,227 @@ class _TolyJsonViewerState extends State<TolyJsonViewer> {
     }
   }
 
-  void _copyToClipboard() {
-    final text = _parsedData != null
+  Future<void> _copyToClipboard() async {
+    final String text = _parsedData != null
         ? const JsonEncoder.withIndent('  ').convert(_parsedData)
         : widget.jsonString ?? '';
-    Clipboard.setData(ClipboardData(text: text));
+    await Clipboard.setData(ClipboardData(text: text));
+    if (!mounted) return;
+    final VoidCallback? onCopied = widget.onCopied;
+    if (onCopied != null) {
+      onCopied();
+      return;
+    }
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('已复制到剪贴板'), duration: Duration(seconds: 1)),
     );
   }
 
   void _expandAll() {
-    setState(() => _collapsedPaths.clear());
+    setState(() {
+      _collapsedSourceLines.clear();
+    });
   }
 
   void _collapseAll() {
     setState(() {
-      _collapsedPaths.clear();
-      _collectAllPaths(_parsedData, '', _collapsedPaths);
+      final List<String> lines = _formattedSourceLines;
+      _collapsedSourceLines
+        ..clear()
+        ..addAll(_sourceFoldRanges(lines).keys);
     });
-  }
-
-  void _collectAllPaths(dynamic data, String path, Set<String> paths) {
-    if (data is Map) {
-      paths.add(path);
-      data.forEach((key, value) {
-        _collectAllPaths(value, '$path/$key', paths);
-      });
-    } else if (data is List) {
-      paths.add(path);
-      for (int i = 0; i < data.length; i++) {
-        _collectAllPaths(data[i], '$path[$i]', paths);
-      }
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final effectiveStyle = widget.style ?? JsonEditorStyle.fromTheme(theme);
-
+    final ThemeData theme = Theme.of(context);
+    final JsonEditorStyle effectiveStyle =
+        widget.style ?? JsonEditorStyle.fromTheme(theme);
+    final List<Widget> children = <Widget>[
+      if (widget.showToolbar) _buildToolbar(effectiveStyle),
+      if (widget.showToolbar) const SizedBox(height: 10),
+      if (widget.scrollable)
+        Expanded(child: _buildContent(effectiveStyle))
+      else
+        _buildContent(effectiveStyle),
+    ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (widget.showToolbar) _buildToolbar(effectiveStyle),
-        if (widget.showToolbar) const SizedBox(height: 8),
-        _buildContent(effectiveStyle),
-      ],
+      mainAxisSize: widget.scrollable ? MainAxisSize.max : MainAxisSize.min,
+      children: children,
     );
   }
 
   Widget _buildToolbar(JsonEditorStyle style) {
-    return Row(
-      children: [
-        // 视图切换
-        _ToolButton(
-          icon: Icons.account_tree,
-          tooltip: '树形视图',
-          isActive: _isTreeView,
-          onPressed: () => setState(() => _isTreeView = true),
-          style: style,
-        ),
-        _ToolButton(
-          icon: Icons.code,
-          tooltip: '原始视图',
-          isActive: !_isTreeView,
-          onPressed: () => setState(() => _isTreeView = false),
-          style: style,
-        ),
-        const SizedBox(width: 8),
-        Container(width: 1, height: 16, color: style.borderColor),
-        const SizedBox(width: 8),
-        // 展开/折叠
-        _ToolButton(
-          icon: Icons.unfold_more,
-          tooltip: '全部展开',
-          onPressed: _expandAll,
-          style: style,
-        ),
-        _ToolButton(
-          icon: Icons.unfold_less,
-          tooltip: '全部折叠',
-          onPressed: _collapseAll,
-          style: style,
-        ),
-        const Spacer(),
-        // 复制
-        _ToolButton(
-          icon: Icons.copy,
-          tooltip: '复制',
-          onPressed: _copyToClipboard,
-          style: style,
-        ),
-      ],
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    return Container(
+      height: 42,
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: colors.surfaceContainerHighest.withValues(alpha: 0.55),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: <Widget>[
+          _ToolButton(
+            icon: Icons.format_list_numbered_rounded,
+            label: '行号',
+            tooltip: _showLineNumbers ? '隐藏行号' : '显示行号',
+            isActive: _showLineNumbers,
+            onPressed: () => setState(() {
+              _showLineNumbers = !_showLineNumbers;
+            }),
+            style: style,
+          ),
+          const SizedBox(width: 6),
+          Container(
+            width: 1,
+            height: 18,
+            color: colors.outlineVariant.withValues(alpha: 0.7),
+          ),
+          const SizedBox(width: 6),
+          _ToolButton(
+            icon: Icons.unfold_more_rounded,
+            tooltip: '全部展开',
+            onPressed: _expandAll,
+            style: style,
+          ),
+          _ToolButton(
+            icon: Icons.unfold_less_rounded,
+            tooltip: '全部折叠',
+            onPressed: _collapseAll,
+            style: style,
+          ),
+          const Spacer(),
+          _ToolButton(
+            icon: Icons.copy_all_outlined,
+            tooltip: '复制 JSON',
+            onPressed: _copyToClipboard,
+            style: style,
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildContent(JsonEditorStyle style) {
     if (_errorMessage != null) {
-      return Container(
+      return Padding(
         padding: style.padding,
-        decoration: widget.showBorder ? BoxDecoration(
-          border: Border.all(color: style.errorColor),
-          borderRadius: style.borderRadius,
-          color: style.errorColor.withValues(alpha: 0.1),
-        ) : null,
         child: Text(_errorMessage!, style: style.errorStyle),
       );
     }
 
     if (_parsedData == null) {
-      return Container(
+      return Padding(
         padding: style.padding,
-        decoration: widget.showBorder ? BoxDecoration(
-          border: Border.all(color: style.borderColor),
-          borderRadius: style.borderRadius,
-          color: style.backgroundColor,
-        ) : null,
         child: Text('No data', style: style.hintStyle),
       );
     }
 
-    final content = _isTreeView
-        ? _buildTreeView(_parsedData, '', 0, style)
-        : _buildRawView(style);
+    final Widget content = _buildRawView(style);
 
     if (widget.scrollable) {
-      return Container(
-        decoration: widget.showBorder ? BoxDecoration(
-          border: Border.all(color: style.borderColor),
-          borderRadius: style.borderRadius,
-          color: style.backgroundColor,
-        ) : null,
-        child: SingleChildScrollView(
-          padding: style.padding,
-          child: content,
-        ),
+      return SingleChildScrollView(
+        padding: style.padding,
+        child: content,
       );
     }
 
-    // 不使用滚动容器，自适应高度
-    return Container(
+    return Padding(
       padding: style.padding,
-      decoration: widget.showBorder ? BoxDecoration(
-        border: Border.all(color: style.borderColor),
-        borderRadius: style.borderRadius,
-        color: style.backgroundColor,
-      ) : null,
       child: content,
     );
   }
 
   Widget _buildRawView(JsonEditorStyle style) {
-    final text = const JsonEncoder.withIndent('  ').convert(_parsedData);
-    return SelectableText.rich(
-      TextSpan(
-        style: style.textStyle,
-        children: _highlightJson(text, style),
+    final List<String> lines = _formattedSourceLines;
+    final Map<int, int> foldRanges = _sourceFoldRanges(lines);
+    final List<Widget> rows = <Widget>[];
+    int lineIndex = 0;
+    while (lineIndex < lines.length) {
+      final int currentLine = lineIndex;
+      final int? foldEnd = foldRanges[currentLine];
+      final bool collapsed = _collapsedSourceLines.contains(currentLine);
+      rows.add(
+        _SourceLine(
+          lineNumber: currentLine + 1,
+          showLineNumber: _showLineNumbers,
+          spans: _highlightJson(lines[currentLine], style),
+          style: style,
+          foldable: foldEnd != null,
+          collapsed: collapsed,
+          hiddenLineCount:
+              collapsed && foldEnd != null ? foldEnd - currentLine - 1 : 0,
+          onToggleFold:
+              foldEnd == null ? null : () => _toggleSourceFold(currentLine),
+        ),
+      );
+      lineIndex = collapsed && foldEnd != null ? foldEnd + 1 : lineIndex + 1;
+    }
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: rows,
       ),
     );
   }
 
-  Widget _buildTreeView(dynamic data, String path, int depth, JsonEditorStyle style) {
+  List<String> get _formattedSourceLines {
+    final String source =
+        const JsonEncoder.withIndent('  ').convert(_parsedData);
+    return source.split('\n');
+  }
+
+  /// 分析格式化 JSON 中可折叠括号的起止行。
+  Map<int, int> _sourceFoldRanges(List<String> lines) {
+    final Map<int, int> result = <int, int>{};
+    final List<int> stack = <int>[];
+    bool inString = false;
+    bool escaped = false;
+    for (int lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+      final String line = lines[lineIndex];
+      for (int characterIndex = 0;
+          characterIndex < line.length;
+          characterIndex++) {
+        final String character = line[characterIndex];
+        if (escaped) {
+          escaped = false;
+          continue;
+        }
+        if (character == '\\' && inString) {
+          escaped = true;
+          continue;
+        }
+        if (character == '"') {
+          inString = !inString;
+          continue;
+        }
+        if (inString) continue;
+        if (character == '{' || character == '[') {
+          stack.add(lineIndex);
+          continue;
+        }
+        if ((character == '}' || character == ']') && stack.isNotEmpty) {
+          final int startLine = stack.removeLast();
+          if (lineIndex > startLine + 1) result[startLine] = lineIndex;
+        }
+      }
+    }
+    return result;
+  }
+
+  void _toggleSourceFold(int lineIndex) {
+    setState(() {
+      if (!_collapsedSourceLines.remove(lineIndex)) {
+        _collapsedSourceLines.add(lineIndex);
+      }
+    });
+  }
+
+  Widget _buildTreeView(
+      dynamic data, String path, int depth, JsonEditorStyle style) {
     if (data is Map) {
       return _buildMapNode(data, path, depth, style);
     } else if (data is List) {
@@ -267,7 +323,8 @@ class _TolyJsonViewerState extends State<TolyJsonViewer> {
     }
   }
 
-  Widget _buildMapNode(Map data, String path, int depth, JsonEditorStyle style) {
+  Widget _buildMapNode(
+      Map data, String path, int depth, JsonEditorStyle style) {
     final isCollapsed = _collapsedPaths.contains(path);
     final isEmpty = data.isEmpty;
 
@@ -296,14 +353,15 @@ class _TolyJsonViewerState extends State<TolyJsonViewer> {
               ),
               Text('{', style: TextStyle(color: style.bracketColor)),
               if (isCollapsed)
-                Text(' ${data.length} items }', 
-                    style: TextStyle(color: style.bracketColor.withValues(alpha: 0.6))),
+                Text(' ${data.length} items }',
+                    style: TextStyle(
+                        color: style.bracketColor.withValues(alpha: 0.6))),
             ],
           ),
         ),
         if (!isCollapsed) ...[
           Padding(
-            padding: EdgeInsets.only(left: widget.indentSize * 8.0),
+            padding: const EdgeInsets.only(left: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: data.entries.map((entry) {
@@ -313,9 +371,12 @@ class _TolyJsonViewerState extends State<TolyJsonViewer> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('"${entry.key}"', style: TextStyle(color: style.keyColor)),
+                      Text('"${entry.key}"',
+                          style: TextStyle(color: style.keyColor)),
                       Text(': ', style: TextStyle(color: style.bracketColor)),
-                      Flexible(child: _buildTreeView(entry.value, childPath, depth + 1, style)),
+                      Flexible(
+                          child: _buildTreeView(
+                              entry.value, childPath, depth + 1, style)),
                     ],
                   ),
                 );
@@ -328,7 +389,8 @@ class _TolyJsonViewerState extends State<TolyJsonViewer> {
     );
   }
 
-  Widget _buildListNode(List data, String path, int depth, JsonEditorStyle style) {
+  Widget _buildListNode(
+      List data, String path, int depth, JsonEditorStyle style) {
     final isCollapsed = _collapsedPaths.contains(path);
     final isEmpty = data.isEmpty;
 
@@ -357,14 +419,15 @@ class _TolyJsonViewerState extends State<TolyJsonViewer> {
               ),
               Text('[', style: TextStyle(color: style.bracketColor)),
               if (isCollapsed)
-                Text(' ${data.length} items ]', 
-                    style: TextStyle(color: style.bracketColor.withValues(alpha: 0.6))),
+                Text(' ${data.length} items ]',
+                    style: TextStyle(
+                        color: style.bracketColor.withValues(alpha: 0.6))),
             ],
           ),
         ),
         if (!isCollapsed) ...[
           Padding(
-            padding: EdgeInsets.only(left: widget.indentSize * 8.0),
+            padding: const EdgeInsets.only(left: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(data.length, (index) {
@@ -374,8 +437,13 @@ class _TolyJsonViewerState extends State<TolyJsonViewer> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('$index: ', style: TextStyle(color: style.bracketColor.withValues(alpha: 0.6), fontSize: 10)),
-                      Flexible(child: _buildTreeView(data[index], childPath, depth + 1, style)),
+                      Text('$index: ',
+                          style: TextStyle(
+                              color: style.bracketColor.withValues(alpha: 0.6),
+                              fontSize: 10)),
+                      Flexible(
+                          child: _buildTreeView(
+                              data[index], childPath, depth + 1, style)),
                     ],
                   ),
                 );
@@ -396,7 +464,8 @@ class _TolyJsonViewerState extends State<TolyJsonViewer> {
     } else if (value is num) {
       return Text(value.toString(), style: TextStyle(color: style.numberColor));
     } else if (value is String) {
-      return SelectableText('"$value"', style: TextStyle(color: style.stringColor));
+      return SelectableText('"$value"',
+          style: TextStyle(color: style.stringColor));
     }
     return Text(value.toString(), style: style.textStyle);
   }
@@ -417,39 +486,150 @@ class _TolyJsonViewerState extends State<TolyJsonViewer> {
       }
 
       if (match.group(1) != null) {
-        spans.add(TextSpan(text: match.group(1), style: TextStyle(color: style.keyColor)));
+        spans.add(TextSpan(
+            text: match.group(1), style: TextStyle(color: style.keyColor)));
       } else if (match.group(2) != null) {
-        spans.add(TextSpan(text: match.group(2), style: TextStyle(color: style.stringColor)));
+        spans.add(TextSpan(
+            text: match.group(2), style: TextStyle(color: style.stringColor)));
       } else if (match.group(3) != null) {
-        spans.add(TextSpan(text: match.group(3), style: TextStyle(color: style.numberColor)));
+        spans.add(TextSpan(
+            text: match.group(3), style: TextStyle(color: style.numberColor)));
       } else if (match.group(4) != null) {
-        spans.add(TextSpan(text: match.group(4), style: TextStyle(color: style.boolColor)));
+        spans.add(TextSpan(
+            text: match.group(4), style: TextStyle(color: style.boolColor)));
       } else if (match.group(5) != null) {
-        spans.add(TextSpan(text: match.group(5), style: TextStyle(color: style.nullColor)));
+        spans.add(TextSpan(
+            text: match.group(5), style: TextStyle(color: style.nullColor)));
       } else if (match.group(6) != null) {
-        spans.add(TextSpan(text: match.group(6), style: TextStyle(color: style.bracketColor)));
+        spans.add(TextSpan(
+            text: match.group(6), style: TextStyle(color: style.bracketColor)));
       }
 
       lastEnd = match.end;
     }
 
     if (lastEnd < text.length) {
-      spans.add(TextSpan(text: text.substring(lastEnd), style: TextStyle(color: style.bracketColor)));
+      spans.add(TextSpan(
+          text: text.substring(lastEnd),
+          style: TextStyle(color: style.bracketColor)));
     }
 
     return spans;
   }
 }
 
-class _ToolButton extends StatelessWidget {
-  final IconData icon;
-  final String tooltip;
-  final VoidCallback? onPressed;
+class _SourceLine extends StatelessWidget {
+  /// 源码行号。
+  final int lineNumber;
+
+  /// 是否显示行号。
+  final bool showLineNumber;
+
+  /// 高亮后的行内容。
+  final List<TextSpan> spans;
+
+  /// JSON 显示样式。
   final JsonEditorStyle style;
+
+  /// 当前行是否可折叠。
+  final bool foldable;
+
+  /// 当前行是否已折叠。
+  final bool collapsed;
+
+  /// 折叠时隐藏的行数。
+  final int hiddenLineCount;
+
+  /// 切换折叠状态动作。
+  final VoidCallback? onToggleFold;
+
+  const _SourceLine({
+    required this.lineNumber,
+    required this.showLineNumber,
+    required this.spans,
+    required this.style,
+    required this.foldable,
+    required this.collapsed,
+    required this.hiddenLineCount,
+    required this.onToggleFold,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final Color gutterColor = Theme.of(
+      context,
+    ).colorScheme.onSurfaceVariant.withValues(alpha: 0.52);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        if (showLineNumber)
+          SizedBox(
+            width: 34,
+            child: Text(
+              '$lineNumber',
+              textAlign: TextAlign.right,
+              style: style.textStyle.copyWith(color: gutterColor),
+            ),
+          ),
+        SizedBox(
+          width: 24,
+          height: (style.textStyle.fontSize ?? 13) *
+              (style.textStyle.height ?? 1.5),
+          child: foldable
+              ? InkWell(
+                  borderRadius: BorderRadius.circular(6),
+                  onTap: onToggleFold,
+                  child: Icon(
+                    collapsed
+                        ? Icons.chevron_right_rounded
+                        : Icons.expand_more_rounded,
+                    size: 16,
+                    color: gutterColor,
+                  ),
+                )
+              : null,
+        ),
+        SelectableText.rich(
+          TextSpan(
+            style: style.textStyle,
+            children: <InlineSpan>[
+              ...spans,
+              if (collapsed)
+                TextSpan(
+                  text: '  …  $hiddenLineCount 行',
+                  style: style.hintStyle,
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ToolButton extends StatelessWidget {
+  /// 按钮图标。
+  final IconData icon;
+
+  /// 可选文字。
+  final String? label;
+
+  /// 悬浮提示。
+  final String tooltip;
+
+  /// 点击动作。
+  final VoidCallback? onPressed;
+
+  /// JSON 样式。
+  final JsonEditorStyle style;
+
+  /// 是否为选中状态。
   final bool isActive;
 
   const _ToolButton({
     required this.icon,
+    this.label,
     required this.tooltip,
     this.onPressed,
     required this.style,
@@ -458,15 +638,48 @@ class _ToolButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: Icon(icon, size: 16),
-      tooltip: tooltip,
-      onPressed: onPressed,
-      padding: EdgeInsets.zero,
-      constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
-      style: IconButton.styleFrom(
-        foregroundColor: isActive ? style.focusBorderColor : style.toolbarIconColor,
-        backgroundColor: isActive ? style.focusBorderColor.withValues(alpha: 0.1) : null,
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final Color foreground =
+        isActive ? colors.onSurface : colors.onSurfaceVariant;
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: onPressed,
+        child: Container(
+          height: 34,
+          padding: EdgeInsets.symmetric(horizontal: label == null ? 9 : 10),
+          decoration: BoxDecoration(
+            color: isActive ? colors.surface : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: isActive
+                ? <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 4,
+                      offset: const Offset(0, 1),
+                    ),
+                  ]
+                : null,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Icon(icon, size: 17, color: foreground),
+              if (label != null) ...<Widget>[
+                const SizedBox(width: 5),
+                Text(
+                  label!,
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: foreground,
+                        fontWeight:
+                            isActive ? FontWeight.w600 : FontWeight.w500,
+                      ),
+                ),
+              ],
+            ],
+          ),
+        ),
       ),
     );
   }
