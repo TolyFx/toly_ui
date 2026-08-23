@@ -20,7 +20,7 @@ class TolyConfirmPanel extends StatelessWidget {
   final IconData icon;
 
   /// 面板强调色。
-  final Color accentColor;
+  final Color? accentColor;
 
   const TolyConfirmPanel({
     super.key,
@@ -28,8 +28,8 @@ class TolyConfirmPanel extends StatelessWidget {
     required this.message,
     required this.cancelLabel,
     required this.confirmLabel,
-    this.icon = Icons.verified_user_outlined,
-    this.accentColor = const Color(0xFF3B82F6),
+    this.icon = Icons.shield_outlined,
+    this.accentColor,
   });
 
   /// 展示统一确认面板并返回用户选择。
@@ -39,8 +39,8 @@ class TolyConfirmPanel extends StatelessWidget {
     required String message,
     required String cancelLabel,
     required String confirmLabel,
-    IconData icon = Icons.verified_user_outlined,
-    Color accentColor = const Color(0xFF3B82F6),
+    IconData icon = Icons.shield_outlined,
+    Color? accentColor,
     bool barrierDismissible = true,
   }) async {
     final bool? result = await showDialog<bool>(
@@ -65,54 +65,63 @@ class TolyConfirmPanel extends StatelessWidget {
     final Color surfaceColor = theme.colorScheme.surface;
     final Color titleColor = theme.colorScheme.onSurface;
     final Color messageColor = titleColor.withValues(alpha: 0.62);
+    final Color resolvedAccentColor = accentColor ?? theme.colorScheme.primary;
 
     return Dialog(
       elevation: 0,
       backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.symmetric(horizontal: 28),
+      insetPadding: const EdgeInsets.symmetric(horizontal: 32),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 360),
+        constraints: const BoxConstraints(maxWidth: 348),
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: surfaceColor,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.12),
-                blurRadius: 32,
-                offset: const Offset(0, 12),
+                blurRadius: 28,
+                offset: const Offset(0, 10),
               ),
             ],
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 18),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                _ConfirmIcon(icon: icon, color: accentColor),
+                Row(
+                  children: [
+                    _ConfirmIcon(icon: icon, color: resolvedAccentColor),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: titleColor,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 16),
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    color: titleColor,
-                    fontWeight: FontWeight.w700,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: Text(
+                    message,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: messageColor,
+                      height: 1.55,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  message,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: messageColor,
-                    height: 1.55,
-                  ),
-                ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
                 _ConfirmActions(
                   cancelLabel: cancelLabel,
                   confirmLabel: confirmLabel,
-                  accentColor: accentColor,
+                  accentColor: resolvedAccentColor,
                 ),
               ],
             ),
@@ -135,14 +144,14 @@ class _ConfirmIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 52,
-      height: 52,
+      width: 38,
+      height: 38,
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(11),
       ),
       alignment: Alignment.center,
-      child: Icon(icon, size: 26, color: color),
+      child: Icon(icon, size: 20, color: color),
     );
   }
 }
@@ -167,10 +176,10 @@ class _ConfirmActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ButtonStyle buttonStyle = ButtonStyle(
-      minimumSize: const WidgetStatePropertyAll(Size.fromHeight(44)),
+      minimumSize: const WidgetStatePropertyAll(Size.fromHeight(42)),
       elevation: const WidgetStatePropertyAll(0),
       shape: WidgetStatePropertyAll(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
     return Row(
