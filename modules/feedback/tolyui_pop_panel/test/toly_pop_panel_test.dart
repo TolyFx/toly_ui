@@ -36,4 +36,36 @@ void main() {
 
     expect(find.text('元素配置'), findsNothing);
   });
+
+  testWidgets('确认面板返回用户选择', (WidgetTester tester) async {
+    bool? result;
+    Future<void> openPanel(BuildContext context) async {
+      result = await TolyConfirmPanel.show(
+        context: context,
+        title: '隐私协议',
+        message: '请阅读并同意相关协议',
+        cancelLabel: '取消',
+        confirmLabel: '同意并继续',
+      );
+    }
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (BuildContext context) => TextButton(
+            onPressed: () => openPanel(context),
+            child: const Text('确认'),
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('确认'));
+    await tester.pumpAndSettle();
+    expect(find.text('隐私协议'), findsOneWidget);
+
+    await tester.tap(find.text('同意并继续'));
+    await tester.pumpAndSettle();
+    expect(result, isTrue);
+  });
 }

@@ -9,3 +9,15 @@ await TolyPopPanel.show<void>(
   child: const PropertyForm(),
 );
 ```
+
+确认类交互使用独立的统一面板：
+
+```dart
+final bool accepted = await TolyConfirmPanel.show(
+  context: context,
+  title: '隐私协议',
+  message: '请先阅读并同意用户协议和隐私政策',
+  cancelLabel: '取消',
+  confirmLabel: '同意并继续',
+);
+```
