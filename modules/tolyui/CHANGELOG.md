@@ -1,4 +1,6 @@
 ## 0.0.4
+* 0.0.4+18: fix duplicate MenuItemView export by upgrading toly_menu to 0.0.6
+* 0.0.4+17: add desktop menu and Tree V2 components
 * 0.0.4+15: add tolyui_collapse: 0.0.1
 * 0.0.4+14: add tolyui_tree: 0.0.1
 * 0.0.4+13: add tolyui_tag: 0.0.1
@@ -34,5 +36,3 @@
 
 * [⭐️+widget⭐️]: TolyLink
 * 0.0.4+7: * tolyui_color -> 0.0.2, * tolyui_navigation -> 0.1.0+4
-
-
