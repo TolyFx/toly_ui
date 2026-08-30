@@ -1,4 +1,6 @@
 dependency_overrides:
+  toly_menu:
+    path: ../navigation/toly_menu
   tolyui_rx_layout:
     path: ../basic/tolyui_rx_layout
   tolyui_navigation:

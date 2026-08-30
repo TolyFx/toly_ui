@@ -8,7 +8,9 @@ sealed class DisplaySize {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DisplaySize && runtimeType == other.runtimeType && constraints == other.constraints;
+      other is DisplaySize &&
+          runtimeType == other.runtimeType &&
+          constraints == other.constraints;
 
   @override
   int get hashCode => constraints.hashCode;
@@ -29,22 +31,28 @@ class LargeSize extends DisplaySize {
 class CustomSize extends DisplaySize {
   const CustomSize(super.constraints);
 
-  CustomSize.height(double height) : super(BoxConstraints.tightFor(height: height));
+  CustomSize.height(double height)
+      : super(BoxConstraints.tightFor(height: height));
 }
 
 sealed class InputType {}
+
+/// 数字输入框步进按钮的排列方式。
+enum NumberControlLayout { vertical, horizontal }
 
 class NumberInput extends InputType {
   final num step;
   final num min;
   final num? max;
   final num? errorDefault;
+  final NumberControlLayout controlLayout;
 
   NumberInput({
     this.step = 1,
     this.min = 0,
     this.max,
     this.errorDefault = 0,
+    this.controlLayout = NumberControlLayout.vertical,
   });
 
   String plus(String value) {
@@ -72,7 +80,6 @@ class NumberInput extends InputType {
 //     return builder(context);
 //   }
 // }
-
 
 // class ClearAble{
 //   final IconData icon;

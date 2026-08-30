@@ -139,7 +139,8 @@ class _TolyInputState extends State<TolyInput> {
           child,
           ValueListenableBuilder<TextEditingValue>(
             valueListenable: _effectCtrl,
-            builder: (BuildContext context, TextEditingValue value, Widget? child) {
+            builder:
+                (BuildContext context, TextEditingValue value, Widget? child) {
               if (value.text.isEmpty) return const SizedBox();
               return MouseRegion(
                 cursor: SystemMouseCursors.click,
@@ -166,49 +167,57 @@ class _TolyInputState extends State<TolyInput> {
             numberInput: widget.type as NumberInput,
             controller: _effectCtrl,
             height: height,
-          )
+            onChanged: widget.onChanged,
+          ),
         ],
       );
     }
 
-    if (widget.leadingBuilder == null && widget.tailingBuilder == null) return child;
+    if (widget.leadingBuilder == null && widget.tailingBuilder == null)
+      return child;
 
     List<Widget> children = [Expanded(child: child)];
     if (widget.leadingBuilder != null) {
       children.insert(
-          0,
-          SizedBox(
-            height: height,
-            child:  widget.leadingBuilder!.build(
-              context,
-              SlotMeta(
-                  height: height,
-                  unFocusedColor: unFocusedColor,
-                  slotType: SlotType.leading,
-                  radius: _effectStyle.radius),
+        0,
+        SizedBox(
+          height: height,
+          child: widget.leadingBuilder!.build(
+            context,
+            SlotMeta(
+              height: height,
+              unFocusedColor: unFocusedColor,
+              slotType: SlotType.leading,
+              radius: _effectStyle.radius,
             ),
-          ));
+          ),
+        ),
+      );
     }
     if (widget.tailingBuilder != null) {
-      children.add(SizedBox(
-        height: height,
-        child: widget.tailingBuilder!.build(
-          context,
-          SlotMeta(
+      children.add(
+        SizedBox(
+          height: height,
+          child: widget.tailingBuilder!.build(
+            context,
+            SlotMeta(
               height: height,
               unFocusedColor: unFocusedColor,
               slotType: SlotType.tailing,
-              radius: _effectStyle.radius),
+              radius: _effectStyle.radius,
+            ),
+          ),
         ),
-      ));
+      );
     }
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: children,
-    );
+    return Row(mainAxisSize: MainAxisSize.min, children: children);
   }
 
-  OutlineInputBorder? focusedBorder(bool hasLeading, bool hasTailing, bool focused) {
+  OutlineInputBorder? focusedBorder(
+    bool hasLeading,
+    bool hasTailing,
+    bool focused,
+  ) {
     Color unFocusedColor = const Color(0xffd9d9d9);
     Color focusedColor;
     if (_hovered) {
@@ -229,23 +238,20 @@ class _TolyInputState extends State<TolyInput> {
 
     if (hasLeading) {
       return OutlineInputBorder(
-          borderRadius: BorderRadius.only(
-            topRight: radius,
-            bottomRight: radius,
-          ),
-          borderSide: BorderSide(color: focusedColor, width: borderWidth));
+        borderRadius: BorderRadius.only(topRight: radius, bottomRight: radius),
+        borderSide: BorderSide(color: focusedColor, width: borderWidth),
+      );
     }
     if (hasTailing) {
       return OutlineInputBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: radius,
-            bottomLeft: radius,
-          ),
-          borderSide: BorderSide(color: focusedColor, width: borderWidth));
+        borderRadius: BorderRadius.only(topLeft: radius, bottomLeft: radius),
+        borderSide: BorderSide(color: focusedColor, width: borderWidth),
+      );
     }
     return OutlineInputBorder(
-        borderRadius: BorderRadius.all(radius),
-        borderSide: BorderSide(color: focusedColor, width: borderWidth));
+      borderRadius: BorderRadius.all(radius),
+      borderSide: BorderSide(color: focusedColor, width: borderWidth),
+    );
   }
 
   Widget _buildTextFile(BoxConstraints constraints) {
@@ -253,7 +259,8 @@ class _TolyInputState extends State<TolyInput> {
     Color focusedColor = Colors.blue;
     double borderWidth = 1;
     bool hasLeading = widget.leadingBuilder != null;
-    bool hasTailing = widget.tailingBuilder != null || widget.type is NumberInput;
+    bool hasTailing =
+        widget.tailingBuilder != null || widget.type is NumberInput;
     Color unFocusedColor = const Color(0xffd9d9d9);
     // TextPainter _paint = TextPainter(textDirection: TextDirection.ltr);
     // _paint.text = TextSpan(text: 'A',style: style);
@@ -262,45 +269,63 @@ class _TolyInputState extends State<TolyInput> {
 
     double pv = (constraints.maxHeight - (style.fontSize ?? 14).toDouble()) / 2;
 
-    double paddingRight = (widget.clearable || widget.clearBuilder != null) ? 12 : 12 + 20;
-    return TextField(
-      focusNode: _focusNode,
-      // cursorHeight: style.fontSize,
-      cursorWidth: 1,
-      controller: _effectCtrl,
-      style: style,
-      enabled: widget.enable,
-      onTap: widget.onTap,
-      onSubmitted: widget.onSubmitted,
-      onTapOutside: widget.onTapOutside,
-      onChanged: widget.onChanged,
-      onEditingComplete: widget.onEditingComplete,
+    double paddingRight =
+        (widget.clearable || widget.clearBuilder != null) ? 12 : 12 + 20;
+    return Material(
+      type: MaterialType.transparency,
+      child: TextField(
+        focusNode: _focusNode,
+        // cursorHeight: style.fontSize,
+        cursorWidth: 1,
+        controller: _effectCtrl,
+        style: style,
+        enabled: widget.enable,
+        onTap: widget.onTap,
+        onSubmitted: widget.onSubmitted,
+        onTapOutside: widget.onTapOutside,
+        onChanged: widget.onChanged,
+        onEditingComplete: widget.onEditingComplete,
 
-      decoration: InputDecoration(
-        // isDense: true,
-        hintText: widget.hintText,
-        suffixIconConstraints: BoxConstraints(maxWidth: 32,minWidth: 32),
-        prefixIconConstraints: BoxConstraints(maxWidth: 32,minWidth: 32),
-        suffixIcon: widget.unit != null ? Padding(
-          padding: const EdgeInsets.only(left: 4.0),
-          child: Text(widget.unit!,style: TextStyle(color: Colors.grey),),
-        ) : null,
-        prefixIcon: widget.prefixIcon ?? (widget.prefix != null
-            ? Padding(
-                padding: const EdgeInsets.only(left:4.0,right: 4.0),
-                child: Center(child: Text(widget.prefix!,style: TextStyle(color: Colors.grey),)),
-              )
-            : null),
-        // prefixText: prefix,
-        hintStyle: style.copyWith(color: unFocusedColor),
-        constraints: constraints,
-        isCollapsed: true,
-        // contentPadding: EdgeInsets.only(top: 8),
-        contentPadding: EdgeInsets.only(top: pv + 1, right: paddingRight+12, left: 12, bottom: pv + 1),
-        focusedBorder: focusedBorder(hasLeading, hasTailing, true),
-        enabledBorder: focusedBorder(hasLeading, hasTailing, false),
-        hoverColor: focusedColor,
-        border: focusedBorder(hasLeading, hasTailing, false),
+        decoration: InputDecoration(
+          // isDense: true,
+          hintText: widget.hintText,
+          suffixIconConstraints: BoxConstraints(maxWidth: 32, minWidth: 32),
+          prefixIconConstraints: BoxConstraints(maxWidth: 32, minWidth: 32),
+          suffixIcon: widget.unit != null
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 4.0),
+                  child:
+                      Text(widget.unit!, style: TextStyle(color: Colors.grey)),
+                )
+              : null,
+          prefixIcon: widget.prefixIcon ??
+              (widget.prefix != null
+                  ? Padding(
+                      padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+                      child: Center(
+                        child: Text(
+                          widget.prefix!,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                    )
+                  : null),
+          // prefixText: prefix,
+          hintStyle: style.copyWith(color: unFocusedColor),
+          constraints: constraints,
+          isCollapsed: true,
+          // contentPadding: EdgeInsets.only(top: 8),
+          contentPadding: EdgeInsets.only(
+            top: pv + 1,
+            right: paddingRight + 12,
+            left: 12,
+            bottom: pv + 1,
+          ),
+          focusedBorder: focusedBorder(hasLeading, hasTailing, true),
+          enabledBorder: focusedBorder(hasLeading, hasTailing, false),
+          hoverColor: focusedColor,
+          border: focusedBorder(hasLeading, hasTailing, false),
+        ),
       ),
     );
   }

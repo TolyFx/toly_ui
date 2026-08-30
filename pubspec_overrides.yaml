@@ -1,4 +1,6 @@
 dependency_overrides:
+  toly_menu:
+    path: modules/navigation/toly_menu
   tolyui:
     path: modules/tolyui
 #  toly_menu:

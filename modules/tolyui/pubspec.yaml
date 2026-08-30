@@ -13,10 +13,11 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  intl: 0.19.0
+  intl: 0.20.2
   tolyui_rx_layout: ^1.0.0
   tolyui_color: ^0.0.2
   tolyui_navigation: 0.2.0+3
+  toly_menu: 0.0.1
   fx_string: 0.0.1
   tolyui_text: 0.0.1+5
   tolyui_tag: 0.0.1

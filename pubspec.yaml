@@ -44,9 +44,8 @@ dependencies:
   platform_adapter: ^0.0.1
 
   # toly ui
-#  toly_menu: ^0.0.5
-#  toly_menu:
-#    path: modules/toly_menu
+  toly_menu:
+    path: modules/navigation/toly_menu
   tolyui: 0.0.2+19
   tolyui_text:
     path: modules/basic/tolyui_text

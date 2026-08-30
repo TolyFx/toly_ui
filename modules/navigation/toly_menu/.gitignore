@@ -1,0 +1,8 @@
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+.last_build_id
+.web_assets_cache/
+.DS_Store

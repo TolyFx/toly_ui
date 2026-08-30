@@ -15,12 +15,14 @@ class NumChangeHandler extends StatefulWidget {
   final NumberInput numberInput;
   final TextEditingController controller;
   final double height;
+  final ValueChanged<String>? onChanged;
 
   const NumChangeHandler({
     super.key,
     required this.numberInput,
     required this.controller,
     required this.height,
+    this.onChanged,
   });
 
   @override
@@ -32,11 +34,28 @@ class _NumChangeHandlerState extends State<NumChangeHandler> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.numberInput.controlLayout == NumberControlLayout.horizontal) {
+      return Row(
+        children: <Widget>[
+          _buildHorizontalButton(
+            index: 1,
+            icon: Icons.remove,
+            onTap: _decrease,
+          ),
+          _buildHorizontalButton(
+            index: 0,
+            icon: Icons.add,
+            onTap: _increase,
+            isLast: true,
+          ),
+        ],
+      );
+    }
     return Column(
       children: [
         GestureDetector(
           onTap: () {
-            widget.controller.text = widget.numberInput.plus(widget.controller.text);
+            _increase();
           },
           child: MouseRegion(
             cursor: SystemMouseCursors.click,
@@ -53,12 +72,13 @@ class _NumChangeHandlerState extends State<NumChangeHandler> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 4),
               decoration: BoxDecoration(
-                  border: Border(
-                    top: BorderSide(color: Color(0xffd9d9d9)),
-                    right: BorderSide(color: Color(0xffd9d9d9)),
-                    bottom: BorderSide(color: Color(0xffd9d9d9)),
-                  ),
-                  borderRadius: BorderRadius.only(topRight: Radius.circular(4))),
+                border: Border(
+                  top: BorderSide(color: Color(0xffd9d9d9)),
+                  right: BorderSide(color: Color(0xffd9d9d9)),
+                  bottom: BorderSide(color: Color(0xffd9d9d9)),
+                ),
+                borderRadius: BorderRadius.only(topRight: Radius.circular(4)),
+              ),
               child: Icon(
                 Icons.keyboard_arrow_up,
                 size: (widget.height - 3) / 2,
@@ -69,7 +89,7 @@ class _NumChangeHandlerState extends State<NumChangeHandler> {
         ),
         GestureDetector(
           onTap: () {
-            widget.controller.text = widget.numberInput.minus(widget.controller.text);
+            _decrease();
           },
           child: MouseRegion(
             onEnter: (_) {
@@ -86,11 +106,14 @@ class _NumChangeHandlerState extends State<NumChangeHandler> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 4),
               decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(color: Color(0xffd9d9d9)),
-                    right: BorderSide(color: Color(0xffd9d9d9)),
-                  ),
-                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(4))),
+                border: Border(
+                  bottom: BorderSide(color: Color(0xffd9d9d9)),
+                  right: BorderSide(color: Color(0xffd9d9d9)),
+                ),
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(4),
+                ),
+              ),
               child: Icon(
                 Icons.keyboard_arrow_down,
                 size: (widget.height - 3) / 2,
@@ -98,8 +121,66 @@ class _NumChangeHandlerState extends State<NumChangeHandler> {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
+  }
+
+  Widget _buildHorizontalButton({
+    required int index,
+    required IconData icon,
+    required VoidCallback onTap,
+    bool isLast = false,
+  }) {
+    final ColorScheme colors = Theme.of(context).colorScheme;
+    final bool hovered = _hoverIndex == index;
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hoverIndex = index),
+      onExit: (_) => setState(() => _hoverIndex = -1),
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          width: widget.height,
+          height: widget.height,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: hovered
+                ? colors.onSurface.withValues(alpha: 0.07)
+                : Colors.transparent,
+            border: Border(
+              top: BorderSide(color: colors.outlineVariant),
+              right: BorderSide(color: colors.outlineVariant),
+              bottom: BorderSide(color: colors.outlineVariant),
+            ),
+            borderRadius: isLast
+                ? const BorderRadius.only(
+                    topRight: Radius.circular(4),
+                    bottomRight: Radius.circular(4),
+                  )
+                : null,
+          ),
+          child: Icon(icon, size: 16),
+        ),
+      ),
+    );
+  }
+
+  void _increase() {
+    _setValue(widget.numberInput.plus(widget.controller.text));
+  }
+
+  void _decrease() {
+    _setValue(widget.numberInput.minus(widget.controller.text));
+  }
+
+  void _setValue(String value) {
+    widget.controller.value = widget.controller.value.copyWith(
+      text: value,
+      selection: TextSelection.collapsed(offset: value.length),
+      composing: TextRange.empty,
+    );
+    widget.onChanged?.call(value);
   }
 }

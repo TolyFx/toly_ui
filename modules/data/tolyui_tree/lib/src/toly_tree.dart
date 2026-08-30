@@ -287,10 +287,9 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
     _iconAnimation = Tween<double>(
       begin: 0.0,
       end: 0.25, // 90 degrees = 0.25 turns
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.animationCurve,
-    ));
+    ).animate(
+      CurvedAnimation(parent: _controller, curve: widget.animationCurve),
+    );
 
     if (widget.node.isExpanded) {
       _controller.value = 1.0;
@@ -305,7 +304,7 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
 
   void _toggleExpand() async {
     if (widget.node.isLoading) return; // 加载中不响应点击
-    
+
     if (!widget.node.isExpanded &&
         widget.node.children.isEmpty &&
         widget.node.isLeaf != true &&
@@ -345,7 +344,7 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
 
   void _handleTap() {
     if (widget.node.isLoading) return; // 加载中不响应点击
-    
+
     if (widget.node.hasChildren) {
       _toggleExpand();
     }
@@ -386,8 +385,9 @@ class _TreeNodeWidgetState<T> extends State<_TreeNodeWidget<T>>
               children: widget.node.children.asMap().entries.map((entry) {
                 final index = entry.key;
                 final child = entry.value;
-                final childAncestorLines =
-                    List<bool>.from(widget.ancestorLines);
+                final childAncestorLines = List<bool>.from(
+                  widget.ancestorLines,
+                );
                 childAncestorLines.add(index < widget.node.children.length - 1);
                 return _TreeNodeWidget(
                   node: child,
@@ -502,7 +502,7 @@ class _VirtualTreeNodeWidget<T> extends StatelessWidget {
 
   void _handleTap() {
     if (node.isLoading) return; // 加载中不响应点击
-    
+
     if (node.hasChildren) {
       _toggleExpand();
     }
@@ -513,7 +513,7 @@ class _VirtualTreeNodeWidget<T> extends StatelessWidget {
 
   void _toggleExpand() async {
     if (node.isLoading) return; // 加载中不响应点击
-    
+
     if (!node.isExpanded &&
         node.children.isEmpty &&
         node.isLeaf != true &&

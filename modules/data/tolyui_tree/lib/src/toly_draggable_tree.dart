@@ -20,14 +20,18 @@ class DragResult<T> {
 /// 常用的拖拽规则预设
 class DragRules {
   static bool? Function(
-          TreeNode<T> dragNode, TreeNode<T>? targetNode, DropPosition position)
-      noInside<T>() {
+    TreeNode<T> dragNode,
+    TreeNode<T>? targetNode,
+    DropPosition position,
+  ) noInside<T>() {
     return (dragNode, targetNode, position) => position != DropPosition.inside;
   }
 
   static bool? Function(
-          TreeNode<T> dragNode, TreeNode<T>? targetNode, DropPosition position)
-      leafOnly<T>() {
+    TreeNode<T> dragNode,
+    TreeNode<T>? targetNode,
+    DropPosition position,
+  ) leafOnly<T>() {
     return (dragNode, targetNode, position) => dragNode.isLeaf;
   }
 }
@@ -35,7 +39,8 @@ class DragRules {
 /// 拖拽反馈样式预设
 class DragFeedbacks {
   static Widget Function(TreeNode<T> node) shadow<T>(
-      Widget Function(TreeNode<T>) nodeBuilder) {
+    Widget Function(TreeNode<T>) nodeBuilder,
+  ) {
     return (node) => Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -53,7 +58,8 @@ class DragFeedbacks {
   }
 
   static Widget Function(TreeNode<T> node) highlight<T>(
-      Widget Function(TreeNode<T>) nodeBuilder) {
+    Widget Function(TreeNode<T>) nodeBuilder,
+  ) {
     return (node) => Container(
           decoration: BoxDecoration(
             color: Colors.blue.withValues(alpha: 0.1),
@@ -92,8 +98,10 @@ class TolyDraggableTree<T> extends StatefulWidget {
   final Function(TreeNode<T>)? onTap;
   final Function(TreeNode<T>)? onExpand;
   final bool Function(
-          TreeNode<T> dragNode, TreeNode<T>? targetNode, DropPosition position)?
-      canDrop;
+    TreeNode<T> dragNode,
+    TreeNode<T>? targetNode,
+    DropPosition position,
+  )? canDrop;
   final void Function(DragResult<T> result)? onNodeMoved;
   final Widget Function(TreeNode<T> node)? dragFeedbackBuilder;
   final Widget Function(TreeNode<T> node)? childWhenDraggingBuilder;
@@ -236,17 +244,25 @@ class _TolyDraggableTreeState<T> extends State<TolyDraggableTree<T>> {
       feedback: Material(
         color: Colors.transparent,
         child: ConstrainedBox(
-          constraints:
-              const BoxConstraints(minWidth: 100, maxWidth: 300, minHeight: 32),
+          constraints: const BoxConstraints(
+            minWidth: 100,
+            maxWidth: 300,
+            minHeight: 32,
+          ),
           child: widget.dragFeedbackBuilder?.call(node) ??
               _defaultDragFeedback(node),
         ),
       ),
       childWhenDragging: widget.childWhenDraggingBuilder?.call(node) ??
           Opacity(
-              opacity: 0.3,
-              child: widget.fullItemBuilder!(
-                  node, level, node.isExpanded, () => _toggleExpand(node))),
+            opacity: 0.3,
+            child: widget.fullItemBuilder!(
+              node,
+              level,
+              node.isExpanded,
+              () => _toggleExpand(node),
+            ),
+          ),
       onDragEnd: (details) {
         setState(() {
           _hoveredNode = null;
@@ -297,8 +313,11 @@ class _TolyDraggableTreeState<T> extends State<TolyDraggableTree<T>> {
       feedback: Material(
         color: Colors.transparent,
         child: ConstrainedBox(
-          constraints:
-              const BoxConstraints(minWidth: 100, maxWidth: 300, minHeight: 32),
+          constraints: const BoxConstraints(
+            minWidth: 100,
+            maxWidth: 300,
+            minHeight: 32,
+          ),
           child: widget.dragFeedbackBuilder?.call(node) ??
               _defaultDragFeedback(node),
         ),
@@ -339,7 +358,10 @@ class _TolyDraggableTreeState<T> extends State<TolyDraggableTree<T>> {
   }
 
   bool _canDropHere(
-      TreeNode<T> dragNode, TreeNode<T> targetNode, DropPosition position) {
+    TreeNode<T> dragNode,
+    TreeNode<T> targetNode,
+    DropPosition position,
+  ) {
     if (dragNode == targetNode) return false;
     if (_isAncestor(dragNode, targetNode)) return false;
     final customResult = widget.canDrop?.call(dragNode, targetNode, position);
@@ -353,9 +375,10 @@ class _TolyDraggableTreeState<T> extends State<TolyDraggableTree<T>> {
         borderRadius: BorderRadius.circular(4),
         boxShadow: [
           BoxShadow(
-              color: Colors.black.withValues(alpha: 0.15),
-              blurRadius: 4,
-              offset: const Offset(0, 2)),
+            color: Colors.black.withValues(alpha: 0.15),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
         ],
       ),
       child: widget.nodeBuilder(node),
@@ -370,7 +393,10 @@ class _TolyDraggableTreeState<T> extends State<TolyDraggableTree<T>> {
   }
 
   DropPosition _getDropPosition(
-      Offset localPosition, Size size, TreeNode<T> node) {
+    Offset localPosition,
+    Size size,
+    TreeNode<T> node,
+  ) {
     final third = size.height / 3;
     if (localPosition.dy < third) return DropPosition.above;
     if (localPosition.dy > size.height - third) return DropPosition.below;
@@ -383,14 +409,17 @@ class _TolyDraggableTreeState<T> extends State<TolyDraggableTree<T>> {
     switch (_dropPosition!) {
       case DropPosition.above:
         return const BoxDecoration(
-            border: Border(top: BorderSide(color: color, width: 2)));
+          border: Border(top: BorderSide(color: color, width: 2)),
+        );
       case DropPosition.below:
         return const BoxDecoration(
-            border: Border(bottom: BorderSide(color: color, width: 2)));
+          border: Border(bottom: BorderSide(color: color, width: 2)),
+        );
       case DropPosition.inside:
         return BoxDecoration(
-            border: Border.all(color: color, width: 2),
-            borderRadius: BorderRadius.circular(4));
+          border: Border.all(color: color, width: 2),
+          borderRadius: BorderRadius.circular(4),
+        );
     }
   }
 
@@ -427,7 +456,10 @@ class _TolyDraggableTreeState<T> extends State<TolyDraggableTree<T>> {
   }
 
   void _insertNodeToTree(
-      TreeNode<T> node, TreeNode<T>? target, DropPosition position) {
+    TreeNode<T> node,
+    TreeNode<T>? target,
+    DropPosition position,
+  ) {
     if (target == null) {
       widget.nodes.add(node);
       return;
@@ -465,7 +497,9 @@ class _TolyDraggableTreeState<T> extends State<TolyDraggableTree<T>> {
   }
 
   (TreeNode<T>, int)? _findNodeParentAndIndex(
-      TreeNode<T> root, TreeNode<T> target) {
+    TreeNode<T> root,
+    TreeNode<T> target,
+  ) {
     for (int i = 0; i < root.children.length; i++) {
       if (root.children[i] == target) return (root, i);
       final result = _findNodeParentAndIndex(root.children[i], target);
@@ -547,8 +581,11 @@ class _DragTargetNodeState<T> extends State<_DragTargetNode<T>> {
         if (renderBox == null || !renderBox.hasSize) return;
 
         final localPosition = renderBox.globalToLocal(details.offset);
-        final position =
-            widget.getDropPosition(localPosition, renderBox.size, widget.node);
+        final position = widget.getDropPosition(
+          localPosition,
+          renderBox.size,
+          widget.node,
+        );
 
         if (widget.canDropHere(details.data, widget.node, position)) {
           widget.onHoverChanged(widget.node, position);
@@ -638,8 +675,11 @@ class _FullDragTargetNodeState<T> extends State<_FullDragTargetNode<T>> {
         if (renderBox == null || !renderBox.hasSize) return;
 
         final localPosition = renderBox.globalToLocal(details.offset);
-        final position =
-            widget.getDropPosition(localPosition, renderBox.size, widget.node);
+        final position = widget.getDropPosition(
+          localPosition,
+          renderBox.size,
+          widget.node,
+        );
 
         if (widget.canDropHere(details.data, widget.node, position)) {
           widget.onHoverChanged(widget.node, position);

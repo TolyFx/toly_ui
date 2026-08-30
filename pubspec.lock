@@ -441,6 +441,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  toly_menu:
+    dependency: "direct main"
+    description:
+      path: "modules/navigation/toly_menu"
+      relative: true
+    source: path
+    version: "0.0.1"
   tolyui:
     dependency: "direct main"
     description:

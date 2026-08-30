@@ -46,20 +46,12 @@ class TreeLinePainter extends CustomPainter {
     for (int i = 0; i < level - 1; i++) {
       if (i < ancestorLines.length && ancestorLines[i]) {
         final x = i * indent + lineOffset;
-        canvas.drawLine(
-          Offset(x, 0),
-          Offset(x, size.height),
-          paint,
-        );
+        canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
       }
     }
 
     // 绘制父级到当前节点的垂直线（上半部分）
-    canvas.drawLine(
-      Offset(parentX, 0),
-      Offset(parentX, centerY),
-      paint,
-    );
+    canvas.drawLine(Offset(parentX, 0), Offset(parentX, centerY), paint);
 
     // 绘制水平线（从父级到当前节点）
     canvas.drawLine(
