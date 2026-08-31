@@ -316,7 +316,7 @@ class _TolyCollapseState extends State<TolyCollapse>
                 padding: widget.titlePadding,
                 child: widget.title,
               )),
-              Spacer(),
+              const SizedBox(width: 12),
               AnimatedBuilder(
                   animation: _controller,
                   builder: (_, child) => Transform.rotate(
