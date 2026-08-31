@@ -1,5 +1,6 @@
 ## 0.0.5
 
+* 0.0.5+2: 为 TolyUiApp 外层 Overlay 补齐 WidgetsLocalizations，修复 iOS 长按输入框打开系统菜单时崩溃。
 * 0.0.5+1: 升级 color、navigation 与 tree，并恢复无导出冲突的桌面菜单能力。
 
 ## 0.0.4

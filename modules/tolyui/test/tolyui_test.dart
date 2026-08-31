@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tolyui/app/toly_ui.dart';
 import 'package:tolyui/tolyui.dart';
 
 void main() {
@@ -38,5 +39,30 @@ void main() {
     expect(changed, '6');
 
     controller.dispose();
+  });
+
+  testWidgets('外层 Overlay 可以访问 WidgetsLocalizations', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      const TolyUiApp(
+        locale: Locale('zh'),
+        home: Scaffold(body: TextField()),
+      ),
+    );
+
+    final BuildContext overlayContext = tester.element(
+      find.byType(Overlay).first,
+    );
+    final WidgetsLocalizations? localizations =
+        Localizations.of<WidgetsLocalizations>(
+      overlayContext,
+      WidgetsLocalizations,
+    );
+    expect(localizations, isNotNull);
+
+    await tester.longPress(find.byType(TextField));
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
   });
 }

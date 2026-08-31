@@ -96,7 +96,8 @@ class TolyUiApp extends StatefulWidget {
     this.onGenerateInitialRoutes,
     this.onUnknownRoute,
     this.onNavigationNotification,
-    List<NavigatorObserver> this.navigatorObservers = const <NavigatorObserver>[],
+    List<NavigatorObserver> this.navigatorObservers =
+        const <NavigatorObserver>[],
     this.builder,
     this.title = '',
     this.onGenerateTitle,
@@ -124,7 +125,7 @@ class TolyUiApp extends StatefulWidget {
     this.restorationScopeId,
     this.scrollBehavior,
     this.themeAnimationStyle,
-  }) : routeInformationProvider = null,
+  })  : routeInformationProvider = null,
         routeInformationParser = null,
         routerDelegate = null,
         backButtonDispatcher = null,
@@ -166,7 +167,7 @@ class TolyUiApp extends StatefulWidget {
     this.restorationScopeId,
     this.scrollBehavior,
     this.themeAnimationStyle,
-  }) : assert(routerDelegate != null || routerConfig != null),
+  })  : assert(routerDelegate != null || routerConfig != null),
         navigatorObservers = null,
         navigatorKey = null,
         onGenerateRoute = null,
@@ -200,15 +201,28 @@ class _TolyUiAppState extends State<TolyUiApp> {
       child: overlay,
     );
 
-    return Theme(
-      data: widget.theme ?? ThemeData(),
-      child: TapRegionSurface(
-        child: Material(
-          color: Colors.transparent,
-          child: result,
+    return Localizations(
+      locale: _outerLocale,
+      delegates: _outerLocalizationsDelegates,
+      child: Theme(
+        data: widget.theme ?? ThemeData(),
+        child: TapRegionSurface(
+          child: Material(color: Colors.transparent, child: result),
         ),
       ),
     );
+  }
+
+  /// 为外层 Overlay 选择与应用一致的本地化语言。
+  Locale get _outerLocale =>
+      widget.locale ?? WidgetsBinding.instance.platformDispatcher.locale;
+
+  /// 为消息浮层和系统文本菜单提供 WidgetsLocalizations。
+  List<LocalizationsDelegate<dynamic>> get _outerLocalizationsDelegates {
+    final List<LocalizationsDelegate<dynamic>> delegates =
+        widget.localizationsDelegates?.toList(growable: true) ?? [];
+    delegates.add(DefaultWidgetsLocalizations.delegate);
+    return delegates;
   }
 
   Widget get app => MaterialApp(
@@ -253,38 +267,37 @@ class _TolyUiAppState extends State<TolyUiApp> {
       );
 
   Widget get router => MaterialApp.router(
-    scaffoldMessengerKey: widget.scaffoldMessengerKey,
-    routeInformationProvider: widget.routeInformationProvider,
-    routeInformationParser: widget.routeInformationParser,
-    routerDelegate: widget.routerDelegate,
-    routerConfig: widget.routerConfig,
-    backButtonDispatcher: widget.backButtonDispatcher,
-    builder: widget.builder,
-    title: widget.title,
-    onGenerateTitle: widget.onGenerateTitle,
-    onNavigationNotification: widget.onNavigationNotification,
-    theme: widget.theme,
-    darkTheme: widget.darkTheme,
-    highContrastTheme: widget.highContrastTheme,
-    highContrastDarkTheme: widget.highContrastDarkTheme,
-    themeMode: widget.themeMode,
-    themeAnimationDuration: widget.themeAnimationDuration,
-    themeAnimationCurve: widget.themeAnimationCurve,
-    locale: widget.locale,
-    localizationsDelegates: widget.localizationsDelegates,
-    localeListResolutionCallback: widget.localeListResolutionCallback,
-    localeResolutionCallback: widget.localeResolutionCallback,
-    supportedLocales: widget.supportedLocales,
-    debugShowMaterialGrid: widget.debugShowMaterialGrid,
-    showPerformanceOverlay: widget.showPerformanceOverlay,
-    checkerboardRasterCacheImages: widget.checkerboardRasterCacheImages,
-    checkerboardOffscreenLayers: widget.checkerboardOffscreenLayers,
-    showSemanticsDebugger: widget.debugShowMaterialGrid,
-    debugShowCheckedModeBanner: widget.showPerformanceOverlay,
-    shortcuts: widget.shortcuts,
-    actions: widget.actions,
-    restorationScopeId: widget.restorationScopeId,
-    scrollBehavior: widget.scrollBehavior,
-  );
-
+        scaffoldMessengerKey: widget.scaffoldMessengerKey,
+        routeInformationProvider: widget.routeInformationProvider,
+        routeInformationParser: widget.routeInformationParser,
+        routerDelegate: widget.routerDelegate,
+        routerConfig: widget.routerConfig,
+        backButtonDispatcher: widget.backButtonDispatcher,
+        builder: widget.builder,
+        title: widget.title,
+        onGenerateTitle: widget.onGenerateTitle,
+        onNavigationNotification: widget.onNavigationNotification,
+        theme: widget.theme,
+        darkTheme: widget.darkTheme,
+        highContrastTheme: widget.highContrastTheme,
+        highContrastDarkTheme: widget.highContrastDarkTheme,
+        themeMode: widget.themeMode,
+        themeAnimationDuration: widget.themeAnimationDuration,
+        themeAnimationCurve: widget.themeAnimationCurve,
+        locale: widget.locale,
+        localizationsDelegates: widget.localizationsDelegates,
+        localeListResolutionCallback: widget.localeListResolutionCallback,
+        localeResolutionCallback: widget.localeResolutionCallback,
+        supportedLocales: widget.supportedLocales,
+        debugShowMaterialGrid: widget.debugShowMaterialGrid,
+        showPerformanceOverlay: widget.showPerformanceOverlay,
+        checkerboardRasterCacheImages: widget.checkerboardRasterCacheImages,
+        checkerboardOffscreenLayers: widget.checkerboardOffscreenLayers,
+        showSemanticsDebugger: widget.debugShowMaterialGrid,
+        debugShowCheckedModeBanner: widget.showPerformanceOverlay,
+        shortcuts: widget.shortcuts,
+        actions: widget.actions,
+        restorationScopeId: widget.restorationScopeId,
+        scrollBehavior: widget.scrollBehavior,
+      );
 }
