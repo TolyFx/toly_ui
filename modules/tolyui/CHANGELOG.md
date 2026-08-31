@@ -1,3 +1,7 @@
+## 0.0.5
+
+* 0.0.5+1: 升级 color、navigation 与 tree，并恢复无导出冲突的桌面菜单能力。
+
 ## 0.0.4
 * 0.0.4+18: fix duplicate MenuItemView export by upgrading toly_menu to 0.0.6
 * 0.0.4+17: add desktop menu and Tree V2 components
