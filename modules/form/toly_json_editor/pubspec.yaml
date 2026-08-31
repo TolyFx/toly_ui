@@ -1,6 +1,6 @@
 name: toly_json_editor
 description: "JSON editor with syntax highlighting, validation and formatting for tolyui"
-version: 0.0.1
+version: 0.0.1+1
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/form/toly_json_editor
 

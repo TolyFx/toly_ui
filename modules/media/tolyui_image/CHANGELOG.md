@@ -1,3 +1,3 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+* 0.0.1+3: 同步统一网络、文件与资源图片渲染实现。

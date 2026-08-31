@@ -1,3 +1,7 @@
+## 0.2.1
+
+* 0.2.1+1: 同步桌面导航实现，并升级 feedback 与 meta 依赖。
+
 ## 0.2.0
 * 0.2.0+4: TolyDropMenu#onClose&onCloseSubMeu
 * 0.2.0+3: tolyui_feedback -> 0.3.6+6
@@ -39,5 +43,4 @@ split menu data to [tolyui_meta](https://pub.dev/packages/tolyui_meta)
 ## 0.0.1
 
 * Support Widget: [TolyRailMenuBar]
-
 

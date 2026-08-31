@@ -1,6 +1,6 @@
 name: tolyui_color_picker
 description: "Part of Toly UI: Ant Design style color picker panel widget. Depends on tolyui_color."
-version: 0.0.1
+version: 0.0.1+1
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/form/tolyui_color_picker
 
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  tolyui_color: ^0.0.2
+  tolyui_color: 0.0.2+1
 
 dev_dependencies:
   flutter_test:

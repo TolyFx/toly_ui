@@ -1,5 +1,6 @@
 ## 0.3.6
 
+* 0.3.6+17: 同步 ViewX 使用的消息、弹层与提示组件实现。
 * 0.3.6+16: handle defaultOverflowAlgorithm error
 * 0.3.6+4: handle scrollPosition#pixels error
 * 0.3.6+2: tolyui_message -> 0.2.5
@@ -36,5 +37,4 @@
 * TolyPopover
 * 0.3.6+2: * tolyui_message -> 0.2.5
 * TolyTooltip
-
 

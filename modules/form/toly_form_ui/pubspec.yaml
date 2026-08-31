@@ -1,6 +1,6 @@
 name: toly_form_ui
 description: Compact, composable form controls for Toly UI.
-version: 0.0.1
+version: 0.0.1+1
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/form/toly_form_ui
 

@@ -1,7 +1,8 @@
 name: tolyui_feedback_modal
 description: "A powerful Flutter bottom sheet picker with async task support, status monitoring, timeout cancellation and theme customization."
-version: 0.0.1
-homepage:
+version: 0.0.1+1
+homepage: https://github.com/TolyFx/toly_ui
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/feedback/tolyui_feedback_modal
 
 environment:
   sdk: ^3.6.0
