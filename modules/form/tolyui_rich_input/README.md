@@ -1,39 +1,24 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# tolyui_rich_input
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+支持图片、表情、文件和富文本序列化的 Flutter 输入组件。
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- 基于 Flutter Quill 的富文本编辑；
+- 支持图片、文件和自定义 Embed；
+- 提供表情、提及、链接检测和剪贴板能力；
+- 支持编辑内容序列化与恢复。
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+在 `pubspec.yaml` 中添加 `tolyui_rich_input`，然后执行 `flutter pub get`。
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
 ```dart
-const like = 'sample';
+import 'package:tolyui_rich_input/tolyui_rich_input.dart';
 ```
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+源码与问题反馈见 [Toly UI](https://github.com/TolyFx/toly_ui)。

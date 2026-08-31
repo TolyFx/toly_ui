@@ -1,6 +1,8 @@
 name: tolyui_rich_input
 description: A rich text input widget for Flutter with support for images, emojis, and files.
-version: 1.0.0
+version: 1.0.0+1
+homepage: https://github.com/TolyFx/toly_ui
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/form/tolyui_rich_input
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
