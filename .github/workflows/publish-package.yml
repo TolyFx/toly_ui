@@ -119,7 +119,7 @@ jobs:
             dart pub -C "$package_path" publish --dry-run --ignore-warnings
 
             echo "正在发布 $package_name $package_version"
-            dart pub -C "$package_path" publish --force --ignore-warnings
+            dart pub -C "$package_path" publish --force
 
             echo "正在等待 pub.dev 收录 $package_name $package_version"
             published=false
