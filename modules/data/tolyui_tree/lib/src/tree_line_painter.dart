@@ -28,24 +28,23 @@ class TreeLinePainter extends CustomPainter {
     const double lineOffset = 16.0;
     const double hLineWidth = 6;
 
-    final paint = Paint()
+    final Paint paint = Paint()
       ..color = color
       ..strokeWidth = strokeWidth
       ..style = PaintingStyle.stroke;
 
-    final centerY = size.height / 2;
-    final currentX = level * indent + lineOffset;
-    final parentX = (level - 1) * indent + lineOffset;
+    final double centerY = size.height / 2;
+    final double parentX = (level - 1) * indent + lineOffset;
 
     // 横线长度变量
-    final horizontalLineLength = indent - lineOffset + hLineWidth;
-    final horizontalLineStartX = parentX;
-    final horizontalLineEndX = parentX + horizontalLineLength;
+    final double horizontalLineLength = indent - lineOffset + hLineWidth;
+    final double horizontalLineStartX = parentX;
+    final double horizontalLineEndX = parentX + horizontalLineLength;
 
     // 绘制祖先级别的垂直线
     for (int i = 0; i < level - 1; i++) {
       if (i < ancestorLines.length && ancestorLines[i]) {
-        final x = i * indent + lineOffset;
+        final double x = i * indent + lineOffset;
         canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
       }
     }

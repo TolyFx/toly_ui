@@ -1,4 +1,5 @@
-import 'dart:ui';
+/// 实现 TolyUI 三态复选框及其交互状态。
+library;
 
 import 'package:flutter/material.dart';
 
@@ -49,12 +50,20 @@ class _TolyCheckBoxState extends State<TolyCheckBox> {
     }
 
     return MouseRegion(
-      onExit: widget.onChanged != null ? (_) => setState(() => _hover = false) : null,
-      onEnter: widget.onChanged != null ? (_) => setState(() => _hover = true) : null,
-      cursor: widget.onChanged != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      onExit: widget.onChanged != null
+          ? (_) => setState(() => _hover = false)
+          : null,
+      onEnter: widget.onChanged != null
+          ? (_) => setState(() => _hover = true)
+          : null,
+      cursor: widget.onChanged != null
+          ? SystemMouseCursors.click
+          : SystemMouseCursors.basic,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: widget.onChanged != null ? () => widget.onChanged!(!widget.value) : null,
+        onTap: widget.onChanged != null
+            ? () => widget.onChanged!(!widget.value)
+            : null,
         child: child,
       ),
     );
@@ -67,7 +76,8 @@ class _TolyCheckBoxState extends State<TolyCheckBox> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
           color: Colors.blue,
-          borderRadius: widget.borderRadius ?? BorderRadius.circular(widget.size * 0.125)),
+          borderRadius: widget.borderRadius ??
+              BorderRadius.circular(widget.size * 0.125)),
       child: Icon(
         Icons.check,
         size: widget.size * 0.75,
@@ -83,7 +93,8 @@ class _TolyCheckBoxState extends State<TolyCheckBox> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
           color: Colors.blue,
-          borderRadius: widget.borderRadius ?? BorderRadius.circular(widget.size * 0.125)),
+          borderRadius: widget.borderRadius ??
+              BorderRadius.circular(widget.size * 0.125)),
       child: Container(
         width: widget.size * 0.5,
         height: 2,
@@ -99,14 +110,17 @@ class _TolyCheckBoxState extends State<TolyCheckBox> {
     } else {
       borderColor = _hover ? Colors.blue : Color(0xffdcdfe6);
     }
-    
+
     return Container(
       width: widget.size,
       height: widget.size,
       decoration: BoxDecoration(
-          color: widget.onChanged == null ? Color(0xfff5f7fa) : Colors.white, // 禁用状态背景色
+          color: widget.onChanged == null
+              ? Color(0xfff5f7fa)
+              : Colors.white, // 禁用状态背景色
           border: Border.all(color: borderColor, width: 1),
-          borderRadius: widget.borderRadius ?? BorderRadius.circular(widget.size * 0.125)),
+          borderRadius: widget.borderRadius ??
+              BorderRadius.circular(widget.size * 0.125)),
     );
   }
 }

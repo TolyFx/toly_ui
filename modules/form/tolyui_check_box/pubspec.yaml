@@ -1,11 +1,11 @@
-# 本文件定义 toly_check_box 包及其 workspace 解析边界。
+# 本文件定义 tolyui_check_box 包及其 workspace 解析边界。
 
-name: toly_check_box
+name: tolyui_check_box
 description: "checkbox for tolyui"
 version: 0.0.1+1
 resolution: workspace
 homepage: https://github.com/TolyFx/toly_ui
-repository: https://github.com/TolyFx/toly_ui/tree/main/modules/form/toly_check_box
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/form/tolyui_check_box
 
 environment:
   sdk: ^3.6.0

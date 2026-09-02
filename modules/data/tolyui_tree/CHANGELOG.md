@@ -2,6 +2,8 @@
 
 ## 0.0.1
 
+0.0.1+2 将三态复选框依赖迁移到 `tolyui_check_box`。
+
 0.0.1+1 增加标准包入口，并升级 `toly_check_box` 依赖。
 
 首次发布 TolyTree 组件。

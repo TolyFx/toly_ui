@@ -2,7 +2,7 @@
 
 name: tolyui_tree
 description: "tree for tolyui"
-version: 0.0.1+1
+version: 0.0.1+2
 resolution: workspace
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/data/tolyui_tree
@@ -14,7 +14,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  toly_check_box: 0.0.1+1
+  tolyui_check_box: 0.0.1+1
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -118,7 +118,7 @@
 | **基础** | `tolyui_rx_layout` | 响应式布局 |
 | | `tolyui_text` | 文本组件 |
 | **表单** | `tolyui_rich_input` | 富文本输入 |
-| | `toly_check_box` | 复选框 |
+| | `tolyui_check_box` | 复选框 |
 | **导航** | `tolyui_navigation` | 菜单、面包屑、标签页等 |
 | **数据展示** | `tolyui_carousel` | 轮播图 |
 | | `tolyui_collapse` | 折叠面板 |

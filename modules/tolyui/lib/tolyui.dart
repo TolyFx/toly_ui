@@ -7,6 +7,9 @@ export 'package:tolyui_navigation/tolyui_navigation.dart';
 export 'package:tolyui_menu/tolyui_menu.dart';
 export 'package:tolyui_color/tolyui_color.dart';
 export 'package:tolyui_color_picker/tolyui_color_picker.dart';
+export 'package:tolyui_check_box/tolyui_check_box.dart';
+export 'package:tolyui_form/tolyui_form.dart';
+export 'package:tolyui_json_editor/tolyui_json_editor.dart';
 export 'package:tolyui_feedback_modal/tolyui_feedback_modal.dart'
     hide Task, TolyMenuItem, TolyPopPickerTheme, showTolyPopPicker;
 export 'package:tolyui_pop_panel/tolyui_pop_panel.dart';
@@ -15,7 +18,7 @@ export 'package:tolyui_statistic/tolyui_statistic.dart';
 export 'package:tolyui_rx_layout/tolyui_rx_layout.dart';
 export 'basic/basic.dart';
 export 'ext/context.dart';
-export 'form/form.dart';
+export 'form/form.dart' hide TolyCheckBox;
 export 'data/data.dart';
 export 'package:tolyui_tree/toly_tree.dart';
 export 'package:tolyui_collapse/tolyui_collapse.dart';

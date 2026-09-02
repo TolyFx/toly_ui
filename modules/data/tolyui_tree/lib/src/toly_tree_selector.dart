@@ -1,5 +1,8 @@
+/// 实现带三态复选框的树形选择组件。
+library;
+
 import 'package:flutter/material.dart';
-import 'package:toly_check_box/toly_check_box.dart';
+import 'package:tolyui_check_box/tolyui_check_box.dart';
 // import 'package:tolyui/tolyui.dart';
 import 'toly_tree.dart';
 

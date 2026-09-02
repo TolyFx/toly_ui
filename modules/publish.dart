@@ -12,8 +12,8 @@ void main() async {
   // publishModule('tolyui');
   // publishModule('tolyui_feedback');
   // publishModule(folder: 'basic', 'tolyui_rx_layout');
-  // publishModule(folder: 'form', 'toly_check_box');
-  // publishModule(folder: 'form', 'toly_check_box');
+  // publishModule(folder: 'form', 'tolyui_check_box');
+  // publishModule(folder: 'form', 'tolyui_form');
   // publishModule(folder: 'feedback', 'tolyui_feedback_modal');
   // publishModule(folder: 'feedback', 'tolyui_feedback');
   // publishModule(folder: 'navigation', 'tolyui_navigation');

@@ -17,8 +17,7 @@ JSON 编辑器组件，支持语法高亮、格式化、压缩和验证。
 
 ```yaml
 dependencies:
-  toly_json_editor:
-    path: docs/ref/toly_ui/modules/form/toly_json_editor
+  tolyui_json_editor: ^0.0.1+1
 ```
 
 ## 使用示例
@@ -26,7 +25,7 @@ dependencies:
 ### 基础用法
 
 ```dart
-import 'package:toly_json_editor/toly_json_editor.dart';
+import 'package:tolyui_json_editor/tolyui_json_editor.dart';
 
 TolyJsonEditor(
   value: '{"name": "John", "age": 30}',
@@ -133,4 +132,4 @@ class _JsonEditorDemoState extends State<JsonEditorDemo> {
 
 ## License
 
-MIT
+Apache-2.0

@@ -14,7 +14,7 @@ mindmap
       tolyui_rx_layout[v1.0.2+1 响应式布局]
       tolyui_text[v0.0.1+5 文本高亮]
     form[📂 form 表单]
-      toly_check_box[v0.0.1 三态复选框]
+      tolyui_check_box[v0.0.1+1 三态复选框]
       tolyui_rich_input[v1.0.0 富文本]
     navigation[📂 navigation 导航]
       tolyui_anchor[v0.0.1 锚点导航]
@@ -32,7 +32,7 @@ mindmap
       tolyui_tag[v0.0.1 标签]
       tolyui_timeline[v0.0.1 时间线]
       tolyui_tree[v0.0.1 树形控件]
-        toly_check_box
+        tolyui_check_box
       tolyui_watermark[v0.0.1 水印]
     feedback[📂 feedback 反馈]
       tolyui_feedback_modal[v0.0.1 模态选择器]
@@ -58,7 +58,7 @@ modules/
 │   ├── 📦 tolyui_rx_layout
 │   └── 📦 tolyui_text
 ├── 📂 form/                            # 表单组件 (2 packages)
-│   ├── 📦 toly_check_box
+│   ├── 📦 tolyui_check_box
 │   └── 📦 tolyui_rich_input
 ├── 📂 navigation/                      # 导航组件 (2 packages)
 │   ├── 📦 tolyui_anchor
@@ -194,14 +194,14 @@ modules/basic/tolyui_text/
 
 ### 📂 form/ — 表单组件
 
-#### 📦 toly_check_box `v0.0.1`
+#### 📦 tolyui_check_box `v0.0.1+1`
 
 自定义复选框组件。支持选中、未选中、半选（indeterminate）三态，带桌面端悬停效果和禁用态。可配置尺寸、圆角、标签文字及间距。
 
 ```
-modules/form/toly_check_box/
+modules/form/tolyui_check_box/
 ├── lib/
-│   ├── toly_check_box.dart             # 包入口
+│   ├── tolyui_check_box.dart           # 包入口
 │   └── src/                            # 复选框实现
 ├── test/
 │   └── toly_check_box_test.dart
@@ -678,7 +678,7 @@ modules/publish/
 | 1 | `tolyui` | 0.0.4+16 | 核心 | 聚合包，一次导入所有基础组件 |
 | 2 | `tolyui_rx_layout` | 1.0.2+1 | 基础 | 响应式栅格布局引擎 |
 | 3 | `tolyui_text` | 0.0.1+5 | 基础 | 正则文本高亮组件 |
-| 4 | `toly_check_box` | 0.0.1 | 表单 | 三态复选框 |
+| 4 | `tolyui_check_box` | 0.0.1+1 | 表单 | 三态复选框 |
 | 5 | `tolyui_rich_input` | 1.0.0 | 表单 | 富文本输入（基于 flutter_quill） |
 | 6 | `tolyui_anchor` | 0.0.1 | 导航 | 锚点导航（双向联动、虚拟滚动） |
 | 7 | `tolyui_navigation` | 0.2.1 | 导航 | 面包屑、下拉菜单、树形菜单、标签页 |

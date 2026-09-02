@@ -1,6 +1,8 @@
+// 验证 JSON 源码视图的行号与折叠交互。
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:toly_json_editor/toly_json_editor.dart';
+import 'package:tolyui_json_editor/tolyui_json_editor.dart';
 
 void main() {
   testWidgets('源码视图展示行号并支持区块折叠', (WidgetTester tester) async {

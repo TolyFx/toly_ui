@@ -12,7 +12,7 @@ TolyCheckBox 提供了完整的复选框功能，包括基础的选中切换、�
 
 ```yaml
 dependencies:
-  toly_check_box: ^0.0.1
+  tolyui_check_box: ^0.0.1+1
 ```
 
 ## 使用

@@ -1,6 +1,8 @@
+// 验证 JSON 编辑器、校验状态和样式配置行为。
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:toly_json_editor/toly_json_editor.dart';
+import 'package:tolyui_json_editor/tolyui_json_editor.dart';
 
 void main() {
   group('TolyJsonEditor', () {

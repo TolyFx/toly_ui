@@ -1,3 +1,4 @@
+/// TolyUI 表单组件包入口，仅负责导出公开组件契约。
 library;
 
 export 'src/buttons/button_group.dart';

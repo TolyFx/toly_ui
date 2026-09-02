@@ -44,9 +44,9 @@ workspace:
   - modules/feedback/tolyui_feedback_modal
   - modules/feedback/tolyui_message
   - modules/feedback/tolyui_pop_panel
-  - modules/form/toly_check_box
-  - modules/form/toly_form_ui
-  - modules/form/toly_json_editor
+  - modules/form/tolyui_check_box
+  - modules/form/tolyui_form
+  - modules/form/tolyui_json_editor
   - modules/form/tolyui_color_picker
   - modules/form/tolyui_rich_input
   - modules/media/toly_image_io
@@ -80,7 +80,7 @@ dependencies:
 
   # toly ui
   tolyui_menu: 0.1.0
-  tolyui: 0.0.5+3
+  tolyui: 0.0.5+4
   tolyui_text: 0.0.1+5
   tolyui_default: 0.0.1
   tolyui_carousel: 0.0.1

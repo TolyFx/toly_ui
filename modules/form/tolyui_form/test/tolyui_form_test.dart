@@ -2,7 +2,9 @@ import 'dart:ui' show PointerDeviceKind;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:toly_form_ui/toly_form_ui.dart';
+// 验证 tolyui_form 的公开表单组件行为。
+
+import 'package:tolyui_form/tolyui_form.dart';
 
 void main() {
   testWidgets('文本字段支持输入与提交', (WidgetTester tester) async {

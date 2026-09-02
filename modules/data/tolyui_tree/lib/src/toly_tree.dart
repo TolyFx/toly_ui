@@ -181,8 +181,8 @@ class _TolyTreeState<T> extends State<TolyTree<T>> {
               indent: widget.indent,
               expandIcon: widget.expandIcon,
               showConnectingLines: widget.showConnectingLines,
-              connectingLineColor:
-                  widget.connectingLineColor ?? Colors.grey.withOpacity(0.5),
+              connectingLineColor: widget.connectingLineColor ??
+                  Colors.grey.withValues(alpha: 0.5),
               connectingLineWidth: widget.connectingLineWidth,
               isLast: _isLastNode(node, index),
             );
@@ -210,7 +210,7 @@ class _TolyTreeState<T> extends State<TolyTree<T>> {
           level: 0,
           showConnectingLines: widget.showConnectingLines,
           connectingLineColor:
-              widget.connectingLineColor ?? Colors.grey.withOpacity(0.5),
+              widget.connectingLineColor ?? Colors.grey.withValues(alpha: 0.5),
           connectingLineWidth: widget.connectingLineWidth,
           isLast: index == widget.nodes.length - 1,
         );
