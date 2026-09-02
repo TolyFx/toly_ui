@@ -1,0 +1,23 @@
+# 本文件定义 tolyui_menu 包及其 workspace 解析边界。
+
+name: tolyui_menu
+description: 面向 Flutter 桌面与 Web 的菜单组件，支持下拉、级联、上下文和菜单栏场景。
+version: 0.1.0
+resolution: workspace
+homepage: https://github.com/TolyFx/toly_ui
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/navigation/tolyui_menu
+
+environment:
+  sdk: '>=3.6.0 <4.0.0'
+  flutter: '>=3.19.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:

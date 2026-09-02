@@ -25,7 +25,7 @@ List<FunPanelData> get kPanelDataList => [
         color: Colors.green,
         icon: TolyIcon.iconOpenSrc,
         title: '源代码开放',
-        info: 'MIT 开源协议，源代码完全公开，允许任何个人和企业使用。',
+        info: 'Apache 2.0 开源协议，允许个人和企业在遵守协议的前提下使用。',
         url: kGithubUrl,
       ),
       const FunPanelData(

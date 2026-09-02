@@ -26,7 +26,6 @@ graph TD
         M[tolyui_skeleton]
         N[tolyui_text]
         O[media]
-        P[wrapper]
         Q[feedback]
         R[fx_plugin]
         S[publish]

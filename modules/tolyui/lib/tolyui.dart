@@ -1,7 +1,7 @@
 library tolyui;
 
 export 'package:tolyui_navigation/tolyui_navigation.dart';
-export 'package:toly_menu/toly_menu.dart';
+export 'package:tolyui_menu/tolyui_menu.dart';
 export 'package:tolyui_color/tolyui_color.dart';
 export 'package:tolyui_statistic/tolyui_statistic.dart';
 export 'package:tolyui_rx_layout/tolyui_rx_layout.dart';

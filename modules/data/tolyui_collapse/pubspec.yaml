@@ -1,6 +1,9 @@
+# 本文件定义 tolyui_collapse 包及其 workspace 解析边界。
+
 name: tolyui_collapse
 description: "tolyui collapse for tolyui"
 version: 0.0.1
+resolution: workspace
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/data/tolyui_collapse
 
@@ -15,4 +18,4 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0

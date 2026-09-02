@@ -1,12 +1,15 @@
+# 本文件定义 tolyui_feedback 包及其 workspace 解析边界。
+
 name: tolyui_feedback
 description: "A feedback ui package for toly ui. Contains message、popover、tooltip etc..."
 version: 0.3.6+17
+resolution: workspace
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui_feedback
 
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.6.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
@@ -17,7 +20,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

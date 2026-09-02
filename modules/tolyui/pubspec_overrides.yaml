@@ -1,13 +1,1 @@
-dependency_overrides:
-  toly_menu:
-    path: ../navigation/toly_menu
-  tolyui_rx_layout:
-    path: ../basic/tolyui_rx_layout
-  tolyui_navigation:
-    path: ../navigation/tolyui_navigation
-  tolyui_feedback:
-    path: ../feedback/tolyui_feedback
-  tolyui_color:
-    path: ../advanced/tolyui_color
-  toly_check_box:
-    path: ../form/toly_check_box
+# 本文件不再声明本地路径覆盖，模块解析统一由根 workspace 管理。

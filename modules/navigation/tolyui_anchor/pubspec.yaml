@@ -1,11 +1,14 @@
+# 本文件定义 tolyui_anchor 包及其 workspace 解析边界。
+
 name: tolyui_anchor
 description: Flutter 锚点导航组件，支持索引级滚动控制、双向联动、自定义样式、横向导航和大数据量虚拟滚动。适用于文档阅读、设置面板、目录导航等场景。
 version: 0.0.1
+resolution: workspace
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/navigation/tolyui_anchor
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: '>=3.6.0 <4.0.0'
   flutter: '>=3.19.0'
 
 dependencies:
@@ -16,6 +19,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
 
 flutter:

@@ -1,11 +1,14 @@
+# 本文件定义 tolyui_refresh 包及其 workspace 解析边界。
+
 name: tolyui_refresh
 description: "A package to easy use pull to refresh and load more."
 version: 0.0.1+1
+resolution: workspace
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui_navigation
 
 environment:
-  sdk: ^3.4.0
+  sdk: ^3.6.0
   flutter: ">=1.17.0"
 
 dependencies:
@@ -15,7 +18,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

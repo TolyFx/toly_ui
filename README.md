@@ -234,7 +234,7 @@ dart test/script/integrate_component.dart <component_name> <module> <label> <sub
 
 ## 开源协议
 
-MIT License - 详见 [LICENSE](LICENSE) 文件
+Apache License 2.0 - 详见 [LICENSE](LICENSE) 文件
 
 ---
 

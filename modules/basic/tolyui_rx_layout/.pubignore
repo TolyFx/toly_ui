@@ -1,0 +1,4 @@
+# Only ignore build artifacts for publishing
+.dart_tool/
+build/
+.idea/

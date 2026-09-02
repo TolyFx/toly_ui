@@ -3,7 +3,7 @@
 > 汇报日期：2026-05-02
 > 项目仓库：[TolyFx/toly_ui](https://github.com/TolyFx/toly_ui)
 > 在线演示：[http://toly1994.com/ui](http://toly1994.com/ui)
-> 开源协议：MIT
+> 开源协议：Apache License 2.0
 
 ---
 
@@ -130,7 +130,6 @@
 | | `tolyui_timeline` | 时间线 |
 | | `tolyui_tree` | 树形控件 |
 | | `tolyui_watermark` | 水印 |
-| | `wrapper` | 包装器工具 |
 | **反馈** | `tolyui_feedback` | 反馈组件集合 |
 | | `tolyui_feedback_modal` | 模态反馈 |
 | | `tolyui_message` | 消息提示 |

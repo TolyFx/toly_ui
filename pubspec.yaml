@@ -1,3 +1,5 @@
+# 本文件定义 TolyUI 演示应用，并作为所有正式模块的 Pub workspace 根配置。
+
 name: toly_ui
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
@@ -19,7 +21,40 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.3.0 <4.0.0'
+  sdk: '>=3.6.0 <4.0.0'
+
+workspace:
+  - modules/advanced/tolyui_color
+  - modules/advanced/tolyui_debug
+  - modules/advanced/tolyui_refresh
+  - modules/basic/tolyui_rx_layout
+  - modules/basic/tolyui_text
+  - modules/core/tolyui_meta
+  - modules/data/tolyui_carousel
+  - modules/data/tolyui_collapse
+  - modules/data/tolyui_default
+  - modules/data/tolyui_skeleton
+  - modules/data/tolyui_statistic
+  - modules/data/tolyui_table
+  - modules/data/tolyui_tag
+  - modules/data/tolyui_timeline
+  - modules/data/tolyui_tree
+  - modules/data/tolyui_watermark
+  - modules/feedback/tolyui_feedback
+  - modules/feedback/tolyui_feedback_modal
+  - modules/feedback/tolyui_message
+  - modules/feedback/tolyui_pop_panel
+  - modules/form/toly_check_box
+  - modules/form/toly_form_ui
+  - modules/form/toly_json_editor
+  - modules/form/tolyui_color_picker
+  - modules/form/tolyui_rich_input
+  - modules/media/toly_image_io
+  - modules/media/tolyui_image
+  - modules/navigation/tolyui_menu
+  - modules/navigation/tolyui_anchor
+  - modules/navigation/tolyui_navigation
+  - modules/tolyui
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -44,33 +79,21 @@ dependencies:
   platform_adapter: ^0.0.1
 
   # toly ui
-  toly_menu:
-    path: modules/navigation/toly_menu
-  tolyui: 0.0.2+19
-  tolyui_text:
-    path: modules/basic/tolyui_text
-  tolyui_default:
-    path: modules/data/tolyui_default
-  tolyui_carousel:
-    path: modules/data/tolyui_carousel
-  tolyui_skeleton:
-    path: modules/data/tolyui_skeleton
-  tolyui_table:
-    path: modules/data/tolyui_table
-  tolyui_watermark:
-    path: modules/data/tolyui_watermark
-  tolyui_timeline:
-    path: modules/data/tolyui_timeline
-  tolyui_debug:
-    path: modules/advanced/tolyui_debug
-  tolyui_anchor:
-    path: modules/navigation/tolyui_anchor
-  tolyui_color_picker:
-    path: modules/form/tolyui_color_picker
+  tolyui_menu: 0.1.0
+  tolyui: 0.0.5+2
+  tolyui_text: 0.0.1+5
+  tolyui_default: 0.0.1
+  tolyui_carousel: 0.0.1
+  tolyui_skeleton: 0.0.1
+  tolyui_table: 0.0.1
+  tolyui_watermark: 0.0.1
+  tolyui_timeline: 0.0.1
+  tolyui_debug: 0.0.1
+  tolyui_anchor: 0.0.1
+  tolyui_color_picker: 0.0.1+1
   scrollable_positioned_list: ^0.3.8
 
-  wrapper:
-    path: modules/data/wrapper
+  wrapper: 1.0.2
   
   syncfusion_flutter_datagrid: ^27.1.58
 #  toly_menu_manager: ^0.0.1
@@ -98,7 +121,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
   yaml: ^3.1.0
 
 # For information on the generic Dart part of this file, see the
@@ -160,4 +183,3 @@ toly:
     parser_dir: 'lib/view/widgets'         # @DisplayNode 扫描目录
     gen_dist_dir: 'lib/view/widgets/display_nodes/gen'  # .g.dart 输出目录
     code_res_dir: 'assets/code_res'        # 源码导出目录
-

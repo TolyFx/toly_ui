@@ -1,11 +1,14 @@
+# 本文件定义 tolyui_navigation 包及其 workspace 解析边界。
+
 name: tolyui_navigation
 description: "Part of Toly UI: Navigation UI Widget Lib. Contains breadcrumb、drop_menu、rail_menu_tree、tabs etc..."
 version: 0.2.1+1
+resolution: workspace
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui_navigation
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.6.0 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
@@ -17,6 +20,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
 
 flutter:

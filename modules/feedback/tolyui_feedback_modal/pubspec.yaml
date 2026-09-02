@@ -1,6 +1,9 @@
+# 本文件定义 tolyui_feedback_modal 包及其 workspace 解析边界。
+
 name: tolyui_feedback_modal
 description: "A powerful Flutter bottom sheet picker with async task support, status monitoring, timeout cancellation and theme customization."
 version: 0.0.1+1
+resolution: workspace
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/feedback/tolyui_feedback_modal
 
@@ -15,7 +18,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

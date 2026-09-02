@@ -1,0 +1,123 @@
+# 本工作流根据“包名-v版本”标签定位 Workspace 成员，并使用受保护凭证发布公开包。
+
+name: Publish package
+
+on:
+  push:
+    tags:
+      - 'toly*-v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish tagged package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tagged source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1f
+
+      - name: Set up Flutter
+        uses: flutter-actions/setup-flutter@6e2468fd827c4a7337cd4b835a6049b78bc0bd1f
+        with:
+          version: '3.44.0'
+          channel: stable
+
+      - name: Resolve workspace
+        run: flutter pub get
+
+      - name: Validate tag and locate package
+        id: package
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$RELEASE_TAG" =~ ^(toly[a-z0-9_]*)-v(.+)$ ]]; then
+            echo "标签必须符合 toly_package-v1.2.3 格式。" >&2
+            exit 1
+          fi
+
+          package_name="${BASH_REMATCH[1]}"
+          tag_version="${BASH_REMATCH[2]}"
+          package_path="$(dart pub workspace list | awk -v package="$package_name" '$1 == package { print $2 }')"
+
+          if [[ -z "$package_path" ]]; then
+            echo "Workspace 中不存在包：$package_name" >&2
+            exit 1
+          fi
+
+          package_path="${package_path%/}"
+          pubspec_path="$package_path/pubspec.yaml"
+          pubspec_version="$(sed -n 's/^version:[[:space:]]*//p' "$pubspec_path" | head -n 1 | tr -d "\"'")"
+
+          if [[ "$pubspec_version" != "$tag_version" ]]; then
+            echo "标签版本 $tag_version 与 pubspec 版本 $pubspec_version 不一致。" >&2
+            exit 1
+          fi
+
+          if grep -Eq "^[[:space:]]*publish_to:[[:space:]]*['\"]?none['\"]?[[:space:]]*$" "$pubspec_path"; then
+            echo "包 $package_name 已禁止发布。" >&2
+            exit 1
+          fi
+
+          echo "name=$package_name" >> "$GITHUB_OUTPUT"
+          echo "version=$tag_version" >> "$GITHUB_OUTPUT"
+          echo "path=$package_path" >> "$GITHUB_OUTPUT"
+
+      - name: Test package
+        shell: bash
+        env:
+          PACKAGE_PATH: ${{ steps.package.outputs.path }}
+        run: |
+          set -euo pipefail
+
+          valid_tests=()
+          while IFS= read -r test_file; do
+            if grep -Eq '^[[:space:]]*(void[[:space:]]+|Future<[^>]+>[[:space:]]+)?main[[:space:]]*\(' "$test_file"; then
+              valid_tests+=("$test_file")
+            fi
+          done < <(find "$PACKAGE_PATH/test" -type f -name '*_test.dart' 2>/dev/null | sort)
+
+          if (( ${#valid_tests[@]} > 0 )); then
+            flutter test "${valid_tests[@]}"
+          else
+            echo "目标包没有包含 main() 的有效测试文件，跳过测试。"
+          fi
+
+      - name: Validate package archive
+        env:
+          PACKAGE_PATH: ${{ steps.package.outputs.path }}
+        run: dart pub -C "$PACKAGE_PATH" publish --dry-run
+
+      - name: Restore pub.dev credentials
+        shell: bash
+        env:
+          PUB_CREDENTIALS_B64: ${{ secrets.PUB_CREDENTIALS_B64 }}
+        run: |
+          set -euo pipefail
+          test -n "$PUB_CREDENTIALS_B64"
+          mkdir -p "$HOME/.config/dart"
+          printf '%s' "$PUB_CREDENTIALS_B64" | base64 --decode > "$HOME/.config/dart/pub-credentials.json"
+          chmod 600 "$HOME/.config/dart/pub-credentials.json"
+
+      - name: Publish package
+        env:
+          PACKAGE_PATH: ${{ steps.package.outputs.path }}
+        run: dart pub -C "$PACKAGE_PATH" publish --force
+
+      - name: Remove pub.dev credentials
+        if: always()
+        shell: bash
+        run: |
+          credentials_file="$HOME/.config/dart/pub-credentials.json"
+          if [[ -f "$credentials_file" ]]; then
+            truncate -s 0 "$credentials_file"
+            unlink "$credentials_file"
+          fi

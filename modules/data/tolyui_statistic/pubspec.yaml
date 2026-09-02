@@ -1,6 +1,9 @@
+# 本文件定义 tolyui_statistic 包及其 workspace 解析边界。
+
 name: tolyui_statistic
 description: "data statistic for tolyui"
 version: 0.0.1
+resolution: workspace
 homepage:
 
 environment:
@@ -14,7 +17,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

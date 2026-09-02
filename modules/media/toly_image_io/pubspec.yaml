@@ -1,6 +1,9 @@
+# 本文件定义 toly_image_io 包及其 workspace 解析边界。
+
 name: toly_image_io
 description: "A new Flutter package project."
 version: 0.0.1
+resolution: workspace
 homepage:
 
 environment:

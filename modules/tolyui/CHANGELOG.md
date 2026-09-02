@@ -1,3 +1,7 @@
+## Unreleased
+
+* 菜单依赖从 `toly_menu` 迁移为 `tolyui_menu`，公开的 `TolyMenu*` API 保持不变。
+
 ## 0.0.5
 
 * 0.0.5+2: 为 TolyUiApp 外层 Overlay 补齐 WidgetsLocalizations，修复 iOS 长按输入框打开系统菜单时崩溃。

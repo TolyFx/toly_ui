@@ -1,11 +1,14 @@
+# 本文件定义 tolyui_rich_input 包及其 workspace 解析边界。
+
 name: tolyui_rich_input
 description: A rich text input widget for Flutter with support for images, emojis, and files.
 version: 1.0.0+1
+resolution: workspace
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/form/tolyui_rich_input
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.6.0 <4.0.0'
   flutter: ">=3.0.0"
 
 dependencies:
@@ -19,6 +22,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
