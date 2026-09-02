@@ -1,4 +1,4 @@
-# 本工作流根据“包名-v版本”标签定位 Workspace 成员，并使用受保护凭证发布公开包。
+# 本工作流根据单包或批量标签定位 Workspace 成员，并按标签声明顺序发布公开包。
 
 name: Publish package
 
@@ -6,17 +6,18 @@ on:
   push:
     tags:
       - 'toly*-v*'
+      - 'publish/**'
 
 permissions:
   contents: read
 
 concurrency:
-  group: publish-${{ github.ref }}
+  group: publish-pub-dev
   cancel-in-progress: false
 
 jobs:
   publish:
-    name: Publish tagged package
+    name: Publish tagged packages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout tagged source
@@ -31,70 +32,71 @@ jobs:
       - name: Resolve workspace
         run: flutter pub get
 
-      - name: Validate tag and locate package
-        id: package
+      - name: Resolve and validate release packages
         shell: bash
         env:
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
           set -euo pipefail
 
-          if [[ ! "$RELEASE_TAG" =~ ^(toly[a-z0-9_]*)-v(.+)$ ]]; then
-            echo "标签必须符合 toly_package-v1.2.3 格式。" >&2
-            exit 1
-          fi
+          parsed_manifest="$RUNNER_TEMP/release-parsed.tsv"
+          release_manifest="$RUNNER_TEMP/release-packages.tsv"
+          bash .github/scripts/resolve-release-tag.sh "$RELEASE_TAG" > "$parsed_manifest"
+          : > "$release_manifest"
 
-          package_name="${BASH_REMATCH[1]}"
-          tag_version="${BASH_REMATCH[2]}"
-          package_path="$(dart pub workspace list | awk -v package="$package_name" '$1 == package { print $2 }')"
+          while IFS=$'\t' read -r package_name tag_version; do
+            package_path="$(dart pub workspace list | awk -v package="$package_name" '$1 == package { print $2 }')"
+            if [[ -z "$package_path" ]]; then
+              echo "Workspace 中不存在包：$package_name" >&2
+              exit 1
+            fi
 
-          if [[ -z "$package_path" ]]; then
-            echo "Workspace 中不存在包：$package_name" >&2
-            exit 1
-          fi
+            package_path="${package_path%/}"
+            pubspec_path="$package_path/pubspec.yaml"
+            pubspec_version="$(sed -n 's/^version:[[:space:]]*//p' "$pubspec_path" | head -n 1 | tr -d "\"'")"
+            if [[ "$pubspec_version" != "$tag_version" ]]; then
+              echo "包 $package_name 的标签版本 $tag_version 与 pubspec 版本 $pubspec_version 不一致。" >&2
+              exit 1
+            fi
 
-          package_path="${package_path%/}"
-          pubspec_path="$package_path/pubspec.yaml"
-          pubspec_version="$(sed -n 's/^version:[[:space:]]*//p' "$pubspec_path" | head -n 1 | tr -d "\"'")"
+            if grep -Eq "^[[:space:]]*publish_to:[[:space:]]*['\"]?none['\"]?[[:space:]]*$" "$pubspec_path"; then
+              echo "包 $package_name 已禁止发布。" >&2
+              exit 1
+            fi
 
-          if [[ "$pubspec_version" != "$tag_version" ]]; then
-            echo "标签版本 $tag_version 与 pubspec 版本 $pubspec_version 不一致。" >&2
-            exit 1
-          fi
+            for required_file in LICENSE CHANGELOG.md README.md "lib/$package_name.dart"; do
+              if [[ ! -f "$package_path/$required_file" ]]; then
+                echo "包 $package_name 缺少发布文件：$required_file" >&2
+                exit 1
+              fi
+            done
 
-          if grep -Eq "^[[:space:]]*publish_to:[[:space:]]*['\"]?none['\"]?[[:space:]]*$" "$pubspec_path"; then
-            echo "包 $package_name 已禁止发布。" >&2
-            exit 1
-          fi
+            printf '%s\t%s\t%s\n' "$package_name" "$tag_version" "$package_path" >> "$release_manifest"
+          done < "$parsed_manifest"
 
-          echo "name=$package_name" >> "$GITHUB_OUTPUT"
-          echo "version=$tag_version" >> "$GITHUB_OUTPUT"
-          echo "path=$package_path" >> "$GITHUB_OUTPUT"
+          echo "本次发布清单："
+          column -t -s $'\t' "$release_manifest"
 
-      - name: Test package
+      - name: Test all release packages
         shell: bash
-        env:
-          PACKAGE_PATH: ${{ steps.package.outputs.path }}
         run: |
           set -euo pipefail
 
-          valid_tests=()
-          while IFS= read -r test_file; do
-            if grep -Eq '^[[:space:]]*(void[[:space:]]+|Future<[^>]+>[[:space:]]+)?main[[:space:]]*\(' "$test_file"; then
-              valid_tests+=("$test_file")
+          while IFS=$'\t' read -r package_name package_version package_path; do
+            echo "正在测试 $package_name $package_version"
+            valid_tests=()
+            while IFS= read -r test_file; do
+              if grep -Eq '^[[:space:]]*(void[[:space:]]+|Future<[^>]+>[[:space:]]+)?main[[:space:]]*\(' "$test_file"; then
+                valid_tests+=("$test_file")
+              fi
+            done < <(find "$package_path/test" -type f -name '*_test.dart' 2>/dev/null | sort)
+
+            if (( ${#valid_tests[@]} > 0 )); then
+              flutter test "${valid_tests[@]}"
+            else
+              echo "$package_name 没有包含 main() 的有效测试文件，跳过测试。"
             fi
-          done < <(find "$PACKAGE_PATH/test" -type f -name '*_test.dart' 2>/dev/null | sort)
-
-          if (( ${#valid_tests[@]} > 0 )); then
-            flutter test "${valid_tests[@]}"
-          else
-            echo "目标包没有包含 main() 的有效测试文件，跳过测试。"
-          fi
-
-      - name: Validate package archive
-        env:
-          PACKAGE_PATH: ${{ steps.package.outputs.path }}
-        run: dart pub -C "$PACKAGE_PATH" publish --dry-run
+          done < "$RUNNER_TEMP/release-packages.tsv"
 
       - name: Restore pub.dev credentials
         shell: bash
@@ -107,10 +109,34 @@ jobs:
           printf '%s' "$PUB_CREDENTIALS_B64" | base64 --decode > "$HOME/.config/dart/pub-credentials.json"
           chmod 600 "$HOME/.config/dart/pub-credentials.json"
 
-      - name: Publish package
-        env:
-          PACKAGE_PATH: ${{ steps.package.outputs.path }}
-        run: dart pub -C "$PACKAGE_PATH" publish --force
+      - name: Validate and publish packages in order
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          while IFS=$'\t' read -r package_name package_version package_path; do
+            echo "正在校验 $package_name $package_version 的发布归档"
+            dart pub -C "$package_path" publish --dry-run --ignore-warnings
+
+            echo "正在发布 $package_name $package_version"
+            dart pub -C "$package_path" publish --force --ignore-warnings
+
+            echo "正在等待 pub.dev 收录 $package_name $package_version"
+            published=false
+            for attempt in {1..30}; do
+              if curl -fsSL "https://pub.dev/api/packages/$package_name?attempt=$attempt" \
+                | jq -e --arg version "$package_version" 'any(.versions[]; .version == $version)' > /dev/null; then
+                published=true
+                break
+              fi
+              sleep 5
+            done
+
+            if [[ "$published" != true ]]; then
+              echo "pub.dev 在限定时间内未确认 $package_name $package_version，停止发布后续包。" >&2
+              exit 1
+            fi
+          done < "$RUNNER_TEMP/release-packages.tsv"
 
       - name: Remove pub.dev credentials
         if: always()

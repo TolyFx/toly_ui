@@ -80,7 +80,7 @@ dependencies:
 
   # toly ui
   tolyui_menu: 0.1.0
-  tolyui: 0.0.5+2
+  tolyui: 0.0.5+3
   tolyui_text: 0.0.1+5
   tolyui_default: 0.0.1
   tolyui_carousel: 0.0.1

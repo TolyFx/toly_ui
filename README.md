@@ -56,6 +56,26 @@ dependencies:
   toly_tree: #最新版本
 ```
 
+### 使用 GitHub Actions 发布
+
+仓库支持通过 Tag 发布单个或多个 Workspace 包。Tag 中的版本必须与对应包的 `pubspec.yaml` 一致。
+
+单包发布沿用 `包名-v版本` 格式：
+
+```bash
+git tag tolyui_menu-v0.1.1
+git push origin tolyui_menu-v0.1.1
+```
+
+批量发布使用 `publish/包名@版本/包名@版本` 格式：
+
+```bash
+git tag 'publish/tolyui_menu@0.1.1/tolyui@0.0.6'
+git push origin 'publish/tolyui_menu@0.1.1/tolyui@0.0.6'
+```
+
+批量 Tag 中的书写顺序就是发布顺序。存在包依赖时，应先写底层依赖，再写上层包；工作流会逐包测试和校验，并在确认前一个版本已被 pub.dev 收录后再继续。pub.dev 不支持事务式批量发布，因此网络或服务异常仍可能造成部分包已经发布、后续包尚未发布；此时修复问题后，只需为未发布的包创建新的发布 Tag，不要重复发布已有版本。
+
 ---
 
 ## 组件列表

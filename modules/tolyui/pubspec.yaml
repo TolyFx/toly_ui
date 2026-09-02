@@ -1,8 +1,8 @@
-# 本文件定义 TolyUI 聚合包及其 workspace 解析边界。
+# 本文件定义 TolyUI 聚合包及其 workspace 解析边界；聚合依赖不得引入原生插件。
 
 name: tolyui
 description: "A responsive ui library for Flutter. Help developer build app easier."
-version: 0.0.5+2
+version: 0.0.5+3
 resolution: workspace
 homepage: http://toly1994.com/ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/tolyui
@@ -21,6 +21,12 @@ dependencies:
   tolyui_color: 0.0.2+1
   tolyui_navigation: 0.2.1+1
   tolyui_menu: 0.1.0
+  tolyui_anchor: 0.0.1
+  tolyui_pop_panel: 0.0.1+1
+  tolyui_feedback_modal: 0.0.1+1
+  tolyui_refresh: 0.0.1+1
+  tolyui_carousel: 0.0.1
+  tolyui_color_picker: 0.0.1+1
   fx_string: 0.0.1
   tolyui_text: 0.0.1+5
   tolyui_tag: 0.0.1

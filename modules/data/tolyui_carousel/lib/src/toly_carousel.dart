@@ -1,5 +1,9 @@
+/// 定义轮播组件、控制器、切换效果与进度指示器的实现。
+library;
+
 import 'dart:async';
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 /// 轮播图切换效果
@@ -109,7 +113,8 @@ class TolyCarouselState extends State<TolyCarousel> {
   void initState() {
     super.initState();
     _currentIndex = widget.initialSlide;
-    final initialPage = widget.infinite ? widget.initialSlide + 10000 : widget.initialSlide;
+    final initialPage =
+        widget.infinite ? widget.initialSlide + 10000 : widget.initialSlide;
     _pageController = PageController(
       initialPage: initialPage,
       viewportFraction: 1.0,
@@ -154,7 +159,6 @@ class TolyCarouselState extends State<TolyCarousel> {
   void _next() {
     if (!mounted) return;
     if (widget.infinite) {
-      final currentPage = _pageController.page?.round() ?? 0;
       _pageController.nextPage(
         duration: widget.duration,
         curve: widget.curve,
@@ -240,7 +244,8 @@ class TolyCarouselState extends State<TolyCarousel> {
 
   Widget _buildArrows() {
     final canGoPrev = widget.infinite || _currentIndex > 0;
-    final canGoNext = widget.infinite || _currentIndex < widget.children.length - 1;
+    final canGoNext =
+        widget.infinite || _currentIndex < widget.children.length - 1;
 
     return Positioned.fill(
       child: IgnorePointer(
@@ -484,7 +489,7 @@ class _DotIndicatorState extends State<_DotIndicator>
   Widget build(BuildContext context) {
     final activeColor = Colors.white;
     final inactiveColor = Colors.white;
-    
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       width: widget.isVertical ? 3 : (widget.isActive ? 24 : 16),
@@ -494,7 +499,7 @@ class _DotIndicatorState extends State<_DotIndicator>
         vertical: widget.isVertical ? 4 : 0,
       ),
       decoration: BoxDecoration(
-        color: inactiveColor.withOpacity(widget.isActive ? 1.0 : 0.2),
+        color: inactiveColor.withValues(alpha: widget.isActive ? 1.0 : 0.2),
         borderRadius: BorderRadius.circular(1.5),
       ),
       child: widget.isActive && widget.showDuration
@@ -504,12 +509,14 @@ class _DotIndicatorState extends State<_DotIndicator>
                 return ClipRRect(
                   borderRadius: BorderRadius.circular(1.5),
                   child: Align(
-                    alignment: widget.isVertical ? Alignment.topCenter : Alignment.centerLeft,
+                    alignment: widget.isVertical
+                        ? Alignment.topCenter
+                        : Alignment.centerLeft,
                     child: Container(
                       width: widget.isVertical ? 3 : 24 * _controller.value,
                       height: widget.isVertical ? 24 * _controller.value : 3,
                       decoration: BoxDecoration(
-                        color: activeColor.withOpacity(0.5),
+                        color: activeColor.withValues(alpha: 0.5),
                         borderRadius: BorderRadius.circular(1.5),
                       ),
                     ),
