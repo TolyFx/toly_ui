@@ -11,6 +11,18 @@ JSON 编辑器组件，支持语法高亮、格式化、压缩和验证。
 - ✅ 禁用状态支持
 - ✅ 可配置工具栏和验证显示
 
+## 独立调试
+
+包内提供支持 macOS 与 Web 的独立 Example：
+
+```bash
+cd example
+flutter pub get
+flutter run -d macos
+```
+
+如需在浏览器中调试，使用 `flutter run -d chrome`。
+
 ## 安装
 
 在 `pubspec.yaml` 中添加：
@@ -81,6 +93,7 @@ TolyJsonEditor(
 | enabled | bool | true | 是否启用 |
 | showToolbar | bool | true | 是否显示工具栏 |
 | showValidation | bool | true | 是否显示验证状态 |
+| showLineNumbers | bool | false | 是否在编辑区域左侧显示行号 |
 
 ### JsonEditorStyle
 

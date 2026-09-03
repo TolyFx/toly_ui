@@ -1,3 +1,7 @@
+/// 定义 JSON 编辑器的主题、语法颜色和结构辅助线样式。
+
+library;
+
 import 'package:flutter/material.dart';
 
 /// JSON 编辑器样式配置
@@ -59,6 +63,9 @@ class JsonEditorStyle {
   /// 语法高亮 - 括号颜色
   final Color bracketColor;
 
+  /// 括号作用域引导线颜色
+  final Color scopeGuideColor;
+
   /// 圆角
   final BorderRadius borderRadius;
 
@@ -85,6 +92,7 @@ class JsonEditorStyle {
     required this.boolColor,
     required this.nullColor,
     required this.bracketColor,
+    this.scopeGuideColor = const Color(0xFFB8BEC7),
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
     this.padding = const EdgeInsets.all(12),
   });
@@ -129,6 +137,7 @@ class JsonEditorStyle {
       boolColor: isDark ? Colors.purple[300]! : Colors.purple[700]!,
       nullColor: isDark ? Colors.grey[400]! : Colors.grey[600]!,
       bracketColor: isDark ? Colors.grey[300]! : Colors.grey[800]!,
+      scopeGuideColor: colorScheme.outline.withValues(alpha: 0.48),
       borderRadius: const BorderRadius.all(Radius.circular(12)),
       padding: const EdgeInsets.all(16),
     );
@@ -170,6 +179,7 @@ class JsonEditorStyle {
       boolColor: Colors.purple[700]!,
       nullColor: Colors.grey[600]!,
       bracketColor: Colors.grey[800]!,
+      scopeGuideColor: Colors.grey[350]!,
     );
   }
 
@@ -209,6 +219,7 @@ class JsonEditorStyle {
       boolColor: Colors.purple[300]!,
       nullColor: Colors.grey[400]!,
       bracketColor: Colors.grey[300]!,
+      scopeGuideColor: Colors.grey[700]!,
     );
   }
 
@@ -233,6 +244,7 @@ class JsonEditorStyle {
     Color? boolColor,
     Color? nullColor,
     Color? bracketColor,
+    Color? scopeGuideColor,
     BorderRadius? borderRadius,
     EdgeInsets? padding,
   }) {
@@ -256,6 +268,7 @@ class JsonEditorStyle {
       boolColor: boolColor ?? this.boolColor,
       nullColor: nullColor ?? this.nullColor,
       bracketColor: bracketColor ?? this.bracketColor,
+      scopeGuideColor: scopeGuideColor ?? this.scopeGuideColor,
       borderRadius: borderRadius ?? this.borderRadius,
       padding: padding ?? this.padding,
     );
