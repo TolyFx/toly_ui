@@ -21,7 +21,8 @@ class AppNavMenu extends StatefulWidget {
   State<AppNavMenu> createState() => _AppNavMenuState();
 }
 
-class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin {
+class _AppNavMenuState extends State<AppNavMenu>
+    with RouterChangeListenerMixin {
   late MenuTreeMeta _menuMeta;
 
   @override
@@ -32,7 +33,8 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin 
 
   @override
   Widget build(BuildContext context) {
-    Color expandBackgroundColor = context.isDark ? Colors.black : Colors.transparent;
+    Color expandBackgroundColor =
+        context.isDark ? Colors.black : Colors.transparent;
     Color backgroundColor = context.isDark ? Color(0xff001529) : Colors.white;
 
     return TolyRailMenuTree(
@@ -54,11 +56,14 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin 
   }
 
   void _initTreeMeta() {
-    MenuNode root = MenuNode.fromMap(widgetMenus, extParser: TolyUIMenuMetaExt.fromMap);
+    MenuNode root =
+        MenuNode.fromMap(widgetMenus, extParser: TolyUIMenuMetaExt.fromMap);
     List<String> parts = Uri.parse(path).pathSegments;
     String parentPath = parts.sublist(0, parts.length - 1).join('/');
+    String initialExpandedPath =
+        path == '/widgets/overview' ? '/widgets/basic' : '/$parentPath';
     _menuMeta = MenuTreeMeta(
-      expandMenus: ['/$parentPath'],
+      expandMenus: <String>[initialExpandedPath],
       activeMenu: root.find(path),
       root: root,
     );
@@ -75,7 +80,8 @@ class _AppNavMenuState extends State<AppNavMenu> with RouterChangeListenerMixin 
 
   @override
   void reassemble() {
-    MenuNode root = MenuNode.fromMap(widgetMenus, extParser: TolyUIMenuMetaExt.fromMap);
+    MenuNode root =
+        MenuNode.fromMap(widgetMenus, extParser: TolyUIMenuMetaExt.fromMap);
     _menuMeta = _menuMeta.copyWith(root: root);
     super.reassemble();
   }

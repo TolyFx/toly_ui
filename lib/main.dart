@@ -24,9 +24,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   static final PageStorageBucket _bucket = PageStorageBucket();
-  
+
   GoRouter _router = GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/widgets/overview',
     routes: <RouteBase>[appRoutes],
     onException: (BuildContext ctx, GoRouterState state, GoRouter router) {
       String parent = state.uri.pathSegments.first;
@@ -34,8 +34,6 @@ class _MyAppState extends State<MyApp> {
       router.go('/$parent/404', extra: state.uri.toString());
     },
   );
-
-
 
   // This widget is the root of your application.
   @override
@@ -47,12 +45,12 @@ class _MyAppState extends State<MyApp> {
     return PageStorage(
       bucket: _bucket,
       child: TolyUiApp.router(
-          routerConfig: _router,
-          debugShowCheckedModeBanner: false,
-          theme: light,
-          darkTheme: dark,
-          themeMode: mode,
-          title: '学无止境',
+        routerConfig: _router,
+        debugShowCheckedModeBanner: false,
+        theme: light,
+        darkTheme: dark,
+        themeMode: mode,
+        title: '学无止境',
       ),
     );
   }
@@ -61,7 +59,8 @@ class _MyAppState extends State<MyApp> {
   void reassemble() {
     super.reassemble();
     // 保存当前路径，重建路由器以支持热重载更新路由配置
-    final currentPath = _router.routerDelegate.currentConfiguration.uri.toString();
+    final currentPath =
+        _router.routerDelegate.currentConfiguration.uri.toString();
     _router = GoRouter(
       initialLocation: currentPath,
       routes: <RouteBase>[appRoutes],
