@@ -2,6 +2,10 @@
 
 Toly UI 的面包屑、菜单、导航树与标签页组件库。
 
+## 组件指南
+
+- [TolyDropSelect 紧凑下拉选择器](docs/toly_drop_select.md)
+
 #### TolyRailMenuBar 功能
 
 如何使用(How to use):
