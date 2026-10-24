@@ -30,60 +30,55 @@ class TolyMessage extends StatefulWidget {
 }
 
 class TolyMessageState extends State<TolyMessage> {
+  /// 当前宿主绑定的消息处理器。
   late MessageHandler handler;
+
+  /// 内容浮层保持身份，更新宿主内容时不重建消息调度器。
+  late final OverlayEntry _content;
 
   @override
   void initState() {
-    handler = widget.handler ?? $message;
     super.initState();
+    handler = widget.handler ?? $message;
+    _content = OverlayEntry(builder: _buildContent);
   }
 
-  @override
-  void dispose() {
-    handler.detach();
-    super.dispose();
+  Widget _buildContent(BuildContext context) {
+    handler.attach(context);
+    return widget.child;
   }
 
   @override
   void didUpdateWidget(TolyMessage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.theme != widget.theme || oldWidget.locale != widget.locale) {
-      overlay = Overlay(
-        initialEntries: <OverlayEntry>[
-          OverlayEntry(
-            builder: (BuildContext ctx) {
-              handler.attach(ctx);
-              return widget.child;
-            },
-          ),
-        ],
-      );
+    final MessageHandler next = widget.handler ?? $message;
+    if (next != handler) {
+      handler.detach();
+      handler = next;
     }
+    _content.markNeedsBuild();
   }
 
-  late Overlay overlay = Overlay(
-    initialEntries: <OverlayEntry>[
-      OverlayEntry(
-        builder: (BuildContext ctx) {
-          handler.attach(ctx);
-          return widget.child;
-        },
-      ),
-    ],
-  );
+  /// 在浮层和动画控制器销毁之前解除消息绑定。
+  @override
+  void deactivate() {
+    handler.detach();
+    super.deactivate();
+  }
+
+  @override
+  void activate() {
+    super.activate();
+    _content.markNeedsBuild();
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget result = Directionality(
       textDirection: TextDirection.ltr,
-      child: overlay,
+      child: Overlay(initialEntries: [_content]),
     );
 
-    Locale? locale = widget.locale;
-    List<Locale> locales = WidgetsBinding.instance.platformDispatcher.locales;
-    if (locale == null && locales.isNotEmpty) {
-      locale = locales.first;
-    }
     List<LocalizationsDelegate<dynamic>> delegates =
         widget.localizationsDelegates?.toList() ?? [];
     if (delegates.isEmpty) {
@@ -118,7 +113,7 @@ class TolyMessageState extends State<TolyMessage> {
     if (useDarkTheme && widget.darkTheme != null) {
       theme = widget.darkTheme;
     }
-    theme ??= widget.theme ?? ThemeData.light();
+    theme ??= widget.theme ?? Theme.of(context);
     return theme;
   }
 }

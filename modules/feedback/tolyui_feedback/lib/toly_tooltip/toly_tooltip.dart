@@ -17,6 +17,9 @@ import 'tooltip_placement.dart';
 /// Signature for when a tooltip is triggered.
 typedef TooltipTriggeredCallback = void Function();
 
+/// 布局完成后取得触发区域在浮层坐标系中的边界。
+typedef _TooltipTargetBounds = Rect Function();
+
 /// A special [MouseRegion] that when nested, only the first [_ExclusiveMouseRegion]
 /// to be hit in hit-testing order will be added to the BoxHitTestResult (i.e.,
 /// child over parent, last sibling over first sibling).
@@ -190,8 +193,10 @@ class TolyTooltip extends StatefulWidget {
     this.enableFeedback,
     this.onTriggered,
     this.placement = Placement.bottom,
+    this.scale = 1,
     this.child,
-  })  : assert((message == null) != (richMessage == null),
+  })  : assert(scale > 0 && scale < double.infinity),
+        assert((message == null) != (richMessage == null),
             'Either `message` or `richMessage` must be specified'),
         assert(
           richMessage == null || textStyle == null,
@@ -206,6 +211,9 @@ class TolyTooltip extends StatefulWidget {
   final String? message;
 
   final Placement placement;
+
+  /// 提示面板整体倍率，包含文字、气泡、留白与间距；默认保持原尺寸。
+  final double scale;
 
   /// The rich text to display in the tooltip.
   ///
@@ -512,7 +520,7 @@ class TolyTooltipState extends State<TolyTooltip>
       _timer?.cancel();
       _timer = showDuration == null
           ? null
-          : Timer(showDuration, _controller.reverse);
+          : Timer(showDuration, _hideTooltip);
     }
 
     assert(
@@ -522,7 +530,10 @@ class TolyTooltipState extends State<TolyTooltip>
     );
     switch (_controller.status) {
       case AnimationStatus.dismissed when withDelay.inMicroseconds > 0:
-        _timer ??= Timer(withDelay, show);
+        // 过期计时器不代表仍有待执行任务，再次移入必须重新安排展示。
+        if (!(_timer?.isActive ?? false)) {
+          _timer = Timer(withDelay, show);
+        }
       // If the tooltip is already fading in or fully visible, skip the
       // animation and show the tooltip immediately.
       case AnimationStatus.dismissed:
@@ -555,11 +566,17 @@ class TolyTooltipState extends State<TolyTooltip>
       case AnimationStatus.forward:
       case AnimationStatus.completed:
         if (withDelay.inMicroseconds > 0) {
-          _timer = Timer(withDelay, _controller.reverse);
+          _timer = Timer(withDelay, _hideTooltip);
         } else {
           _controller.reverse();
         }
     }
+  }
+
+  /// 关闭计时结束先清空任务引用，避免阻塞下一次延迟展示。
+  void _hideTooltip() {
+    _timer = null;
+    _controller.reverse();
   }
 
   void _handlePointerDown(PointerDownEvent event) {
@@ -795,15 +812,17 @@ class TolyTooltipState extends State<TolyTooltip>
     };
   }
 
-  Widget _buildTooltipOverlay(BuildContext context) {
+  /// 浮层布局时再读取边界，避免画布平移/缩放时沿用上一帧位置。
+  Rect _targetBounds() {
     final OverlayState overlayState =
         Overlay.of(context, debugRequiredFor: widget);
-    final RenderBox box = this.context.findRenderObject()! as RenderBox;
-    final Offset target = box.localToGlobal(
-      box.size.center(Offset.zero),
-      ancestor: overlayState.context.findRenderObject(),
-    );
+    final RenderBox box = context.findRenderObject()! as RenderBox;
+    return MatrixUtils.transformRect(
+        box.getTransformTo(overlayState.context.findRenderObject()),
+        Offset.zero & box.size);
+  }
 
+  Widget _buildTooltipOverlay(BuildContext context) {
     final (TextStyle defaultTextStyle, BoxDecoration defaultDecoration) =
         switch (Theme.of(context)) {
       ThemeData(
@@ -834,7 +853,8 @@ class TolyTooltipState extends State<TolyTooltip>
 
     final TooltipThemeData tooltipTheme = _tooltipTheme;
     final _TooltipOverlay overlayChild = _TooltipOverlay(
-      boxSize: box.size,
+      targetBounds: _targetBounds,
+      scale: widget.scale,
       placement: widget.placement,
       maxWidth: widget.maxWidth,
       richMessage: widget.richMessage ?? TextSpan(text: widget.message),
@@ -849,7 +869,6 @@ class TolyTooltipState extends State<TolyTooltip>
           widget.textAlign ?? tooltipTheme.textAlign ?? _defaultTextAlign,
       animation:
           CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
-      target: target,
       verticalOffset:
           widget.gap ?? tooltipTheme.verticalOffset ?? _getDefaultGap(),
     );
@@ -916,9 +935,10 @@ class TolyTooltipState extends State<TolyTooltip>
 
 class _TooltipOverlay extends StatefulWidget {
   const _TooltipOverlay({
+    required this.scale,
     required this.maxHeight,
     required this.richMessage,
-    required this.boxSize,
+    required this.targetBounds,
     required this.placement,
     this.maxWidth,
     this.padding,
@@ -927,11 +947,16 @@ class _TooltipOverlay extends StatefulWidget {
     this.textStyle,
     this.textAlign,
     required this.animation,
-    required this.target,
     required this.verticalOffset,
     this.onEnter,
     this.onExit,
   });
+
+  /// 面板坐标到窗口坐标的统一倍率。
+  final double scale;
+
+  /// 当前布局帧中的触发区域边界。
+  final _TooltipTargetBounds targetBounds;
 
   final InlineSpan richMessage;
   final Placement placement;
@@ -943,8 +968,6 @@ class _TooltipOverlay extends StatefulWidget {
   final TextStyle? textStyle;
   final TextAlign? textAlign;
   final Animation<double> animation;
-  final Offset target;
-  final Size boxSize;
   final double verticalOffset;
   final PointerEnterEventListener? onEnter;
   final PointerExitEventListener? onExit;
@@ -977,14 +1000,17 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
   late Placement effectPlacement = widget.placement;
   double shiftX = 0;
 
-  Decoration get effectDecoration {
+  /// 上次实际布局几何，用于清除旧位置或倍率留下的箭头避让结果。
+  (Rect, Size, double, Placement)? _geometry;
+
+  Decoration _effectDecoration(Size boxSize) {
     DecorationConfig config = widget.decoration;
     if (config.isBubble) {
       return BubbleDecoration(
         borderColor: const Color(0xffe4e7ed),
         shiftX: shiftX,
         radius: config.radius,
-        boxSize: widget.boxSize,
+        boxSize: boxSize,
         placement: effectPlacement,
         color: config.backgroundColor,
         style: config.style,
@@ -1004,7 +1030,43 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => Positioned.fill(
+      child: LayoutBuilder(builder: _buildScaledLayout));
+
+  /// 在等比转换后的窗口中布局，绘制与命中使用同一缩放变换。
+  Widget _buildScaledLayout(BuildContext context, BoxConstraints constraints) {
+    final Size area = constraints.biggest / widget.scale;
+    final Rect target = widget.targetBounds();
+    final Size boxSize = target.size / widget.scale;
+    final (Rect, Size, double, Placement) geometry =
+        (target, area, widget.scale, widget.placement);
+    if (_geometry != geometry) {
+      _geometry = geometry;
+      effectPlacement = widget.placement;
+      shiftX = 0;
+    }
+    return OverflowBox(
+        alignment: Alignment.topLeft,
+        minWidth: area.width,
+        maxWidth: area.width,
+        minHeight: area.height,
+        maxHeight: area.height,
+        child: Transform.scale(
+            scale: widget.scale,
+            alignment: Alignment.topLeft,
+            child: CustomSingleChildLayout(
+                delegate: PopoverPositionDelegate(
+                    clickPosition: null,
+                    margin: widget.margin,
+                    onPlacementShift: _onPlacementShift,
+                    position: target.center / widget.scale,
+                    placement: widget.placement,
+                    gap: widget.verticalOffset,
+                    boxSize: boxSize),
+                child: _buildContent(context, boxSize))));
+  }
+
+  Widget _buildContent(BuildContext context, Size boxSize) {
     Widget result = FadeTransition(
       opacity: widget.animation,
       child: ConstrainedBox(
@@ -1016,7 +1078,7 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
             container: true,
             child: Container(
               // decoration: decoration,
-              decoration: effectDecoration,
+              decoration: _effectDecoration(boxSize),
               // padding: widget.padding,
               // margin: margin,
               child: SingleChildScrollView(
@@ -1042,21 +1104,7 @@ class _TooltipOverlayState extends State<_TooltipOverlay> {
         child: result,
       );
     }
-    return Positioned.fill(
-      bottom: 0.0,
-      child: CustomSingleChildLayout(
-        delegate: PopoverPositionDelegate(
-          clickPosition: null,
-          margin: widget.margin,
-          onPlacementShift: _onPlacementShift,
-          position: widget.target,
-          placement: widget.placement,
-          gap: widget.verticalOffset,
-          boxSize: widget.boxSize,
-        ),
-        child: result,
-      ),
-    );
+    return result;
   }
 
   void _onPlacementShift(PlacementShift shift) {

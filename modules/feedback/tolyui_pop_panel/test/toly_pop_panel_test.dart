@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tolyui_pop_panel/tolyui_pop_panel.dart';
 
@@ -67,5 +68,31 @@ void main() {
     await tester.tap(find.text('同意并继续'));
     await tester.pumpAndSettle();
     expect(result, isTrue);
+  });
+  testWidgets('确认面板默认聚焦取消，Enter 不执行危险操作', (WidgetTester tester) async {
+    bool? result;
+    Future<void> openPanel(BuildContext context) async {
+      result = await TolyConfirmPanel.show(
+        context: context,
+        title: '删除内容？',
+        message: '删除后无法恢复',
+        cancelLabel: '保留',
+        confirmLabel: '删除',
+      );
+    }
+
+    await tester.pumpWidget(MaterialApp(
+        home: Builder(
+      builder: (BuildContext context) => TextButton(
+        onPressed: () => openPanel(context),
+        child: const Text('打开'),
+      ),
+    )));
+    await tester.tap(find.text('打开'));
+    await tester.pumpAndSettle();
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+    await tester.pumpAndSettle();
+    expect(result, isFalse);
+    expect(find.text('删除内容？'), findsNothing);
   });
 }

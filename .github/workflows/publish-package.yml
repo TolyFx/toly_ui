@@ -30,7 +30,7 @@ jobs:
           channel: stable
 
       - name: Resolve workspace
-        run: flutter pub get
+        run: flutter pub get --no-example
 
       - name: Resolve and validate release packages
         shell: bash
@@ -92,7 +92,7 @@ jobs:
             done < <(find "$package_path/test" -type f -name '*_test.dart' 2>/dev/null | sort)
 
             if (( ${#valid_tests[@]} > 0 )); then
-              flutter test "${valid_tests[@]}"
+              flutter test --no-pub "${valid_tests[@]}"
             else
               echo "$package_name 没有包含 main() 的有效测试文件，跳过测试。"
             fi

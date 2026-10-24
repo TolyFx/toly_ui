@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tolyui_action/tolyui_action.dart';
 
 /// TolyUI 通用确认面板。
 ///
@@ -72,11 +73,11 @@ class TolyConfirmPanel extends StatelessWidget {
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(horizontal: 32),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 348),
+        constraints: const BoxConstraints(maxWidth: 380),
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: surfaceColor,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(14),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.12),
@@ -174,40 +175,25 @@ class _ConfirmActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final ButtonStyle buttonStyle = ButtonStyle(
-      minimumSize: const WidgetStatePropertyAll(Size.fromHeight(42)),
-      elevation: const WidgetStatePropertyAll(0),
-      shape: WidgetStatePropertyAll(
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-    );
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        Expanded(
-          child: FilledButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            style: buttonStyle.copyWith(
-              backgroundColor: WidgetStatePropertyAll(
-                theme.colorScheme.onSurface.withValues(alpha: 0.06),
-              ),
-              foregroundColor: WidgetStatePropertyAll(
-                theme.colorScheme.onSurface.withValues(alpha: 0.72),
-              ),
-            ),
-            child: Text(cancelLabel),
-          ),
+        TolyActionButton(
+          height: 34,
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          autofocus: true,
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text(cancelLabel),
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: FilledButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            style: buttonStyle.copyWith(
-              backgroundColor: WidgetStatePropertyAll(accentColor),
-              foregroundColor: const WidgetStatePropertyAll(Colors.white),
-            ),
-            child: Text(confirmLabel),
-          ),
+        const SizedBox(width: 8),
+        TolyActionButton(
+          height: 34,
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          foregroundColor: Colors.white,
+          backgroundColor: accentColor,
+          hoverColor: Color.alphaBlend(const Color(0x18000000), accentColor),
+          onPressed: () => Navigator.of(context).pop(true),
+          child: Text(confirmLabel),
         ),
       ],
     );

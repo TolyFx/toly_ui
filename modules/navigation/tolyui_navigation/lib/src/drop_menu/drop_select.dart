@@ -18,6 +18,9 @@ class TolyDropSelectOption<T> {
   /// 可选尾缀组件，可用于展示扩展名、快捷键或状态标识。
   final Widget? trailing;
 
+  /// 触发框可使用独立尾缀，未提供时沿用菜单尾缀。
+  final Widget? triggerTrailing;
+
   /// 是否允许选择。
   final bool enabled;
 
@@ -26,6 +29,7 @@ class TolyDropSelectOption<T> {
     required this.label,
     this.leading,
     this.trailing,
+    this.triggerTrailing,
     this.enabled = true,
   });
 }
@@ -47,8 +51,20 @@ class TolyDropSelect<T> extends StatefulWidget {
   /// 是否允许交互。
   final bool enabled;
 
+  /// 紧凑菜单使用较小行高、字号和内边距，适合工具条。
+  final bool compact;
+
   /// 触发器高度。
   final double height;
+
+  /// 触发框按内容收紧，默认保持填满父级宽度。
+  final bool shrinkWrap;
+
+  /// 独立的浮层宽度，未设置时沿用触发框约束。
+  final double? menuWidth;
+
+  /// 浮层相对触发框水平居中，靠近屏幕边缘时仍由菜单自动避让。
+  final bool centerMenu;
 
   /// 下拉菜单最大高度。
   final double maxMenuHeight;
@@ -70,6 +86,10 @@ class TolyDropSelect<T> extends StatefulWidget {
     this.prefix,
     this.enabled = true,
     this.height = 28,
+    this.compact = false,
+    this.shrinkWrap = false,
+    this.menuWidth,
+    this.centerMenu = false,
     this.maxMenuHeight = 280,
     this.menuGap = 4,
     this.itemGap = 4,
@@ -84,6 +104,9 @@ class _TolyDropSelectState<T> extends State<TolyDropSelect<T>> {
   /// 菜单是否处于展开状态。
   bool _open = false;
 
+  /// 打开时读取触发框实际宽度，用于独立宽浮层居中。
+  double _anchorWidth = 0;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: _buildWithConstraints);
@@ -93,17 +116,31 @@ class _TolyDropSelectState<T> extends State<TolyDropSelect<T>> {
     BuildContext context,
     BoxConstraints constraints,
   ) {
-    final double menuWidth =
-        constraints.hasBoundedWidth ? constraints.maxWidth : 160;
+    final double menuWidth = widget.menuWidth ??
+        (constraints.hasBoundedWidth && !widget.shrinkWrap
+            ? constraints.maxWidth
+            : 160);
     return MenuAnchor(
       crossAxisUnconstrained: false,
-      alignmentOffset: Offset(0, widget.menuGap),
+      alignmentOffset: Offset(
+          widget.centerMenu ? (_anchorWidth - menuWidth) / 2 : 0,
+          widget.menuGap),
       style: _menuStyle(context, menuWidth),
-      onOpen: () => setState(() => _open = true),
+      onOpen: _opened,
       onClose: () => setState(() => _open = false),
       menuChildren: _buildMenuChildren(),
       builder: _buildTrigger,
     );
+  }
+
+  void _opened() {
+    final RenderObject? render = context.findRenderObject();
+    setState(() {
+      if (render is RenderBox && render.hasSize) {
+        _anchorWidth = render.size.width;
+      }
+      _open = true;
+    });
   }
 
   /// 构建带统一间距的菜单项列表。
@@ -125,8 +162,8 @@ class _TolyDropSelectState<T> extends State<TolyDropSelect<T>> {
       backgroundColor: WidgetStatePropertyAll<Color>(colors.surface),
       elevation: const WidgetStatePropertyAll<double>(8),
       visualDensity: VisualDensity.standard,
-      padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
-        EdgeInsets.all(4),
+      padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+        EdgeInsets.all(widget.compact ? 3 : 4),
       ),
       shadowColor: WidgetStatePropertyAll<Color>(
         colors.shadow.withValues(alpha: 0.16),
@@ -155,9 +192,10 @@ class _TolyDropSelectState<T> extends State<TolyDropSelect<T>> {
     final ColorScheme colors = Theme.of(context).colorScheme;
     final TolyDropSelectOption<T>? selected = _selectedOption();
     final Widget? prefix = widget.prefix ?? selected?.leading;
+    final Widget? trailing = selected?.triggerTrailing ?? selected?.trailing;
     final bool enabled = widget.enabled && widget.onChanged != null;
     return SizedBox(
-      width: double.infinity,
+      width: widget.shrinkWrap ? null : double.infinity,
       height: widget.height,
       child: Material(
         color: colors.onSurface.withValues(alpha: 0.045),
@@ -171,6 +209,8 @@ class _TolyDropSelectState<T> extends State<TolyDropSelect<T>> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Row(
+              mainAxisSize:
+                  widget.shrinkWrap ? MainAxisSize.min : MainAxisSize.max,
               children: <Widget>[
                 if (prefix != null) ...<Widget>[
                   IconTheme.merge(
@@ -179,7 +219,8 @@ class _TolyDropSelectState<T> extends State<TolyDropSelect<T>> {
                   ),
                   const SizedBox(width: 6),
                 ],
-                Expanded(
+                Flexible(
+                  fit: widget.shrinkWrap ? FlexFit.loose : FlexFit.tight,
                   child: Text(
                     selected?.label ?? widget.placeholder,
                     maxLines: 1,
@@ -191,10 +232,10 @@ class _TolyDropSelectState<T> extends State<TolyDropSelect<T>> {
                         ),
                   ),
                 ),
-                if (selected?.trailing != null) ...<Widget>[
+                if (trailing != null) ...<Widget>[
                   const SizedBox(width: 8),
                   _buildTrailing(
-                    selected!.trailing!,
+                    trailing,
                     enabled
                         ? colors.onSurfaceVariant
                         : colors.onSurface.withValues(alpha: 0.38),
@@ -221,14 +262,18 @@ class _TolyDropSelectState<T> extends State<TolyDropSelect<T>> {
       key: ValueKey<T>(option.value),
       onPressed: option.enabled ? () => _select(option.value) : null,
       leadingIcon: option.leading,
-      trailingIcon: _buildOptionTrailing(option, selected, colors),
+      trailingIcon: widget.compact
+          ? null
+          : _buildOptionTrailing(option, selected, colors),
       style: ButtonStyle(
-        minimumSize: const WidgetStatePropertyAll<Size>(Size(0, 32)),
-        maximumSize: const WidgetStatePropertyAll<Size>(
-          Size(double.infinity, 32),
+        tapTargetSize: widget.compact ? MaterialTapTargetSize.shrinkWrap : null,
+        minimumSize:
+            WidgetStatePropertyAll<Size>(Size(0, widget.compact ? 24 : 32)),
+        maximumSize: WidgetStatePropertyAll<Size>(
+          Size(double.infinity, widget.compact ? 24 : 32),
         ),
-        padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
-          EdgeInsets.symmetric(horizontal: 8),
+        padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
+          EdgeInsets.symmetric(horizontal: widget.compact ? 6 : 8),
         ),
         shape: const WidgetStatePropertyAll<OutlinedBorder>(
           RoundedRectangleBorder(
@@ -256,12 +301,33 @@ class _TolyDropSelectState<T> extends State<TolyDropSelect<T>> {
               : colors.onSurface.withValues(alpha: 0.38),
         ),
         overlayColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
-        textStyle: const WidgetStatePropertyAll<TextStyle>(
-          TextStyle(fontSize: 13, height: 1.25, fontWeight: FontWeight.w400),
+        textStyle: WidgetStatePropertyAll<TextStyle>(
+          TextStyle(
+              fontSize: widget.compact ? 11 : 13,
+              height: 1.25,
+              fontWeight: FontWeight.w400),
         ),
       ),
-      child: Text(option.label),
+      child: widget.compact
+          ? _compactLabel(option, selected, colors)
+          : Text(option.label,
+              maxLines: 1, softWrap: false, overflow: TextOverflow.ellipsis),
     );
+  }
+
+  /// 紧凑行自行安排尾缀间距，避免系统菜单额外间隔挤压四字母格式名。
+  Widget _compactLabel(
+      TolyDropSelectOption<T> option, bool selected, ColorScheme colors) {
+    final Widget? trailing = _buildOptionTrailing(option, selected, colors);
+    return Row(children: [
+      Expanded(
+          child: Text(option.label,
+              maxLines: 1, softWrap: false, overflow: TextOverflow.ellipsis)),
+      if (trailing != null) ...[
+        const SizedBox(width: 4),
+        trailing,
+      ],
+    ]);
   }
 
   /// 构建菜单项尾缀，并允许它与选中勾选同时展示。
@@ -279,7 +345,7 @@ class _TolyDropSelectState<T> extends State<TolyDropSelect<T>> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        if (selected) const Icon(Icons.check, size: 14),
+        if (selected) Icon(Icons.check, size: widget.compact ? 12 : 14),
         if (option.trailing != null && selected) const SizedBox(width: 8),
         if (option.trailing != null) _buildTrailing(option.trailing!, color),
       ],

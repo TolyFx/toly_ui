@@ -2,7 +2,7 @@
 
 name: tolyui_menu
 description: 面向 Flutter 桌面与 Web 的菜单组件，支持下拉、级联、上下文和菜单栏场景。
-version: 0.1.0
+version: 0.1.1
 resolution: workspace
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/navigation/tolyui_menu

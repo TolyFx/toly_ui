@@ -1,6 +1,8 @@
 /// TolyUI 聚合包入口，仅负责统一导出稳定的公共组件契约。
 library;
 
+export 'package:tolyui_action/tolyui_action.dart';
+export 'package:tolyui_feedback/tolyui_feedback.dart';
 export 'package:tolyui_anchor/tolyui_anchor.dart';
 export 'package:tolyui_carousel/tolyui_carousel.dart';
 export 'package:tolyui_navigation/tolyui_navigation.dart';

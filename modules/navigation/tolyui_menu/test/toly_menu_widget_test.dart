@@ -115,4 +115,34 @@ void main() {
     await gesture.removePointer();
     controller.dispose();
   });
+  testWidgets('底部工具栏菜单向上展开，仍可点击选择', (WidgetTester tester) async {
+    String? selected;
+    Widget buildAnchor(BuildContext context, TolyMenuController controller) =>
+        const SizedBox(width: 80, height: 28, child: Text('底部菜单'));
+    await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+            body: Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: TolyMenuAnchor(
+            placement: TolyMenuPlacement.topStart,
+            builder: buildAnchor,
+            entries: const [TolyMenuItem(id: 'move', label: '移动到目录')],
+            onSelected: (TolyMenuItem item) => selected = item.id,
+          )),
+    ))));
+    await tester.tap(find.text('底部菜单'));
+    await tester.pumpAndSettle();
+    expect(
+        tester
+            .getBottomRight(
+                find.byKey(const ValueKey<String>('toly-menu-level-0')))
+            .dy,
+        lessThan(tester.getTopLeft(find.text('底部菜单')).dy));
+    await tester.tap(find.text('移动到目录'));
+    await tester.pumpAndSettle();
+    expect(selected, 'move');
+    expect(tester.takeException(), isNull);
+  });
 }

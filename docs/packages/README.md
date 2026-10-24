@@ -701,3 +701,9 @@ modules/publish/
 | 24 | `tolyui_image` | 0.0.1+2 | 媒体 | 全功能图片（手势、编辑、缓存） |
 | 25 | `toly_image_io` | 0.0.1 | 媒体 | 图片 I/O（脚手架） |
 | 26 | `tolyui_meta` | 0.0.2+1 | 核心 | 菜单元数据模型 |
+
+## 表单组件规范
+
+[tolyui-form组件规范](../../modules/form/tolyui_form/docs/specs/README.md)记录类型动作选择器与尺寸输入器；从0.0.2起提供。
+
+[2026-10-25组件补丁发布](../features/release/component-patches/v1/desgin.md)记录本轮8个包的版本及验证。

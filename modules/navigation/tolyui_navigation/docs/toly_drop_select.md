@@ -187,7 +187,8 @@ class _ExportFormatSelectState extends State<ExportFormatSelect> {
 | `value` | `T` | 必填 | 业务值，通过 `==` 与组件当前值比较 |
 | `label` | `String` | 必填 | 触发框和菜单项中显示的主文本 |
 | `leading` | `Widget?` | `null` | 菜单项前置组件；选中后也可显示在触发框中 |
-| `trailing` | `Widget?` | `null` | 尾缀组件，适合扩展名、快捷键或状态说明 |
+| `trailing` | `Widget?` | `null` | 菜单尾缀组件，适合扩展名、说明图标或状态 |
+| `triggerTrailing` | `Widget?` | `null` | 触发框独立尾缀；未提供时沿用 trailing |
 | `enabled` | `bool` | `true` | 是否允许选择该项目 |
 
 选中项目的菜单尾部会先显示对钩，再显示 `trailing`。组件会为尾缀合并默认的紧凑文字和图标样式。
@@ -307,3 +308,13 @@ TolyDropSelect<String>(
 
 当前版本会固定为选中项显示对钩，并将对钩放在 `trailing` 前面，暂未提供关闭参数。
 
+
+## 紧凑工具条菜单
+
+设置 `compact: true` 后，菜单项高度 24、字号 11，面板内边距 3、菜单项水平内边距 6，对勾 12。可配合 `height: 24`、`itemGap: 2` 和触发框主题字号使用。默认关闭，原菜单尺寸保持兼容。所有菜单标签单行显示，空间不足时省略，不将英文格式名拆行。
+
+### 触发框与浮层宽度
+
+`shrinkWrap: true` 使触发框按当前文字和图标收紧；`menuWidth` 可单独指定浮层宽度，短触发框也能完整展示较长选项。默认仍填满父级，浮层沿用父级宽度。
+
+`centerMenu: true` 根据打开时触发框的实际宽度，将独立宽度的浮层水平居中；靠近屏幕边缘时仍遵守系统菜单避让。

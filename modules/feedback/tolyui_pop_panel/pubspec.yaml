@@ -2,16 +2,17 @@
 
 name: tolyui_pop_panel
 description: A reusable Flutter bottom panel scaffold with a consistent header, content area, and optional footer.
-version: 0.0.1+1
+version: 0.0.2
 resolution: workspace
 homepage: https://github.com/TolyFx/toly_ui
 repository: https://github.com/TolyFx/toly_ui/tree/main/modules/feedback/tolyui_pop_panel
 
 environment:
   sdk: ^3.6.0
-  flutter: ">=3.0.0"
+  flutter: ">=3.27.0"
 
 dependencies:
+  tolyui_action: ^0.1.1
   flutter:
     sdk: flutter
 

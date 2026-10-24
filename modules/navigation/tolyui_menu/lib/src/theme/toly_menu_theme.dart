@@ -8,6 +8,9 @@ final class TolyMenuThemeData extends ThemeExtension<TolyMenuThemeData> {
   /// 单个菜单面板的宽度。
   final double panelWidth;
 
+  /// 按最长菜单项包裹宽度；开启后 panelWidth 为单个面板最大宽度。
+  final bool fitContent;
+
   /// 单个菜单项的高度。
   final double itemHeight;
 
@@ -46,6 +49,7 @@ final class TolyMenuThemeData extends ThemeExtension<TolyMenuThemeData> {
 
   const TolyMenuThemeData({
     this.panelWidth = 238,
+    this.fitContent = false,
     this.itemHeight = 28,
     this.submenuGap = 2,
     required this.backgroundColor,
@@ -77,6 +81,7 @@ final class TolyMenuThemeData extends ThemeExtension<TolyMenuThemeData> {
   @override
   TolyMenuThemeData copyWith({
     double? panelWidth,
+    bool? fitContent,
     double? itemHeight,
     double? submenuGap,
     Color? backgroundColor,
@@ -92,6 +97,7 @@ final class TolyMenuThemeData extends ThemeExtension<TolyMenuThemeData> {
   }) {
     return TolyMenuThemeData(
       panelWidth: panelWidth ?? this.panelWidth,
+      fitContent: fitContent ?? this.fitContent,
       itemHeight: itemHeight ?? this.itemHeight,
       submenuGap: submenuGap ?? this.submenuGap,
       backgroundColor: backgroundColor ?? this.backgroundColor,
@@ -115,6 +121,7 @@ final class TolyMenuThemeData extends ThemeExtension<TolyMenuThemeData> {
     if (other == null) return this;
     return TolyMenuThemeData(
       panelWidth: lerpDouble(panelWidth, other.panelWidth, t)!,
+      fitContent: t < 0.5 ? fitContent : other.fitContent,
       itemHeight: lerpDouble(itemHeight, other.itemHeight, t)!,
       submenuGap: lerpDouble(submenuGap, other.submenuGap, t)!,
       backgroundColor: Color.lerp(backgroundColor, other.backgroundColor, t)!,
