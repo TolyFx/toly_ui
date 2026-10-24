@@ -1,7 +1,7 @@
 # TolyUI组件补丁版本发布
 
 - 日期：2026-10-25。
-- 状态：发布准备与本地验证完成，GitHub Actions发布中。
+- 状态：GitHub Actions成功，8个版本均已通过pub.dev API核验收录。
 
 按用户要求，将仍保留且有源码变化的七个包递增第三位版本号，并更新聚合包：
 
@@ -41,3 +41,5 @@ docs/features/release/component-patches/v1/desgin.md #docs [新增]
 ```
 
 Tag描述：#ci维护既有按序发布任务；#workspace确保待发布组件在同一解析图中；#package包含对应源码、测试及发布材料；#aggregate只更新纯Flutter公共依赖与导出；#docs记录本轮范围及结果。
+
+发布结果：[GitHub Actions](https://github.com/TolyFx/toly_ui/actions/runs/40136791560)成功，耗时4分36秒；全部8个版本已由pub.dev版本API确认。发布源码提交7055cbc，分支codex/patch-release-20261025。
