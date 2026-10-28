@@ -22,7 +22,6 @@ void main() async {
   // publishModule(folder: 'data', 'tolyui_tag');
   // publishModule(folder: 'data', 'tolyui_tree');
   // publishModule(folder: 'data', 'tolyui_collapse');
-  // publishModule('tolyui_image');
   // publishModule('tolyui_text');
   // publishModule('tolyui');
   // publishModule('tolyui_rx_layout');

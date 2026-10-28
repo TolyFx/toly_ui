@@ -9,13 +9,12 @@
 
 ```mermaid
 mindmap
-  root((TolyUI<br/>26 包))
+  root((TolyUI<br/>24 包))
     basic[📂 basic 基础]
       tolyui_rx_layout[v1.0.2+1 响应式布局]
       tolyui_text[v0.0.1+5 文本高亮]
     form[📂 form 表单]
       tolyui_check_box[v0.0.1+1 三态复选框]
-      tolyui_rich_input[v1.0.0 富文本]
     navigation[📂 navigation 导航]
       tolyui_anchor[v0.0.1 锚点导航]
       tolyui_navigation[v0.2.1 面包屑标签页]
@@ -41,7 +40,6 @@ mindmap
       tolyui_debug[v0.0.1 设备模拟器]
       tolyui_refresh[v0.0.1+1 下拉刷新]
     media[📂 media 媒体]
-      tolyui_image[v0.0.1+2 图片组件]
       toly_image_io[v0.0.1 图片I/O]
 ```
 
@@ -57,9 +55,8 @@ modules/
 ├── 📂 basic/                           # 基础组件 (2 packages)
 │   ├── 📦 tolyui_rx_layout
 │   └── 📦 tolyui_text
-├── 📂 form/                            # 表单组件 (2 packages)
-│   ├── 📦 tolyui_check_box
-│   └── 📦 tolyui_rich_input
+├── 📂 form/                            # 表单组件 (1 package)
+│   └── 📦 tolyui_check_box
 ├── 📂 navigation/                      # 导航组件 (2 packages)
 │   ├── 📦 tolyui_anchor
 │   └── 📦 tolyui_navigation
@@ -82,8 +79,7 @@ modules/
 │   ├── 📦 tolyui_color
 │   ├── 📦 tolyui_debug
 │   └── 📦 tolyui_refresh
-├── 📂 media/                           # 媒体组件 (2 packages)
-│   ├── 📦 tolyui_image
+├── 📂 media/                           # 媒体组件 (1 package)
 │   └── 📦 toly_image_io
 ├── 📂 core/                            # 核心工具 (1 package)
 │   └── 📦 tolyui_meta
@@ -210,30 +206,6 @@ modules/form/tolyui_check_box/
 ├── LICENSE
 └── README.md
 ```
-
-#### 📦 tolyui_rich_input `v1.0.0`
-
-富文本输入组件，基于 flutter_quill 封装。支持图片、表情、文件等富媒体内容的嵌入式编辑，提供 TolyUI 风格的编辑器外观。附带完整的多平台示例应用。
-
-```
-modules/form/tolyui_rich_input/
-├── lib/
-│   ├── tolyui_rich_input.dart          # 包入口
-│   └── src/                            # 富文本输入实现
-├── example/                            # 完整示例应用
-│   ├── lib/
-│   ├── android/ ios/ linux/ macos/ web/ windows/
-│   ├── pubspec.yaml
-│   └── pubspec.lock
-├── test/
-│   └── tolyui_rich_input_test.dart
-├── pubspec.yaml
-├── CHANGELOG.md
-├── LICENSE
-└── README.md
-```
-
----
 
 ### 📂 navigation/ — 导航组件
 
@@ -604,23 +576,6 @@ modules/advanced/tolyui_refresh/
 
 ### 📂 media/ — 媒体组件
 
-#### 📦 tolyui_image `v0.0.1+2`
-
-全功能图片组件。支持网络/文件/内存/Asset 四种图片源，手势操作（双指缩放、平移、双击、鼠标滚轮），图片编辑（裁剪、旋转、翻转、撤销/重做），智能缓存（内存 + 磁盘，可配最大时长），以及滑动翻页和边框装饰。跨平台支持 iOS、Android、Web、Desktop。
-
-```
-modules/media/tolyui_image/
-├── lib/
-│   ├── tolyui_image.dart
-│   └── src/
-├── test/
-│   └── tolyui_image_test.dart
-├── pubspec.yaml
-├── CHANGELOG.md
-├── LICENSE
-└── README.md
-```
-
 #### 📦 toly_image_io `v0.0.1`
 
 图片 I/O 工具包。当前为脚手架状态，尚未实现具体功能，预留用于图片的读写与格式转换。
@@ -679,25 +634,27 @@ modules/publish/
 | 2 | `tolyui_rx_layout` | 1.0.2+1 | 基础 | 响应式栅格布局引擎 |
 | 3 | `tolyui_text` | 0.0.1+5 | 基础 | 正则文本高亮组件 |
 | 4 | `tolyui_check_box` | 0.0.1+1 | 表单 | 三态复选框 |
-| 5 | `tolyui_rich_input` | 1.0.0 | 表单 | 富文本输入（基于 flutter_quill） |
-| 6 | `tolyui_anchor` | 0.0.1 | 导航 | 锚点导航（双向联动、虚拟滚动） |
-| 7 | `tolyui_navigation` | 0.2.1 | 导航 | 面包屑、下拉菜单、树形菜单、标签页 |
-| 8 | `tolyui_carousel` | 0.0.1 | 数据 | 轮播图（自动播放、无限循环） |
-| 9 | `tolyui_collapse` | 0.0.1 | 数据 | 折叠面板 / 手风琴 |
-| 10 | `tolyui_default` | 0.0.1 | 数据 | 缺省空状态（6 种预设类型） |
-| 11 | `tolyui_skeleton` | 0.0.1 | 数据 | 骨架屏加载占位 |
-| 12 | `tolyui_statistic` | 0.0.1 | 数据 | 数值统计与倒计时 |
-| 13 | `tolyui_table` | 0.0.1 | 数据 | 表格与 Sheet 系统 |
-| 14 | `tolyui_tag` | 0.0.1 | 数据 | 标签（三种样式、可选中） |
-| 15 | `tolyui_timeline` | 0.0.1 | 数据 | 时间线 |
-| 16 | `tolyui_tree` | 0.0.1 | 数据 | 树形控件（虚拟滚动、拖拽） |
-| 17 | `tolyui_watermark` | 0.0.1 | 数据 | 水印覆盖 |
-| 18 | `tolyui_feedback` | 0.3.6+16 | 反馈 | Tooltip、Popover、气泡装饰 |
-| 19 | `tolyui_feedback_modal` | 0.0.1 | 反馈 | 异步任务模态选择器 |
-| 20 | `tolyui_message` | 0.2.6+1 | 反馈 | 全局 Toast 消息与通知 |
-| 21 | `tolyui_color` | 0.0.2 | 高级 | 调色板（RGB + 色相面板） |
-| 22 | `tolyui_debug` | 0.0.1 | 高级 | 设备框架模拟器 |
-| 23 | `tolyui_refresh` | 0.0.1+1 | 高级 | 下拉刷新 / 上拉加载 |
-| 24 | `tolyui_image` | 0.0.1+2 | 媒体 | 全功能图片（手势、编辑、缓存） |
-| 25 | `toly_image_io` | 0.0.1 | 媒体 | 图片 I/O（脚手架） |
-| 26 | `tolyui_meta` | 0.0.2+1 | 核心 | 菜单元数据模型 |
+| 5 | `tolyui_anchor` | 0.0.1 | 导航 | 锚点导航（双向联动、虚拟滚动） |
+| 6 | `tolyui_navigation` | 0.2.1 | 导航 | 面包屑、下拉菜单、树形菜单、标签页 |
+| 7 | `tolyui_carousel` | 0.0.1 | 数据 | 轮播图（自动播放、无限循环） |
+| 8 | `tolyui_collapse` | 0.0.1 | 数据 | 折叠面板 / 手风琴 |
+| 9 | `tolyui_default` | 0.0.1 | 数据 | 缺省空状态（6 种预设类型） |
+| 10 | `tolyui_skeleton` | 0.0.1 | 数据 | 骨架屏加载占位 |
+| 11 | `tolyui_statistic` | 0.0.1 | 数据 | 数值统计与倒计时 |
+| 12 | `tolyui_table` | 0.0.1 | 数据 | 表格与 Sheet 系统 |
+| 13 | `tolyui_tag` | 0.0.1 | 数据 | 标签（三种样式、可选中） |
+| 14 | `tolyui_timeline` | 0.0.1 | 数据 | 时间线 |
+| 15 | `tolyui_tree` | 0.0.1 | 数据 | 树形控件（虚拟滚动、拖拽） |
+| 16 | `tolyui_watermark` | 0.0.1 | 数据 | 水印覆盖 |
+| 17 | `tolyui_feedback` | 0.3.6+16 | 反馈 | Tooltip、Popover、气泡装饰 |
+| 18 | `tolyui_feedback_modal` | 0.0.1 | 反馈 | 异步任务模态选择器 |
+| 19 | `tolyui_message` | 0.2.6+1 | 反馈 | 全局 Toast 消息与通知 |
+| 20 | `tolyui_color` | 0.0.2 | 高级 | 调色板（RGB + 色相面板） |
+| 21 | `tolyui_debug` | 0.0.1 | 高级 | 设备框架模拟器 |
+| 22 | `tolyui_refresh` | 0.0.1+1 | 高级 | 下拉刷新 / 上拉加载 |
+| 23 | `toly_image_io` | 0.0.1 | 媒体 | 图片 I/O（脚手架） |
+| 24 | `tolyui_meta` | 0.0.2+1 | 核心 | 菜单元数据模型 |
+
+## 表单组件规范
+
+[tolyui-form 组件规范](../../modules/form/tolyui_form/docs/specs/README.md)逐项定义通用控件，当前F001类型动作选择器与F002尺寸输入器均已在源码实现，尚未发布。规范状态与Flutter实际导出分开记录，尚未实现的组件不视为已发布能力。

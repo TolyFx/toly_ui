@@ -16,12 +16,10 @@ graph TD
         C[tolyui]
         D[tolyui_color]
         E[tolyui_feedback]
-        F[tolyui_image]
         G[tolyui_message]
         H[tolyui_meta]
         I[tolyui_navigation]
         J[tolyui_refresh]
-        K[tolyui_rich_input]
         L[tolyui_rx_layout]
         M[tolyui_skeleton]
         N[tolyui_text]
@@ -130,10 +128,6 @@ sequenceDiagram
     User->>Script: 运行脚本
     Script->>CLI: 为 'tolyui' 模块执行 'dart pub publish'
     CLI->>Pub: 上传 'tolyui' 包
-    Pub-->>CLI: 发布成功
-    CLI-->>Script: 返回结果
-    Script->>CLI: 为 'tolyui_image' 模块执行 'dart pub publish'
-    CLI->>Pub: 上传 'tolyui_image' 包
     Pub-->>CLI: 发布成功
     CLI-->>Script: 返回结果
     Script-->>User: 输出所有模块的发布结果

@@ -1,0 +1,16 @@
+name: tolyui_action
+description: 轻量桌面操作按钮，提供悬停、按压、焦点及键盘激活，无水波纹。
+version: 0.1.1
+resolution: workspace
+homepage: https://github.com/TolyFx/toly_ui
+repository: https://github.com/TolyFx/toly_ui/tree/main/modules/basic/tolyui_action
+environment:
+  sdk: '>=3.6.0 <4.0.0'
+  flutter: '>=3.19.0'
+dependencies:
+  flutter:
+    sdk: flutter
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0

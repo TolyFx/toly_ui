@@ -6,7 +6,7 @@
 - 禁止 `tolyui` 直接或间接引入需要 Flutter Plugin 注册、平台通道、FFI 或平台专属原生代码的依赖。
 - 新增或调整 `tolyui` 的依赖前，必须检查目标包及其传递依赖是否包含 Android、iOS、macOS、Windows、Linux 或 Web 平台插件实现。
 - 包含原生能力的功能包可以作为 Workspace 中独立发布、按需引用的扩展包维护，但不得加入 `tolyui` 的 `dependencies`，也不得由 `lib/tolyui.dart` 聚合导出。
-- `tolyui_rich_input` 当前属于独立扩展包，不得集成进 `tolyui`；其 `quill_native_bridge` 等原生依赖是该边界的典型判定依据。
+- 原生扩展包应维护在 `../packages/` 等独立仓库中，不得集成进 `tolyui`；`quill_native_bridge` 等原生依赖是该边界的典型判定依据。
 
 ## 变更验证
 

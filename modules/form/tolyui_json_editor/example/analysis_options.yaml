@@ -1,1 +1,6 @@
+analyzer:
+  exclude:
+    - build/**
+    - web/**
+    - macos/**
 include: package:flutter_lints/flutter.yaml

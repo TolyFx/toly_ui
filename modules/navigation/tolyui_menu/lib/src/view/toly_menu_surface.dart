@@ -35,6 +35,13 @@ final class _TolyMenuSurfaceState extends State<TolyMenuSurface> {
   final FocusNode _focusNode = FocusNode(debugLabel: 'TolyMenuSurface');
 
   @override
+  void initState() {
+    super.initState();
+    // 菜单打开时接管已有焦点，使 ESC 只关闭浮层。
+    _focusNode.requestFocus();
+  }
+
+  @override
   void dispose() {
     _focusNode.dispose();
     super.dispose();
@@ -89,6 +96,21 @@ final class _TolyMenuSurfaceState extends State<TolyMenuSurface> {
 
   Widget _buildLevel(List<TolyMenuEntry> entries, int depth) {
     final TolyMenuThemeData theme = context.tolyMenuTheme;
+    // 每层独立判断图标列，勾选标记同样需要保留对齐空间。
+    final bool reserveLeading = entries.any((TolyMenuEntry entry) =>
+        entry is TolyMenuItem && (entry.leading != null || entry.checked));
+    final Widget content = Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: List<Widget>.generate(
+          entries.length,
+          (int index) =>
+              _buildEntry(entries[index], depth, index, reserveLeading),
+        ),
+      ),
+    );
     return Padding(
       padding: EdgeInsets.only(left: depth == 0 ? 0 : theme.submenuGap),
       child: Material(
@@ -105,31 +127,32 @@ final class _TolyMenuSurfaceState extends State<TolyMenuSurface> {
             width: theme.borderWidth,
           ),
         ),
-        child: SizedBox(
-          width: theme.panelWidth,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: List<Widget>.generate(
-                entries.length,
-                (int index) => _buildEntry(entries[index], depth, index),
-              ),
-            ),
-          ),
-        ),
+        child: theme.fitContent
+            ? ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: theme.panelWidth),
+                child: IntrinsicWidth(child: content),
+              )
+            : SizedBox(width: theme.panelWidth, child: content),
       ),
     );
   }
 
-  Widget _buildEntry(TolyMenuEntry entry, int depth, int index) {
+  Widget _buildEntry(
+      TolyMenuEntry entry, int depth, int index, bool reserveLeading) {
     if (entry is TolyMenuDivider) {
-      return const Divider(height: 9, indent: 6, endIndent: 6);
+      return Divider(
+        height: 8,
+        thickness: 0.5,
+        indent: 0,
+        endIndent: 0,
+        color: context.tolyMenuTheme.borderColor,
+      );
     }
     return _TolyMenuRow(
       key: ValueKey<String>(entry.id),
       item: entry as TolyMenuItem,
       active: widget.controller.activeIndexAt(depth) == index,
+      reserveLeading: reserveLeading,
       onEntered: () => _activate(entry, depth, index),
       onPressed: () => _select(entry, depth, index),
     );
@@ -197,6 +220,9 @@ final class _TolyMenuRow extends StatelessWidget {
   /// 当前行展示的菜单项。
   final TolyMenuItem item;
 
+  /// 当前菜单层是否需要图标与勾选标记的对齐列。
+  final bool reserveLeading;
+
   /// 当前行是否处于活动状态。
   final bool active;
 
@@ -210,6 +236,7 @@ final class _TolyMenuRow extends StatelessWidget {
     super.key,
     required this.item,
     required this.active,
+    required this.reserveLeading,
     required this.onEntered,
     required this.onPressed,
   });
@@ -241,12 +268,13 @@ final class _TolyMenuRow extends StatelessWidget {
             ),
             child: Row(
               children: <Widget>[
-                SizedBox(
-                  width: 22,
-                  child: item.checked
-                      ? const Icon(Icons.check, size: 15)
-                      : _inheritForeground(item.leading, foreground),
-                ),
+                if (reserveLeading)
+                  SizedBox(
+                    width: 22,
+                    child: item.checked
+                        ? const Icon(Icons.check, size: 15)
+                        : _inheritForeground(item.leading, foreground),
+                  ),
                 Expanded(
                   child: Text(
                     item.label,

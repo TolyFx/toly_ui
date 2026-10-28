@@ -12,7 +12,7 @@ typedef TolyMenuAnchorBuilder = Widget Function(
 );
 
 /// 菜单相对锚点展开的方向。
-enum TolyMenuPlacement { bottomStart, bottomEnd, rightStart }
+enum TolyMenuPlacement { bottomStart, bottomEnd, rightStart, topStart, topEnd }
 
 /// 为按钮、工具栏动作和任意组件提供下拉或上下文菜单能力。
 final class TolyMenuAnchor extends StatefulWidget {
@@ -155,12 +155,34 @@ final class _TolyMenuAnchorState extends State<TolyMenuAnchor> {
     );
     final Size viewport = overlayBox.size;
     final TolyMenuThemeData theme = context.tolyMenuTheme;
+    if (theme.fitContent) {
+      return Positioned.fill(
+        child: CustomSingleChildLayout(
+          delegate: _ContentMenuLayout(
+              origin: origin,
+              anchorSize: anchorBox.size,
+              placement: widget.placement,
+              gap: widget.gap),
+          child: TapRegion(
+            groupId: _tapRegionGroup,
+            child: SingleChildScrollView(
+              child: TolyMenuSurface(
+                entries: widget.entries,
+                controller: _controller,
+                onSelected: widget.onSelected,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     final int levelCount = _controller.expandedPath.length + 1;
     final double cascadeWidth =
         theme.panelWidth * levelCount + theme.submenuGap * (levelCount - 1);
     final double preferredLeft = switch (widget.placement) {
-      TolyMenuPlacement.bottomStart => origin.dx,
-      TolyMenuPlacement.bottomEnd =>
+      TolyMenuPlacement.bottomStart || TolyMenuPlacement.topStart => origin.dx,
+      TolyMenuPlacement.bottomEnd ||
+      TolyMenuPlacement.topEnd =>
         origin.dx + anchorBox.size.width - cascadeWidth,
       TolyMenuPlacement.rightStart =>
         origin.dx + anchorBox.size.width + widget.gap,
@@ -169,19 +191,33 @@ final class _TolyMenuAnchorState extends State<TolyMenuAnchor> {
         .clamp(
             8.0, (viewport.width - cascadeWidth - 8).clamp(8.0, viewport.width))
         .toDouble();
+    final bool openAbove = widget.placement == TolyMenuPlacement.topStart ||
+        widget.placement == TolyMenuPlacement.topEnd;
+    final double anchorTop =
+        origin.dy.clamp(8.0, viewport.height - 8).toDouble();
     final double top = switch (widget.placement) {
       TolyMenuPlacement.bottomStart ||
       TolyMenuPlacement.bottomEnd =>
-        origin.dy + anchorBox.size.height + widget.gap,
-      TolyMenuPlacement.rightStart => origin.dy,
+        (origin.dy + anchorBox.size.height + widget.gap)
+            .clamp(8.0, viewport.height - 8)
+            .toDouble(),
+      TolyMenuPlacement.rightStart => anchorTop,
+      TolyMenuPlacement.topStart || TolyMenuPlacement.topEnd => anchorTop,
     };
+    final double bottom = (viewport.height - anchorTop + widget.gap)
+        .clamp(8.0, viewport.height - 8)
+        .toDouble();
+    final double availableHeight =
+        openAbove ? viewport.height - bottom - 8 : viewport.height - top - 8;
     return Positioned(
       left: left,
-      top: top,
+      top: openAbove ? null : top,
+      bottom: openAbove ? bottom : null,
       child: TapRegion(
         groupId: _tapRegionGroup,
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: viewport.height - top - 8),
+          constraints: BoxConstraints(
+              maxHeight: availableHeight.clamp(0.0, viewport.height)),
           child: SingleChildScrollView(
             child: TolyMenuSurface(
               entries: widget.entries,
@@ -193,4 +229,61 @@ final class _TolyMenuAnchorState extends State<TolyMenuAnchor> {
       ),
     );
   }
+}
+
+/// 使用菜单实际布局尺寸定位，避免固定宽度造成多余留白或边缘误判。
+class _ContentMenuLayout extends SingleChildLayoutDelegate {
+  _ContentMenuLayout(
+      {required this.origin,
+      required this.anchorSize,
+      required this.placement,
+      required this.gap});
+
+  /// 锚点在浮层中的位置。
+  final Offset origin;
+
+  /// 锚点占用的尺寸。
+  final Size anchorSize;
+
+  /// 用户配置的展开方向。
+  final TolyMenuPlacement placement;
+
+  /// 菜单与锚点间距。
+  final double gap;
+
+  @override
+  BoxConstraints getConstraintsForChild(BoxConstraints constraints) =>
+      BoxConstraints.loose(Size(
+          (constraints.maxWidth - 16).clamp(0.0, double.infinity),
+          (constraints.maxHeight - 16).clamp(0.0, double.infinity)));
+
+  @override
+  Offset getPositionForChild(Size size, Size childSize) {
+    final double left = switch (placement) {
+      TolyMenuPlacement.bottomEnd ||
+      TolyMenuPlacement.topEnd =>
+        origin.dx + anchorSize.width - childSize.width,
+      TolyMenuPlacement.rightStart => origin.dx + anchorSize.width + gap,
+      _ => origin.dx,
+    };
+    final double top = switch (placement) {
+      TolyMenuPlacement.topStart ||
+      TolyMenuPlacement.topEnd =>
+        origin.dy - gap - childSize.height,
+      TolyMenuPlacement.rightStart => origin.dy,
+      _ => origin.dy + anchorSize.height + gap,
+    };
+    return Offset(
+        left.clamp(8.0,
+            (size.width - childSize.width - 8).clamp(8.0, double.infinity)),
+        top.clamp(8.0,
+            (size.height - childSize.height - 8).clamp(8.0, double.infinity)));
+  }
+
+  @override
+  bool shouldRelayout(_ContentMenuLayout oldDelegate) =>
+      origin != oldDelegate.origin ||
+      anchorSize != oldDelegate.anchorSize ||
+      placement != oldDelegate.placement ||
+      gap != oldDelegate.gap;
 }

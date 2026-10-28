@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +34,7 @@ class TolyMessageStyleTheme extends ThemeExtension<TolyMessageStyleTheme> {
     this.plain = false,
     this.closeable = false,
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
-    this.noticeBorderRadius = const BorderRadius.all(Radius.circular(4)),
+    this.noticeBorderRadius = const BorderRadius.all(Radius.circular(12)),
   });
 
   TolyMessageStyleTheme.tolyuiLight({
@@ -66,7 +65,7 @@ class TolyMessageStyleTheme extends ThemeExtension<TolyMessageStyleTheme> {
     this.plain = false,
     this.closeable = false,
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
-    this.noticeBorderRadius = const BorderRadius.all(Radius.circular(4)),
+    this.noticeBorderRadius = const BorderRadius.all(Radius.circular(12)),
   });
 
   TolyMessageStyleTheme.tolyuiDark({
@@ -97,7 +96,7 @@ class TolyMessageStyleTheme extends ThemeExtension<TolyMessageStyleTheme> {
     this.plain = false,
     this.closeable = false,
     this.borderRadius = const BorderRadius.all(Radius.circular(4)),
-    this.noticeBorderRadius = const BorderRadius.all(Radius.circular(4)),
+    this.noticeBorderRadius = const BorderRadius.all(Radius.circular(12)),
 
   });
 

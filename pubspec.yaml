@@ -27,6 +27,7 @@ workspace:
   - modules/advanced/tolyui_color
   - modules/advanced/tolyui_debug
   - modules/advanced/tolyui_refresh
+  - modules/basic/tolyui_action
   - modules/basic/tolyui_rx_layout
   - modules/basic/tolyui_text
   - modules/core/tolyui_meta
@@ -48,9 +49,7 @@ workspace:
   - modules/form/tolyui_form
   - modules/form/tolyui_json_editor
   - modules/form/tolyui_color_picker
-  - modules/form/tolyui_rich_input
   - modules/media/toly_image_io
-  - modules/media/tolyui_image
   - modules/navigation/tolyui_menu
   - modules/navigation/tolyui_anchor
   - modules/navigation/tolyui_navigation
@@ -79,8 +78,8 @@ dependencies:
   platform_adapter: ^0.0.1
 
   # toly ui
-  tolyui_menu: 0.1.0
-  tolyui: 0.0.5+4
+  tolyui_menu: 0.1.1
+  tolyui: 0.0.6
   tolyui_text: 0.0.1+5
   tolyui_default: 0.0.1
   tolyui_carousel: 0.0.1
